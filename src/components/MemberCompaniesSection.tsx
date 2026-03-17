@@ -2,7 +2,6 @@
 import { useTranslations, useLocale } from 'next-intl';
 import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
-import Image from 'next/image';
 import { memberCompanies } from '@/lib/data';
 
 export default function MemberCompaniesSection() {
@@ -25,29 +24,34 @@ export default function MemberCompaniesSection() {
           <p className="text-gray-400 text-base md:text-lg max-w-2xl mx-auto">{t('subtitle')}</p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-5">
           {memberCompanies.map((company, i) => (
             <motion.div
-              key={company.name}
+              key={company.abbr}
               initial={{ opacity: 0, y: 40 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, delay: i * 0.1 }}
-              className="group relative overflow-hidden rounded-2xl bg-gray-900 hover:bg-gray-800 transition-all cursor-pointer border border-gray-800 hover:border-green-500/30"
+              transition={{ duration: 0.6, delay: i * 0.07 }}
+              className="group relative rounded-xl md:rounded-2xl bg-gray-900 border border-gray-800 hover:border-gray-600 transition-all overflow-hidden"
             >
-              <div className="relative h-48 overflow-hidden">
-                <Image
-                  src={company.image}
-                  alt={company.name}
-                  fill
-                  className="object-cover opacity-50 group-hover:opacity-70 transition-opacity duration-500 group-hover:scale-105"
-                  unoptimized
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/50 to-transparent" />
-                <div className="absolute top-4 left-4 text-3xl">{company.icon}</div>
-              </div>
-              <div className="p-6">
-                <h3 className="text-white font-bold text-xl mb-2">{company.name}</h3>
-                <p className="text-gray-400 text-sm leading-relaxed">
+              {/* Accent top bar */}
+              <div className="h-1 w-full" style={{ backgroundColor: company.accent }} />
+
+              <div className="p-3.5 md:p-6">
+                {/* Abbreviation badge */}
+                <div
+                  className="inline-flex items-center justify-center w-9 h-9 md:w-11 md:h-11 rounded-lg md:rounded-xl mb-3 font-black text-xs md:text-sm tracking-wide"
+                  style={{ backgroundColor: `${company.accent}22`, color: company.accent }}
+                >
+                  {company.abbr}
+                </div>
+
+                <h3 className="text-white font-bold text-sm md:text-base leading-snug mb-1">
+                  {company.name}
+                </h3>
+                <p className="text-[10px] md:text-xs font-semibold tracking-wide mb-2 md:mb-3" style={{ color: company.accent }}>
+                  {company.tagline}
+                </p>
+                <p className="text-gray-400 text-xs md:text-sm leading-relaxed line-clamp-3 md:line-clamp-none">
                   {locale === 'vi' ? company.description : company.descriptionEn}
                 </p>
               </div>

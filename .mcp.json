@@ -1,0 +1,18 @@
+{
+  "mcpServers": {
+    "ui-ux-pro-max": {
+      "type": "sse",
+      "url": "https://ui-ux-pro-max-skill.nextlevelbuilder.io/"
+    },
+    "next-devtools": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["-y", "next-devtools-mcp@latest"]
+    },
+    "nextjs-docs": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["-y", "@taiyokimura/nextjs-docs-mcp@latest"]
+    }
+  }
+}

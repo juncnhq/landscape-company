@@ -3,8 +3,10 @@ import { useTranslations, useLocale } from 'next-intl';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useState } from 'react';
 import Navbar from './Navbar';
 import Footer from './Footer';
+import ImageLightbox from './ImageLightbox';
 
 interface Project {
   id: string;
@@ -16,7 +18,7 @@ interface Project {
   area: string;
   duration: string;
   client: string;
-  year: number;
+  year: string;
   image: string;
   images: string[];
   description: string;
@@ -29,14 +31,20 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
   const locale = useLocale();
   const title = locale === 'vi' ? project.title : project.titleEn;
   const description = locale === 'vi' ? project.description : project.descriptionEn;
+  const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
+  const allImages = project.images.length > 0 ? project.images : [project.image];
+  const openLightbox = (i: number) => setLightboxIndex(i);
+  const closeLightbox = () => setLightboxIndex(null);
+  const prevImage = () => setLightboxIndex((i) => (i === null ? 0 : (i - 1 + allImages.length) % allImages.length));
+  const nextImage = () => setLightboxIndex((i) => (i === null ? 0 : (i + 1) % allImages.length));
 
   const meta = [
     { label: 'Type', value: project.category },
     { label: t('location'), value: project.location },
-    { label: t('area'), value: project.area },
-    { label: 'Year', value: String(project.year) },
+    { label: 'Year', value: project.year },
     { label: t('client'), value: project.client },
-    { label: t('duration'), value: project.duration },
+    ...(project.area && project.area !== '—' ? [{ label: t('area'), value: project.area }] : []),
+    ...(project.duration && project.duration !== '—' ? [{ label: t('duration'), value: project.duration }] : []),
   ];
 
   const InfoPanel = () => (
@@ -138,41 +146,56 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
           className="md:pt-20 space-y-[2px]"
         >
           {/* First image — full width */}
-          <div className="relative w-full aspect-[16/9] overflow-hidden bg-gray-100">
+          <button
+            onClick={() => openLightbox(0)}
+            className="relative w-full aspect-[16/9] overflow-hidden bg-gray-100 block group cursor-zoom-in"
+          >
             <Image
-              src={project.images[0]}
+              src={allImages[0]}
               alt={`${title} 1`}
               fill
-              className="object-cover transition-transform duration-700 hover:scale-[1.03]"
-              unoptimized
+              className="object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+              sizes="(max-width: 768px) 100vw, 62vw"
               priority
             />
-          </div>
+            <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300" />
+          </button>
 
           {/* Remaining images — alternating full + 2-col grid */}
-          {project.images.slice(1).map((img, i) => {
-            // Every 3rd image (index 0, 3, 6…) goes full width, others in pairs
+          {allImages.slice(1).map((img, i) => {
             const isFullWidth = i % 3 === 2;
             if (isFullWidth) {
               return (
-                <div key={i} className="relative w-full aspect-[16/9] overflow-hidden bg-gray-100">
-                  <Image src={img} alt={`${title} ${i + 2}`} fill className="object-cover transition-transform duration-700 hover:scale-[1.03]" unoptimized />
-                </div>
+                <button
+                  key={i}
+                  onClick={() => openLightbox(i + 1)}
+                  className="relative w-full aspect-[16/9] overflow-hidden bg-gray-100 block group cursor-zoom-in"
+                >
+                  <Image src={img} alt={`${title} ${i + 2}`} fill className="object-cover transition-transform duration-700 group-hover:scale-[1.03]" sizes="(max-width: 768px) 100vw, 62vw" />
+                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300" />
+                </button>
               );
             }
-            // Pair images: render a 2-col row when i is even (0, 2 within non-full-width)
-            const pairIndex = i % 3; // 0 or 1
-            if (pairIndex === 1) return null; // rendered with previous
-            const nextImg = project.images[i + 2]; // i+1 in slice = i+2 in original
+            const pairIndex = i % 3;
+            if (pairIndex === 1) return null;
+            const nextImg = allImages[i + 2];
             return (
               <div key={i} className="grid grid-cols-2 gap-[2px]">
-                <div className="relative w-full aspect-[4/3] overflow-hidden bg-gray-100">
-                  <Image src={img} alt={`${title} ${i + 2}`} fill className="object-cover transition-transform duration-700 hover:scale-[1.03]" unoptimized />
-                </div>
+                <button
+                  onClick={() => openLightbox(i + 1)}
+                  className="relative w-full aspect-[4/3] overflow-hidden bg-gray-100 block group cursor-zoom-in"
+                >
+                  <Image src={img} alt={`${title} ${i + 2}`} fill className="object-cover transition-transform duration-700 group-hover:scale-[1.03]" sizes="(max-width: 768px) 50vw, 31vw" />
+                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300" />
+                </button>
                 {nextImg && (
-                  <div className="relative w-full aspect-[4/3] overflow-hidden bg-gray-100">
-                    <Image src={nextImg} alt={`${title} ${i + 3}`} fill className="object-cover transition-transform duration-700 hover:scale-[1.03]" unoptimized />
-                  </div>
+                  <button
+                    onClick={() => openLightbox(i + 2)}
+                    className="relative w-full aspect-[4/3] overflow-hidden bg-gray-100 block group cursor-zoom-in"
+                  >
+                    <Image src={nextImg} alt={`${title} ${i + 3}`} fill className="object-cover transition-transform duration-700 group-hover:scale-[1.03]" sizes="(max-width: 768px) 50vw, 31vw" />
+                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300" />
+                  </button>
                 )}
               </div>
             );
@@ -180,6 +203,18 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
         </motion.div>
 
       </div>
+
+      {lightboxIndex !== null && (
+        <ImageLightbox
+          images={allImages}
+          index={lightboxIndex}
+          alt={title}
+          onClose={closeLightbox}
+          onPrev={prevImage}
+          onNext={nextImage}
+          onJump={setLightboxIndex}
+        />
+      )}
     </main>
   );
 }

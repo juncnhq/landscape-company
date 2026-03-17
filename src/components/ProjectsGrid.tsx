@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { projects } from '@/lib/data';
 import { useState } from 'react';
 
-const categories = ['All', 'Resort', 'Public Space', 'Residential', 'Golf Course', 'Commercial'];
+const categories = ['All', 'Golf', 'Resort', 'Urban', 'Construction', 'Artwork'];
 
 export default function ProjectsGrid() {
   const t = useTranslations('projects');
@@ -41,7 +41,7 @@ export default function ProjectsGrid() {
       {/* Tight image grid */}
       <motion.div
         layout
-        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[2px]"
+        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[8px]"
       >
         <AnimatePresence mode="popLayout">
           {filtered.map((project, i) => (
@@ -59,7 +59,7 @@ export default function ProjectsGrid() {
                   alt={project.title}
                   fill
                   className="object-cover transition-transform duration-700 group-hover:scale-105"
-                  unoptimized
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 />
                 {/* Hover overlay */}
                 <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-400 flex flex-col justify-end p-6">

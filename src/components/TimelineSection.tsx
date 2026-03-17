@@ -36,55 +36,13 @@ export default function TimelineSection() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: '-60px' }}
                 transition={{ duration: 0.65, ease: 'easeOut', delay: 0.05 * i }}
-                className={`relative flex ${i % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'}`}
+                className={`relative flex items-start ${i % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'}`}
               >
-                {/* ── Mobile layout ── */}
-                <div className="flex gap-5 md:hidden w-full">
-                  {/* Dot */}
-                  <div className="relative flex-shrink-0 mt-1">
-                    <div className="w-3.5 h-3.5 rounded-full bg-green-500 ring-4 ring-green-500/20 z-10" />
-                  </div>
-                  {/* Content */}
-                  <div className="flex-1 pb-2">
-                    <span className="text-[10px] tracking-[0.3em] text-green-400 uppercase font-semibold">
-                      {String(i + 1).padStart(2, '0')}
-                    </span>
-                    <div className="text-3xl font-bold text-white/10 leading-none mt-0.5 mb-2 -ml-0.5">
-                      {item.year}
-                    </div>
-                    <h3 className="font-bold text-white text-base leading-snug mb-1">
-                      {locale === 'vi' ? item.title : item.titleEn}
-                    </h3>
-                    <p className="text-gray-400 text-sm leading-relaxed">
-                      {locale === 'vi' ? item.description : item.descriptionEn}
-                    </p>
-                  </div>
+                {/* ── Dot (mobile: left edge; desktop: center via absolute) ── */}
+                <div className="relative flex-shrink-0 mt-1 mr-5 md:hidden">
+                  <div className="w-3.5 h-3.5 rounded-full bg-green-500 ring-4 ring-green-500/20" />
                 </div>
-
-                {/* ── Desktop: content side ── */}
-                <div className={`hidden md:flex flex-1 ${i % 2 === 0 ? 'justify-end pr-14' : 'justify-start pl-14'}`}>
-                  <motion.div
-                    whileHover={{ y: -4 }}
-                    transition={{ duration: 0.2 }}
-                    className={`max-w-[280px] ${i % 2 === 0 ? 'text-right' : 'text-left'}`}
-                  >
-                    <span className="text-[10px] tracking-[0.35em] text-green-400 uppercase font-semibold">
-                      {String(i + 1).padStart(2, '0')}
-                    </span>
-                    <div className="text-7xl font-bold text-white/[0.06] leading-none mt-1 mb-3 -mx-1 select-none">
-                      {item.year}
-                    </div>
-                    <h3 className="text-white font-bold text-xl mb-2 leading-snug">
-                      {locale === 'vi' ? item.title : item.titleEn}
-                    </h3>
-                    <p className="text-gray-400 text-sm leading-relaxed">
-                      {locale === 'vi' ? item.description : item.descriptionEn}
-                    </p>
-                  </motion.div>
-                </div>
-
-                {/* ── Desktop: center dot ── */}
-                <div className="hidden md:flex absolute left-1/2 top-1 -translate-x-1/2 z-10 flex-col items-center">
+                <div className="hidden md:flex absolute left-1/2 top-1 -translate-x-1/2 z-10">
                   <motion.div
                     initial={{ scale: 0 }}
                     whileInView={{ scale: 1 }}
@@ -94,8 +52,32 @@ export default function TimelineSection() {
                   />
                 </div>
 
-                {/* ── Desktop: empty side ── */}
-                <div className="hidden md:flex flex-1" />
+                {/* ── Content (single block, layout shifts via md: classes) ── */}
+                <motion.div
+                  whileHover={{ y: -4 }}
+                  transition={{ duration: 0.2 }}
+                  className={`flex-1 pb-2 md:max-w-[280px] ${
+                    i % 2 === 0
+                      ? 'md:mr-auto md:ml-0 md:pr-14 md:text-right'
+                      : 'md:ml-auto md:mr-0 md:pl-14 md:text-left'
+                  }`}
+                >
+                  <span className="text-[10px] tracking-[0.3em] text-green-400 uppercase font-semibold">
+                    {String(i + 1).padStart(2, '0')}
+                  </span>
+                  <div className="text-2xl md:text-5xl font-bold text-white/10 leading-none mt-0.5 mb-2 select-none">
+                    {item.year}
+                  </div>
+                  <h3 className="font-bold text-white text-base md:text-xl leading-snug mb-1">
+                    {locale === 'vi' ? item.title : item.titleEn}
+                  </h3>
+                  <p className="text-gray-400 text-sm leading-relaxed">
+                    {locale === 'vi' ? item.description : item.descriptionEn}
+                  </p>
+                </motion.div>
+
+                {/* ── Desktop: empty side spacer ── */}
+                <div className="hidden md:block flex-1" />
               </motion.div>
             ))}
           </div>

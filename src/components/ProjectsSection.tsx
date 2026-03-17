@@ -12,7 +12,7 @@ export default function ProjectsSection() {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: '-100px' });
 
-  const featured = projects.slice(0, 6);
+  const featured = projects.slice(0, 9);
 
   return (
     <section ref={ref} className="py-12 md:py-24 bg-white">
@@ -40,8 +40,8 @@ export default function ProjectsSection() {
         </motion.div>
       </div>
 
-      {/* Tight grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[2px]">
+      {/* Tight grid — 2 cols on mobile so 9 images don't become an endless scroll */}
+      <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-[8px]">
         {featured.map((project, i) => (
           <motion.div
             key={project.id}
@@ -55,10 +55,17 @@ export default function ProjectsSection() {
                 alt={project.title}
                 fill
                 className="object-cover transition-transform duration-700 group-hover:scale-105"
-                unoptimized
+                sizes="(max-width: 768px) 50vw, (max-width: 1200px) 50vw, 33vw"
               />
-              {/* Hover overlay */}
-              <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-400 flex flex-col justify-end p-6">
+              {/* Mobile: always-visible bottom info strip */}
+              <div className="absolute bottom-0 left-0 right-0 md:hidden bg-linear-to-t from-black/70 to-transparent pt-6 pb-2 px-2.5">
+                <p className="text-white/60 text-[9px] tracking-widest uppercase truncate">{project.category}</p>
+                <p className="text-white text-xs font-medium leading-snug truncate">
+                  {locale === 'vi' ? project.title : project.titleEn}
+                </p>
+              </div>
+              {/* Desktop: hover overlay */}
+              <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-400 hidden md:flex flex-col justify-end p-6">
                 <span className="text-white/60 text-[10px] tracking-widest uppercase mb-2">
                   {String(i + 1).padStart(2, '0')} — {project.category}
                 </span>
@@ -71,6 +78,24 @@ export default function ProjectsSection() {
           </motion.div>
         ))}
       </div>
+
+      {/* Bottom CTA */}
+      <motion.div
+        initial={{ opacity: 0, y: 16 }}
+        animate={inView ? { opacity: 1, y: 0 } : {}}
+        transition={{ duration: 0.6, delay: 0.5 }}
+        className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-10 flex justify-center"
+      >
+        <Link
+          href={`/${locale}/projects`}
+          className="inline-flex items-center gap-3 px-8 py-4 border border-gray-900 text-gray-900 text-xs font-semibold tracking-widest uppercase hover:bg-gray-900 hover:text-white transition-all duration-300 rounded-full group"
+        >
+          {t('viewAll')}
+          <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+          </svg>
+        </Link>
+      </motion.div>
     </section>
   );
 }

@@ -4,6 +4,7 @@ import { NextIntlClientProvider } from 'next-intl';
 import { getMessages, setRequestLocale } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { routing } from '@/i18n/routing';
+import BackToTop from '@/components/BackToTop';
 import '../globals.css';
 
 const geist = Geist({ subsets: ['latin'] });
@@ -35,6 +36,7 @@ export default async function LocaleLayout({
       <body className={geist.className}>
         <NextIntlClientProvider messages={messages}>
           {children}
+          <BackToTop />
         </NextIntlClientProvider>
       </body>
     </html>
