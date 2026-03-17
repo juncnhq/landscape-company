@@ -1,0 +1,58 @@
+{
+  "nav": {
+    "home": "Trang chủ",
+    "projects": "Dự án",
+    "about": "Về chúng tôi",
+    "contact": "Liên hệ"
+  },
+  "hero": {
+    "title": "Tạo Ra Những Cảnh Quan Tuyệt Đẹp",
+    "subtitle": "Chúng tôi thiết kế và xây dựng những không gian ngoại thất phi thường, truyền cảm hứng và bền vững",
+    "cta": "Xem Công Trình",
+    "ctaSecondary": "Liên Hệ"
+  },
+  "video": {
+    "title": "Công Việc Của Chúng Tôi",
+    "subtitle": "Xem cách chúng tôi biến đổi không gian thành những kiệt tác sống động"
+  },
+  "projects": {
+    "title": "Dự Án Của Chúng Tôi",
+    "subtitle": "Khám phá danh mục các công trình cảnh quan tuyệt đẹp",
+    "viewAll": "Xem Tất Cả Dự Án",
+    "viewDetail": "Xem Chi Tiết"
+  },
+  "services": {
+    "title": "Dịch Vụ Của Chúng Tôi",
+    "subtitle": "Giải pháp cảnh quan trọn gói từ thiết kế đến vận hành và bảo dưỡng."
+  },
+  "timeline": {
+    "title": "Hành Trình Của Chúng Tôi",
+    "subtitle": "Nhiều năm tạo ra những cảnh quan phi thường"
+  },
+  "partners": {
+    "title": "Đối Tác & Khách Hàng",
+    "subtitle": "Được tin tưởng bởi các tổ chức hàng đầu trong khu vực"
+  },
+  "members": {
+    "title": "Công Ty Thành Viên",
+    "subtitle": "Gia đình các công ty chuyên biệt của chúng tôi"
+  },
+  "footer": {
+    "description": "Công ty TNHH Sản Xuất – Thương Mại – Dịch Vụ Hoa Và Hơn Thế Nữa. Hơn 17 năm kinh nghiệm trong lĩnh vực cảnh quan toàn quốc.",
+    "quickLinks": "Liên Kết Nhanh",
+    "contact": "Liên Hệ",
+    "address": "Lô 50 Khu B2-110, Khu đô thị ven sông Hòa Quý – Đồng Nò, P. Hòa Quý, Q. Ngũ Hành Sơn, TP. Đà Nẵng",
+    "phone": "(+84) 02363 611 589",
+    "email": "info@fam.com.vn",
+    "rights": "Bảo lưu mọi quyền."
+  },
+  "projectDetail": {
+    "overview": "Tổng Quan Dự Án",
+    "location": "Địa Điểm",
+    "area": "Diện Tích",
+    "duration": "Thời Gian",
+    "client": "Khách Hàng",
+    "relatedArticles": "Bài Viết Liên Quan",
+    "backToProjects": "Quay Lại Dự Án"
+  }
+}

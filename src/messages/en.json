@@ -1,0 +1,58 @@
+{
+  "nav": {
+    "home": "Home",
+    "projects": "Projects",
+    "about": "About",
+    "contact": "Contact"
+  },
+  "hero": {
+    "title": "Creating Beautiful Landscapes",
+    "subtitle": "We design and build extraordinary outdoor spaces that inspire and endure",
+    "cta": "View Our Work",
+    "ctaSecondary": "Contact Us"
+  },
+  "video": {
+    "title": "Our Work in Motion",
+    "subtitle": "See how we transform spaces into living masterpieces"
+  },
+  "projects": {
+    "title": "Our Projects",
+    "subtitle": "Explore our portfolio of stunning landscape transformations",
+    "viewAll": "View All Projects",
+    "viewDetail": "View Detail"
+  },
+  "services": {
+    "title": "Our Services",
+    "subtitle": "End-to-end landscape solutions from design through operation and maintenance."
+  },
+  "timeline": {
+    "title": "Our Journey",
+    "subtitle": "Years of creating extraordinary landscapes"
+  },
+  "partners": {
+    "title": "Partners & Clients",
+    "subtitle": "Trusted by leading organizations across the region"
+  },
+  "members": {
+    "title": "Member Companies",
+    "subtitle": "Our family of specialized companies"
+  },
+  "footer": {
+    "description": "FAM – Flower and More. Over 17 years of experience delivering full-service landscape solutions nationwide.",
+    "quickLinks": "Quick Links",
+    "contact": "Contact",
+    "address": "Lot 50, B2-110, Hoa Quy – Dong No Riverside Urban Area, Hoa Quy Ward, Ngu Hanh Son Dist., Da Nang, Vietnam",
+    "phone": "(+84) 02363 611 589",
+    "email": "info@fam.com.vn",
+    "rights": "All rights reserved."
+  },
+  "projectDetail": {
+    "overview": "Project Overview",
+    "location": "Location",
+    "area": "Area",
+    "duration": "Duration",
+    "client": "Client",
+    "relatedArticles": "Related Articles",
+    "backToProjects": "Back to Projects"
+  }
+}
