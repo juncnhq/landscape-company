@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { Geist } from 'next/font/google';
 import { NextIntlClientProvider } from 'next-intl';
-import { getMessages } from 'next-intl/server';
+import { getMessages, setRequestLocale } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { routing } from '@/i18n/routing';
 import '../globals.css';
@@ -12,6 +12,10 @@ export const metadata: Metadata = {
   title: 'Landscape Company - Thiết Kế Cảnh Quan',
   description: 'Chuyên thiết kế và thi công cảnh quan cao cấp',
 };
+
+export function generateStaticParams() {
+  return routing.locales.map((locale) => ({ locale }));
+}
 
 export default async function LocaleLayout({
   children,
@@ -24,7 +28,8 @@ export default async function LocaleLayout({
   if (!routing.locales.includes(locale as 'vi' | 'en')) {
     notFound();
   }
-  const messages = await getMessages();
+  setRequestLocale(locale);
+  const messages = await getMessages({ locale });
   return (
     <html lang={locale}>
       <body className={geist.className}>
