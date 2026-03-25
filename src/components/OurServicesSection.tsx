@@ -94,7 +94,7 @@ export default function OurServicesSection() {
   const [hoverIndex, setHoverIndex] = useState<number | null>(null);
 
   return (
-    <section ref={ref} className="relative bg-gray-950 py-20 md:py-32 overflow-hidden">
+    <section ref={ref} className="relative bg-green-950 py-20 md:py-32 overflow-hidden">
       {/* Subtle grid texture */}
       <div
         className="absolute inset-0 opacity-[0.03]"

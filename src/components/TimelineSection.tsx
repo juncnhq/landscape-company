@@ -8,7 +8,7 @@ export default function TimelineSection() {
   const locale = useLocale();
 
   return (
-    <section className="py-16 md:py-28 bg-gray-950 overflow-hidden">
+    <section className="py-16 md:py-28 bg-green-950 overflow-hidden">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
 
         {/* Header */}

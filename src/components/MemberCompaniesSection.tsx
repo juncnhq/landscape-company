@@ -11,7 +11,7 @@ export default function MemberCompaniesSection() {
   const inView = useInView(ref, { once: true, margin: '-100px' });
 
   return (
-    <section ref={ref} className="py-12 md:py-24 bg-gray-950">
+    <section ref={ref} className="py-12 md:py-24 bg-green-950">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -21,7 +21,7 @@ export default function MemberCompaniesSection() {
         >
           <p className="text-green-400 text-xs sm:text-sm font-semibold tracking-widest uppercase mb-3">Ecosystem</p>
           <h2 className="text-3xl md:text-5xl font-bold text-white mb-4">{t('title')}</h2>
-          <p className="text-gray-400 text-base md:text-lg max-w-2xl mx-auto">{t('subtitle')}</p>
+          <p className="text-green-200/60 text-base md:text-lg max-w-2xl mx-auto">{t('subtitle')}</p>
         </motion.div>
 
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-5">
@@ -31,7 +31,7 @@ export default function MemberCompaniesSection() {
               initial={{ opacity: 0, y: 40 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.6, delay: i * 0.07 }}
-              className="group relative rounded-xl md:rounded-2xl bg-gray-900 border border-gray-800 hover:border-gray-600 transition-all overflow-hidden"
+              className="group relative rounded-xl md:rounded-2xl bg-green-900/50 border border-green-800/60 hover:border-green-600 transition-all overflow-hidden"
             >
               {/* Accent top bar */}
               <div className="h-1 w-full" style={{ backgroundColor: company.accent }} />
@@ -51,7 +51,7 @@ export default function MemberCompaniesSection() {
                 <p className="text-[10px] md:text-xs font-semibold tracking-wide mb-2 md:mb-3" style={{ color: company.accent }}>
                   {company.tagline}
                 </p>
-                <p className="text-gray-400 text-xs md:text-sm leading-relaxed line-clamp-3 md:line-clamp-none">
+                <p className="text-green-200/60 text-xs md:text-sm leading-relaxed line-clamp-3 md:line-clamp-none">
                   {locale === 'vi' ? company.description : company.descriptionEn}
                 </p>
               </div>

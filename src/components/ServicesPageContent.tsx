@@ -302,7 +302,7 @@ export default function ServicesPageContent() {
   return (
     <>
       {/* ════════════════════════ HERO ══ */}
-      <section className="relative bg-gray-950 pt-36 md:pt-48 pb-20 md:pb-28 overflow-hidden">
+      <section className="relative bg-green-950 pt-36 md:pt-48 pb-20 md:pb-28 overflow-hidden">
         <div
           className="absolute inset-0 opacity-[0.03]"
           style={{

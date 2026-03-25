@@ -60,7 +60,7 @@ export default function AboutPageContent() {
   return (
     <>
       {/* ════════════════════════════════════════════════════════ HERO ══ */}
-      <section className="relative bg-gray-950 pt-36 md:pt-48 pb-24 md:pb-32 overflow-hidden">
+      <section className="relative bg-green-950 pt-36 md:pt-48 pb-24 md:pb-32 overflow-hidden">
         {/* Subtle grid backdrop */}
         <div
           className="absolute inset-0 opacity-[0.035]"
@@ -183,7 +183,7 @@ export default function AboutPageContent() {
       </section>
 
       {/* ════════════════════════════════════════════════════ STATS ══ */}
-      <section ref={statsRef} className="py-16 md:py-28 bg-gray-950">
+      <section ref={statsRef} className="py-16 md:py-28 bg-green-950">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.p
             initial={{ opacity: 0, y: 20 }}
