@@ -18,20 +18,20 @@ export default function ProjectsGrid() {
   return (
     <section className="pt-4 pb-0">
       {/* Minimal filter tabs */}
-      <div className="flex flex-wrap gap-4 md:gap-8 mb-8 md:mb-10 px-4 sm:px-8 lg:px-12 border-b border-gray-200">
+      <div className="flex flex-wrap gap-4 md:gap-8 mb-8 md:mb-10 px-4 sm:px-8 lg:px-12 border-b border-green-100">
         {categories.map((cat) => (
           <button
             key={cat}
             onClick={() => setActive(cat)}
             className={`pb-4 text-xs tracking-widest uppercase font-medium transition-colors relative ${
-              active === cat ? 'text-black' : 'text-gray-400 hover:text-black'
+              active === cat ? 'text-green-700' : 'text-gray-400 hover:text-gray-700'
             }`}
           >
             {cat}
             {active === cat && (
               <motion.span
                 layoutId="underline"
-                className="absolute bottom-0 left-0 right-0 h-[2px] bg-black"
+                className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-green-600 to-green-400"
               />
             )}
           </button>
@@ -62,7 +62,7 @@ export default function ProjectsGrid() {
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 />
                 {/* Hover overlay */}
-                <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-400 flex flex-col justify-end p-6">
+                <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-400 flex flex-col justify-end p-6">
                   <span className="text-white/60 text-[10px] tracking-widest uppercase mb-2">
                     {String(i + 1).padStart(2, '0')} — {project.category}
                   </span>

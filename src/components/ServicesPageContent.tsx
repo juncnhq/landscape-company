@@ -9,9 +9,9 @@ const SERVICES = [
   {
     id: 'consulting',
     icon: '📋',
-    accent: '#0891b2',         // cyan-600
-    accentLight: '#ecfeff',    // cyan-50
-    accentBorder: '#a5f3fc',   // cyan-200
+    accent: '#328442',         // brand green-500
+    accentLight: '#f0fdf4',
+    accentBorder: '#86efac',
     titleVi: 'Tư Vấn & Quản Lý Cảnh Quan',
     titleEn: 'Landscape Consulting & Management',
     subtitleVi: 'Bao phủ toàn bộ vòng đời dự án',
@@ -69,9 +69,9 @@ const SERVICES = [
   {
     id: 'golf',
     icon: '⛳',
-    accent: '#059669',
-    accentLight: '#ecfdf5',
-    accentBorder: '#6ee7b7',
+    accent: '#328442',
+    accentLight: '#f0fdf4',
+    accentBorder: '#86efac',
     titleVi: 'Cảnh Quan Sân Golf',
     titleEn: 'Golf Course Landscape',
     subtitleVi: 'Chuyên gia cỏ & tưới tiêu sân golf',
@@ -96,9 +96,9 @@ const SERVICES = [
   {
     id: 'artwork',
     icon: '🎨',
-    accent: '#7c3aed',
-    accentLight: '#f5f3ff',
-    accentBorder: '#c4b5fd',
+    accent: '#BE7B2B',         // brand secondary gold
+    accentLight: '#fdf8f0',
+    accentBorder: '#f0c87a',
     titleVi: 'Thi Công Artwork & Iconic',
     titleEn: 'Artwork & Iconic Construction',
     subtitleVi: 'Kiến trúc nghệ thuật & công trình biểu tượng',
@@ -123,9 +123,9 @@ const SERVICES = [
   {
     id: 'labour',
     icon: '👷',
-    accent: '#d97706',
-    accentLight: '#fffbeb',
-    accentBorder: '#fcd34d',
+    accent: '#BE7B2B',         // brand secondary gold
+    accentLight: '#fdf8f0',
+    accentBorder: '#f0c87a',
     titleVi: 'Cung Ứng Lao Động',
     titleEn: 'Labour Supply',
     subtitleVi: 'Nhân lực thi công & bảo dưỡng cảnh quan',
@@ -148,9 +148,9 @@ const SERVICES = [
   {
     id: 'materials',
     icon: '📦',
-    accent: '#2563eb',
-    accentLight: '#eff6ff',
-    accentBorder: '#93c5fd',
+    accent: '#328442',
+    accentLight: '#f0fdf4',
+    accentBorder: '#86efac',
     titleVi: 'Cung Cấp Vật Tư Cảnh Quan',
     titleEn: 'Landscape Materials Supply',
     subtitleVi: 'Cây xanh, cỏ, thiết bị tưới tiêu & vật tư',
@@ -205,7 +205,7 @@ function ServiceCard({
       className="relative rounded-2xl border border-gray-100 bg-white overflow-hidden shadow-sm hover:shadow-md transition-shadow"
     >
       {/* Coloured top bar */}
-      <div className="h-1 w-full" style={{ backgroundColor: service.accent }} />
+      <div className="h-1 w-full" style={{ background: `linear-gradient(90deg, ${service.accent}, ${service.accentBorder})` }} />
 
       <div className="p-6 md:p-10">
         <div className="flex flex-col md:flex-row md:gap-12">
@@ -224,7 +224,7 @@ function ServiceCard({
               <div>
                 <div
                   className="inline-flex items-center justify-center w-10 h-10 rounded-xl text-xl mb-3"
-                  style={{ backgroundColor: service.accentLight }}
+                  style={{ backgroundColor: service.accentLight, border: `1px solid ${service.accentBorder}` }}
                 >
                   {service.icon}
                 </div>
@@ -302,16 +302,16 @@ export default function ServicesPageContent() {
   return (
     <>
       {/* ════════════════════════ HERO ══ */}
-      <section className="relative bg-gray-950 pt-36 md:pt-48 pb-20 md:pb-28 overflow-hidden">
+      <section className="relative bg-[#07130a] pt-36 md:pt-48 pb-20 md:pb-28 overflow-hidden">
         <div
-          className="absolute inset-0 opacity-[0.03]"
+          className="absolute inset-0 opacity-[0.06]"
           style={{
-            backgroundImage:
-              'linear-gradient(#fff 1px,transparent 1px),linear-gradient(90deg,#fff 1px,transparent 1px)',
-            backgroundSize: '64px 64px',
+            backgroundImage: 'radial-gradient(circle, #4ade80 1px, transparent 1px)',
+            backgroundSize: '32px 32px',
           }}
         />
-        <div className="absolute -top-32 left-1/2 -translate-x-1/2 w-[900px] h-[500px] bg-green-500/10 rounded-full blur-[140px] pointer-events-none" />
+        <div className="absolute -top-32 left-1/2 -translate-x-1/2 w-[900px] h-[500px] bg-green-500/15 rounded-full blur-[140px] pointer-events-none" />
+        <div className="absolute bottom-0 right-1/4 w-[400px] h-[300px] bg-secondary-500/10 rounded-full blur-[100px] pointer-events-none" />
 
         <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <motion.div
@@ -341,7 +341,7 @@ export default function ServicesPageContent() {
       </section>
 
       {/* ════════════════════ SERVICES LIST ══ */}
-      <section className="py-12 md:py-20 bg-gray-50">
+      <section className="py-12 md:py-20 bg-[#f7faf7]">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col gap-6 md:gap-8">
           {SERVICES.map((service, i) => (
             <ServiceCard
@@ -359,16 +359,17 @@ export default function ServicesPageContent() {
       {/* ════════════════════════ CTA ══ */}
       <section
         ref={ctaRef}
-        className="relative py-20 md:py-32 bg-green-700 overflow-hidden"
+        className="relative py-20 md:py-32 bg-[#07130a] overflow-hidden"
       >
         <div
           className="absolute inset-0 opacity-[0.07]"
           style={{
-            backgroundImage: 'radial-gradient(circle, #fff 1px, transparent 1px)',
+            backgroundImage: 'radial-gradient(circle, #4ade80 1px, transparent 1px)',
             backgroundSize: '28px 28px',
           }}
         />
-        <div className="absolute inset-0 bg-gradient-to-br from-green-600/50 to-green-900/50 pointer-events-none" />
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[300px] bg-green-500/12 rounded-full blur-[120px] pointer-events-none" />
+        <div className="absolute bottom-0 right-0 w-[400px] h-[200px] bg-secondary-500/10 rounded-full blur-[80px] pointer-events-none" />
 
         <div className="relative max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <motion.div
@@ -379,12 +380,12 @@ export default function ServicesPageContent() {
             <h2 className="text-3xl md:text-5xl font-bold text-white mb-5 leading-tight">
               {t('finalCtaTitle')}
             </h2>
-            <p className="text-green-100 text-base md:text-lg mb-10 leading-relaxed max-w-xl mx-auto">
+            <p className="text-green-300/70 text-base md:text-lg mb-10 leading-relaxed max-w-xl mx-auto">
               {t('finalCtaSubtitle')}
             </p>
             <Link
               href={`/${locale}/contact`}
-              className="inline-flex items-center gap-2 bg-white text-green-700 font-bold px-8 py-4 rounded-full text-sm tracking-wide hover:bg-green-50 transition-colors shadow-xl"
+              className="inline-flex items-center gap-2 bg-green-500 text-white font-bold px-8 py-4 rounded-full text-sm tracking-wide hover:bg-green-400 transition-colors shadow-xl"
             >
               {t('finalCtaButton')} →
             </Link>

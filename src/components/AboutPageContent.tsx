@@ -60,18 +60,19 @@ export default function AboutPageContent() {
   return (
     <>
       {/* ════════════════════════════════════════════════════════ HERO ══ */}
-      <section className="relative bg-gray-950 pt-36 md:pt-48 pb-24 md:pb-32 overflow-hidden">
-        {/* Subtle grid backdrop */}
+      <section className="relative bg-[#07130a] pt-36 md:pt-48 pb-24 md:pb-32 overflow-hidden">
+        {/* Dot grid backdrop */}
         <div
-          className="absolute inset-0 opacity-[0.035]"
+          className="absolute inset-0 opacity-[0.07]"
           style={{
-            backgroundImage:
-              'linear-gradient(#fff 1px,transparent 1px),linear-gradient(90deg,#fff 1px,transparent 1px)',
-            backgroundSize: '64px 64px',
+            backgroundImage: 'radial-gradient(circle, #4ade80 1px, transparent 1px)',
+            backgroundSize: '32px 32px',
           }}
         />
         {/* Green ambient glow */}
-        <div className="absolute -top-32 left-1/2 -translate-x-1/2 w-[900px] h-[500px] bg-green-500/10 rounded-full blur-[140px] pointer-events-none" />
+        <div className="absolute -top-32 left-1/2 -translate-x-1/2 w-[900px] h-[500px] bg-green-500/15 rounded-full blur-[140px] pointer-events-none" />
+        {/* Gold accent bottom right */}
+        <div className="absolute bottom-0 right-0 w-[500px] h-[250px] bg-secondary-500/10 rounded-full blur-[100px] pointer-events-none" />
 
         <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <motion.div
@@ -183,8 +184,12 @@ export default function AboutPageContent() {
       </section>
 
       {/* ════════════════════════════════════════════════════ STATS ══ */}
-      <section ref={statsRef} className="py-16 md:py-28 bg-gray-950">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section ref={statsRef} className="py-16 md:py-28 bg-[#07130a] relative overflow-hidden">
+        {/* Ambient glows */}
+        <div className="absolute inset-0 opacity-[0.06]" style={{ backgroundImage: 'radial-gradient(circle, #4ade80 1px, transparent 1px)', backgroundSize: '32px 32px' }} />
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[300px] bg-green-500/10 rounded-full blur-[120px] pointer-events-none" />
+        <div className="absolute bottom-0 right-0 w-[400px] h-[200px] bg-secondary-500/10 rounded-full blur-[80px] pointer-events-none" />
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={statsInView ? { opacity: 1, y: 0 } : {}}
@@ -224,68 +229,22 @@ export default function AboutPageContent() {
       <TimelineSection />
 
       {/* ══════════════════════════════════════════ LEADERSHIP ══ */}
-      <section ref={leaderRef} className="py-16 md:py-24 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={leaderInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.8 }}
-            className="text-center mb-12 md:mb-16"
-          >
-            <p className="text-green-600 text-xs font-semibold tracking-widest uppercase mb-3">
-              {t('leadershipEyebrow')}
-            </p>
-            <h2 className="text-3xl md:text-5xl font-bold text-gray-900 mb-4">
-              {t('leadershipTitle')}
-            </h2>
-            <p className="text-gray-500 text-base md:text-lg max-w-xl mx-auto">
-              {t('leadershipSubtitle')}
-            </p>
-          </motion.div>
-
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
-            {LEADERS.map((leader, i) => (
-              <motion.div
-                key={leader.roleKey}
-                initial={{ opacity: 0, y: 40 }}
-                animate={leaderInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.6, delay: i * 0.1 }}
-                className="text-center rounded-2xl bg-gray-50 border border-gray-100 hover:border-green-100 hover:shadow-md transition-all p-6 md:p-8"
-              >
-                {/* Avatar */}
-                <div
-                  className={`mx-auto w-20 h-20 md:w-24 md:h-24 rounded-full bg-gradient-to-br ${leader.gradient} flex items-center justify-center mb-5`}
-                >
-                  <span className="text-white font-bold text-base md:text-lg tracking-wide">
-                    {leader.initials}
-                  </span>
-                </div>
-
-                {/* Name placeholder bar */}
-                <div className="h-2.5 bg-gray-200 rounded-full w-2/3 mx-auto mb-1.5" />
-                <div className="h-2 bg-gray-100 rounded-full w-1/2 mx-auto mb-4" />
-
-                {/* Role */}
-                <p className="text-sm font-semibold text-gray-800">{t(leader.roleKey)}</p>
-                <p className="text-xs text-gray-400 mt-1">FAM Group</p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
+    
 
       {/* ═══════════════════════════════════════════════════ CTA ══ */}
-      <section ref={ctaRef} className="relative py-20 md:py-32 bg-green-700 overflow-hidden">
+      <section ref={ctaRef} className="relative py-20 md:py-32 bg-[#07130a] overflow-hidden">
         {/* Dot-grid texture */}
         <div
           className="absolute inset-0 opacity-[0.07]"
           style={{
-            backgroundImage: 'radial-gradient(circle, #fff 1px, transparent 1px)',
+            backgroundImage: 'radial-gradient(circle, #4ade80 1px, transparent 1px)',
             backgroundSize: '28px 28px',
           }}
         />
-        {/* Glow */}
-        <div className="absolute inset-0 bg-gradient-to-br from-green-600/50 to-green-900/50 pointer-events-none" />
+        {/* Green glow top */}
+        <div className="absolute -top-20 left-1/2 -translate-x-1/2 w-[700px] h-[300px] bg-green-500/15 rounded-full blur-[120px] pointer-events-none" />
+        {/* Gold accent bottom-right */}
+        <div className="absolute bottom-0 right-0 w-[400px] h-[200px] bg-secondary-500/15 rounded-full blur-[80px] pointer-events-none" />
 
         <div className="relative max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <motion.div
@@ -296,12 +255,12 @@ export default function AboutPageContent() {
             <h2 className="text-3xl md:text-5xl font-bold text-white mb-5 leading-tight">
               {t('ctaTitle')}
             </h2>
-            <p className="text-green-100 text-base md:text-lg mb-10 leading-relaxed max-w-xl mx-auto">
+            <p className="text-green-300/70 text-base md:text-lg mb-10 leading-relaxed max-w-xl mx-auto">
               {t('ctaSubtitle')}
             </p>
             <Link
               href={`/${locale}/contact`}
-              className="inline-flex items-center gap-2 bg-white text-green-700 font-bold px-8 py-4 rounded-full text-sm tracking-wide hover:bg-green-50 transition-colors shadow-xl"
+              className="inline-flex items-center gap-2 bg-green-500 text-white font-bold px-8 py-4 rounded-full text-sm tracking-wide hover:bg-green-400 transition-colors shadow-xl"
             >
               {t('ctaButton')}
               <span aria-hidden>→</span>

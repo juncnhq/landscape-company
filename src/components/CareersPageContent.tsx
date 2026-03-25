@@ -1,7 +1,7 @@
 'use client';
 import { useTranslations, useLocale } from 'next-intl';
-import { motion, useInView } from 'framer-motion';
-import { useRef } from 'react';
+import { motion, useInView, AnimatePresence } from 'framer-motion';
+import { useRef, useState } from 'react';
 
 // ── Static data ────────────────────────────────────────────────────────────────
 const CULTURE_CARDS = [
@@ -18,6 +18,8 @@ const POSITIONS = [
     typeEn: 'Full-time',
     locationVi: 'Đà Nẵng / Công trường',
     locationEn: 'Da Nang / On-site',
+    descVi: 'Chịu trách nhiệm lập hồ sơ thiết kế cảnh quan cho các dự án resort, sân golf, khu đô thị. Phối hợp với kỹ sư và đội thi công để đảm bảo chất lượng và tiến độ. Yêu cầu tốt nghiệp ngành Kiến trúc Cảnh quan hoặc liên quan, có ít nhất 2 năm kinh nghiệm, thành thạo AutoCAD và SketchUp.',
+    descEn: 'Responsible for landscape design documentation for resort, golf course, and urban projects. Coordinate with engineers and construction teams to ensure quality and schedule. Requires a degree in Landscape Architecture or related field, at least 2 years of experience, proficiency in AutoCAD and SketchUp.',
   },
   {
     titleVi: 'Giám Sát Thi Công Sân Golf',
@@ -26,6 +28,8 @@ const POSITIONS = [
     typeEn: 'Full-time',
     locationVi: 'Trên toàn quốc',
     locationEn: 'Nationwide',
+    descVi: 'Giám sát trực tiếp quá trình thi công cảnh quan và hệ thống tưới tiêu tại các dự án sân golf. Kiểm soát chất lượng cỏ, cây trồng và hệ thống tưới Rainbird. Yêu cầu có kinh nghiệm thi công sân golf hoặc cảnh quan ngoài trời tối thiểu 3 năm, sẵn sàng di chuyển theo dự án.',
+    descEn: 'Directly supervise landscape construction and irrigation systems at golf course projects. Quality control for turf, planting, and Rainbird irrigation systems. Requires minimum 3 years of golf course or outdoor landscape construction experience, willing to travel to project sites.',
   },
   {
     titleVi: 'Chỉ Huy Trưởng Cảnh Quan',
@@ -34,6 +38,8 @@ const POSITIONS = [
     typeEn: 'Full-time',
     locationVi: 'Đà Nẵng / Miền Trung',
     locationEn: 'Da Nang / Central Vietnam',
+    descVi: 'Quản lý toàn bộ hoạt động thi công tại hiện trường, điều phối nhân lực và vật tư, báo cáo tiến độ cho ban giám đốc. Yêu cầu tốt nghiệp kỹ sư xây dựng hoặc cảnh quan, tối thiểu 5 năm kinh nghiệm quản lý công trình, kỹ năng lãnh đạo và đọc bản vẽ tốt.',
+    descEn: 'Manage all on-site construction activities, coordinate manpower and materials, report progress to management. Requires a degree in Civil or Landscape Engineering, minimum 5 years of site management experience, strong leadership skills and ability to read construction drawings.',
   },
   {
     titleVi: 'Công Nhân Thi Công Cảnh Quan',
@@ -42,6 +48,8 @@ const POSITIONS = [
     typeEn: 'Full-time',
     locationVi: 'Nhiều công trường',
     locationEn: 'Multiple sites',
+    descVi: 'Thực hiện các công việc thi công cảnh quan như trồng cây, lát đá, lắp đặt hệ thống tưới và công trình ngoại thất. Không yêu cầu bằng cấp, ưu tiên có kinh nghiệm thi công. Được đào tạo thực tế tại công trường, phụ cấp đi lại và ăn ở đầy đủ.',
+    descEn: 'Carry out landscape construction tasks including planting, paving, irrigation installation, and outdoor structures. No formal degree required; experience preferred. On-the-job training provided, with full travel and accommodation allowances.',
   },
   {
     titleVi: 'Nhân Viên Phát Triển Kinh Doanh',
@@ -50,6 +58,8 @@ const POSITIONS = [
     typeEn: 'Full-time',
     locationVi: 'Đà Nẵng',
     locationEn: 'Da Nang',
+    descVi: 'Tìm kiếm và phát triển các cơ hội kinh doanh mới trong lĩnh vực cảnh quan, tiếp cận khách hàng B2B là chủ đầu tư và nhà thầu. Yêu cầu ít nhất 2 năm kinh nghiệm bán hàng B2B, kỹ năng giao tiếp và đàm phán tốt, ưu tiên có mạng lưới trong ngành xây dựng và bất động sản.',
+    descEn: 'Identify and develop new business opportunities in the landscape sector, targeting B2B clients such as investors and contractors. Requires at least 2 years of B2B sales experience, strong communication and negotiation skills, with preference for candidates with a network in construction and real estate.',
   },
 ];
 
@@ -62,6 +72,8 @@ export default function CareersPageContent() {
   const t = useTranslations('careersPage');
   const locale = useLocale();
   const isVi = locale === 'vi';
+
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   const cultureRef   = useRef(null);
   const positionsRef = useRef(null);
@@ -76,16 +88,16 @@ export default function CareersPageContent() {
   return (
     <>
       {/* ══════════════════════════════════════════════ HERO ══ */}
-      <section className="relative bg-gray-950 pt-36 md:pt-48 pb-24 md:pb-32 overflow-hidden">
+      <section className="relative bg-[#07130a] pt-36 md:pt-48 pb-24 md:pb-32 overflow-hidden">
         <div
-          className="absolute inset-0 opacity-[0.03]"
+          className="absolute inset-0 opacity-[0.07]"
           style={{
-            backgroundImage:
-              'linear-gradient(#fff 1px,transparent 1px),linear-gradient(90deg,#fff 1px,transparent 1px)',
-            backgroundSize: '64px 64px',
+            backgroundImage: 'radial-gradient(circle, #4ade80 1px, transparent 1px)',
+            backgroundSize: '32px 32px',
           }}
         />
-        <div className="absolute -top-32 left-1/2 -translate-x-1/2 w-[900px] h-[500px] bg-green-500/10 rounded-full blur-[140px] pointer-events-none" />
+        <div className="absolute -top-32 left-1/2 -translate-x-1/2 w-[900px] h-[500px] bg-green-500/15 rounded-full blur-[140px] pointer-events-none" />
+        <div className="absolute bottom-0 right-0 w-[400px] h-[250px] bg-secondary-500/10 rounded-full blur-[100px] pointer-events-none" />
 
         <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <motion.div
@@ -137,9 +149,11 @@ export default function CareersPageContent() {
                 initial={{ opacity: 0, y: 32 }}
                 animate={cultureInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.6, delay: i * 0.1 }}
-                className="bg-gray-50 border border-gray-100 rounded-2xl p-6 md:p-8 hover:border-green-100 hover:shadow-md transition-all"
+                className="bg-white border border-green-100 rounded-2xl p-6 md:p-8 hover:border-green-300 hover:shadow-lg transition-all group overflow-hidden relative"
               >
-                <div className="w-12 h-12 rounded-xl bg-green-100 flex items-center justify-center text-2xl mb-5">
+                {/* Top accent bar */}
+                <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-green-500 via-green-400 to-secondary-400 scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
+                <div className="w-12 h-12 rounded-xl bg-green-50 border border-green-200 flex items-center justify-center text-2xl mb-5 group-hover:scale-110 transition-transform duration-300">
                   {icon}
                 </div>
                 <h3 className="font-bold text-gray-900 text-lg mb-2">{t(`${tKey}Title`)}</h3>
@@ -151,8 +165,10 @@ export default function CareersPageContent() {
       </section>
 
       {/* ══════════════════════════════════ POSITIONS ══ */}
-      <section ref={positionsRef} className="py-16 md:py-24 bg-gray-950">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section ref={positionsRef} className="py-16 md:py-24 bg-[#07130a] relative overflow-hidden">
+        <div className="absolute inset-0 opacity-[0.06]" style={{ backgroundImage: 'radial-gradient(circle, #4ade80 1px, transparent 1px)', backgroundSize: '32px 32px' }} />
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[300px] bg-green-500/10 rounded-full blur-[120px] pointer-events-none" />
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 28 }}
             animate={positionsInView ? { opacity: 1, y: 0 } : {}}
@@ -163,36 +179,69 @@ export default function CareersPageContent() {
               {t('positionsEyebrow')}
             </p>
             <h2 className="text-3xl md:text-5xl font-bold text-white mb-4">{t('positionsTitle')}</h2>
-            <p className="text-gray-400 text-base md:text-lg max-w-xl mx-auto">{t('positionsSubtitle')}</p>
+            <p className="text-green-200/60 text-base md:text-lg max-w-xl mx-auto">{t('positionsSubtitle')}</p>
           </motion.div>
 
           <div className="flex flex-col gap-3">
             {POSITIONS.map((pos, i) => (
-              <motion.a
+              <motion.div
                 key={pos.titleEn}
-                href={GOOGLE_FORM}
-                target="_blank"
-                rel="noopener noreferrer"
                 initial={{ opacity: 0, x: -20 }}
                 animate={positionsInView ? { opacity: 1, x: 0 } : {}}
                 transition={{ duration: 0.5, delay: i * 0.08 }}
-                className="group flex items-center justify-between bg-gray-900 border border-gray-800 hover:border-green-500/50 rounded-xl px-6 py-5 transition-all hover:bg-gray-800"
+                className="bg-green-900/50 border border-green-800/60 hover:border-green-600 rounded-xl overflow-hidden transition-colors"
               >
-                <div className="flex items-center gap-4">
-                  <div className="w-2 h-2 rounded-full bg-green-500 shrink-0" />
-                  <div>
-                    <p className="text-white font-semibold text-base leading-snug">
-                      {isVi ? pos.titleVi : pos.titleEn}
-                    </p>
-                    <p className="text-gray-400 text-xs mt-0.5">
-                      {isVi ? pos.typeVi : pos.typeEn} · {isVi ? pos.locationVi : pos.locationEn}
-                    </p>
-                  </div>
+                {/* Header row */}
+                <div className="w-full flex items-center justify-between px-6 py-5 gap-4">
+                  <button
+                    onClick={() => setOpenIndex(openIndex === i ? null : i)}
+                    className="flex items-center gap-4 text-left flex-1 min-w-0 group"
+                  >
+                    <div className="w-2 h-2 rounded-full bg-green-500 shrink-0" />
+                    <div className="min-w-0">
+                      <p className="text-white font-semibold text-base leading-snug">
+                        {isVi ? pos.titleVi : pos.titleEn}
+                      </p>
+                      <p className="text-green-300/60 text-xs mt-0.5">
+                        {isVi ? pos.typeVi : pos.typeEn} · {isVi ? pos.locationVi : pos.locationEn}
+                      </p>
+                    </div>
+                    <svg
+                      className={`w-4 h-4 text-green-400 shrink-0 transition-transform duration-300 ${openIndex === i ? 'rotate-180' : ''}`}
+                      fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24"
+                    >
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </button>
+                  <a
+                    href={GOOGLE_FORM}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="shrink-0 inline-flex items-center gap-1.5 px-4 py-2 bg-green-600 hover:bg-green-500 text-white text-xs font-semibold rounded-full transition-colors"
+                  >
+                    {isVi ? 'Ứng tuyển' : 'Apply'} →
+                  </a>
                 </div>
-                <span className="text-green-400 text-sm font-medium group-hover:translate-x-1 transition-transform shrink-0 ml-4">
-                  {isVi ? 'Ứng tuyển →' : 'Apply →'}
-                </span>
-              </motion.a>
+
+                {/* Expandable description */}
+                <AnimatePresence initial={false}>
+                  {openIndex === i && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: 'auto', opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.3, ease: 'easeInOut' }}
+                      className="overflow-hidden"
+                    >
+                      <div className="px-6 pb-5 border-t border-green-800/40">
+                        <p className="text-green-100/80 text-sm leading-relaxed mt-4 mb-4">
+                          {isVi ? pos.descVi : pos.descEn}
+                        </p>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </motion.div>
             ))}
           </div>
         </div>
@@ -232,7 +281,7 @@ export default function CareersPageContent() {
       </section>
 
       {/* ══════════════════════════════════ CONTACT ══ */}
-      <section ref={contactRef} className="py-16 md:py-24 bg-gray-50">
+      <section ref={contactRef} className="py-16 md:py-24 bg-[#f7faf7]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 28 }}

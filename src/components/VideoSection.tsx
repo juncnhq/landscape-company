@@ -12,16 +12,19 @@ export default function VideoSection() {
 
   return (
     <section ref={ref} className="relative bg-white py-20 md:py-32 overflow-hidden">
-      {/* Decorative green accent top-left */}
-      <div className="absolute top-0 left-0 w-[320px] h-[320px] bg-green-50 rounded-br-[120px] pointer-events-none" />
-      {/* Decorative dot grid top-right */}
+      {/* Organic curved accent top-left — brand green shape */}
+      <div className="absolute top-0 left-0 w-[400px] h-[360px] bg-green-50 rounded-br-[160px] pointer-events-none opacity-80" />
+      <div className="absolute top-0 left-0 w-[200px] h-[180px] bg-green-100/60 rounded-br-[120px] pointer-events-none" />
+      {/* Larger dot grid — brand green, more visible */}
       <div
-        className="absolute top-8 right-8 w-40 h-40 opacity-20 pointer-events-none"
+        className="absolute top-0 right-0 w-72 h-72 opacity-[0.12] pointer-events-none"
         style={{
-          backgroundImage: 'radial-gradient(circle, #16a34a 1px, transparent 1px)',
-          backgroundSize: '16px 16px',
+          backgroundImage: 'radial-gradient(circle, #328442 1.5px, transparent 1.5px)',
+          backgroundSize: '24px 24px',
         }}
       />
+      {/* Gold accent bottom right */}
+      <div className="absolute bottom-0 right-0 w-[300px] h-[300px] bg-[radial-gradient(ellipse_at_bottom_right,rgba(190,123,43,0.06)_0%,transparent_65%)] pointer-events-none" />
 
       <div className="relative max-w-6xl mx-auto px-5 sm:px-8 lg:px-12">
 
@@ -38,7 +41,7 @@ export default function VideoSection() {
                 Showreel
               </p>
             </div>
-            <h2 className="text-3xl md:text-5xl font-bold text-gray-900 tracking-tight leading-tight">
+            <h2 className="font-display text-3xl md:text-5xl font-bold text-gray-900 tracking-tight leading-tight">
               {t('title')}
             </h2>
           </motion.div>
@@ -74,17 +77,30 @@ export default function VideoSection() {
                 {/* Gradient overlay */}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
 
-                {/* Play button */}
+                {/* Play button with pulsing rings */}
                 <div className="absolute inset-0 flex flex-col items-center justify-center gap-4">
-                  <motion.div
-                    whileHover={{ scale: 1.08 }}
-                    whileTap={{ scale: 0.95 }}
-                    className="w-20 h-20 md:w-24 md:h-24 rounded-full bg-white flex items-center justify-center shadow-2xl"
-                  >
-                    <svg className="w-8 h-8 md:w-9 md:h-9 text-green-600 translate-x-0.5" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M8 5v14l11-7z" />
-                    </svg>
-                  </motion.div>
+                  <div className="relative">
+                    {/* Pulsing rings */}
+                    <motion.div
+                      animate={{ scale: [1, 1.6], opacity: [0.4, 0] }}
+                      transition={{ duration: 2, repeat: Infinity, ease: 'easeOut' }}
+                      className="absolute inset-0 rounded-full bg-green-500/30"
+                    />
+                    <motion.div
+                      animate={{ scale: [1, 1.35], opacity: [0.3, 0] }}
+                      transition={{ duration: 2, repeat: Infinity, ease: 'easeOut', delay: 0.4 }}
+                      className="absolute inset-0 rounded-full bg-white/20"
+                    />
+                    <motion.div
+                      whileHover={{ scale: 1.08 }}
+                      whileTap={{ scale: 0.95 }}
+                      className="relative w-20 h-20 md:w-24 md:h-24 rounded-full bg-white flex items-center justify-center shadow-2xl cursor-pointer"
+                    >
+                      <svg className="w-8 h-8 md:w-9 md:h-9 text-green-600 translate-x-0.5" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M8 5v14l11-7z" />
+                      </svg>
+                    </motion.div>
+                  </div>
                   <span className="text-white text-xs tracking-widest uppercase font-medium opacity-80">
                     {locale === 'vi' ? 'Xem video' : 'Watch now'}
                   </span>

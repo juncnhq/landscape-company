@@ -1,6 +1,7 @@
 import { setRequestLocale } from 'next-intl/server';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import NewsGrid from '@/components/NewsGrid';
 
 export default async function NewsPage({
   params,
@@ -18,14 +19,7 @@ export default async function NewsPage({
           {locale === 'vi' ? 'Tin Tức' : 'News'}
         </h1>
       </div>
-      <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 pb-32">
-        <div className="flex flex-col items-center justify-center py-24 text-center border border-dashed border-gray-200 rounded-2xl">
-          <div className="text-5xl mb-4">📰</div>
-          <p className="text-gray-400 text-lg font-medium">
-            {locale === 'vi' ? 'Tin tức sắp ra mắt.' : 'News articles coming soon.'}
-          </p>
-        </div>
-      </div>
+      <NewsGrid />
       <Footer />
     </main>
   );

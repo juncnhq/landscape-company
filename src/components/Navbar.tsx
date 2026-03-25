@@ -1,9 +1,22 @@
 'use client';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useTranslations, useLocale } from 'next-intl';
 import { motion, AnimatePresence } from 'framer-motion';
 import { usePathname } from 'next/navigation';
+
+function useReducedMotion() {
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+  useEffect(() => {
+    const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
+    setPrefersReducedMotion(mq.matches);
+    const handler = (e: MediaQueryListEvent) => setPrefersReducedMotion(e.matches);
+    mq.addEventListener('change', handler);
+    return () => mq.removeEventListener('change', handler);
+  }, []);
+  return prefersReducedMotion;
+}
 
 function FlagVN({ className = 'w-5 h-3.5' }: { className?: string }) {
   return (
@@ -43,6 +56,7 @@ export default function Navbar() {
   const isHomePage = pathname === `/${locale}` || pathname === '/';
   const [scrolled, setScrolled] = useState(!isHomePage);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const prefersReducedMotion = useReducedMotion();
 
   useEffect(() => {
     if (!isHomePage) { setScrolled(true); return; }
@@ -52,10 +66,30 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', handler);
   }, [isHomePage]);
 
-  // Lock body scroll when mobile menu open
+  // Lock body scroll (with scrollbar-width fix to prevent layout shift)
   useEffect(() => {
-    document.body.style.overflow = mobileOpen ? 'hidden' : '';
-    return () => { document.body.style.overflow = ''; };
+    if (mobileOpen) {
+      const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+      document.body.style.overflow = 'hidden';
+      document.body.style.paddingRight = `${scrollbarWidth}px`;
+    } else {
+      document.body.style.overflow = '';
+      document.body.style.paddingRight = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+      document.body.style.paddingRight = '';
+    };
+  }, [mobileOpen]);
+
+  // Close on Escape key
+  useEffect(() => {
+    if (!mobileOpen) return;
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setMobileOpen(false);
+    };
+    document.addEventListener('keydown', handleEscape);
+    return () => document.removeEventListener('keydown', handleEscape);
   }, [mobileOpen]);
 
   const otherLocale = locale === 'vi' ? 'en' : 'vi';
@@ -76,10 +110,18 @@ export default function Navbar() {
 
   return (
     <>
+      {/* Skip to main content */}
+      <a
+        href="#main-content"
+        className="absolute -top-12 left-4 bg-green-600 text-white px-4 py-2 rounded-md focus:top-4 transition-all z-[60] font-medium text-sm"
+      >
+        Skip to main content
+      </a>
+
       <motion.nav
-        initial={{ y: -100 }}
+        initial={{ y: prefersReducedMotion ? 0 : -100 }}
         animate={{ y: 0 }}
-        transition={{ duration: 0.6, ease: 'easeOut' }}
+        transition={{ duration: prefersReducedMotion ? 0 : 0.6, ease: 'easeOut' }}
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
           scrolled ? 'bg-white/97 backdrop-blur-md shadow-[0_1px_0_0_rgba(0,0,0,0.06)]' : 'bg-transparent'
         }`}
@@ -93,12 +135,14 @@ export default function Navbar() {
               className="flex items-center gap-2 shrink-0"
               onClick={() => setMobileOpen(false)}
             >
-              <span className={`w-7 h-7 rounded-md flex items-center justify-center text-white text-xs font-bold ${scrolled ? 'bg-green-600' : 'bg-green-500/90'}`}>
-                F
-              </span>
-              <span className={`text-sm font-semibold tracking-widest uppercase transition-colors ${scrolled ? 'text-gray-900' : 'text-white'}`}>
-                AM Landscape
-              </span>
+              <Image
+                src="/logo.png"
+                alt="FAM Landscape"
+                width={120}
+                height={40}
+                className="h-9 w-auto object-contain"
+                priority
+              />
             </Link>
 
             {/* Desktop links */}
@@ -107,17 +151,22 @@ export default function Navbar() {
                 <Link
                   key={link.href}
                   href={link.href}
-                  className={`relative px-3 py-1.5 text-[11px] font-medium tracking-widest uppercase transition-colors rounded-md ${
+                  className={`relative px-4 py-2 text-sm font-medium tracking-wide uppercase transition-colors rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 ${
                     isActive(link.href)
-                      ? scrolled ? 'text-green-600' : 'text-green-400'
-                      : scrolled ? 'text-gray-600 hover:text-gray-900 hover:bg-gray-50' : 'text-white/80 hover:text-white hover:bg-white/10'
+                      ? scrolled
+                        ? 'text-green-600 focus:ring-green-600 focus:ring-offset-white'
+                        : 'text-green-400 focus:ring-green-400 focus:ring-offset-transparent'
+                      : scrolled
+                        ? 'text-gray-600 hover:text-gray-900 hover:bg-gray-50 focus:ring-green-600 focus:ring-offset-white'
+                        : 'text-white/80 hover:text-white hover:bg-white/10 focus:ring-green-400 focus:ring-offset-transparent'
                   }`}
                 >
                   {link.label}
                   {isActive(link.href) && (
-                    <motion.span
-                      layoutId="nav-dot"
-                      className={`absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full ${scrolled ? 'bg-green-600' : 'bg-green-400'}`}
+                    <motion.div
+                      layoutId="nav-underline"
+                      className={`absolute -bottom-1 left-0 right-0 h-0.5 rounded-full ${scrolled ? 'bg-green-600' : 'bg-green-400'}`}
+                      transition={prefersReducedMotion ? { duration: 0 } : { type: 'spring', stiffness: 300, damping: 30 }}
                     />
                   )}
                 </Link>
@@ -128,10 +177,11 @@ export default function Navbar() {
             <div className="flex items-center gap-3">
               <Link
                 href={switchPath}
-                className={`hidden sm:flex items-center gap-2 text-[10px] font-semibold tracking-widest uppercase transition-all px-3 py-1.5 rounded-full border ${
+                aria-label={`Switch language to ${otherLocale === 'vi' ? 'Vietnamese' : 'English'}`}
+                className={`hidden sm:flex items-center gap-2 text-xs font-semibold tracking-widest uppercase transition-all px-3 py-1.5 rounded-full border focus:outline-none focus:ring-2 focus:ring-offset-2 ${
                   scrolled
-                    ? 'border-gray-200 text-gray-600 hover:border-green-600 hover:text-green-600'
-                    : 'border-white/30 text-white/80 hover:border-white hover:text-white'
+                    ? 'border-gray-200 text-gray-600 hover:border-green-600 hover:text-green-600 focus:ring-green-600 focus:ring-offset-white'
+                    : 'border-white/30 text-white/80 hover:border-white hover:text-white focus:ring-green-400 focus:ring-offset-transparent'
                 }`}
               >
                 <span className="rounded-sm overflow-hidden shadow-sm">
@@ -142,26 +192,29 @@ export default function Navbar() {
 
               {/* Hamburger */}
               <button
-                className={`lg:hidden w-10 h-10 flex flex-col items-center justify-center gap-[5px] rounded-md transition-colors ${
-                  scrolled ? 'text-gray-700 hover:bg-gray-100' : 'text-white hover:bg-white/10'
+                className={`lg:hidden p-2 flex flex-col items-center justify-center gap-[5px] rounded-md transition-colors focus:outline-none focus:ring-2 ${
+                  scrolled
+                    ? 'text-gray-700 hover:bg-gray-100 focus:ring-green-600'
+                    : 'text-white hover:bg-white/10 focus:ring-green-400'
                 }`}
                 onClick={() => setMobileOpen(!mobileOpen)}
-                aria-label="Toggle menu"
+                aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
+                aria-expanded={mobileOpen}
               >
                 <motion.span
                   animate={mobileOpen ? { rotate: 45, y: 7 } : { rotate: 0, y: 0 }}
                   className="block w-5 h-px bg-current origin-center"
-                  transition={{ duration: 0.25 }}
+                  transition={{ duration: prefersReducedMotion ? 0 : 0.25 }}
                 />
                 <motion.span
                   animate={mobileOpen ? { opacity: 0, scaleX: 0 } : { opacity: 1, scaleX: 1 }}
                   className="block w-5 h-px bg-current origin-center"
-                  transition={{ duration: 0.2 }}
+                  transition={{ duration: prefersReducedMotion ? 0 : 0.2 }}
                 />
                 <motion.span
                   animate={mobileOpen ? { rotate: -45, y: -7 } : { rotate: 0, y: 0 }}
                   className="block w-5 h-px bg-current origin-center"
-                  transition={{ duration: 0.25 }}
+                  transition={{ duration: prefersReducedMotion ? 0 : 0.25 }}
                 />
               </button>
             </div>
@@ -186,23 +239,30 @@ export default function Navbar() {
 
             {/* Drawer from right */}
             <motion.div
-              initial={{ x: '100%' }}
+              initial={{ x: prefersReducedMotion ? 0 : '100%' }}
               animate={{ x: 0 }}
-              exit={{ x: '100%' }}
-              transition={{ duration: 0.35, ease: [0.32, 0.72, 0, 1] }}
-              className="fixed top-0 right-0 bottom-0 z-50 w-[280px] bg-gray-950 flex flex-col lg:hidden"
+              exit={{ x: prefersReducedMotion ? 0 : '100%' }}
+              transition={{ duration: prefersReducedMotion ? 0 : 0.35, ease: [0.32, 0.72, 0, 1] }}
+              className="fixed top-0 right-0 bottom-0 z-50 w-[280px] bg-[#07130a] flex flex-col lg:hidden"
             >
               {/* Drawer header */}
               <div className="flex items-center justify-between px-6 h-[68px] border-b border-white/[0.07]">
-                <span className="flex items-center gap-2">
-                  <span className="w-6 h-6 rounded bg-green-600 flex items-center justify-center text-white text-[10px] font-bold">F</span>
-                  <span className="text-white text-xs font-semibold tracking-widest uppercase">AM Landscape</span>
-                </span>
+                <Link href={`/${locale}`} onClick={() => setMobileOpen(false)} className="flex items-center gap-2">
+                  <Image
+                    src="/logo.png"
+                    alt="FAM Landscape"
+                    width={100}
+                    height={34}
+                    className="h-8 w-auto object-contain brightness-0 invert"
+                  />
+                </Link>
                 <button
                   onClick={() => setMobileOpen(false)}
-                  className="w-8 h-8 flex items-center justify-center rounded-md text-gray-400 hover:text-white hover:bg-white/10 transition-colors"
+                  aria-label="Close navigation menu"
+                  title="Close menu (Esc)"
+                  className="p-2 w-10 h-10 flex items-center justify-center rounded-md text-gray-400 hover:text-white hover:bg-white/10 transition-colors focus:outline-none focus:ring-2 focus:ring-green-500"
                 >
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
                   </svg>
                 </button>
@@ -214,14 +274,14 @@ export default function Navbar() {
                 {links.map((link, i) => (
                   <motion.div
                     key={link.href}
-                    initial={{ opacity: 0, x: 20 }}
+                    initial={{ opacity: 0, x: prefersReducedMotion ? 0 : 20 }}
                     animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.05 + i * 0.05, duration: 0.3 }}
+                    transition={{ delay: prefersReducedMotion ? 0 : 0.05 + i * 0.05, duration: prefersReducedMotion ? 0 : 0.3 }}
                   >
                     <Link
                       href={link.href}
                       onClick={() => setMobileOpen(false)}
-                      className={`flex items-center justify-between px-3 py-3.5 rounded-lg mb-1 text-sm font-medium tracking-wide transition-colors group ${
+                      className={`flex items-center justify-between px-4 py-3 rounded-lg mb-1 min-h-[44px] text-base font-medium tracking-wide transition-colors group focus:outline-none focus:ring-2 focus:ring-green-500 ${
                         isActive(link.href)
                           ? 'bg-green-600/15 text-green-400'
                           : 'text-gray-300 hover:bg-white/[0.05] hover:text-white'
@@ -229,7 +289,7 @@ export default function Navbar() {
                     >
                       <span>{link.label}</span>
                       {isActive(link.href) && (
-                        <span className="w-1.5 h-1.5 rounded-full bg-green-500" />
+                        <span className="w-2.5 h-2.5 rounded-full bg-green-500 shadow-lg" />
                       )}
                     </Link>
                   </motion.div>
@@ -248,7 +308,9 @@ export default function Navbar() {
                         key={lang}
                         href={path}
                         onClick={() => setMobileOpen(false)}
-                        className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-lg text-xs font-semibold tracking-widest uppercase transition-colors ${
+                        aria-label={`Switch to ${lang === 'vi' ? 'Vietnamese' : 'English'}`}
+                        aria-current={active ? 'page' : undefined}
+                        className={`flex-1 flex items-center justify-center gap-2 py-3.5 min-h-[48px] rounded-lg text-sm font-semibold tracking-widest uppercase transition-colors focus:outline-none focus:ring-2 focus:ring-green-500 ${
                           active
                             ? 'bg-green-600 text-white'
                             : 'bg-white/[0.06] text-gray-400 hover:bg-white/10 hover:text-white'

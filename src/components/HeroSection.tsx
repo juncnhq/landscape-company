@@ -3,7 +3,19 @@ import { useTranslations, useLocale } from 'next-intl';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
+
+function useReducedMotion() {
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+  useEffect(() => {
+    const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
+    setPrefersReducedMotion(mq.matches);
+    const handler = (e: MediaQueryListEvent) => setPrefersReducedMotion(e.matches);
+    mq.addEventListener('change', handler);
+    return () => mq.removeEventListener('change', handler);
+  }, []);
+  return prefersReducedMotion;
+}
 
 const heroSlides = [
   {
@@ -37,11 +49,23 @@ export default function HeroSection() {
   const t = useTranslations('hero');
   const locale = useLocale();
   const [current, setCurrent] = useState(0);
+  const prefersReducedMotion = useReducedMotion();
+  const slideDuration = prefersReducedMotion ? 0.01 : 1.8;
+  const entryDuration = prefersReducedMotion ? 0.01 : 1;
+  const scrollDuration = prefersReducedMotion ? 0.01 : 1.5;
 
   useEffect(() => {
+    if (prefersReducedMotion) return;
     const timer = setInterval(() => setCurrent((c) => (c + 1) % heroSlides.length), 5000);
     return () => clearInterval(timer);
-  }, []);
+  }, [prefersReducedMotion]);
+
+  // Preload next slide
+  useEffect(() => {
+    const nextIndex = (current + 1) % heroSlides.length;
+    const img = new window.Image();
+    img.src = heroSlides[nextIndex].url;
+  }, [current]);
 
   return (
     <section className="relative h-screen overflow-hidden">
@@ -49,11 +73,35 @@ export default function HeroSection() {
         <motion.div
           key={slide.url}
           className="absolute inset-0"
-          initial={{ opacity: i === 0 ? 1 : 0, scale: i === 0 ? 1 : 1.05 }}
-          animate={{ opacity: i === current ? 1 : 0, scale: i === current ? 1 : 1.05 }}
-          transition={{ duration: 1.8, ease: 'easeInOut' }}
+          initial={{ opacity: i === 0 ? 1 : 0 }}
+          animate={{ opacity: i === current ? 1 : 0 }}
+          transition={{ duration: slideDuration, ease: 'easeInOut' }}
         >
-          <Image src={slide.url} alt={slide.labelEn} fill className="object-cover" priority={i === 0} />
+          <motion.div
+            className="absolute inset-0"
+            animate={
+              prefersReducedMotion
+                ? {}
+                : i === current
+                  ? { scale: [1, 1.08] }
+                  : { scale: 1 }
+            }
+            transition={
+              i === current
+                ? { duration: 5.5, ease: 'easeOut' }
+                : { duration: slideDuration, ease: 'easeInOut' }
+            }
+          >
+            <Image
+              src={slide.url}
+              alt={locale === 'vi' ? slide.labelVi : slide.labelEn}
+              fill
+              className="object-cover"
+              priority={i === 0}
+              loading={i === 0 ? 'eager' : 'lazy'}
+              sizes="100vw"
+            />
+          </motion.div>
         </motion.div>
       ))}
       <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/20 to-black/70" />
@@ -61,29 +109,32 @@ export default function HeroSection() {
       {/* Center content */}
       <div className="relative z-10 h-full flex flex-col items-center justify-center text-center px-4">
         <motion.div
-          initial={{ opacity: 0, y: 40 }}
+          initial={{ opacity: 0, y: prefersReducedMotion ? 0 : 40 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 0.3 }}
+          transition={{ duration: entryDuration, delay: prefersReducedMotion ? 0 : 0.3 }}
         >
-          <p className="text-green-400 text-xs sm:text-sm font-semibold tracking-[0.3em] uppercase mb-4">
-            Landscape Design & Construction
+          <p
+            className="text-green-300 text-xs sm:text-sm font-semibold tracking-[0.3em] uppercase mb-4 drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]"
+            role="doc-subtitle"
+          >
+            {t('eyebrow')}
           </p>
-          <h1 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold text-white max-w-4xl leading-tight mb-4 md:mb-6">
+          <h1 className="font-display text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold text-white max-w-4xl leading-tight mb-4 md:mb-6 drop-shadow-[0_2px_8px_rgba(0,0,0,0.6)]">
             {t('title')}
           </h1>
-          <p className="text-white/80 text-base md:text-xl max-w-2xl mx-auto mb-8 md:mb-10 leading-relaxed">
+          <p className="text-white/90 text-base md:text-xl max-w-2xl mx-auto mb-8 md:mb-10 leading-relaxed drop-shadow-[0_1px_4px_rgba(0,0,0,0.6)]">
             {t('subtitle')}
           </p>
           <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center px-4 sm:px-0">
             <Link
               href={`/${locale}/projects`}
-              className="px-6 sm:px-8 py-3 sm:py-4 bg-green-600 text-white font-semibold rounded-full hover:bg-green-500 transition-all hover:scale-105 shadow-lg text-sm sm:text-base"
+              className="px-6 sm:px-8 py-3 sm:py-4 bg-green-600 text-white font-semibold rounded-full hover:bg-green-500 hover:shadow-2xl transition-all shadow-lg text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-yellow-300 focus:ring-offset-2 focus:ring-offset-green-700 [@media(hover:hover)]:hover:opacity-90"
             >
               {t('cta')}
             </Link>
             <Link
               href={`/${locale}/about`}
-              className="px-6 sm:px-8 py-3 sm:py-4 border-2 border-white/70 text-white font-semibold rounded-full hover:bg-white hover:text-green-700 transition-all hover:scale-105 text-sm sm:text-base"
+              className="px-6 sm:px-8 py-3 sm:py-4 border-2 border-white text-white font-semibold rounded-full hover:bg-white hover:text-green-700 transition-all shadow-md text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-yellow-300 focus:ring-offset-2"
             >
               {t('ctaSecondary')}
             </Link>
@@ -95,12 +146,13 @@ export default function HeroSection() {
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ duration: 1, delay: 1.5 }}
+        transition={{ duration: scrollDuration, delay: prefersReducedMotion ? 0 : 1.5 }}
         className="hidden sm:flex absolute bottom-24 left-1/2 -translate-x-1/2 z-10 flex-col items-center gap-1"
+        aria-hidden="true"
       >
         <span className="text-white/40 text-[9px] tracking-[0.3em] uppercase">Scroll</span>
         <motion.div
-          animate={{ y: [0, 6, 0] }}
+          animate={prefersReducedMotion ? {} : { y: [0, 6, 0] }}
           transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
           className="w-px h-6 bg-gradient-to-b from-white/50 to-transparent"
         />
@@ -125,19 +177,21 @@ export default function HeroSection() {
           </span>
         </motion.div>
 
-        {/* Dot indicators — py-3 gives 28px tap height on mobile without changing visuals */}
-        <div className="flex gap-2 items-center">
+        {/* Dot indicators — fieldset groups for accessibility */}
+        <fieldset className="flex gap-1 items-center border-0 p-0 m-0">
+          <legend className="sr-only">Chọn slide</legend>
           {heroSlides.map((slide, i) => (
             <button
               key={i}
               onClick={() => setCurrent(i)}
-              aria-label={`Go to slide ${i + 1}: ${slide.labelEn}`}
-              className="py-3 flex items-center"
+              aria-label={`Slide ${i + 1}: ${locale === 'vi' ? slide.labelVi : slide.labelEn}`}
+              aria-pressed={i === current}
+              className="p-3 flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-white rounded-full"
             >
-              <span className={`block h-1 rounded-full transition-all duration-500 ${i === current ? 'w-8 bg-green-400' : 'w-2 bg-white/30 hover:bg-white/60'}`} />
+              <span className={`block h-1.5 rounded-full transition-all duration-500 ${i === current ? 'w-8 bg-green-400' : 'w-2 bg-white/30 hover:bg-white/60'}`} />
             </button>
           ))}
-        </div>
+        </fieldset>
       </div>
     </section>
   );

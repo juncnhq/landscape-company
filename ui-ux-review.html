@@ -1,0 +1,1325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Eval Review</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600&family=Lora:wght@400;500&display=swap" rel="stylesheet">
+  <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js" integrity="sha384-EnyY0/GSHQGSxSgMwaIPzSESbqoOLSexfnSMN2AP+39Ckmn92stwABZynq1JyzdT" crossorigin="anonymous"></script>
+  <style>
+    :root {
+      --bg: #faf9f5;
+      --surface: #ffffff;
+      --border: #e8e6dc;
+      --text: #141413;
+      --text-muted: #b0aea5;
+      --accent: #d97757;
+      --accent-hover: #c4613f;
+      --green: #788c5d;
+      --green-bg: #eef2e8;
+      --red: #c44;
+      --red-bg: #fceaea;
+      --header-bg: #141413;
+      --header-text: #faf9f5;
+      --radius: 6px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Lora', Georgia, serif;
+      background: var(--bg);
+      color: var(--text);
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ---- Header ---- */
+    .header {
+      background: var(--header-bg);
+      color: var(--header-text);
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-shrink: 0;
+    }
+    .header h1 {
+      font-family: 'Poppins', sans-serif;
+      font-size: 1.25rem;
+      font-weight: 600;
+    }
+    .header .instructions {
+      font-size: 0.8rem;
+      opacity: 0.7;
+      margin-top: 0.25rem;
+    }
+    .header .progress {
+      font-size: 0.875rem;
+      opacity: 0.8;
+      text-align: right;
+    }
+
+    /* ---- Main content ---- */
+    .main {
+      flex: 1;
+      overflow-y: auto;
+      padding: 1.5rem 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    /* ---- Sections ---- */
+    .section {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      flex-shrink: 0;
+    }
+    .section-header {
+      font-family: 'Poppins', sans-serif;
+      padding: 0.75rem 1rem;
+      font-size: 0.75rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      border-bottom: 1px solid var(--border);
+      background: var(--bg);
+    }
+    .section-body {
+      padding: 1rem;
+    }
+
+    /* ---- Config badge ---- */
+    .config-badge {
+      display: inline-block;
+      padding: 0.2rem 0.625rem;
+      border-radius: 9999px;
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.6875rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      margin-left: 0.75rem;
+      vertical-align: middle;
+    }
+    .config-badge.config-primary {
+      background: rgba(33, 150, 243, 0.12);
+      color: #1976d2;
+    }
+    .config-badge.config-baseline {
+      background: rgba(255, 193, 7, 0.15);
+      color: #f57f17;
+    }
+
+    /* ---- Prompt ---- */
+    .prompt-text {
+      white-space: pre-wrap;
+      font-size: 0.9375rem;
+      line-height: 1.6;
+    }
+
+    /* ---- Outputs ---- */
+    .output-file {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+    .output-file + .output-file {
+      margin-top: 1rem;
+    }
+    .output-file-header {
+      padding: 0.5rem 0.75rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+      font-family: 'SF Mono', SFMono-Regular, Consolas, 'Liberation Mono', Menlo, monospace;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .output-file-header .dl-btn {
+      font-size: 0.7rem;
+      color: var(--accent);
+      text-decoration: none;
+      cursor: pointer;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-weight: 500;
+      opacity: 0.8;
+    }
+    .output-file-header .dl-btn:hover {
+      opacity: 1;
+      text-decoration: underline;
+    }
+    .output-file-content {
+      padding: 0.75rem;
+      overflow-x: auto;
+    }
+    .output-file-content pre {
+      font-size: 0.8125rem;
+      line-height: 1.5;
+      white-space: pre-wrap;
+      word-break: break-word;
+      font-family: 'SF Mono', SFMono-Regular, Consolas, 'Liberation Mono', Menlo, monospace;
+    }
+    .output-file-content img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 4px;
+    }
+    .output-file-content iframe {
+      width: 100%;
+      height: 600px;
+      border: none;
+    }
+    .output-file-content table {
+      border-collapse: collapse;
+      font-size: 0.8125rem;
+      width: 100%;
+    }
+    .output-file-content table td,
+    .output-file-content table th {
+      border: 1px solid var(--border);
+      padding: 0.375rem 0.5rem;
+      text-align: left;
+    }
+    .output-file-content table th {
+      background: var(--bg);
+      font-weight: 600;
+    }
+    .output-file-content .download-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      color: var(--accent);
+      text-decoration: none;
+      font-size: 0.875rem;
+      cursor: pointer;
+    }
+    .output-file-content .download-link:hover {
+      background: var(--border);
+    }
+    .empty-state {
+      color: var(--text-muted);
+      font-style: italic;
+      padding: 2rem;
+      text-align: center;
+    }
+
+    /* ---- Feedback ---- */
+    .prev-feedback {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 0.625rem 0.75rem;
+      margin-top: 0.75rem;
+      font-size: 0.8125rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+    .prev-feedback-label {
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-bottom: 0.25rem;
+      color: var(--text-muted);
+    }
+    .feedback-textarea {
+      width: 100%;
+      min-height: 100px;
+      padding: 0.75rem;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      font-family: inherit;
+      font-size: 0.9375rem;
+      line-height: 1.5;
+      resize: vertical;
+      color: var(--text);
+    }
+    .feedback-textarea:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    }
+    .feedback-status {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-top: 0.5rem;
+      min-height: 1.1em;
+    }
+
+    /* ---- Grades (collapsible) ---- */
+    .grades-toggle {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      user-select: none;
+    }
+    .grades-toggle:hover {
+      color: var(--accent);
+    }
+    .grades-toggle .arrow {
+      margin-right: 0.5rem;
+      transition: transform 0.15s;
+      font-size: 0.75rem;
+    }
+    .grades-toggle .arrow.open {
+      transform: rotate(90deg);
+    }
+    .grades-content {
+      display: none;
+      margin-top: 0.75rem;
+    }
+    .grades-content.open {
+      display: block;
+    }
+    .grades-summary {
+      font-size: 0.875rem;
+      margin-bottom: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .grade-badge {
+      display: inline-block;
+      padding: 0.125rem 0.5rem;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+    .grade-pass { background: var(--green-bg); color: var(--green); }
+    .grade-fail { background: var(--red-bg); color: var(--red); }
+    .assertion-list {
+      list-style: none;
+    }
+    .assertion-item {
+      padding: 0.625rem 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.8125rem;
+    }
+    .assertion-item:last-child { border-bottom: none; }
+    .assertion-status {
+      font-weight: 600;
+      margin-right: 0.5rem;
+    }
+    .assertion-status.pass { color: var(--green); }
+    .assertion-status.fail { color: var(--red); }
+    .assertion-evidence {
+      color: var(--text-muted);
+      font-size: 0.75rem;
+      margin-top: 0.25rem;
+      padding-left: 1.5rem;
+    }
+
+    /* ---- View tabs ---- */
+    .view-tabs {
+      display: flex;
+      gap: 0;
+      padding: 0 2rem;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+    .view-tab {
+      font-family: 'Poppins', sans-serif;
+      padding: 0.625rem 1.25rem;
+      font-size: 0.8125rem;
+      font-weight: 500;
+      cursor: pointer;
+      border: none;
+      background: none;
+      color: var(--text-muted);
+      border-bottom: 2px solid transparent;
+      transition: all 0.15s;
+    }
+    .view-tab:hover { color: var(--text); }
+    .view-tab.active {
+      color: var(--accent);
+      border-bottom-color: var(--accent);
+    }
+    .view-panel { display: none; }
+    .view-panel.active { display: flex; flex-direction: column; flex: 1; overflow: hidden; }
+
+    /* ---- Benchmark view ---- */
+    .benchmark-view {
+      padding: 1.5rem 2rem;
+      overflow-y: auto;
+      flex: 1;
+    }
+    .benchmark-table {
+      border-collapse: collapse;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      font-size: 0.8125rem;
+      width: 100%;
+      margin-bottom: 1.5rem;
+    }
+    .benchmark-table th, .benchmark-table td {
+      padding: 0.625rem 0.75rem;
+      text-align: left;
+      border: 1px solid var(--border);
+    }
+    .benchmark-table th {
+      font-family: 'Poppins', sans-serif;
+      background: var(--header-bg);
+      color: var(--header-text);
+      font-weight: 500;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .benchmark-table tr:hover { background: var(--bg); }
+    .benchmark-table tr.benchmark-row-with { background: rgba(33, 150, 243, 0.06); }
+    .benchmark-table tr.benchmark-row-without { background: rgba(255, 193, 7, 0.06); }
+    .benchmark-table tr.benchmark-row-with:hover { background: rgba(33, 150, 243, 0.12); }
+    .benchmark-table tr.benchmark-row-without:hover { background: rgba(255, 193, 7, 0.12); }
+    .benchmark-table tr.benchmark-row-avg { font-weight: 600; border-top: 2px solid var(--border); }
+    .benchmark-table tr.benchmark-row-avg.benchmark-row-with { background: rgba(33, 150, 243, 0.12); }
+    .benchmark-table tr.benchmark-row-avg.benchmark-row-without { background: rgba(255, 193, 7, 0.12); }
+    .benchmark-delta-positive { color: var(--green); font-weight: 600; }
+    .benchmark-delta-negative { color: var(--red); font-weight: 600; }
+    .benchmark-notes {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1rem;
+    }
+    .benchmark-notes h3 {
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.875rem;
+      margin-bottom: 0.75rem;
+    }
+    .benchmark-notes ul {
+      list-style: disc;
+      padding-left: 1.25rem;
+    }
+    .benchmark-notes li {
+      font-size: 0.8125rem;
+      line-height: 1.6;
+      margin-bottom: 0.375rem;
+    }
+    .benchmark-empty {
+      color: var(--text-muted);
+      font-style: italic;
+      text-align: center;
+      padding: 3rem;
+    }
+
+    /* ---- Navigation ---- */
+    .nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      border-top: 1px solid var(--border);
+      background: var(--surface);
+      flex-shrink: 0;
+    }
+    .nav-btn {
+      font-family: 'Poppins', sans-serif;
+      padding: 0.5rem 1.25rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--surface);
+      cursor: pointer;
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--text);
+      transition: all 0.15s;
+    }
+    .nav-btn:hover:not(:disabled) {
+      background: var(--bg);
+      border-color: var(--text-muted);
+    }
+    .nav-btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+    .done-btn {
+      font-family: 'Poppins', sans-serif;
+      padding: 0.5rem 1.5rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--surface);
+      color: var(--text);
+      cursor: pointer;
+      font-size: 0.875rem;
+      font-weight: 500;
+      transition: all 0.15s;
+    }
+    .done-btn:hover {
+      background: var(--bg);
+      border-color: var(--text-muted);
+    }
+    .done-btn.ready {
+      border: none;
+      background: var(--accent);
+      color: white;
+      font-weight: 600;
+    }
+    .done-btn.ready:hover {
+      background: var(--accent-hover);
+    }
+    /* ---- Done overlay ---- */
+    .done-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 100;
+      justify-content: center;
+      align-items: center;
+    }
+    .done-overlay.visible {
+      display: flex;
+    }
+    .done-card {
+      background: var(--surface);
+      border-radius: 12px;
+      padding: 2rem 3rem;
+      text-align: center;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      max-width: 500px;
+    }
+    .done-card h2 {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+    .done-card p {
+      color: var(--text-muted);
+      margin-bottom: 1.5rem;
+      line-height: 1.5;
+    }
+    .done-card .btn-row {
+      display: flex;
+      gap: 0.5rem;
+      justify-content: center;
+    }
+    .done-card button {
+      padding: 0.5rem 1.25rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--surface);
+      cursor: pointer;
+      font-size: 0.875rem;
+    }
+    .done-card button:hover {
+      background: var(--bg);
+    }
+    /* ---- Toast ---- */
+    .toast {
+      position: fixed;
+      bottom: 5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--header-bg);
+      color: var(--header-text);
+      padding: 0.625rem 1.25rem;
+      border-radius: var(--radius);
+      font-size: 0.875rem;
+      opacity: 0;
+      transition: opacity 0.3s;
+      pointer-events: none;
+      z-index: 200;
+    }
+    .toast.visible {
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+  <div id="app" style="height:100vh; display:flex; flex-direction:column;">
+    <div class="header">
+      <div>
+        <h1>Eval Review: <span id="skill-name"></span></h1>
+        <div class="instructions">Review each output and leave feedback below. Navigate with arrow keys or buttons. When done, copy feedback and paste into Claude Code.</div>
+      </div>
+      <div class="progress" id="progress"></div>
+    </div>
+
+    <!-- View tabs (only shown when benchmark data exists) -->
+    <div class="view-tabs" id="view-tabs" style="display:none;">
+      <button class="view-tab active" onclick="switchView('outputs')">Outputs</button>
+      <button class="view-tab" onclick="switchView('benchmark')">Benchmark</button>
+    </div>
+
+    <!-- Outputs panel (qualitative review) -->
+    <div class="view-panel active" id="panel-outputs">
+    <div class="main">
+      <!-- Prompt -->
+      <div class="section">
+        <div class="section-header">Prompt <span class="config-badge" id="config-badge" style="display:none;"></span></div>
+        <div class="section-body">
+          <div class="prompt-text" id="prompt-text"></div>
+        </div>
+      </div>
+
+      <!-- Outputs -->
+      <div class="section">
+        <div class="section-header">Output</div>
+        <div class="section-body" id="outputs-body">
+          <div class="empty-state">No output files found</div>
+        </div>
+      </div>
+
+      <!-- Previous Output (collapsible) -->
+      <div class="section" id="prev-outputs-section" style="display:none;">
+        <div class="section-header">
+          <div class="grades-toggle" onclick="togglePrevOutputs()">
+            <span class="arrow" id="prev-outputs-arrow">&#9654;</span>
+            Previous Output
+          </div>
+        </div>
+        <div class="grades-content" id="prev-outputs-content"></div>
+      </div>
+
+      <!-- Grades (collapsible) -->
+      <div class="section" id="grades-section" style="display:none;">
+        <div class="section-header">
+          <div class="grades-toggle" onclick="toggleGrades()">
+            <span class="arrow" id="grades-arrow">&#9654;</span>
+            Formal Grades
+          </div>
+        </div>
+        <div class="grades-content" id="grades-content"></div>
+      </div>
+
+      <!-- Feedback -->
+      <div class="section">
+        <div class="section-header">Your Feedback</div>
+        <div class="section-body">
+          <textarea
+            class="feedback-textarea"
+            id="feedback"
+            placeholder="What do you think of this output? Any issues, suggestions, or things that look great?"
+          ></textarea>
+          <div class="feedback-status" id="feedback-status"></div>
+          <div class="prev-feedback" id="prev-feedback" style="display:none;">
+            <div class="prev-feedback-label">Previous feedback</div>
+            <div id="prev-feedback-text"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="nav" id="outputs-nav">
+      <button class="nav-btn" id="prev-btn" onclick="navigate(-1)">&#8592; Previous</button>
+      <button class="done-btn" id="done-btn" onclick="showDoneDialog()">Submit All Reviews</button>
+      <button class="nav-btn" id="next-btn" onclick="navigate(1)">Next &#8594;</button>
+    </div>
+    </div><!-- end panel-outputs -->
+
+    <!-- Benchmark panel (quantitative stats) -->
+    <div class="view-panel" id="panel-benchmark">
+      <div class="benchmark-view" id="benchmark-content">
+        <div class="benchmark-empty">No benchmark data available. Run a benchmark to see quantitative results here.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Done overlay -->
+  <div class="done-overlay" id="done-overlay">
+    <div class="done-card">
+      <h2>Review Complete</h2>
+      <p>Your feedback has been saved. Go back to your Claude Code session and tell Claude you're done reviewing.</p>
+      <div class="btn-row">
+        <button onclick="closeDoneDialog()">OK</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast" id="toast"></div>
+
+  <script>
+    // ---- Embedded data (injected by generate_review.py) ----
+    const EMBEDDED_DATA = {"skill_name": "ui-ux-pro-max", "runs": [{"id": "eval-hero-review-with_skill", "prompt": "Review the HeroSection component at src/components/HeroSection.tsx in the FAM landscape company Next.js project and give a detailed UI/UX analysis with specific issues and improvements.", "eval_id": 0, "outputs": [{"name": "review.md", "type": "text", "content": "# HeroSection Component - Detailed UI/UX Review\n**FAM Landscape Company | Next.js + Tailwind CSS + Framer Motion**\n\nDate: 2026-04-07\nComponent: `/src/components/HeroSection.tsx`\nBrand Color: Green (#16a34a)\n\n---\n\n## Overall Assessment\n\nThe HeroSection component demonstrates strong visual design foundations with smooth animations, responsive layout, and multilingual support (next-intl). However, the implementation has **4 critical issues** affecting accessibility, performance, and user interaction quality. The component needs refinement in focus state visibility, reduced-motion support, image optimization, and hover state stability.\n\n**Score: 7.2/10**\n- Visual Design: 8/10\n- Accessibility: 5/10\n- Performance: 6/10\n- Responsiveness: 8/10\n- Interaction: 7/10\n\n---\n\n## Issues Found\n\n### ACCESSIBILITY ISSUES\n\n#### 1. Missing Focus States on Interactive Elements (CRITICAL)\n**Severity:** Critical\n**Impact:** Keyboard users cannot see which element has focus\n\n**Problem:**\n- CTA buttons and dot indicators lack visible focus rings\n- No `focus:outline` or `focus:ring` classes on links\n- Keyboard navigation in the component is not accessible\n\n**Current Code (Lines 78-89):**\n```jsx\n<Link\n  href={`/${locale}/projects`}\n  className=\"px-6 sm:px-8 py-3 sm:py-4 bg-green-600 text-white font-semibold rounded-full\n    hover:bg-green-500 transition-all hover:scale-105 shadow-lg text-sm sm:text-base\"\n>\n```\n\n**Recommendation:**\nAdd focus ring with contrasting color visible over background:\n\n```jsx\n<Link\n  href={`/${locale}/projects`}\n  className=\"px-6 sm:px-8 py-3 sm:py-4 bg-green-600 text-white font-semibold rounded-full\n    hover:bg-green-500 transition-all hover:scale-105 shadow-lg text-sm sm:text-base\n    focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-300 focus:ring-offset-green-700\"\n>\n```\n\nAlso add to dot buttons (Line 131):\n```jsx\n<button\n  key={i}\n  onClick={() => setCurrent(i)}\n  aria-label={`Go to slide ${i + 1}: ${slide.labelEn}`}\n  className=\"py-3 flex items-center focus:outline-none focus:ring-2 focus:ring-white focus:rounded-full\"\n>\n```\n\n---\n\n#### 2. No Reduced Motion Support (HIGH)\n**Severity:** High\n**Impact:** Users with motion sensitivity or vestibular disorders may experience discomfort\n\n**Problem:**\n- All animations ignore `prefers-reduced-motion` media query\n- Slide transitions, fade animations, and scroll indicator are always active\n- No conditional animation logic based on user preferences\n\n**Current Code (Lines 49-58, 95-107):**\nAnimations run unconditionally for all users regardless of accessibility settings.\n\n**Recommendation:**\nImplement reduced motion support:\n\n```jsx\nimport { useEffect, useState } from 'react';\n\nexport default function HeroSection() {\n  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);\n\n  useEffect(() => {\n    // Check prefers-reduced-motion media query\n    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');\n    setPrefersReducedMotion(mediaQuery.matches);\n\n    // Listen for changes\n    const handler = (e) => setPrefersReducedMotion(e.matches);\n    mediaQuery.addEventListener('change', handler);\n    return () => mediaQuery.removeEventListener('change', handler);\n  }, []);\n\n  // Use shorter duration or disable animations if reduced motion preferred\n  const animationDuration = prefersReducedMotion ? 0.1 : 1.8;\n  const scrollAnimationDuration = prefersReducedMotion ? 0 : 1.5;\n```\n\nThen apply to motion components:\n```jsx\n<motion.div\n  transition={{ duration: animationDuration, ease: 'easeInOut' }}\n/>\n```\n\n---\n\n#### 3. Missing Alt Text on Badge Text (MEDIUM)\n**Severity:** Medium\n**Impact:** Screen readers don't identify the badge purpose\n\n**Problem:**\n- Line 68-70: Badge text \"Landscape Design & Construction\" is not labeled as a badge\n- No semantic indicator this is supplementary to main heading\n- Alt text on background images is minimal\n\n**Recommendation:**\nAdd semantic HTML and ARIA labels:\n\n```jsx\n<div\n  className=\"text-green-400 text-xs sm:text-sm font-semibold tracking-[0.3em] uppercase mb-4\"\n  role=\"doc-subtitle\"\n  aria-label=\"Service category\"\n>\n  Landscape Design & Construction\n</div>\n```\n\n---\n\n#### 4. Dot Button Accessibility Inconsistency (MEDIUM)\n**Severity:** Medium\n**Impact:** Button has proper aria-label but unclear what dots represent\n\n**Problem:**\n- Dot indicators have aria-labels (Line 134) but visual label context is unclear\n- Users relying on screen readers don't know the dots control slides\n- Should be a fieldset or indicate it's a slide control group\n\n**Recommendation:**\nWrap dots in a proper landmark:\n\n```jsx\n<fieldset className=\"flex gap-2 items-center\">\n  <legend className=\"sr-only\">Select slide</legend>\n  {heroSlides.map((slide, i) => (\n    <button\n      key={i}\n      onClick={() => setCurrent(i)}\n      aria-label={`Go to slide ${i + 1}: ${slide.labelEn}`}\n      aria-pressed={i === current}\n      className=\"py-3 flex items-center focus:outline-none focus:ring-2 focus:ring-white focus:rounded-full\"\n    >\n```\n\n---\n\n### PERFORMANCE ISSUES\n\n#### 5. Missing Image Optimization (HIGH)\n**Severity:** High\n**Impact:** Large images slow down page load; no responsive sizing strategy\n\n**Problem:**\n- Images from Unsplash use generic parameters `w=1920&q=90`\n- No `srcSet` or responsive image sizes\n- No lazy loading for non-first slides\n- Image caching strategy unclear\n\n**Current Code (Line 56):**\n```jsx\n<Image src={slide.url} alt={slide.labelEn} fill className=\"object-cover\" priority={i === 0} />\n```\n\n**Recommendation:**\nOptimize image loading and sizing:\n\n```jsx\n// Add width/height hints (1920x1080 for landscape)\n<Image\n  src={slide.url}\n  alt={i === current ? slide.labelEn : `${slide.labelEn} slide preview`}\n  fill\n  className=\"object-cover\"\n  priority={i === 0}\n  quality={i === current ? 90 : 60}  // Lower quality for non-active slides\n  loading={i === 0 ? 'eager' : 'lazy'}\n  sizes=\"(max-width: 768px) 100vw, 100vw\"\n  onLoad={(result) => {\n    if (result.naturalWidth) {\n      // Image loaded successfully\n    }\n  }}\n/>\n```\n\nAlso optimize Unsplash URLs with more specific parameters:\n\n```jsx\nconst heroSlides = [\n  {\n    url: 'https://images.unsplash.com/photo-1540541338287-41700207dee6?w=1440&q=85&fm=webp',\n    // ... rest of slide config\n  },\n];\n```\n\n---\n\n#### 6. No Preloading for Next Slide (MEDIUM)\n**Severity:** Medium\n**Impact:** Jank when transitioning to next slide if it hasn't loaded yet\n\n**Problem:**\n- Slides load on-demand when they become current\n- 5-second auto-rotate may show blank slide if image hasn't loaded\n- No preloading strategy for upcoming slides\n\n**Recommendation:**\nAdd preloading effect:\n\n```jsx\nuseEffect(() => {\n  // Preload next slide image\n  const nextIndex = (current + 1) % heroSlides.length;\n  const nextSlide = heroSlides[nextIndex];\n\n  if (typeof window !== 'undefined' && nextSlide) {\n    const link = document.createElement('link');\n    link.rel = 'preload';\n    link.as = 'image';\n    link.href = nextSlide.url;\n    document.head.appendChild(link);\n  }\n}, [current]);\n```\n\n---\n\n#### 7. Unoptimized Animation Performance (MEDIUM)\n**Severity:** Medium\n**Impact:** Scale transforms on hover can cause layout thrashing\n\n**Problem:**\n- Line 80: `hover:scale-105` on button causes layout recalculation\n- Scale transforms trigger repaints and can stutter on mobile\n- Should use opacity or shadow instead\n\n**Recommendation:**\nReplace scale with opacity or shadow:\n\n```jsx\n<Link\n  href={`/${locale}/projects`}\n  className=\"px-6 sm:px-8 py-3 sm:py-4 bg-green-600 text-white font-semibold rounded-full\n    hover:bg-green-500 hover:shadow-2xl transition-all hover:opacity-90\n    shadow-lg text-sm sm:text-base\"\n>\n```\n\nOr use shadow expansion instead:\n```jsx\nclassName=\"... shadow-lg hover:shadow-2xl transition-shadow duration-300 ...\"\n```\n\n---\n\n### UX ISSUES\n\n#### 8. Hover State Causes Layout Shift on Mobile (HIGH)\n**Severity:** High\n**Impact:** Buttons shift position on touch/tap on mobile devices\n\n**Problem:**\n- Line 80, 86: Both buttons use `hover:scale-105`\n- On touch devices, this creates visual jank\n- Touch is not a hover event; scale happens on :active instead\n\n**Recommendation:**\nUse media query to disable scale on touch devices:\n\n```jsx\nclassName=\"px-6 sm:px-8 py-3 sm:py-4 bg-green-600 text-white font-semibold rounded-full\n  hover:bg-green-500 transition-all shadow-lg text-sm sm:text-base\n  [@media(hover:hover)]:hover:shadow-2xl\n  [@media(hover:hover)]:hover:opacity-90\"\n```\n\nOr in separate hook:\n```jsx\nconst isHoverCapable = typeof window !== 'undefined'\n  && window.matchMedia('(hover: hover)').matches;\n\n// Conditional class\nclassName={`... ${isHoverCapable ? 'hover:shadow-2xl' : ''}`}\n```\n\n---\n\n#### 9. Dot Indicator Touch Target Size (MEDIUM)\n**Severity:** Medium\n**Impact:** Difficult to tap on mobile; WCAG requires 44x44px minimum\n\n**Problem:**\n- Line 129-140: Dot indicators are only ~10px wide\n- `py-3` adds vertical padding but dots are still hard to target\n- Touch target is visually tiny\n\n**Current Code:**\n```jsx\n<span className={`block h-1 rounded-full transition-all duration-500\n  ${i === current ? 'w-8 bg-green-400' : 'w-2 bg-white/30 hover:bg-white/60'}`} />\n```\n\n**Recommendation:**\nAdd minimum touch target with hidden area:\n\n```jsx\n<button\n  key={i}\n  onClick={() => setCurrent(i)}\n  aria-label={`Go to slide ${i + 1}: ${slide.labelEn}`}\n  className=\"p-3 flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-white rounded-full\"\n>\n  <span className={`block h-1.5 rounded-full transition-all duration-500\n    ${i === current ? 'w-8 bg-green-400' : 'w-2 bg-white/30 hover:bg-white/60'}`} />\n</button>\n```\n\nThis creates 44x44px touch target while keeping visual dot small.\n\n---\n\n#### 10. Scroll Indicator Misleads on Mobile (MEDIUM)\n**Severity:** Medium\n**Impact:** Users on mobile can't scroll content that's below fold\n\n**Problem:**\n- Line 95-107: Scroll indicator appears even when hero section fills entire viewport\n- On mobile, content below hero might not be reachable\n- Indicator suggests scrolling but unclear if more content exists\n\n**Recommendation:**\nAdd context or visibility condition:\n\n```jsx\n{/* Only show on desktop or when content extends below fold */}\n{typeof window !== 'undefined' && window.innerHeight < document.documentElement.scrollHeight && (\n  <motion.div\n    initial={{ opacity: 0 }}\n    animate={{ opacity: 1 }}\n    transition={{ duration: 1, delay: 1.5 }}\n    className=\"hidden sm:flex absolute bottom-24 left-1/2 -translate-x-1/2 z-10 flex-col items-center gap-1\"\n  >\n```\n\n---\n\n### VISUAL ISSUES\n\n#### 11. Green Color Contrast in Hero Badge (MEDIUM)\n**Severity:** Medium\n**Impact:** Text might not meet WCAG AA 4.5:1 contrast ratio\n\n**Problem:**\n- Line 68: `text-green-400` on background with gradient overlay\n- Green (#4ade80) against dark background might be borderline\n- Brand color `#16a34a` (green-600) is darker and safer\n\n**Current Code:**\n```jsx\n<p className=\"text-green-400 text-xs sm:text-sm font-semibold tracking-[0.3em] uppercase mb-4\">\n```\n\n**Recommendation:**\nUse more contrasting green or add text shadow:\n\n```jsx\n<p className=\"text-green-300 text-xs sm:text-sm font-semibold tracking-[0.3em] uppercase mb-4\n  drop-shadow-lg\">\n  Landscape Design & Construction\n</p>\n```\n\nOr use brand green with brightness filter:\n```jsx\n<p className=\"text-green-500 text-xs sm:text-sm font-semibold tracking-[0.3em] uppercase mb-4\n  drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]\">\n```\n\n---\n\n#### 12. Secondary Button Border Visibility (LOW)\n**Severity:** Low\n**Impact:** Border might blend with background in some lighting conditions\n\n**Problem:**\n- Line 86: `border-white/70` at 70% opacity\n- Against gradient background, border could be too subtle\n- White/70 might not be visible enough\n\n**Recommendation:**\nIncrease opacity or add shadow:\n\n```jsx\nclassName=\"px-6 sm:px-8 py-3 sm:py-4 border-2 border-white text-white font-semibold rounded-full\n  hover:bg-white hover:text-green-700 transition-all shadow-md\n  focus:outline-none focus:ring-2 focus:ring-yellow-300 focus:ring-offset-2\"\n```\n\n---\n\n#### 13. Text Shadow on White Text Over Complex Background (LOW)\n**Severity:** Low\n**Impact:** Text readability varies across different slide backgrounds\n\n**Problem:**\n- White text (Line 71, 74) might have contrast issues over bright slide content\n- No text shadow or background treatment for readability\n- Gradient overlay helps but could be optimized per slide\n\n**Recommendation:**\nAdd text shadow for better readability:\n\n```jsx\n<h1 className=\"font-display text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold text-white\n  max-w-4xl leading-tight mb-4 md:mb-6\n  drop-shadow-[0_2px_8px_rgba(0,0,0,0.6)]\">\n  {t('title')}\n</h1>\n\n<p className=\"text-white/90 text-base md:text-xl max-w-2xl mx-auto mb-8 md:mb-10 leading-relaxed\n  drop-shadow-[0_1px_4px_rgba(0,0,0,0.6)]\">\n  {t('subtitle')}\n</p>\n```\n\n---\n\n## Priority Ranking Summary\n\n| Priority | Issue | Category | Line(s) |\n|----------|-------|----------|---------|\n| **CRITICAL** | Missing Focus States | Accessibility | 78-89, 131-139 |\n| **HIGH** | No Reduced Motion Support | Accessibility | 49-107 |\n| **HIGH** | Missing Image Optimization | Performance | 56 |\n| **HIGH** | Hover Scale Causes Layout Shift | UX | 80, 86 |\n| **MEDIUM** | Missing Alt Text on Badge | Accessibility | 68-70 |\n| **MEDIUM** | Dot Button Accessibility | Accessibility | 131-139 |\n| **MEDIUM** | No Slide Preloading | Performance | 48-58 |\n| **MEDIUM** | Unoptimized Animation | Performance | 80, 86 |\n| **MEDIUM** | Dot Touch Target Size | UX | 129-140 |\n| **MEDIUM** | Scroll Indicator Misleading | UX | 95-107 |\n| **MEDIUM** | Green Badge Contrast | Visual | 68 |\n| **LOW** | Secondary Button Border | Visual | 86 |\n| **LOW** | Text Shadow for Readability | Visual | 71, 74 |\n\n---\n\n## Implementation Priority Roadmap\n\n### Phase 1: Critical Fixes (Do First)\n1. Add focus rings to all interactive elements\n2. Implement reduced motion support\n3. Fix hover scale causing layout shift\n\n### Phase 2: High-Priority Fixes (Do Next)\n4. Optimize image loading and sizing\n5. Add slide preloading logic\n6. Improve animation performance\n\n### Phase 3: Medium-Priority Fixes (Polish)\n7. Improve touch target sizing\n8. Add better alt text and semantic HTML\n9. Enhance color contrast\n\n### Phase 4: Low-Priority Fixes (Nice to Have)\n10. Add text shadows for readability\n11. Improve secondary button visibility\n\n---\n\n## Code Quality Recommendations\n\n### General Architecture\n- Component structure is clean and well-organized\n- Good use of Framer Motion for complex animations\n- Proper locale handling with next-intl\n\n### Improvements\n1. Extract animation variants to constants\n2. Consider extracting button component to DRY code\n3. Add TypeScript types for slide data\n4. Consider storing animation durations as constants for consistency\n\n---\n\n## Testing Checklist\n\nBefore deployment, verify:\n\n- [ ] Keyboard navigation works through all buttons\n- [ ] Focus rings visible in all color schemes\n- [ ] Test with `prefers-reduced-motion: reduce` enabled\n- [ ] Images load correctly on slow 3G\n- [ ] Test responsive breakpoints: 375px, 640px, 768px, 1024px, 1440px\n- [ ] Verify color contrast with WebAIM tool\n- [ ] Test slide transitions on mobile devices\n- [ ] Verify touch targets are at least 44x44px\n- [ ] Test with screen reader (NVDA/JAWS on Windows, VoiceOver on Mac)\n- [ ] Verify alt text on all images\n\n---\n\n## Summary\n\nThe HeroSection component has a solid visual foundation with good responsive design and animation polish. The main issues center on **accessibility compliance** (focus states, reduced motion) and **performance optimization** (image loading, animation efficiency).\n\nAddressing the Critical and High-priority items will significantly improve usability for keyboard users, users with motion sensitivity, and overall page performance. The Medium-priority fixes will polish the interaction experience and ensure WCAG AA compliance.\n\n**Recommended Action:** Prioritize Phase 1 fixes (focus states and reduced motion) immediately, as these directly impact accessibility and legal compliance.\n"}], "grading": null}, {"id": "eval-hero-review-without_skill", "prompt": "Review the HeroSection component at src/components/HeroSection.tsx in the FAM landscape company Next.js project and give a detailed UI/UX analysis with specific issues and improvements.", "eval_id": 0, "outputs": [{"name": "review.md", "type": "text", "content": "# HeroSection Component UI/UX Review\n**Project:** FAM Landscape Company (Next.js + Tailwind CSS + Framer Motion)\n**Component Path:** `/src/components/HeroSection.tsx`\n**Review Date:** 2026-04-07\n\n---\n\n## Overall Assessment\n\nThe HeroSection component demonstrates **solid foundational design** with smooth animations, responsive behavior, and i18n support. However, it suffers from **critical accessibility gaps**, subtle performance concerns, and visual hierarchy issues that impact usability, especially on mobile devices. The component requires immediate attention to WCAG compliance and mobile UX refinement.\n\n**Grade:** B- (Good structure, significant improvements needed)\n\n---\n\n## Issues Found\n\n### \ud83d\udd34 CRITICAL PRIORITY\n\n#### 1. **Missing ARIA Labels and Semantic HTML (Accessibility)**\n- **Issue:** The hero section lacks proper heading hierarchy and ARIA landmarks. The main title `<h1>` is styled content-only; there's no `<section>` with explicit role or aria-label.\n- **Impact:** Screen reader users cannot understand the section's purpose. Automated accessibility checkers flag this as WCAG 2.1 Level A violation.\n- **Example Problems:**\n  - No `aria-label` on the carousel/section\n  - Slide indicators have basic `aria-label` but carousel mechanism has no announced state changes\n  - Auto-playing carousel without pause/resume mechanism\n\n**Location:** Line 47 (section), Line 48-58 (carousel structure)\n\n**Improvement:**\n```jsx\n<section\n  className=\"relative h-screen overflow-hidden\"\n  aria-label=\"Hero section carousel with landscape portfolio\"\n  role=\"region\"\n>\n  {/* Add carousel status announcement */}\n  <div\n    role=\"status\"\n    aria-live=\"polite\"\n    aria-atomic=\"true\"\n    className=\"sr-only\"\n  >\n    Slide {current + 1} of {heroSlides.length}: {locale === 'vi' ? heroSlides[current].labelVi : heroSlides[current].labelEn}\n  </div>\n```\n\n---\n\n#### 2. **Auto-Playing Carousel Without Pause Control (Accessibility & UX)**\n- **Issue:** The carousel auto-rotates every 5 seconds with no user control to pause. This violates WCAG 2.1 Success Criterion 2.2.2 (Pause, Stop, Hide).\n- **Impact:** Users with cognitive disabilities, slow reading speed, or attempting to interact with content may miss information or feel rushed. No way to stop the animation.\n- **Current Code:** Lines 41-44 (timer runs indefinitely)\n\n**Improvement:**\n```jsx\nconst [isPaused, setIsPaused] = useState(false);\n\nuseEffect(() => {\n  if (isPaused) return;\n  const timer = setInterval(() => setCurrent((c) => (c + 1) % heroSlides.length), 5000);\n  return () => clearInterval(timer);\n}, [isPaused]);\n\n// Add pause button near scroll indicator or carousel controls\n// In JSX, add a button to toggle isPaused state:\n<button\n  onClick={() => setIsPaused(!isPaused)}\n  aria-label={isPaused ? \"Resume carousel\" : \"Pause carousel\"}\n  className=\"absolute bottom-10 right-10 z-10 px-4 py-2 bg-white/10 hover:bg-white/20 text-white text-sm rounded-full backdrop-blur-sm transition-colors\"\n>\n  {isPaused ? 'Resume' : 'Pause'}\n</button>\n```\n\n---\n\n#### 3. **Keyboard Navigation Broken for Carousel (Accessibility)**\n- **Issue:** Users cannot navigate the carousel via keyboard. Dot buttons are clickable but lack proper focus management. No support for arrow keys or other standard carousel shortcuts.\n- **Impact:** Keyboard-only and mobile users (using switch controls) cannot interact with the main navigation element.\n\n**Location:** Lines 129-140 (dot buttons lack focus styling)\n\n**Improvement:**\n```jsx\n<button\n  key={i}\n  onClick={() => setCurrent(i)}\n  onKeyDown={(e) => {\n    if (e.key === 'ArrowRight' && i < heroSlides.length - 1) setCurrent(i + 1);\n    if (e.key === 'ArrowLeft' && i > 0) setCurrent(i - 1);\n  }}\n  aria-label={`Go to slide ${i + 1}: ${slide.labelEn}`}\n  aria-current={i === current ? \"true\" : \"false\"}\n  className=\"py-3 flex items-center focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-offset-2 focus:ring-offset-black rounded transition-all\"\n>\n  <span className={`block h-1 rounded-full transition-all duration-500 ${\n    i === current\n      ? 'w-8 bg-green-400'\n      : 'w-2 bg-white/30 hover:bg-white/60 focus-visible:bg-white/80'\n  }`} />\n</button>\n```\n\n---\n\n#### 4. **Image Alt Text Uses Only English (Accessibility & Localization)**\n- **Issue:** Image alt text (line 56) only uses `labelEn`, missing localized context for Vietnamese users.\n- **Impact:** Vietnamese screen reader users get English descriptions regardless of language preference. Fails to provide equivalent information.\n\n**Location:** Line 56\n\n**Improvement:**\n```jsx\nalt={locale === 'vi' ? slide.labelVi : slide.labelEn}\n```\n\n---\n\n### \ud83d\udfe0 HIGH PRIORITY\n\n#### 5. **Contrast Ratio Issues with Text Overlays (Accessibility)**\n- **Issue:** Several text elements have insufficient color contrast ratios:\n  - \"Landscape Design & Construction\" (line 68): `text-green-400` on dark overlay may be 3.5:1 (WCAG AA requires 4.5:1 for normal text)\n  - Scroll indicator text (line 101): `text-white/40` (approximately 2.5:1 against background)\n  - Bottom label numbers (line 119): `text-white/40` (insufficient contrast)\n\n**Impact:** Users with low vision or color blindness struggle to read critical information.\n\n**Improvement:**\n```jsx\n{/* Original - insufficient contrast */}\n<p className=\"text-green-400 text-xs sm:text-sm font-semibold tracking-[0.3em] uppercase mb-4\">\n\n{/* Improved - stronger contrast, better readability */}\n<p className=\"text-green-300 text-xs sm:text-sm font-semibold tracking-[0.3em] uppercase mb-4 drop-shadow-lg\">\n\n{/* Scroll indicator - improve contrast */}\n<span className=\"text-white/60 text-[9px] tracking-[0.3em] uppercase font-medium drop-shadow\">\n\n{/* Bottom label numbers */}\n<span className=\"text-[10px] tracking-[0.3em] text-white/60 uppercase font-medium drop-shadow-sm\">\n```\n\n---\n\n#### 6. **Missing Focus Ring on Primary CTA Button (Accessibility)**\n- **Issue:** Primary button (line 80) lacks visible focus indicator for keyboard navigation.\n- **Impact:** Keyboard users cannot visually identify when they've tabbed to the button.\n\n**Location:** Lines 78-83\n\n**Improvement:**\n```jsx\n<Link\n  href={`/${locale}/projects`}\n  className=\"px-6 sm:px-8 py-3 sm:py-4 bg-green-600 text-white font-semibold rounded-full hover:bg-green-500 transition-all hover:scale-105 shadow-lg text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-black focus:ring-green-300\"\n>\n```\n\n---\n\n#### 7. **Mobile Text Sizing and Readability Issues (UX)**\n- **Issue:** On small phones (320px width), the hero title jumps from `text-3xl` to `text-4xl` (sm breakpoint). This creates awkward scaling gaps.\n- **Example:** iPhone SE (375px) uses `text-3xl` which may appear cramped, while iPhone 12 (390px) jumps to `text-4xl`.\n- **Current:** Line 71 (`text-3xl sm:text-4xl md:text-6xl lg:text-7xl`)\n\n**Impact:** Poor visual hierarchy on mid-range mobile devices; text-to-container ratio feels off.\n\n**Improvement:**\n```jsx\n<h1 className=\"font-display text-2xl sm:text-3xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-white max-w-4xl leading-tight mb-4 md:mb-6\">\n```\n\n---\n\n#### 8. **CTA Button Styling Inconsistency (Visual/UX)**\n- **Issue:** Primary button uses `hover:scale-105`, but secondary button also uses the same animation. On touch devices (mobile), this scaling can cause:\n  - Layout shift after interaction (reflow)\n  - Accessibility issue: scale transform can be disorienting for some users\n  - Inconsistent visual feedback (secondary inherits same scale on hover)\n\n**Location:** Lines 80, 86\n\n**Improvement:**\n```jsx\n{/* Primary button - subtle lift effect */}\n<Link\n  href={`/${locale}/projects`}\n  className=\"px-6 sm:px-8 py-3 sm:py-4 bg-green-600 text-white font-semibold rounded-full hover:bg-green-500 hover:shadow-xl active:scale-95 transition-all duration-200 shadow-lg text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-black focus:ring-green-300\"\n>\n\n{/* Secondary button - inverted colors on hover, no scale */}\n<Link\n  href={`/${locale}/about`}\n  className=\"px-6 sm:px-8 py-3 sm:py-4 border-2 border-white/70 text-white font-semibold rounded-full hover:bg-white/10 hover:border-white active:scale-95 transition-all duration-200 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-black focus:ring-green-300\"\n>\n```\n\n---\n\n#### 9. **Inconsistent Gradient Overlay Intensity (Visual)**\n- **Issue:** The background overlay (line 59) uses `from-black/50 via-black/20 to-black/70`, creating three different opacity levels. On light-colored landscape photos, the center area becomes too bright, causing text contrast to drop significantly.\n- **Impact:** Text readability varies across the hero section based on background image colors.\n\n**Location:** Line 59\n\n**Improvement:**\n```jsx\n{/* Stronger, more consistent overlay */}\n<div className=\"absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/70\" />\n\n{/* Alternative: Add subtle vignette for extra protection around edges */}\n<div className=\"absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/70\" />\n<div className=\"absolute inset-0 bg-radial-gradient from-transparent to-black/20\" />\n```\n\n---\n\n### \ud83d\udfe1 MEDIUM PRIORITY\n\n#### 10. **Performance: Image Loading Strategy (Performance)**\n- **Issue:** All 5 images are loaded with `priority={i === 0}`, but only the first image gets `priority={true}`. Remaining images load without priority, causing staggered rendering of slides 2-5.\n- **Impact:** Visible flashing/pop-in when cycling through slides; poor perceived performance.\n\n**Location:** Line 56\n\n**Improvement:**\n```jsx\n<Image\n  src={slide.url}\n  alt={locale === 'vi' ? slide.labelVi : slide.labelEn}\n  fill\n  className=\"object-cover\"\n  priority={i < 2} // Load first two slides with priority\n  sizes=\"100vw\" // Add explicit sizes prop for Next.js Image optimization\n  quality={90} // Already in URL params, but good to add here too\n/>\n```\n\n---\n\n#### 11. **Motion Animation Performance on Low-End Devices (Performance)**\n- **Issue:** The carousel uses Framer Motion with continuous opacity and scale animations across 5 slides. On low-end mobile devices, this can cause frame drops and battery drain.\n- **Current:** Lines 52-54 use `duration: 1.8` with ease animation on ALL slides simultaneously.\n\n**Impact:** Janky animations on older iPhones (iPhone 7) and Android budget phones; poor UX for a significant user segment.\n\n**Improvement:**\n```jsx\n{/* Only animate the active slide and previous slide for better performance */}\n<motion.div\n  key={slide.url}\n  className=\"absolute inset-0\"\n  initial={{ opacity: i === 0 ? 1 : 0, scale: i === 0 ? 1 : 1.05 }}\n  animate={{\n    opacity: i === current ? 1 : 0,\n    scale: i === current ? 1 : 1.05\n  }}\n  transition={{\n    duration: 1.2, // Reduced from 1.8\n    ease: 'easeInOut'\n  }}\n  // Add will-change for hardware acceleration\n  style={{ willChange: 'opacity, transform' }}\n>\n```\n\n---\n\n#### 12. **Scroll Indicator Only Visible on Small Screens (UX Inconsistency)**\n- **Issue:** Scroll indicator is hidden on mobile (`hidden sm:flex`), but this is backwards for UX. Mobile users benefit MORE from a scroll indicator since they often don't realize content exists below the fold.\n- **Current:** Line 99 (`hidden sm:flex`)\n\n**Impact:** Mobile users, who are least likely to know about scrollable content, get no indicator.\n\n**Improvement:**\n```jsx\n{/* Make scroll indicator visible on ALL screens, but adjust positioning */}\n<motion.div\n  initial={{ opacity: 0 }}\n  animate={{ opacity: 1 }}\n  transition={{ duration: 1, delay: 1.5 }}\n  className=\"absolute bottom-20 sm:bottom-24 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-1\"\n>\n  <span className=\"text-white/50 text-[9px] sm:text-[10px] tracking-[0.3em] uppercase font-medium\">Scroll</span>\n  <motion.div\n    animate={{ y: [0, 6, 0] }}\n    transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}\n    className=\"w-px h-6 bg-gradient-to-b from-white/60 to-white/20\"\n  />\n</motion.div>\n```\n\n---\n\n#### 13. **Dot Indicator Spacing and Tap Target Size (Accessibility)**\n- **Issue:** Dot buttons have `py-3` for vertical tap target (28px), but horizontal spacing (`gap-2` = 8px) creates only ~10px horizontal tap targets on the dots themselves. WCAG 2.5.5 recommends 44x44px minimum.\n- **Current:** Lines 129-140, specifically line 137 (`w-2` = 8px width when inactive)\n\n**Impact:** On mobile, users with motor control challenges (tremor, large fingers) struggle to click the correct dot.\n\n**Improvement:**\n```jsx\n<div className=\"flex gap-3 sm:gap-4 items-center\">\n  {heroSlides.map((slide, i) => (\n    <button\n      key={i}\n      onClick={() => setCurrent(i)}\n      aria-label={`Go to slide ${i + 1}: ${slide.labelEn}`}\n      aria-current={i === current ? \"true\" : \"false\"}\n      className=\"px-3 py-3 flex items-center focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-offset-2 focus:ring-offset-black rounded\"\n    >\n      <span className={`block h-1.5 rounded-full transition-all duration-500 ${\n        i === current\n          ? 'w-8 bg-green-400'\n          : 'w-3 bg-white/30 hover:bg-white/60'\n      }`} />\n    </button>\n  ))}\n</div>\n```\n\n---\n\n#### 14. **Translation Key Dependencies Without Fallback (UX Risk)**\n- **Issue:** Component relies on translation keys (`t('title')`, `t('subtitle')`, `t('cta')`, `t('ctaSecondary')`) without fallback text or error handling.\n- **Impact:** If translation file is missing or incomplete, users see empty headings or broken CTAs. No graceful degradation.\n\n**Location:** Lines 72, 75, 82, 88\n\n**Improvement:**\n```jsx\n<h1 className=\"...\">\n  {t('title') || 'Premium Landscape Design & Construction'}\n</h1>\n\n<p className=\"...\">\n  {t('subtitle') || 'Transform outdoor spaces into living masterpieces'}\n</p>\n\n<button>\n  {t('cta') || 'View Projects'}\n</button>\n```\n\n---\n\n#### 15. **Missing Intersection Observer for Lazy Animation (Performance)**\n- **Issue:** Framer Motion animations start immediately on page load, even if the user is viewing another section. This wastes CPU/GPU cycles on animations not currently visible.\n- **Impact:** Unnecessary power consumption; animations may stutter if other page elements are loading simultaneously.\n\n**Improvement:**\n```jsx\nimport { useInView } from 'react-intersection-observer';\n\nexport default function HeroSection() {\n  const { ref, inView } = useInView({ threshold: 0.5 });\n\n  return (\n    <section ref={ref} className=\"relative h-screen overflow-hidden\">\n      {inView && (\n        <motion.div\n          initial={{ opacity: 0, y: 40 }}\n          animate={{ opacity: 1, y: 0 }}\n          // ... rest of animation\n        />\n      )}\n    </section>\n  );\n}\n```\n\n---\n\n### \ud83d\udfe2 LOW PRIORITY\n\n#### 16. **Green Color Choice Doesn't Meet Brand Spec (Visual)**\n- **Issue:** Component uses `text-green-400` (bright lime) and `bg-green-600` (medium green). The brief specifies brand green as `#16a34a` (which is `green-600` in Tailwind). Primary button color is correct, but accent text color is off-brand.\n- **Impact:** Minor brand inconsistency; primary color is correct but decorative text uses wrong shade.\n\n**Location:** Lines 68, 80, 137\n\n**Current vs. Brand:**\n- Primary button: `bg-green-600` \u2713 Correct (#16a34a)\n- Accent text: `text-green-400` \u2717 Wrong (should be `green-600` or lighter variant of brand)\n- Active indicator dot: `bg-green-400` \u2717 Should be `bg-green-600`\n\n**Improvement:**\n```jsx\n{/* Accent text - use proper brand color */}\n<p className=\"text-green-500 text-xs sm:text-sm font-semibold tracking-[0.3em] uppercase mb-4\">\n\n{/* Active dot indicator */}\n<span className={`block h-1 rounded-full transition-all duration-500 ${\n  i === current\n    ? 'w-8 bg-green-600' {/* Brand green instead of green-400 */}\n    : 'w-2 bg-white/30 hover:bg-white/60'\n}`} />\n```\n\n---\n\n#### 17. **Unused Import: `useEffect` Unnecessary State (Code Quality)**\n- **Issue:** Minor: `useEffect` is properly used. No issue here.\n- **Status:** \u2713 PASS\n\n---\n\n#### 18. **No Loading State for Images During Transition (UX Polish)**\n- **Issue:** As slides change, the Next.js Image component reloads external Unsplash images. There's no skeleton loader or fade-in strategy to mask the load time.\n- **Impact:** Users may see blank space for 100-300ms between slides if image hasn't cached.\n\n**Improvement:**\n```jsx\n{/* Option 1: Use Next.js blurDataURL */}\n<Image\n  src={slide.url}\n  alt={locale === 'vi' ? slide.labelVi : slide.labelEn}\n  fill\n  className=\"object-cover\"\n  placeholder=\"blur\"\n  blurDataURL=\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1920 1080'%3E%3Crect fill='%23333333' width='1920' height='1080'/%3E%3C/svg%3E\"\n  priority={i < 2}\n  sizes=\"100vw\"\n/>\n```\n\n---\n\n## Summary Table\n\n| Priority | Category | Issue | Status |\n|----------|----------|-------|--------|\n| CRITICAL | Accessibility | Missing ARIA labels & semantic HTML | \u26a0\ufe0f Needs Fix |\n| CRITICAL | Accessibility | Auto-play without pause control | \u26a0\ufe0f Needs Fix |\n| CRITICAL | Accessibility | Broken keyboard navigation | \u26a0\ufe0f Needs Fix |\n| CRITICAL | Accessibility | Alt text not localized | \u26a0\ufe0f Needs Fix |\n| HIGH | Accessibility | Insufficient text contrast | \u26a0\ufe0f Needs Fix |\n| HIGH | Accessibility | Missing focus ring on CTA | \u26a0\ufe0f Needs Fix |\n| HIGH | UX | Mobile text sizing gaps | \u26a0\ufe0f Needs Fix |\n| HIGH | UX/Visual | Inconsistent button hover animations | \u26a0\ufe0f Needs Fix |\n| HIGH | Visual | Gradient overlay inconsistency | \u26a0\ufe0f Needs Fix |\n| MEDIUM | Performance | Image loading strategy | \u26a0\ufe0f Needs Optimization |\n| MEDIUM | Performance | Animation performance on low-end devices | \u26a0\ufe0f Needs Optimization |\n| MEDIUM | UX | Scroll indicator visibility logic | \u26a0\ufe0f Needs Adjustment |\n| MEDIUM | Accessibility | Small tap target for dots | \u26a0\ufe0f Needs Fix |\n| MEDIUM | UX | Translation key fallback missing | \u26a0\ufe0f Needs Safeguard |\n| MEDIUM | Performance | Missing intersection observer | \u26a0\ufe0f Needs Optimization |\n| LOW | Visual | Off-brand green accent color | \u2139\ufe0f Minor Inconsistency |\n| LOW | UX Polish | No loading state for images | \u2139\ufe0f Nice-to-have |\n\n---\n\n## Recommended Action Plan\n\n### Phase 1: Critical Fixes (Must Do)\n1. Add ARIA labels, roles, and screen reader announcements\n2. Implement carousel pause/resume button\n3. Add keyboard navigation (arrow keys) to dot indicators\n4. Fix image alt text localization\n5. Ensure WCAG AA contrast ratios on all text\n\n**Estimated Time:** 2-3 hours\n\n### Phase 2: High Priority (Should Do)\n6. Add focus rings to CTA buttons\n7. Fix mobile text sizing with intermediate breakpoints\n8. Refine button hover states (remove scale, add shadow instead)\n9. Adjust gradient overlay for consistent contrast\n10. Update accent colors to match brand spec\n\n**Estimated Time:** 2-3 hours\n\n### Phase 3: Medium Priority (Could Do)\n11. Optimize image loading with priority flags and sizes\n12. Add will-change for animation performance\n13. Add intersection observer for animation timing\n14. Increase dot indicator tap targets\n15. Add translation key fallbacks\n\n**Estimated Time:** 2 hours\n\n### Phase 4: Polish (Nice-to-Have)\n16. Add blur placeholder for image transitions\n17. Reconsider scroll indicator visibility on mobile\n\n**Estimated Time:** 1 hour\n\n---\n\n## WCAG Compliance Status\n\n| Criterion | Level | Status | Note |\n|-----------|-------|--------|------|\n| 1.1.1 Non-text Content | A | \u274c FAIL | Alt text not localized |\n| 1.4.3 Contrast (Minimum) | AA | \u274c FAIL | Multiple elements below 4.5:1 |\n| 2.1.1 Keyboard | A | \u274c FAIL | No keyboard nav for carousel |\n| 2.2.2 Pause, Stop, Hide | A | \u274c FAIL | Auto-play without pause control |\n| 2.4.7 Focus Visible | AA | \u274c FAIL | No focus ring on buttons |\n| 2.5.5 Target Size | AAA | \u274c FAIL | Dot indicators too small |\n| 4.1.2 Name, Role, Value | A | \u274c FAIL | Missing ARIA attributes |\n\n**Overall WCAG Status:** Currently does NOT meet AA standards. Critical remediation required.\n\n---\n\n## Conclusion\n\nThe HeroSection component has strong visual design and smooth animations, but **critical accessibility gaps prevent it from meeting WCAG standards**. The issues are fixable with targeted improvements focusing on keyboard navigation, semantic HTML, contrast ratios, and ARIA attributes. Priority should be given to accessibility (Phases 1-2) before pursuing polish enhancements.\n"}], "grading": null}, {"id": "eval-footer-improvement-with_skill", "prompt": "Review the Navbar component at src/components/Navbar.tsx in the FAM landscape company Next.js project. Check for accessibility issues, mobile UX problems, and visual improvements.", "eval_id": 1, "outputs": [{"name": "review.md", "type": "text", "content": "# Navbar Component UI/UX Review\n**Project:** FAM Landscape Company\n**Component:** Navbar.tsx\n**Stack:** Next.js + Tailwind CSS + Framer Motion\n**Brand Color:** Green (#16a34a)\n**Review Date:** 2026-04-07\n\n---\n\n## Executive Summary\n\nThe Navbar component demonstrates solid design principles with smooth animations and responsive behavior. However, there are critical accessibility gaps and several mobile UX improvements needed to meet WCAG standards and provide an optimal user experience across all devices. This review identifies 12 issues categorized by severity: 3 critical, 4 high, and 5 medium.\n\n---\n\n## 1. ACCESSIBILITY ISSUES (CRITICAL PRIORITY)\n\n### 1.1 Missing Focus States on Interactive Elements\n**Severity:** CRITICAL\n**Impact:** Keyboard users cannot visually identify which element has focus\n\n**Current State:**\n- Desktop nav links lack visible focus rings\n- Mobile drawer links lack focus management\n- Language switcher button has no focus styles\n- Hamburger button has no focus indicator\n\n**Issues:**\n- Tab navigation works but provides no visual feedback\n- Users navigating via keyboard cannot see where they are\n- Violates WCAG 2.4.7 Focus Visible\n\n**Code Fix - Desktop Links:**\n```tsx\n// BEFORE\nclassName={`relative px-3 py-1.5 text-[11px] font-medium tracking-widest uppercase transition-colors rounded-md ${...}`}\n\n// AFTER - Add focus ring\nclassName={`relative px-3 py-1.5 text-[11px] font-medium tracking-widest uppercase transition-colors rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 ${\n  isActive(link.href)\n    ? scrolled\n      ? 'text-green-600 focus:ring-green-600 focus:ring-offset-white'\n      : 'text-green-400 focus:ring-green-400 focus:ring-offset-transparent'\n    : scrolled\n      ? 'text-gray-600 hover:text-gray-900 focus:ring-green-600'\n      : 'text-white/80 hover:text-white focus:ring-green-400'\n}`}\n```\n\n**Code Fix - Hamburger Button:**\n```tsx\n// BEFORE\nclassName={`lg:hidden w-10 h-10 flex flex-col items-center justify-center gap-[5px] rounded-md transition-colors ${...}`}\n\n// AFTER - Add focus ring\nclassName={`lg:hidden w-10 h-10 flex flex-col items-center justify-center gap-[5px] rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-2 ${\n  scrolled\n    ? 'text-gray-700 hover:bg-gray-100 focus:ring-green-600'\n    : 'text-white hover:bg-white/10 focus:ring-green-400'\n}`}\n```\n\n**Code Fix - Mobile Drawer Close Button:**\n```tsx\n// BEFORE\nclassName=\"w-8 h-8 flex items-center justify-center rounded-md text-gray-400 hover:text-white hover:bg-white/10 transition-colors\"\n\n// AFTER\nclassName=\"w-8 h-8 flex items-center justify-center rounded-md text-gray-400 hover:text-white hover:bg-white/10 transition-colors focus:outline-none focus:ring-2 focus:ring-green-500\"\n```\n\n---\n\n### 1.2 Missing aria-label for Language Switcher Button\n**Severity:** CRITICAL\n**Impact:** Screen reader users cannot understand button purpose\n\n**Current State:**\n```tsx\n<Link\n  href={switchPath}\n  className={`hidden sm:flex items-center gap-2 ...`}\n>\n  {/* No aria-label - semantic meaning unclear */}\n```\n\n**Issue:**\n- Language switcher is a Link, not a button, making intent unclear\n- No aria-label to describe the action\n- Screen reader announces \"VN\" or \"EN\" without context\n- Violates WCAG 1.3.1 Info and Relationships\n\n**Code Fix:**\n```tsx\n// BEFORE\n<Link\n  href={switchPath}\n  className={`hidden sm:flex items-center gap-2 ...`}\n>\n\n// AFTER - Add aria-label\n<Link\n  href={switchPath}\n  aria-label={`Switch language to ${otherLocale === 'vi' ? 'Vietnamese' : 'English'}`}\n  className={`hidden sm:flex items-center gap-2 ...`}\n>\n```\n\nAlso add to mobile language switcher:\n```tsx\n<Link\n  key={lang}\n  href={path}\n  onClick={() => setMobileOpen(false)}\n  aria-label={`Switch to ${lang === 'vi' ? 'Vietnamese' : 'English'}`}\n  aria-current={active ? 'page' : undefined}\n  className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-lg text-xs font-semibold tracking-widest uppercase transition-colors ${...}`}\n>\n```\n\n---\n\n### 1.3 Missing Skip to Main Content Link\n**Severity:** HIGH\n**Impact:** Keyboard users must tab through all nav links before reaching content\n\n**Current State:**\n- No skip link implemented\n- 7 nav items + language switcher = 8+ tabs to reach main content\n\n**Issue:**\n- Violates WCAG 2.4.1 Bypass Blocks\n- Poor keyboard navigation experience\n- Every page visit requires tabbing through entire navigation\n\n**Code Fix - Add at start of navbar:**\n```tsx\n// Add skip link component at beginning of nav\n<a\n  href=\"#main-content\"\n  className=\"absolute -top-12 left-0 bg-green-600 text-white px-4 py-2 rounded-md focus:top-4 transition-all z-50 font-medium\"\n  onClick={(e) => {\n    e.preventDefault();\n    const mainContent = document.getElementById('main-content');\n    mainContent?.focus();\n    mainContent?.scrollIntoView({ behavior: 'smooth' });\n  }}\n>\n  Skip to main content\n</a>\n\n// Then ensure your main content has id=\"main-content\"\n// In your layout or page component:\n<main id=\"main-content\" tabIndex={-1} className=\"focus:outline-none\">\n```\n\n---\n\n## 2. MOBILE UX ISSUES (HIGH PRIORITY)\n\n### 2.1 Mobile Drawer Missing Escape Key Handler\n**Severity:** HIGH\n**Impact:** Mobile users cannot close menu with standard keyboard shortcut\n\n**Current State:**\n```tsx\n// Only onClick handler exists\nonClick={() => setMobileOpen(false)}\n```\n\n**Issue:**\n- Mobile drawer doesn't close when user presses Escape\n- Standard UX expectation on mobile/modal overlays\n- Traps mobile users (on keyboard-enabled devices) in the menu\n- Affects accessibility on tablet devices with keyboard\n\n**Code Fix:**\n```tsx\nuseEffect(() => {\n  if (!mobileOpen) return;\n\n  const handleEscape = (e: KeyboardEvent) => {\n    if (e.key === 'Escape') {\n      setMobileOpen(false);\n    }\n  };\n\n  document.addEventListener('keydown', handleEscape);\n  return () => document.removeEventListener('keydown', handleEscape);\n}, [mobileOpen]);\n```\n\nAdd this to your useEffect hooks section (after line 60).\n\n---\n\n### 2.2 Mobile Drawer Has No Visible Close Button Label\n**Severity:** HIGH\n**Impact:** Non-obvious how to close menu for new users\n\n**Current State:**\n```tsx\n<button\n  onClick={() => setMobileOpen(false)}\n  className=\"w-8 h-8 flex items-center justify-center rounded-md text-gray-400 hover:text-white hover:bg-white/10 transition-colors\"\n>\n  <svg className=\"w-4 h-4\" fill=\"none\" stroke=\"currentColor\" strokeWidth={2} viewBox=\"0 0 24 24\">\n    <path strokeLinecap=\"round\" strokeLinejoin=\"round\" d=\"M6 18L18 6M6 6l12 12\" />\n  </svg>\n</button>\n```\n\n**Issue:**\n- Icon only, no text label\n- Touch target is small (32px, barely meets 44px minimum)\n- Not obvious what the button does without visual context\n- Violates touch target size guidelines\n\n**Code Fix:**\n```tsx\n<button\n  onClick={() => setMobileOpen(false)}\n  aria-label=\"Close navigation menu\"\n  className=\"p-2 w-10 h-10 flex items-center justify-center rounded-md text-gray-400 hover:text-white hover:bg-white/10 transition-colors focus:outline-none focus:ring-2 focus:ring-green-500\"\n  title=\"Close menu (Esc)\"\n>\n  <svg className=\"w-5 h-5\" fill=\"none\" stroke=\"currentColor\" strokeWidth={2} viewBox=\"0 0 24 24\">\n    <path strokeLinecap=\"round\" strokeLinejoin=\"round\" d=\"M6 18L18 6M6 6l12 12\" />\n  </svg>\n</button>\n```\n\nChanges:\n- Added `aria-label` for screen readers\n- Added `title` for hover tooltip\n- Increased icon size from w-4 h-4 to w-5 h-5\n- Added padding for better touch target (10x10 visual \u2192 40x40 tap zone)\n- Added focus ring\n\n---\n\n### 2.3 Mobile Drawer Touch Target Size Below Minimum\n**Severity:** HIGH\n**Impact:** Difficult to tap navigation items on touch devices\n\n**Current State:**\n```tsx\nclassName={`flex items-center justify-between px-3 py-3.5 rounded-lg mb-1 text-sm font-medium tracking-wide transition-colors group ${...}`}\n```\n\n**Issue:**\n- Touch target is px-3 py-3.5 = ~30-36px height\n- WCAG requires minimum 44x44px for mobile\n- Small targets cause mis-taps, especially for users with motor impairments\n- Language buttons at py-2.5 are even smaller\n\n**Code Fix - Mobile Navigation Links:**\n```tsx\n// BEFORE - 30-36px height\nclassName={`flex items-center justify-between px-3 py-3.5 rounded-lg mb-1 ...`}\n\n// AFTER - 44px+ minimum height\nclassName={`flex items-center justify-between px-4 py-3 rounded-lg mb-2 text-base font-medium tracking-wide transition-colors group min-h-[44px] ${...}`}\n```\n\n**Code Fix - Mobile Language Buttons:**\n```tsx\n// BEFORE - 28px height\nclassName={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-lg text-xs font-semibold tracking-widest uppercase transition-colors ${...}`}\n\n// AFTER - 48px height\nclassName={`flex-1 flex items-center justify-center gap-2 py-3.5 rounded-lg text-sm font-semibold tracking-widest uppercase transition-colors min-h-[48px] ${...}`}\n```\n\n---\n\n### 2.4 No Haptic/Loading Feedback on Link Clicks\n**Severity:** MEDIUM\n**Impact:** Mobile users lack tactile confirmation of action\n\n**Current State:**\n- Instant navigation with no intermediate feedback\n- Users may tap multiple times thinking nothing happened\n\n**Code Fix - Add Button Feedback with Framer Motion:**\n```tsx\nconst [tappedLink, setTappedLink] = useState<string | null>(null);\n\n// In mobile links:\n<Link\n  href={link.href}\n  onClick={() => {\n    setTappedLink(link.href);\n    setMobileOpen(false);\n  }}\n  className={`flex items-center justify-between px-4 py-3 rounded-lg mb-2 min-h-[44px] text-base font-medium tracking-wide transition-colors group ${...}`}\n>\n  <motion.span\n    animate={tappedLink === link.href ? { scale: 0.95 } : { scale: 1 }}\n    transition={{ duration: 0.2 }}\n  >\n    {link.label}\n  </motion.span>\n  {isActive(link.href) && (\n    <motion.span className=\"w-1.5 h-1.5 rounded-full bg-green-500\" />\n  )}\n</Link>\n```\n\n---\n\n## 3. VISUAL HIERARCHY & DESIGN ISSUES (MEDIUM PRIORITY)\n\n### 3.1 Inconsistent Navigation Link Font Sizes\n**Severity:** MEDIUM\n**Impact:** Desktop nav looks cramped; mobile nav lacks visual hierarchy\n\n**Current State:**\n```tsx\n// Desktop: text-[11px] - very small\nclassName={`relative px-3 py-1.5 text-[11px] font-medium ...`}\n\n// Mobile: text-sm - reasonable size\nclassName={`flex items-center justify-between px-3 py-3.5 rounded-lg mb-1 text-sm ...`}\n\n// Mobile buttons: text-xs - too small for touch\nclassName={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-lg text-xs ...`}\n```\n\n**Issue:**\n- 11px desktop nav is hard to read on larger screens\n- text-xs (12px) language buttons are below WCAG minimum of 14px\n- Inconsistent sizing across responsive breakpoints\n- Professional sites typically use 14px minimum for navigation\n\n**Code Fix - Desktop Navigation:**\n```tsx\n// Increase from text-[11px] to text-sm (14px)\nclassName={`relative px-4 py-2 text-sm font-medium tracking-wide uppercase transition-colors rounded-md ${...}`}\n```\n\n**Code Fix - Mobile Language Buttons:**\n```tsx\n// Increase from text-xs to text-sm\nclassName={`flex-1 flex items-center justify-center gap-2 py-3.5 rounded-lg text-sm font-semibold tracking-widest uppercase transition-colors min-h-[48px] ${...}`}\n```\n\n---\n\n### 3.2 Active Navigation Indicator Subtle on Dark Background\n**Severity:** MEDIUM\n**Impact:** Users cannot easily identify current page\n\n**Current State:**\n```tsx\n// Desktop active indicator\n{isActive(link.href) && (\n  <motion.span\n    layoutId=\"nav-dot\"\n    className={`absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full ${scrolled ? 'bg-green-600' : 'bg-green-400'}`}\n  />\n)}\n\n// Mobile active indicator\n{isActive(link.href) && (\n  <span className=\"w-1.5 h-1.5 rounded-full bg-green-500\" />\n)}\n```\n\n**Issue:**\n- Tiny 4px dot (w-1 h-1) is nearly invisible at typical viewing distances\n- Mobile indicator is slightly better but still subtle\n- Green on dark-gray/black has low contrast in some cases\n- Professional navigation typically uses bolder indicators\n\n**Code Fix - Desktop:**\n```tsx\n{isActive(link.href) && (\n  <motion.div\n    layoutId=\"nav-underline\"\n    className={`absolute -bottom-1 left-0 right-0 h-0.5 rounded-full ${scrolled ? 'bg-green-600' : 'bg-green-400'}`}\n    transition={{ type: 'spring', stiffness: 300, damping: 30 }}\n  />\n)}\n```\n\n**Code Fix - Mobile:**\n```tsx\n{isActive(link.href) && (\n  <div className=\"absolute right-3 w-2.5 h-2.5 rounded-full bg-green-500 shadow-lg\" />\n)}\n```\n\n---\n\n### 3.3 Hamburger Button Insufficient Touch Target on Small Phones\n**Severity:** MEDIUM\n**Impact:** Difficult to open menu on phones < 375px\n\n**Current State:**\n```tsx\nclassName={`lg:hidden w-10 h-10 flex flex-col items-center justify-center gap-[5px] ...`}\n```\n\n**Issue:**\n- 40px button is minimum (44px is recommended)\n- On small phones with padding, leaves minimal margin\n- No padding around button for accidental presses\n\n**Code Fix:**\n```tsx\nclassName={`lg:hidden p-2 w-auto h-auto flex flex-col items-center justify-center gap-1.5 rounded-md transition-colors focus:outline-none focus:ring-2 ${\n  scrolled\n    ? 'text-gray-700 hover:bg-gray-100 focus:ring-green-600'\n    : 'text-white hover:bg-white/10 focus:ring-green-400'\n}`}\n// This creates a 44x44 tap target while maintaining visual appearance\n```\n\n---\n\n## 4. CODE-LEVEL IMPROVEMENTS (RECOMMENDED)\n\n### 4.1 Use Next.js Link Correctly\n**Current:** \u2713 Already using Next/link correctly\n\nThe component properly uses `<Link>` from next/link for all internal navigation, which is correct.\n\n**Note:** Language switcher uses `<Link>` for locale changes - this is fine, though could be optimized with middleware redirect.\n\n---\n\n### 4.2 Add prefers-reduced-motion Support\n**Severity:** MEDIUM\n**Impact:** Users with vestibular disorders experience dizziness from animations\n\n**Current State:**\n- All animations run without checking accessibility preference\n- Drawer animation, hamburger animation, nav dot animation all affect users with motion sensitivity\n\n**Code Fix - Add at component top:**\n```tsx\n// After imports\nconst prefersReducedMotion = typeof window !== 'undefined'\n  ? window.matchMedia('(prefers-reduced-motion: reduce)').matches\n  : false;\n\n// Then modify motion components:\n<motion.nav\n  initial={{ y: -100 }}\n  animate={{ y: 0 }}\n  transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.6, ease: 'easeOut' }}\n  className={...}\n>\n```\n\nBetter approach - create a custom hook:\n```tsx\nfunction useReducedMotion() {\n  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);\n\n  useEffect(() => {\n    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');\n    setPrefersReducedMotion(mediaQuery.matches);\n\n    const handler = (e: MediaQueryListEvent) => setPrefersReducedMotion(e.matches);\n    mediaQuery.addListener(handler);\n    return () => mediaQuery.removeListener(handler);\n  }, []);\n\n  return prefersReducedMotion;\n}\n\n// Usage in component:\nconst prefersReducedMotion = useReducedMotion();\nconst animationDuration = prefersReducedMotion ? 0 : 0.6;\n```\n\n---\n\n### 4.3 Improve Mobile Menu Scroll Management\n**Current State:**\n```tsx\nuseEffect(() => {\n  document.body.style.overflow = mobileOpen ? 'hidden' : '';\n  return () => { document.body.style.overflow = ''; };\n}, [mobileOpen]);\n```\n\n**Issue:**\n- Only prevents scroll, doesn't prevent scroll position shift on some browsers\n- Can cause layout shift when scrollbar disappears\n\n**Code Fix:**\n```tsx\nuseEffect(() => {\n  if (mobileOpen) {\n    const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;\n    document.body.style.overflow = 'hidden';\n    document.body.style.paddingRight = `${scrollbarWidth}px`;\n  } else {\n    document.body.style.overflow = '';\n    document.body.style.paddingRight = '';\n  }\n\n  return () => {\n    document.body.style.overflow = '';\n    document.body.style.paddingRight = '';\n  };\n}, [mobileOpen]);\n```\n\n---\n\n## 5. SUMMARY TABLE\n\n| Issue | Priority | Category | Impact | Effort |\n|-------|----------|----------|--------|--------|\n| Missing focus rings | CRITICAL | Accessibility | Keyboard users cannot navigate | 1 hour |\n| Missing aria-labels | CRITICAL | Accessibility | Screen readers unclear | 30 min |\n| No skip link | HIGH | Accessibility | Keyboard navigation slow | 1 hour |\n| No Escape key handler | HIGH | Mobile UX | Users trapped in menu | 20 min |\n| Close button unclear | HIGH | Mobile UX | Users don't know how to close | 30 min |\n| Touch target too small | HIGH | Mobile UX | Difficult to tap items | 1 hour |\n| Font sizes inconsistent | MEDIUM | Visual Design | Hard to read | 45 min |\n| Active indicator subtle | MEDIUM | Visual | Can't find current page | 30 min |\n| Hamburger target small | MEDIUM | Mobile UX | Hard to open menu | 20 min |\n| No prefers-reduced-motion | MEDIUM | Accessibility | Motion sickness risk | 45 min |\n| Scroll shift on mobile | MEDIUM | Mobile UX | Layout jump when menu closes | 20 min |\n| Text contrast edge cases | LOW | Accessibility | Text hard to read in some states | 30 min |\n\n---\n\n## 6. PRIORITY IMPLEMENTATION ORDER\n\n### Phase 1: Critical Fixes (1-2 hours)\n1. Add focus rings to all interactive elements\n2. Add aria-labels to language switcher and close button\n3. Implement Escape key handler for mobile drawer\n\n### Phase 2: High-Impact UX (2-3 hours)\n4. Increase mobile touch target sizes to 44px+\n5. Improve active navigation indicator visibility\n6. Fix font sizes for readability\n7. Add visible label to close button\n\n### Phase 3: Polish & Accessibility (1-2 hours)\n8. Add skip to main content link\n9. Implement prefers-reduced-motion support\n10. Fix scrollbar shift issue\n11. Enhance hamburger button touch target\n\n---\n\n## 7. TESTING CHECKLIST\n\n- [ ] Keyboard navigation: Tab through all elements, verify focus rings visible\n- [ ] Screen reader test: VoiceOver (Mac) or NVDA (Windows) announces all elements\n- [ ] Mobile touch: Test on actual devices at 375px, 414px, 768px widths\n- [ ] Escape key: Open mobile drawer, press Escape, verify it closes\n- [ ] Scroll behavior: Open drawer, close it, verify no layout jump\n- [ ] Focus order: Verify tab order matches visual left-to-right flow\n- [ ] Color contrast: Use WebAIM contrast checker for text colors\n- [ ] Animation: Test with `prefers-reduced-motion: reduce` in DevTools\n- [ ] Responsive: Test breakpoints at 375px, 640px, 768px, 1024px, 1440px\n\n---\n\n## 8. REFERENCES\n\n- [WCAG 2.1 Focus Visible](https://www.w3.org/WAI/WCAG21/Understanding/focus-visible)\n- [WCAG 2.1 Target Size](https://www.w3.org/WAI/WCAG21/Understanding/target-size)\n- [WCAG 2.1 Bypass Blocks](https://www.w3.org/WAI/WCAG21/Understanding/bypass-blocks)\n- [MDN: Focus Management in React](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/navigation_role)\n- [Apple Human Interface Guidelines: Navigation](https://developer.apple.com/design/human-interface-guidelines/navigation)\n- [Material Design: Navigation Drawers](https://m3.material.io/components/navigation-drawer/overview)\n- [Tailwind CSS: Focus Visible](https://tailwindcss.com/docs/focus)\n\n---\n\n## Conclusion\n\nThe Navbar component has good visual design and smooth animations, but needs critical accessibility improvements to meet WCAG AA standards. The focus rings and aria-labels are essential for keyboard and screen reader users. Mobile UX improvements (touch target sizes, escape key handling) will significantly improve the experience for mobile users. Implementation of these fixes will elevate the component from good to professional-grade accessibility.\n"}], "grading": null}, {"id": "eval-footer-improvement-without_skill", "prompt": "Review the Navbar component at src/components/Navbar.tsx in the FAM landscape company Next.js project. Check for accessibility issues, mobile UX problems, and visual improvements.", "eval_id": 1, "outputs": [{"name": "review.md", "type": "text", "content": "# Navbar Component UI/UX Review\n**FAM Landscape Company - Next.js Project**\n**Component:** `/src/components/Navbar.tsx`\n**Stack:** Next.js + Tailwind CSS + Framer Motion\n**Brand Color:** Green (#16a34a)\n\n---\n\n## Executive Summary\n\nThe Navbar is well-structured with solid motion design and good mobile menu implementation. However, it has **critical accessibility gaps** (missing focus management, keyboard navigation), **mobile UX issues** (text contrast, drawer usability), and **visual hierarchy problems** (inconsistent spacing, unclear active states). Below are detailed findings and code-level fixes.\n\n---\n\n## 1. ACCESSIBILITY ISSUES\n\n### 1.1 Missing Focus Management & Visible Focus Indicators\n**Severity:** HIGH\n**Issue:** Links and buttons lack visible focus states for keyboard navigation.\n\n```tsx\n// Current code (line 113-117):\nclassName={`relative px-3 py-1.5 text-[11px] font-medium tracking-widest uppercase transition-colors rounded-md ${\n  isActive(link.href)\n    ? scrolled ? 'text-green-600' : 'text-green-400'\n    : scrolled ? 'text-gray-600 hover:text-gray-900 hover:bg-gray-50' : 'text-white/80 hover:text-white hover:bg-white/10'\n}`}\n```\n\n**Problem:** No `focus:` Tailwind classes. Keyboard users cannot see which element is focused.\n\n**Fix:**\n```tsx\nclassName={`relative px-3 py-1.5 text-[11px] font-medium tracking-widest uppercase transition-colors rounded-md\n  focus-visible:outline-2 focus-visible:outline-offset-2 ${\n  isActive(link.href)\n    ? scrolled ? 'text-green-600 focus-visible:outline-green-600' : 'text-green-400 focus-visible:outline-green-400'\n    : scrolled ? 'text-gray-600 hover:text-gray-900 hover:bg-gray-50 focus-visible:outline-gray-600' : 'text-white/80 hover:text-white hover:bg-white/10 focus-visible:outline-white/50'\n}`}\n```\n\n**Also apply to:**\n- Language switcher (line 132-138)\n- Mobile hamburger button (line 147-150)\n- Drawer close button (line 204-206)\n- Drawer language buttons (line 250-258)\n- Drawer navigation links (line 224-231)\n\n---\n\n### 1.2 Hamburger Button Missing `aria-expanded`\n**Severity:** HIGH\n**Issue:** Screen readers cannot announce menu state.\n\n```tsx\n// Current (line 152):\naria-label=\"Toggle menu\"\n\n// Should be:\naria-label=\"Toggle menu\"\naria-expanded={mobileOpen}\naria-controls=\"mobile-menu\"\n```\n\n---\n\n### 1.3 Mobile Drawer Missing Semantic Structure & ARIA\n**Severity:** MEDIUM\n**Issue:** Drawer is `<div>` instead of semantic navigation with landmark roles.\n\n```tsx\n// Current (line 191):\n<motion.div className=\"fixed top-0 right-0 bottom-0 z-50 w-[280px] bg-black flex flex-col lg:hidden\">\n\n// Should be:\n<motion.nav\n  id=\"mobile-menu\"\n  aria-label=\"Mobile navigation\"\n  className=\"fixed top-0 right-0 bottom-0 z-50 w-[280px] bg-black flex flex-col lg:hidden\"\n>\n```\n\n---\n\n### 1.4 Close Button Missing Proper Accessibility\n**Severity:** MEDIUM\n**Issue:** Close button (line 204-211) has vague UX for non-visual users.\n\n```tsx\n// Current:\n<button\n  onClick={() => setMobileOpen(false)}\n  className=\"w-8 h-8 flex items-center justify-center rounded-md text-gray-400 hover:text-white hover:bg-white/10 transition-colors\"\n>\n\n// Should be:\n<button\n  onClick={() => setMobileOpen(false)}\n  aria-label=\"Close menu\"\n  className=\"w-8 h-8 flex items-center justify-center rounded-md text-gray-400 hover:text-white hover:bg-white/10 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/50\"\n>\n```\n\n---\n\n### 1.5 Missing Skip Link\n**Severity:** LOW\n**Issue:** No way for keyboard users to skip navbar to main content.\n\n**Add after `<>` (line 79):**\n```tsx\n<a\n  href=\"#main-content\"\n  className=\"sr-only focus:not-sr-only focus:absolute focus:top-1 focus:left-1 focus:z-50 focus:bg-green-600 focus:text-white focus:px-3 focus:py-2 focus:rounded\"\n>\n  Skip to main content\n</a>\n```\n\nThen add to main content wrapper: `<main id=\"main-content\">`\n\n---\n\n## 2. MOBILE UX ISSUES\n\n### 2.1 Drawer Backdrop Opacity Too High on Dark Background\n**Severity:** MEDIUM\n**Issue:** Black drawer on black backdrop creates visual confusion.\n\n```tsx\n// Current (line 186):\nclassName=\"fixed inset-0 z-40 bg-black/40 backdrop-blur-sm lg:hidden\"\n\n// Better:\nclassName=\"fixed inset-0 z-40 bg-black/30 backdrop-blur-sm lg:hidden\"\n```\n\nThe reduced opacity creates better depth separation between backdrop and drawer.\n\n---\n\n### 2.2 Drawer Text Contrast Issues\n**Severity:** MEDIUM\n**Issue:** Gray text on black fails WCAG AA contrast in places.\n\n```tsx\n// Current (line 216):\n<p className=\"text-[9px] tracking-[0.3em] text-gray-600 uppercase mb-4 px-2\">Navigation</p>\n\n// Problem: gray-600 (#4B5563) on black (#000000) = ~4.2:1 contrast (fails WCAG AA)\n\n// Should be:\n<p className=\"text-[9px] tracking-[0.3em] text-gray-500 uppercase mb-4 px-2\">Navigation</p>\n\n// OR (preferred, for accessibility):\n<p className=\"text-[9px] tracking-[0.3em] text-gray-400 uppercase mb-4 px-2\">Navigation</p>\n```\n\nSame issue on line 244 (Language section header).\n\n---\n\n### 2.3 Missing Touch Targets - Too Small\n**Severity:** MEDIUM\n**Issue:** Language selector buttons (line 254-258) are too small for mobile.\n\n```tsx\n// Current:\nclassName={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-lg text-xs font-semibold...`}\n\n// Minimum touch target is 44x44px. Current: ~40px height. Add padding:\nclassName={`flex-1 flex items-center justify-center gap-2 py-3 rounded-lg text-xs font-semibold...`}\n// py-2.5 = 10px top+bottom = 20px, py-3 = 12px each = 24px\n```\n\nAlso apply to drawer navigation links (line 227): increase from `py-3.5` to `py-4`.\n\n---\n\n### 2.4 No Loading/Transition Feedback\n**Severity:** LOW\n**Issue:** Tapping drawer links doesn't provide immediate feedback before page transition.\n\n**Add to drawer link onClick:**\n```tsx\n<Link\n  href={link.href}\n  onClick={() => {\n    setMobileOpen(false);\n    // Optional: Add visual feedback here (e.g., loading state)\n  }}\n  // ...\n>\n```\n\n---\n\n## 3. VISUAL HIERARCHY & DESIGN ISSUES\n\n### 3.1 Inconsistent Active State Styling\n**Severity:** MEDIUM\n**Issue:** Active states differ between desktop and mobile.\n\n**Desktop (line 115):** Green text + animated dot below\n**Mobile (line 229):** Green background + green dot. Too much green emphasis.\n\n**Recommended mobile fix:**\n```tsx\n// Current (line 229):\n? 'bg-green-600/15 text-green-400'\n\n// Better (more restrained):\n? 'bg-green-600/10 text-green-500'\n```\n\nThis reduces visual dominance while maintaining clarity.\n\n---\n\n### 3.2 Logo Missing Alt Text Accessibility\n**Severity:** LOW\n**Issue:** Alt text is present but not descriptive of context.\n\n```tsx\n// Current (line 99):\nalt=\"FAM Landscape\"\n\n// Better (descriptive of purpose):\nalt=\"FAM Landscape - Home\"\n```\n\n---\n\n### 3.3 Hamburger Icon Not Disabled When Mobile Menu is Open\n**Severity:** LOW\n**Issue:** Button remains interactive but semantically contradicts the open menu.\n\n```tsx\n// Current (line 151):\nonClick={() => setMobileOpen(!mobileOpen)}\n\n// Add disabled state (optional, but improves UX):\ndisabled={mobileOpen}\nclassName={`lg:hidden w-10 h-10 flex flex-col items-center justify-center gap-[5px] rounded-md transition-colors ${\n  mobileOpen ? 'opacity-50 cursor-not-allowed' : ''\n} ${\n  scrolled ? 'text-gray-700 hover:bg-gray-100' : 'text-white hover:bg-white/10'\n}`}\n```\n\n---\n\n### 3.4 Visual Spacing Inconsistency\n**Severity:** LOW\n**Issue:** Desktop nav links have `gap-1` but `px-3`, while mobile has `gap-2` and `px-3`. Inconsistent visual rhythm.\n\n```tsx\n// Desktop nav (line 113): px-3 (12px sides)\n// Mobile nav (line 227): px-3 (same), but py-3.5 vs desktop py-1.5\n\n// Recommendation: Increase desktop link padding for touch friendliness on tablets:\n// Change from px-3 py-1.5 to px-4 py-2.5 for better touch targets\nclassName={`relative px-4 py-2.5 text-[11px] font-medium tracking-widest uppercase...`}\n```\n\n---\n\n## 4. CODE-LEVEL IMPROVEMENTS\n\n### 4.1 Consolidate Color Logic\n**Severity:** LOW\n**Issue:** Colors repeated across scrolled/non-scrolled states (lines 115-116, 136-137, etc.). Creates maintenance burden.\n\n**Before:**\n```tsx\n? scrolled ? 'text-green-600' : 'text-green-400'\n: scrolled ? 'text-gray-600 hover:text-gray-900 hover:bg-gray-50' : 'text-white/80 hover:text-white hover:bg-white/10'\n```\n\n**After (define at component top):**\n```tsx\nconst colors = {\n  nav: {\n    active: {\n      scrolled: 'text-green-600 focus-visible:outline-green-600',\n      transparent: 'text-green-400 focus-visible:outline-green-400',\n    },\n    inactive: {\n      scrolled: 'text-gray-600 hover:text-gray-900 hover:bg-gray-50 focus-visible:outline-gray-600',\n      transparent: 'text-white/80 hover:text-white hover:bg-white/10 focus-visible:outline-white/50',\n    },\n  },\n};\n\n// Usage:\nclassName={`relative px-4 py-2.5 text-[11px] font-medium tracking-widest uppercase transition-colors rounded-md ${\n  isActive(link.href) ? colors.nav.active[scrolled ? 'scrolled' : 'transparent'] : colors.nav.inactive[scrolled ? 'scrolled' : 'transparent']\n}`}\n```\n\n---\n\n### 4.2 Extract Drawer Navigation Component\n**Severity:** LOW\n**Issue:** Mobile drawer code is verbose (lines 214-240). Extract to separate component for readability.\n\n**New file:** `DrawerNav.tsx`\n```tsx\ninterface DrawerNavProps {\n  links: Array<{ href: string; label: string }>;\n  isActive: (href: string) => boolean;\n  onClose: () => void;\n}\n\nexport function DrawerNav({ links, isActive, onClose }: DrawerNavProps) {\n  return (\n    <nav className=\"flex-1 px-4 py-6 overflow-y-auto\">\n      <p className=\"text-[9px] tracking-[0.3em] text-gray-400 uppercase mb-4 px-2\">Navigation</p>\n      {links.map((link, i) => (\n        <motion.div key={link.href} initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.05 + i * 0.05 }}>\n          <Link href={link.href} onClick={onClose} className={`flex items-center justify-between px-3 py-4 rounded-lg mb-1 text-sm font-medium tracking-wide transition-colors ${isActive(link.href) ? 'bg-green-600/10 text-green-500' : 'text-gray-300 hover:bg-white/[0.05] hover:text-white'}`}>\n            <span>{link.label}</span>\n            {isActive(link.href) && <span className=\"w-1.5 h-1.5 rounded-full bg-green-500\" />}\n          </Link>\n        </motion.div>\n      ))}\n    </nav>\n  );\n}\n```\n\n---\n\n## 5. WCAG COMPLIANCE SUMMARY\n\n| Category | Status | Action |\n|----------|--------|--------|\n| **Focus Management** | FAIL | Add `focus-visible:outline` to all interactive elements |\n| **Keyboard Navigation** | PASS | Tab order is natural (nav is in top of DOM) |\n| **Color Contrast** | WARN | Fix gray-600 text on black background in drawer |\n| **Touch Targets** | WARN | Increase drawer button heights to 44px minimum |\n| **Semantic HTML** | WARN | Convert drawer `<div>` to `<nav>` with ARIA landmarks |\n| **Screen Reader Support** | WARN | Add `aria-expanded` to hamburger, `aria-controls` to drawer |\n| **Motion** | PASS | No auto-playing animation; respects `prefers-reduced-motion` (not explicitly coded) |\n\n**To fully support prefers-reduced-motion:**\n```tsx\nconst prefersReducedMotion = useMediaQuery('(prefers-reduced-motion: reduce)');\n\n// Apply to Framer Motion:\ntransition={prefersReducedMotion ? { duration: 0 } : { duration: 0.6, ease: 'easeOut' }}\n```\n\n---\n\n## 6. PRIORITY FIX CHECKLIST\n\n**Must Fix (this week):**\n- [ ] Add `focus-visible:outline` to all links and buttons\n- [ ] Add `aria-expanded` and `aria-controls` to hamburger button\n- [ ] Convert drawer to `<nav>` with `aria-label`\n- [ ] Fix drawer text contrast (gray-400/gray-500 instead of gray-600)\n- [ ] Increase drawer touch targets to minimum 44px height\n\n**Should Fix (next iteration):**\n- [ ] Consolidate color logic into config object\n- [ ] Extract DrawerNav to separate component\n- [ ] Add support for `prefers-reduced-motion`\n- [ ] Add skip-to-main-content link\n- [ ] Increase desktop nav link padding for tablet touch targets\n\n**Nice to Have:**\n- [ ] Add loading state feedback for mobile links\n- [ ] Refine mobile active state styling (reduce green emphasis)\n- [ ] Reduce backdrop opacity for better depth\n- [ ] Make hamburger button disabled when menu open\n\n---\n\n## 7. ESTIMATED EFFORT\n\n- **Focus states & ARIA:** 30 minutes\n- **Color fixes & touch targets:** 15 minutes\n- **Component extraction:** 45 minutes\n- **Testing (keyboard, screen reader, mobile):** 60 minutes\n- **Total:** ~2.5 hours\n\n---\n\n## CONCLUSION\n\nThe Navbar has **strong motion design and responsive structure**, but **critical accessibility gaps** prevent it from meeting WCAG AA standards. The fixes above are straightforward (mostly adding Tailwind classes) and will significantly improve usability for keyboard, touch, and screen reader users. Mobile UX can be enhanced with minor spacing/contrast adjustments.\n"}], "grading": null}], "previous_feedback": {}, "previous_outputs": {}};
+
+    // ---- State ----
+    let feedbackMap = {};  // run_id -> feedback text
+    let currentIndex = 0;
+    let visitedRuns = new Set();
+
+    // ---- Init ----
+    async function init() {
+      // Load saved feedback from server — but only if this isn't a fresh
+      // iteration (indicated by previous_feedback being present). When
+      // previous feedback exists, the feedback.json on disk is stale from
+      // the prior iteration and should not pre-fill the textareas.
+      const hasPrevious = Object.keys(EMBEDDED_DATA.previous_feedback || {}).length > 0
+        || Object.keys(EMBEDDED_DATA.previous_outputs || {}).length > 0;
+      if (!hasPrevious) {
+        try {
+          const resp = await fetch("/api/feedback");
+          const data = await resp.json();
+          if (data.reviews) {
+            for (const r of data.reviews) feedbackMap[r.run_id] = r.feedback;
+          }
+        } catch { /* first run, no feedback yet */ }
+      }
+
+      document.getElementById("skill-name").textContent = EMBEDDED_DATA.skill_name;
+      showRun(0);
+
+      // Wire up feedback auto-save
+      const textarea = document.getElementById("feedback");
+      let saveTimeout = null;
+      textarea.addEventListener("input", () => {
+        clearTimeout(saveTimeout);
+        document.getElementById("feedback-status").textContent = "";
+        saveTimeout = setTimeout(() => saveCurrentFeedback(), 800);
+      });
+    }
+
+    // ---- Navigation ----
+    function navigate(delta) {
+      const newIndex = currentIndex + delta;
+      if (newIndex >= 0 && newIndex < EMBEDDED_DATA.runs.length) {
+        saveCurrentFeedback();
+        showRun(newIndex);
+      }
+    }
+
+    function updateNavButtons() {
+      document.getElementById("prev-btn").disabled = currentIndex === 0;
+      document.getElementById("next-btn").disabled =
+        currentIndex === EMBEDDED_DATA.runs.length - 1;
+    }
+
+    // ---- Show a run ----
+    function showRun(index) {
+      currentIndex = index;
+      const run = EMBEDDED_DATA.runs[index];
+
+      // Progress
+      document.getElementById("progress").textContent =
+        `${index + 1} of ${EMBEDDED_DATA.runs.length}`;
+
+      // Prompt
+      document.getElementById("prompt-text").textContent = run.prompt;
+
+      // Config badge
+      const badge = document.getElementById("config-badge");
+      const configMatch = run.id.match(/(with_skill|without_skill|new_skill|old_skill)/);
+      if (configMatch) {
+        const config = configMatch[1];
+        const isBaseline = config === "without_skill" || config === "old_skill";
+        badge.textContent = config.replace(/_/g, " ");
+        badge.className = "config-badge " + (isBaseline ? "config-baseline" : "config-primary");
+        badge.style.display = "inline-block";
+      } else {
+        badge.style.display = "none";
+      }
+
+      // Outputs
+      renderOutputs(run);
+
+      // Previous outputs
+      renderPrevOutputs(run);
+
+      // Grades
+      renderGrades(run);
+
+      // Previous feedback
+      const prevFb = (EMBEDDED_DATA.previous_feedback || {})[run.id];
+      const prevEl = document.getElementById("prev-feedback");
+      if (prevFb) {
+        document.getElementById("prev-feedback-text").textContent = prevFb;
+        prevEl.style.display = "block";
+      } else {
+        prevEl.style.display = "none";
+      }
+
+      // Feedback
+      document.getElementById("feedback").value = feedbackMap[run.id] || "";
+      document.getElementById("feedback-status").textContent = "";
+
+      updateNavButtons();
+
+      // Track visited runs and promote done button when all visited
+      visitedRuns.add(index);
+      const doneBtn = document.getElementById("done-btn");
+      if (visitedRuns.size >= EMBEDDED_DATA.runs.length) {
+        doneBtn.classList.add("ready");
+      }
+
+      // Scroll main content to top
+      document.querySelector(".main").scrollTop = 0;
+    }
+
+    // ---- Render outputs ----
+    function renderOutputs(run) {
+      const container = document.getElementById("outputs-body");
+      container.innerHTML = "";
+
+      const outputs = run.outputs || [];
+      if (outputs.length === 0) {
+        container.innerHTML = '<div class="empty-state">No output files</div>';
+        return;
+      }
+
+      for (const file of outputs) {
+        const fileDiv = document.createElement("div");
+        fileDiv.className = "output-file";
+
+        // Always show file header with download link
+        const header = document.createElement("div");
+        header.className = "output-file-header";
+        const nameSpan = document.createElement("span");
+        nameSpan.textContent = file.name;
+        header.appendChild(nameSpan);
+        const dlBtn = document.createElement("a");
+        dlBtn.className = "dl-btn";
+        dlBtn.textContent = "Download";
+        dlBtn.download = file.name;
+        dlBtn.href = getDownloadUri(file);
+        header.appendChild(dlBtn);
+        fileDiv.appendChild(header);
+
+        const content = document.createElement("div");
+        content.className = "output-file-content";
+
+        if (file.type === "text") {
+          const pre = document.createElement("pre");
+          pre.textContent = file.content;
+          content.appendChild(pre);
+        } else if (file.type === "image") {
+          const img = document.createElement("img");
+          img.src = file.data_uri;
+          img.alt = file.name;
+          content.appendChild(img);
+        } else if (file.type === "pdf") {
+          const iframe = document.createElement("iframe");
+          iframe.src = file.data_uri;
+          content.appendChild(iframe);
+        } else if (file.type === "xlsx") {
+          renderXlsx(content, file.data_b64);
+        } else if (file.type === "binary") {
+          const a = document.createElement("a");
+          a.className = "download-link";
+          a.href = file.data_uri;
+          a.download = file.name;
+          a.textContent = "Download " + file.name;
+          content.appendChild(a);
+        } else if (file.type === "error") {
+          const pre = document.createElement("pre");
+          pre.textContent = file.content;
+          pre.style.color = "var(--red)";
+          content.appendChild(pre);
+        }
+
+        fileDiv.appendChild(content);
+        container.appendChild(fileDiv);
+      }
+    }
+
+    // ---- XLSX rendering via SheetJS ----
+    function renderXlsx(container, b64Data) {
+      try {
+        const raw = Uint8Array.from(atob(b64Data), c => c.charCodeAt(0));
+        const wb = XLSX.read(raw, { type: "array" });
+
+        for (let i = 0; i < wb.SheetNames.length; i++) {
+          const sheetName = wb.SheetNames[i];
+          const ws = wb.Sheets[sheetName];
+
+          if (wb.SheetNames.length > 1) {
+            const sheetLabel = document.createElement("div");
+            sheetLabel.style.cssText =
+              "font-weight:600; font-size:0.8rem; color:#b0aea5; margin-top:0.5rem; margin-bottom:0.25rem;";
+            sheetLabel.textContent = "Sheet: " + sheetName;
+            container.appendChild(sheetLabel);
+          }
+
+          const htmlStr = XLSX.utils.sheet_to_html(ws, { editable: false });
+          const wrapper = document.createElement("div");
+          wrapper.innerHTML = htmlStr;
+          container.appendChild(wrapper);
+        }
+      } catch (err) {
+        container.textContent = "Error rendering spreadsheet: " + err.message;
+      }
+    }
+
+    // ---- Grades ----
+    function renderGrades(run) {
+      const section = document.getElementById("grades-section");
+      const content = document.getElementById("grades-content");
+
+      if (!run.grading) {
+        section.style.display = "none";
+        return;
+      }
+
+      const grading = run.grading;
+      section.style.display = "block";
+      // Reset to collapsed
+      content.classList.remove("open");
+      document.getElementById("grades-arrow").classList.remove("open");
+
+      const summary = grading.summary || {};
+      const expectations = grading.expectations || [];
+
+      let html = '<div style="padding: 1rem;">';
+
+      // Summary line
+      const passRate = summary.pass_rate != null
+        ? Math.round(summary.pass_rate * 100) + "%"
+        : "?";
+      const badgeClass = summary.pass_rate >= 0.8 ? "grade-pass" : summary.pass_rate >= 0.5 ? "" : "grade-fail";
+      html += '<div class="grades-summary">';
+      html += '<span class="grade-badge ' + badgeClass + '">' + passRate + '</span>';
+      html += '<span>' + (summary.passed || 0) + ' passed, ' + (summary.failed || 0) + ' failed of ' + (summary.total || 0) + '</span>';
+      html += '</div>';
+
+      // Assertions list
+      html += '<ul class="assertion-list">';
+      for (const exp of expectations) {
+        const statusClass = exp.passed ? "pass" : "fail";
+        const statusIcon = exp.passed ? "\u2713" : "\u2717";
+        html += '<li class="assertion-item">';
+        html += '<span class="assertion-status ' + statusClass + '">' + statusIcon + '</span>';
+        html += '<span>' + escapeHtml(exp.text) + '</span>';
+        if (exp.evidence) {
+          html += '<div class="assertion-evidence">' + escapeHtml(exp.evidence) + '</div>';
+        }
+        html += '</li>';
+      }
+      html += '</ul>';
+
+      html += '</div>';
+      content.innerHTML = html;
+    }
+
+    function toggleGrades() {
+      const content = document.getElementById("grades-content");
+      const arrow = document.getElementById("grades-arrow");
+      content.classList.toggle("open");
+      arrow.classList.toggle("open");
+    }
+
+    // ---- Previous outputs (collapsible) ----
+    function renderPrevOutputs(run) {
+      const section = document.getElementById("prev-outputs-section");
+      const content = document.getElementById("prev-outputs-content");
+      const prevOutputs = (EMBEDDED_DATA.previous_outputs || {})[run.id];
+
+      if (!prevOutputs || prevOutputs.length === 0) {
+        section.style.display = "none";
+        return;
+      }
+
+      section.style.display = "block";
+      // Reset to collapsed
+      content.classList.remove("open");
+      document.getElementById("prev-outputs-arrow").classList.remove("open");
+
+      // Render the files into the content area
+      content.innerHTML = "";
+      const wrapper = document.createElement("div");
+      wrapper.style.padding = "1rem";
+
+      for (const file of prevOutputs) {
+        const fileDiv = document.createElement("div");
+        fileDiv.className = "output-file";
+
+        const header = document.createElement("div");
+        header.className = "output-file-header";
+        const nameSpan = document.createElement("span");
+        nameSpan.textContent = file.name;
+        header.appendChild(nameSpan);
+        const dlBtn = document.createElement("a");
+        dlBtn.className = "dl-btn";
+        dlBtn.textContent = "Download";
+        dlBtn.download = file.name;
+        dlBtn.href = getDownloadUri(file);
+        header.appendChild(dlBtn);
+        fileDiv.appendChild(header);
+
+        const fc = document.createElement("div");
+        fc.className = "output-file-content";
+
+        if (file.type === "text") {
+          const pre = document.createElement("pre");
+          pre.textContent = file.content;
+          fc.appendChild(pre);
+        } else if (file.type === "image") {
+          const img = document.createElement("img");
+          img.src = file.data_uri;
+          img.alt = file.name;
+          fc.appendChild(img);
+        } else if (file.type === "pdf") {
+          const iframe = document.createElement("iframe");
+          iframe.src = file.data_uri;
+          fc.appendChild(iframe);
+        } else if (file.type === "xlsx") {
+          renderXlsx(fc, file.data_b64);
+        } else if (file.type === "binary") {
+          const a = document.createElement("a");
+          a.className = "download-link";
+          a.href = file.data_uri;
+          a.download = file.name;
+          a.textContent = "Download " + file.name;
+          fc.appendChild(a);
+        }
+
+        fileDiv.appendChild(fc);
+        wrapper.appendChild(fileDiv);
+      }
+
+      content.appendChild(wrapper);
+    }
+
+    function togglePrevOutputs() {
+      const content = document.getElementById("prev-outputs-content");
+      const arrow = document.getElementById("prev-outputs-arrow");
+      content.classList.toggle("open");
+      arrow.classList.toggle("open");
+    }
+
+    // ---- Feedback (saved to server -> feedback.json) ----
+    function saveCurrentFeedback() {
+      const run = EMBEDDED_DATA.runs[currentIndex];
+      const text = document.getElementById("feedback").value;
+
+      if (text.trim() === "") {
+        delete feedbackMap[run.id];
+      } else {
+        feedbackMap[run.id] = text;
+      }
+
+      // Build reviews array from map
+      const reviews = [];
+      for (const [run_id, feedback] of Object.entries(feedbackMap)) {
+        if (feedback.trim()) {
+          reviews.push({ run_id, feedback, timestamp: new Date().toISOString() });
+        }
+      }
+
+      fetch("/api/feedback", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ reviews, status: "in_progress" }),
+      }).then(() => {
+        document.getElementById("feedback-status").textContent = "Saved";
+      }).catch(() => {
+        // Static mode or server unavailable — no-op on auto-save,
+        // feedback will be downloaded on final submit
+        document.getElementById("feedback-status").textContent = "Will download on submit";
+      });
+    }
+
+    // ---- Done ----
+    function showDoneDialog() {
+      // Save current textarea to feedbackMap (but don't POST yet)
+      const run = EMBEDDED_DATA.runs[currentIndex];
+      const text = document.getElementById("feedback").value;
+      if (text.trim() === "") {
+        delete feedbackMap[run.id];
+      } else {
+        feedbackMap[run.id] = text;
+      }
+
+      // POST once with status: complete — include ALL runs so the model
+      // can distinguish "no feedback" (looks good) from "not reviewed"
+      const reviews = [];
+      const ts = new Date().toISOString();
+      for (const r of EMBEDDED_DATA.runs) {
+        reviews.push({ run_id: r.id, feedback: feedbackMap[r.id] || "", timestamp: ts });
+      }
+      const payload = JSON.stringify({ reviews, status: "complete" }, null, 2);
+      fetch("/api/feedback", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: payload,
+      }).then(() => {
+        document.getElementById("done-overlay").classList.add("visible");
+      }).catch(() => {
+        // Server not available (static mode) — download as file
+        const blob = new Blob([payload], { type: "application/json" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "feedback.json";
+        a.click();
+        URL.revokeObjectURL(url);
+        document.getElementById("done-overlay").classList.add("visible");
+      });
+    }
+
+    function closeDoneDialog() {
+      // Reset status back to in_progress
+      saveCurrentFeedback();
+      document.getElementById("done-overlay").classList.remove("visible");
+    }
+
+    // ---- Toast ----
+    function showToast(message) {
+      const toast = document.getElementById("toast");
+      toast.textContent = message;
+      toast.classList.add("visible");
+      setTimeout(() => toast.classList.remove("visible"), 2000);
+    }
+
+    // ---- Keyboard nav ----
+    document.addEventListener("keydown", (e) => {
+      // Don't capture when typing in textarea
+      if (e.target.tagName === "TEXTAREA") return;
+
+      if (e.key === "ArrowLeft" || e.key === "ArrowUp") {
+        e.preventDefault();
+        navigate(-1);
+      } else if (e.key === "ArrowRight" || e.key === "ArrowDown") {
+        e.preventDefault();
+        navigate(1);
+      }
+    });
+
+    // ---- Util ----
+    function getDownloadUri(file) {
+      if (file.data_uri) return file.data_uri;
+      if (file.data_b64) return "data:application/octet-stream;base64," + file.data_b64;
+      if (file.type === "text") return "data:text/plain;charset=utf-8," + encodeURIComponent(file.content);
+      return "#";
+    }
+
+    function escapeHtml(text) {
+      const div = document.createElement("div");
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
+    // ---- View switching ----
+    function switchView(view) {
+      document.querySelectorAll(".view-tab").forEach(t => t.classList.remove("active"));
+      document.querySelectorAll(".view-panel").forEach(p => p.classList.remove("active"));
+      document.querySelector(`[onclick="switchView('${view}')"]`).classList.add("active");
+      document.getElementById("panel-" + view).classList.add("active");
+    }
+
+    // ---- Benchmark rendering ----
+    function renderBenchmark() {
+      const data = EMBEDDED_DATA.benchmark;
+      if (!data) return;
+
+      // Show the tabs
+      document.getElementById("view-tabs").style.display = "flex";
+
+      const container = document.getElementById("benchmark-content");
+      const summary = data.run_summary || {};
+      const metadata = data.metadata || {};
+      const notes = data.notes || [];
+
+      let html = "";
+
+      // Header
+      html += "<h2 style='font-family: Poppins, sans-serif; margin-bottom: 0.5rem;'>Benchmark Results</h2>";
+      html += "<p style='color: var(--text-muted); font-size: 0.875rem; margin-bottom: 1.25rem;'>";
+      if (metadata.skill_name) html += "<strong>" + escapeHtml(metadata.skill_name) + "</strong> &mdash; ";
+      if (metadata.timestamp) html += metadata.timestamp + " &mdash; ";
+      if (metadata.evals_run) html += "Evals: " + metadata.evals_run.join(", ") + " &mdash; ";
+      html += (metadata.runs_per_configuration || "?") + " runs per configuration";
+      html += "</p>";
+
+      // Summary table
+      html += '<table class="benchmark-table">';
+
+      function fmtStat(stat, pct) {
+        if (!stat) return "—";
+        const suffix = pct ? "%" : "";
+        const m = pct ? (stat.mean * 100).toFixed(0) : stat.mean.toFixed(1);
+        const s = pct ? (stat.stddev * 100).toFixed(0) : stat.stddev.toFixed(1);
+        return m + suffix + " ± " + s + suffix;
+      }
+
+      function deltaClass(val) {
+        if (!val) return "";
+        const n = parseFloat(val);
+        if (n > 0) return "benchmark-delta-positive";
+        if (n < 0) return "benchmark-delta-negative";
+        return "";
+      }
+
+      // Discover config names dynamically (everything except "delta")
+      const configs = Object.keys(summary).filter(k => k !== "delta");
+      const configA = configs[0] || "config_a";
+      const configB = configs[1] || "config_b";
+      const labelA = configA.replace(/_/g, " ").replace(/\b\w/g, c => c.toUpperCase());
+      const labelB = configB.replace(/_/g, " ").replace(/\b\w/g, c => c.toUpperCase());
+      const a = summary[configA] || {};
+      const b = summary[configB] || {};
+      const delta = summary.delta || {};
+
+      html += "<thead><tr><th>Metric</th><th>" + escapeHtml(labelA) + "</th><th>" + escapeHtml(labelB) + "</th><th>Delta</th></tr></thead>";
+      html += "<tbody>";
+
+      html += "<tr><td><strong>Pass Rate</strong></td>";
+      html += "<td>" + fmtStat(a.pass_rate, true) + "</td>";
+      html += "<td>" + fmtStat(b.pass_rate, true) + "</td>";
+      html += '<td class="' + deltaClass(delta.pass_rate) + '">' + (delta.pass_rate || "—") + "</td></tr>";
+
+      // Time (only show row if data exists)
+      if (a.time_seconds || b.time_seconds) {
+        html += "<tr><td><strong>Time (s)</strong></td>";
+        html += "<td>" + fmtStat(a.time_seconds, false) + "</td>";
+        html += "<td>" + fmtStat(b.time_seconds, false) + "</td>";
+        html += '<td class="' + deltaClass(delta.time_seconds) + '">' + (delta.time_seconds ? delta.time_seconds + "s" : "—") + "</td></tr>";
+      }
+
+      // Tokens (only show row if data exists)
+      if (a.tokens || b.tokens) {
+        html += "<tr><td><strong>Tokens</strong></td>";
+        html += "<td>" + fmtStat(a.tokens, false) + "</td>";
+        html += "<td>" + fmtStat(b.tokens, false) + "</td>";
+        html += '<td class="' + deltaClass(delta.tokens) + '">' + (delta.tokens || "—") + "</td></tr>";
+      }
+
+      html += "</tbody></table>";
+
+      // Per-eval breakdown (if runs data available)
+      const runs = data.runs || [];
+      if (runs.length > 0) {
+        const evalIds = [...new Set(runs.map(r => r.eval_id))].sort((a, b) => a - b);
+
+        html += "<h3 style='font-family: Poppins, sans-serif; margin-bottom: 0.75rem;'>Per-Eval Breakdown</h3>";
+
+        const hasTime = runs.some(r => r.result && r.result.time_seconds != null);
+        const hasErrors = runs.some(r => r.result && r.result.errors > 0);
+
+        for (const evalId of evalIds) {
+          const evalRuns = runs.filter(r => r.eval_id === evalId);
+          const evalName = evalRuns[0] && evalRuns[0].eval_name ? evalRuns[0].eval_name : "Eval " + evalId;
+
+          html += "<h4 style='font-family: Poppins, sans-serif; margin: 1rem 0 0.5rem; color: var(--text);'>" + escapeHtml(evalName) + "</h4>";
+          html += '<table class="benchmark-table">';
+          html += "<thead><tr><th>Config</th><th>Run</th><th>Pass Rate</th>";
+          if (hasTime) html += "<th>Time (s)</th>";
+          if (hasErrors) html += "<th>Crashes During Execution</th>";
+          html += "</tr></thead>";
+          html += "<tbody>";
+
+          // Group by config and render with average rows
+          const configGroups = [...new Set(evalRuns.map(r => r.configuration))];
+          for (let ci = 0; ci < configGroups.length; ci++) {
+            const config = configGroups[ci];
+            const configRuns = evalRuns.filter(r => r.configuration === config);
+            if (configRuns.length === 0) continue;
+
+            const rowClass = ci === 0 ? "benchmark-row-with" : "benchmark-row-without";
+            const configLabel = config.replace(/_/g, " ").replace(/\b\w/g, c => c.toUpperCase());
+
+            for (const run of configRuns) {
+              const r = run.result || {};
+              const prClass = r.pass_rate >= 0.8 ? "benchmark-delta-positive" : r.pass_rate < 0.5 ? "benchmark-delta-negative" : "";
+              html += '<tr class="' + rowClass + '">';
+              html += "<td>" + configLabel + "</td>";
+              html += "<td>" + run.run_number + "</td>";
+              html += '<td class="' + prClass + '">' + ((r.pass_rate || 0) * 100).toFixed(0) + "% (" + (r.passed || 0) + "/" + (r.total || 0) + ")</td>";
+              if (hasTime) html += "<td>" + (r.time_seconds != null ? r.time_seconds.toFixed(1) : "—") + "</td>";
+              if (hasErrors) html += "<td>" + (r.errors || 0) + "</td>";
+              html += "</tr>";
+            }
+
+            // Average row
+            const rates = configRuns.map(r => (r.result || {}).pass_rate || 0);
+            const avgRate = rates.reduce((a, b) => a + b, 0) / rates.length;
+            const avgPrClass = avgRate >= 0.8 ? "benchmark-delta-positive" : avgRate < 0.5 ? "benchmark-delta-negative" : "";
+            html += '<tr class="benchmark-row-avg ' + rowClass + '">';
+            html += "<td>" + configLabel + "</td>";
+            html += "<td>Avg</td>";
+            html += '<td class="' + avgPrClass + '">' + (avgRate * 100).toFixed(0) + "%</td>";
+            if (hasTime) {
+              const times = configRuns.map(r => (r.result || {}).time_seconds).filter(t => t != null);
+              html += "<td>" + (times.length ? (times.reduce((a, b) => a + b, 0) / times.length).toFixed(1) : "—") + "</td>";
+            }
+            if (hasErrors) html += "<td></td>";
+            html += "</tr>";
+          }
+          html += "</tbody></table>";
+
+          // Per-assertion detail for this eval
+          const runsWithExpectations = {};
+          for (const config of configGroups) {
+            runsWithExpectations[config] = evalRuns.filter(r => r.configuration === config && r.expectations && r.expectations.length > 0);
+          }
+          const hasAnyExpectations = Object.values(runsWithExpectations).some(runs => runs.length > 0);
+          if (hasAnyExpectations) {
+            // Collect all unique assertion texts across all configs
+            const allAssertions = [];
+            const seen = new Set();
+            for (const config of configGroups) {
+              for (const run of runsWithExpectations[config]) {
+                for (const exp of (run.expectations || [])) {
+                  if (!seen.has(exp.text)) {
+                    seen.add(exp.text);
+                    allAssertions.push(exp.text);
+                  }
+                }
+              }
+            }
+
+            html += '<table class="benchmark-table" style="margin-top: 0.5rem;">';
+            html += "<thead><tr><th>Assertion</th>";
+            for (const config of configGroups) {
+              const label = config.replace(/_/g, " ").replace(/\b\w/g, c => c.toUpperCase());
+              html += "<th>" + escapeHtml(label) + "</th>";
+            }
+            html += "</tr></thead><tbody>";
+
+            for (const assertionText of allAssertions) {
+              html += "<tr><td>" + escapeHtml(assertionText) + "</td>";
+
+              for (const config of configGroups) {
+                html += "<td>";
+                for (const run of runsWithExpectations[config]) {
+                  const exp = (run.expectations || []).find(e => e.text === assertionText);
+                  if (exp) {
+                    const cls = exp.passed ? "benchmark-delta-positive" : "benchmark-delta-negative";
+                    const icon = exp.passed ? "\u2713" : "\u2717";
+                    html += '<span class="' + cls + '" title="Run ' + run.run_number + ': ' + escapeHtml(exp.evidence || "") + '">' + icon + "</span> ";
+                  } else {
+                    html += "— ";
+                  }
+                }
+                html += "</td>";
+              }
+              html += "</tr>";
+            }
+            html += "</tbody></table>";
+          }
+        }
+      }
+
+      // Notes
+      if (notes.length > 0) {
+        html += '<div class="benchmark-notes">';
+        html += "<h3>Analysis Notes</h3>";
+        html += "<ul>";
+        for (const note of notes) {
+          html += "<li>" + escapeHtml(note) + "</li>";
+        }
+        html += "</ul></div>";
+      }
+
+      container.innerHTML = html;
+    }
+
+    // ---- Start ----
+    init();
+    renderBenchmark();
+  </script>
+</body>
+</html>
