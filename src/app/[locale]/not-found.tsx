@@ -4,7 +4,7 @@ import Navbar from '@/components/Navbar';
 // Rendered inside [locale]/layout.tsx — html/body/lang come from there.
 export default function LocaleNotFound() {
   return (
-    <main className="min-h-screen bg-gray-950 flex flex-col">
+    <main className="min-h-screen bg-black flex flex-col">
       <Navbar />
       <div className="flex-1 flex items-center justify-center text-center px-4">
         <div>

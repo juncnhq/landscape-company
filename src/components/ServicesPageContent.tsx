@@ -205,7 +205,7 @@ function ServiceCard({
       className="relative rounded-2xl border border-gray-100 bg-white overflow-hidden shadow-sm hover:shadow-md transition-shadow"
     >
       {/* Coloured top bar */}
-      <div className="h-1 w-full" style={{ backgroundColor: service.accent }} />
+      <div className="h-1 w-full bg-green-500" />
 
       <div className="p-6 md:p-10">
         <div className="flex flex-col md:flex-row md:gap-12">
@@ -224,7 +224,7 @@ function ServiceCard({
               <div>
                 <div
                   className="inline-flex items-center justify-center w-10 h-10 rounded-xl text-xl mb-3"
-                  style={{ backgroundColor: service.accentLight }}
+                  style={{ backgroundColor: '#f0fdf4' }}
                 >
                   {service.icon}
                 </div>
@@ -248,9 +248,9 @@ function ServiceCard({
               href={contactHref}
               className="inline-flex items-center gap-2 text-sm font-semibold rounded-full px-5 py-2.5 transition-colors"
               style={{
-                backgroundColor: service.accentLight,
+                backgroundColor: '#f0fdf4',
                 color: service.accent,
-                border: `1px solid ${service.accentBorder}`,
+                border: '1px solid #86efac',
               }}
             >
               {ctaLabel} →
@@ -260,7 +260,7 @@ function ServiceCard({
           {/* ── Right: bullet list ── */}
           <div
             className="md:w-72 lg:w-80 shrink-0 rounded-xl p-5 md:p-6"
-            style={{ backgroundColor: service.accentLight, border: `1px solid ${service.accentBorder}` }}
+            style={{ backgroundColor: '#f0fdf4', border: '1px solid #86efac' }}
           >
             <p
               className="text-[10px] font-bold tracking-widest uppercase mb-4"
@@ -302,7 +302,7 @@ export default function ServicesPageContent() {
   return (
     <>
       {/* ════════════════════════ HERO ══ */}
-      <section className="relative bg-gray-950 pt-36 md:pt-48 pb-20 md:pb-28 overflow-hidden">
+      <section className="relative bg-black pt-36 md:pt-48 pb-20 md:pb-28 overflow-hidden">
         <div
           className="absolute inset-0 opacity-[0.03]"
           style={{
@@ -359,16 +359,16 @@ export default function ServicesPageContent() {
       {/* ════════════════════════ CTA ══ */}
       <section
         ref={ctaRef}
-        className="relative py-20 md:py-32 bg-green-700 overflow-hidden"
+        className="relative py-20 md:py-32 bg-gray-900 overflow-hidden"
       >
         <div
-          className="absolute inset-0 opacity-[0.07]"
+          className="absolute inset-0 opacity-[0.04]"
           style={{
             backgroundImage: 'radial-gradient(circle, #fff 1px, transparent 1px)',
             backgroundSize: '28px 28px',
           }}
         />
-        <div className="absolute inset-0 bg-gradient-to-br from-green-600/50 to-green-900/50 pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-br from-gray-800/50 to-gray-950/50 pointer-events-none" />
 
         <div className="relative max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <motion.div
@@ -379,12 +379,12 @@ export default function ServicesPageContent() {
             <h2 className="text-3xl md:text-5xl font-bold text-white mb-5 leading-tight">
               {t('finalCtaTitle')}
             </h2>
-            <p className="text-green-100 text-base md:text-lg mb-10 leading-relaxed max-w-xl mx-auto">
+            <p className="text-green-300/70 text-base md:text-lg mb-10 leading-relaxed max-w-xl mx-auto">
               {t('finalCtaSubtitle')}
             </p>
             <Link
               href={`/${locale}/contact`}
-              className="inline-flex items-center gap-2 bg-white text-green-700 font-bold px-8 py-4 rounded-full text-sm tracking-wide hover:bg-green-50 transition-colors shadow-xl"
+              className="inline-flex items-center gap-2 bg-green-500 text-white font-bold px-8 py-4 rounded-full text-sm tracking-wide hover:bg-green-400 transition-colors shadow-xl"
             >
               {t('finalCtaButton')} →
             </Link>

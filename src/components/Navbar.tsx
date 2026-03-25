@@ -1,6 +1,7 @@
 'use client';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useTranslations, useLocale } from 'next-intl';
 import { motion, AnimatePresence } from 'framer-motion';
 import { usePathname } from 'next/navigation';
@@ -93,12 +94,14 @@ export default function Navbar() {
               className="flex items-center gap-2 shrink-0"
               onClick={() => setMobileOpen(false)}
             >
-              <span className={`w-7 h-7 rounded-md flex items-center justify-center text-white text-xs font-bold ${scrolled ? 'bg-green-600' : 'bg-green-500/90'}`}>
-                F
-              </span>
-              <span className={`text-sm font-semibold tracking-widest uppercase transition-colors ${scrolled ? 'text-gray-900' : 'text-white'}`}>
-                AM Landscape
-              </span>
+              <Image
+                src="/logo.png"
+                alt="FAM Landscape"
+                width={120}
+                height={40}
+                className="h-9 w-auto object-contain"
+                priority
+              />
             </Link>
 
             {/* Desktop links */}
@@ -190,7 +193,7 @@ export default function Navbar() {
               animate={{ x: 0 }}
               exit={{ x: '100%' }}
               transition={{ duration: 0.35, ease: [0.32, 0.72, 0, 1] }}
-              className="fixed top-0 right-0 bottom-0 z-50 w-[280px] bg-gray-950 flex flex-col lg:hidden"
+              className="fixed top-0 right-0 bottom-0 z-50 w-[280px] bg-black flex flex-col lg:hidden"
             >
               {/* Drawer header */}
               <div className="flex items-center justify-between px-6 h-[68px] border-b border-white/[0.07]">

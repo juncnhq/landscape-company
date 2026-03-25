@@ -24,8 +24,8 @@ export default async function HomePage({
       <ProjectsSection />
       <OurServicesSection />
       <TimelineSection />
-      <PartnersSection />
       <MemberCompaniesSection />
+      <PartnersSection />
       <Footer />
     </main>
   );

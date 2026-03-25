@@ -1,6 +1,7 @@
 'use client';
 import { useTranslations, useLocale } from 'next-intl';
 import Link from 'next/link';
+import Image from 'next/image';
 
 export default function Footer() {
   const t = useTranslations('footer');
@@ -11,8 +12,18 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12 mb-10 md:mb-16">
           <div className="col-span-2 md:col-span-2">
-            <div className="text-2xl md:text-3xl font-bold text-white mb-4">
-              <span className="text-green-400">F</span>am
+            <div className="mb-4">
+              <Link href={`/${locale}`} className="inline-block">
+                <div className="px-3 py-1.5 rounded-full bg-white/10 hover:bg-white/20 transition-colors duration-300 inline-block">
+                  <Image
+                    src="/logo.png"
+                    alt="FAM Landscape"
+                    width={120}
+                    height={40}
+                    className="h-9 w-auto object-contain drop-shadow-[0_1px_4px_rgba(50,132,66,0.3)]"
+                  />
+                </div>
+              </Link>
             </div>
             <p className="text-gray-400 leading-relaxed max-w-sm text-sm md:text-base">{t('description')}</p>
             <div className="flex gap-3 mt-6">

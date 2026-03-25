@@ -62,7 +62,7 @@ export default function ProjectsGrid() {
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 />
                 {/* Hover overlay */}
-                <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-400 flex flex-col justify-end p-6">
+                <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-400 flex flex-col justify-end p-6">
                   <span className="text-white/60 text-[10px] tracking-widest uppercase mb-2">
                     {String(i + 1).padStart(2, '0')} — {project.category}
                   </span>

@@ -60,7 +60,7 @@ export default function AboutPageContent() {
   return (
     <>
       {/* ════════════════════════════════════════════════════════ HERO ══ */}
-      <section className="relative bg-gray-950 pt-36 md:pt-48 pb-24 md:pb-32 overflow-hidden">
+      <section className="relative bg-black pt-36 md:pt-48 pb-24 md:pb-32 overflow-hidden">
         {/* Subtle grid backdrop */}
         <div
           className="absolute inset-0 opacity-[0.035]"
@@ -183,7 +183,7 @@ export default function AboutPageContent() {
       </section>
 
       {/* ════════════════════════════════════════════════════ STATS ══ */}
-      <section ref={statsRef} className="py-16 md:py-28 bg-gray-950">
+      <section ref={statsRef} className="py-16 md:py-28 bg-black">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -224,55 +224,7 @@ export default function AboutPageContent() {
       <TimelineSection />
 
       {/* ══════════════════════════════════════════ LEADERSHIP ══ */}
-      <section ref={leaderRef} className="py-16 md:py-24 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={leaderInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.8 }}
-            className="text-center mb-12 md:mb-16"
-          >
-            <p className="text-green-600 text-xs font-semibold tracking-widest uppercase mb-3">
-              {t('leadershipEyebrow')}
-            </p>
-            <h2 className="text-3xl md:text-5xl font-bold text-gray-900 mb-4">
-              {t('leadershipTitle')}
-            </h2>
-            <p className="text-gray-500 text-base md:text-lg max-w-xl mx-auto">
-              {t('leadershipSubtitle')}
-            </p>
-          </motion.div>
-
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
-            {LEADERS.map((leader, i) => (
-              <motion.div
-                key={leader.roleKey}
-                initial={{ opacity: 0, y: 40 }}
-                animate={leaderInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.6, delay: i * 0.1 }}
-                className="text-center rounded-2xl bg-gray-50 border border-gray-100 hover:border-green-100 hover:shadow-md transition-all p-6 md:p-8"
-              >
-                {/* Avatar */}
-                <div
-                  className={`mx-auto w-20 h-20 md:w-24 md:h-24 rounded-full bg-gradient-to-br ${leader.gradient} flex items-center justify-center mb-5`}
-                >
-                  <span className="text-white font-bold text-base md:text-lg tracking-wide">
-                    {leader.initials}
-                  </span>
-                </div>
-
-                {/* Name placeholder bar */}
-                <div className="h-2.5 bg-gray-200 rounded-full w-2/3 mx-auto mb-1.5" />
-                <div className="h-2 bg-gray-100 rounded-full w-1/2 mx-auto mb-4" />
-
-                {/* Role */}
-                <p className="text-sm font-semibold text-gray-800">{t(leader.roleKey)}</p>
-                <p className="text-xs text-gray-400 mt-1">FAM Group</p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
+    
 
       {/* ═══════════════════════════════════════════════════ CTA ══ */}
       <section ref={ctaRef} className="relative py-20 md:py-32 bg-green-700 overflow-hidden">
