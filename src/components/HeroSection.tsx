@@ -5,47 +5,21 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
 
-const heroSlides = [
-  {
-    url: 'https://images.unsplash.com/photo-1540541338287-41700207dee6?w=1920&q=90',
-    labelVi: 'Cảnh quan nghỉ dưỡng',
-    labelEn: 'Resort Landscape',
-  },
-  {
-    url: 'https://images.unsplash.com/photo-1587174486073-ae5e5cff23aa?w=1920&q=90',
-    labelVi: 'Sân Golf',
-    labelEn: 'Golf Course',
-  },
-  {
-    url: 'https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=1920&q=90',
-    labelVi: 'Vườn Biệt Thự',
-    labelEn: 'Villa Garden',
-  },
-  {
-    url: 'https://images.unsplash.com/photo-1586348943529-beaae6c28db9?w=1920&q=90',
-    labelVi: 'Công Viên Đô Thị',
-    labelEn: 'Urban Park',
-  },
-  {
-    url: 'https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?w=1920&q=90',
-    labelVi: 'Cảnh quan Sinh Thái',
-    labelEn: 'Eco Landscape',
-  },
-];
+type HeroSlide = { url: string; labelVi: string; labelEn: string };
 
-export default function HeroSection() {
+export default function HeroSection({ slides }: { slides: HeroSlide[] }) {
   const t = useTranslations('hero');
   const locale = useLocale();
   const [current, setCurrent] = useState(0);
 
   useEffect(() => {
-    const timer = setInterval(() => setCurrent((c) => (c + 1) % heroSlides.length), 5000);
+    const timer = setInterval(() => setCurrent((c) => (c + 1) % slides.length), 5000);
     return () => clearInterval(timer);
-  }, []);
+  }, [slides.length]);
 
   return (
     <section className="relative h-screen overflow-hidden">
-      {heroSlides.map((slide, i) => (
+      {slides.map((slide, i) => (
         <motion.div
           key={slide.url}
           className="absolute inset-0"
@@ -117,17 +91,17 @@ export default function HeroSection() {
           className="flex items-center gap-3"
         >
           <span className="text-[10px] tracking-[0.3em] text-white/40 uppercase">
-            {String(current + 1).padStart(2, '0')} / {String(heroSlides.length).padStart(2, '0')}
+            {String(current + 1).padStart(2, '0')} / {String(slides.length).padStart(2, '0')}
           </span>
           <span className="w-8 h-px bg-white/30" />
           <span className="text-[10px] tracking-[0.2em] text-white/70 uppercase font-medium">
-            {locale === 'vi' ? heroSlides[current].labelVi : heroSlides[current].labelEn}
+            {locale === 'vi' ? slides[current].labelVi : slides[current].labelEn}
           </span>
         </motion.div>
 
         {/* Dot indicators — py-3 gives 28px tap height on mobile without changing visuals */}
         <div className="flex gap-2 items-center">
-          {heroSlides.map((slide, i) => (
+          {slides.map((slide, i) => (
             <button
               key={i}
               onClick={() => setCurrent(i)}

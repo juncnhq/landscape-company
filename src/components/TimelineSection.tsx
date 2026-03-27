@@ -1,9 +1,10 @@
 'use client';
 import { useTranslations, useLocale } from 'next-intl';
 import { motion } from 'framer-motion';
-import { timelineItems } from '@/lib/data';
 
-export default function TimelineSection() {
+type TimelineItem = { year: string; title: string; titleEn: string; description: string; descriptionEn: string };
+
+export default function TimelineSection({ items }: { items: TimelineItem[] }) {
   const t = useTranslations('timeline');
   const locale = useLocale();
 
@@ -29,7 +30,7 @@ export default function TimelineSection() {
           <div className="absolute left-[7px] md:left-1/2 top-2 bottom-2 w-px bg-gradient-to-b from-green-500/0 via-green-500/40 to-green-500/0 md:-translate-x-px" />
 
           <div className="flex flex-col gap-10 md:gap-14">
-            {timelineItems.map((item, i) => (
+            {items.map((item, i) => (
               <motion.div
                 key={item.year}
                 initial={{ opacity: 0, y: 40 }}

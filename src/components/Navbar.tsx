@@ -69,6 +69,8 @@ export default function Navbar() {
     { href: `/${locale}/partners`, label: t('partners') },
     { href: `/${locale}/news`, label: t('news') },
     { href: `/${locale}/careers`, label: t('careers') },
+    { href: `/${locale}/catalogue`, label: t('catalogue') },
+    { href: `/${locale}/seekproject`, label: t('seekProject') },
   ];
 
   const isActive = (href: string) =>

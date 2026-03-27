@@ -38,7 +38,9 @@ const LEADERS = [
 ] as const;
 
 // ── Component ─────────────────────────────────────────────────────────────────
-export default function AboutPageContent() {
+type TimelineItem = { year: string; title: string; titleEn: string; description: string; descriptionEn: string };
+
+export default function AboutPageContent({ timelineItems }: { timelineItems: TimelineItem[] }) {
   const t = useTranslations('about');
   const locale = useLocale();
 
@@ -221,7 +223,7 @@ export default function AboutPageContent() {
       </section>
 
       {/* ══════════════════════════════════════════════ TIMELINE ══ */}
-      <TimelineSection />
+      <TimelineSection items={timelineItems} />
 
       {/* ══════════════════════════════════════════ LEADERSHIP ══ */}
       <section ref={leaderRef} className="py-16 md:py-24 bg-white">

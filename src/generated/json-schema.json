@@ -1,0 +1,519 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "definitions": {
+    "Project": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "slug": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "titleEn": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "category": {
+          "type": "string",
+          "enum": [
+            "GOLF",
+            "RESORT",
+            "URBAN",
+            "GARDEN",
+            "ARTWORK"
+          ]
+        },
+        "location": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "area": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "duration": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "client": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "year": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "image": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "description": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "descriptionEn": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "published": {
+          "type": "boolean",
+          "default": true
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "images": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ProjectImage"
+          }
+        }
+      },
+      "required": [
+        "slug",
+        "title",
+        "category",
+        "updatedAt"
+      ]
+    },
+    "ProjectImage": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        },
+        "order": {
+          "type": "integer",
+          "default": 0
+        },
+        "project": {
+          "$ref": "#/definitions/Project"
+        }
+      },
+      "required": [
+        "url",
+        "projectId"
+      ]
+    },
+    "HeroSlide": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        },
+        "labelVi": {
+          "type": "string"
+        },
+        "labelEn": {
+          "type": "string"
+        },
+        "order": {
+          "type": "integer",
+          "default": 0
+        },
+        "published": {
+          "type": "boolean",
+          "default": true
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "url",
+        "labelVi",
+        "labelEn",
+        "updatedAt"
+      ]
+    },
+    "Service": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "number": {
+          "type": "string"
+        },
+        "titleVi": {
+          "type": "string"
+        },
+        "titleEn": {
+          "type": "string"
+        },
+        "descVi": {
+          "type": "string"
+        },
+        "descEn": {
+          "type": "string"
+        },
+        "tag": {
+          "type": "string"
+        },
+        "iconSvg": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "order": {
+          "type": "integer",
+          "default": 0
+        },
+        "published": {
+          "type": "boolean",
+          "default": true
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "number",
+        "titleVi",
+        "titleEn",
+        "descVi",
+        "descEn",
+        "tag",
+        "updatedAt"
+      ]
+    },
+    "Partner": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "sector": {
+          "type": "string"
+        },
+        "sectorEn": {
+          "type": "string"
+        },
+        "descVi": {
+          "type": "string"
+        },
+        "descEn": {
+          "type": "string"
+        },
+        "founded": {
+          "type": "integer"
+        },
+        "hq": {
+          "type": "string"
+        },
+        "statLabelVi": {
+          "type": "string"
+        },
+        "statLabelEn": {
+          "type": "string"
+        },
+        "statValue": {
+          "type": "string"
+        },
+        "projectsVi": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "projectsEn": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "highlightVi": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "highlightEn": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "order": {
+          "type": "integer",
+          "default": 0
+        },
+        "published": {
+          "type": "boolean",
+          "default": true
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "name",
+        "sector",
+        "sectorEn",
+        "descVi",
+        "descEn",
+        "founded",
+        "hq",
+        "statLabelVi",
+        "statLabelEn",
+        "statValue",
+        "projectsVi",
+        "projectsEn",
+        "updatedAt"
+      ]
+    },
+    "TimelineItem": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "year": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "titleEn": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "descriptionEn": {
+          "type": "string"
+        },
+        "order": {
+          "type": "integer",
+          "default": 0
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "year",
+        "title",
+        "titleEn",
+        "description",
+        "descriptionEn",
+        "updatedAt"
+      ]
+    },
+    "JobPosition": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "titleVi": {
+          "type": "string"
+        },
+        "titleEn": {
+          "type": "string"
+        },
+        "typeVi": {
+          "type": "string"
+        },
+        "typeEn": {
+          "type": "string"
+        },
+        "locationVi": {
+          "type": "string"
+        },
+        "locationEn": {
+          "type": "string"
+        },
+        "descVi": {
+          "type": "string"
+        },
+        "descEn": {
+          "type": "string"
+        },
+        "order": {
+          "type": "integer",
+          "default": 0
+        },
+        "published": {
+          "type": "boolean",
+          "default": true
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "titleVi",
+        "titleEn",
+        "typeVi",
+        "typeEn",
+        "locationVi",
+        "locationEn",
+        "descVi",
+        "descEn",
+        "updatedAt"
+      ]
+    },
+    "NewsArticle": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "slug": {
+          "type": "string"
+        },
+        "titleVi": {
+          "type": "string"
+        },
+        "titleEn": {
+          "type": "string"
+        },
+        "summaryVi": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "summaryEn": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "contentVi": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "contentEn": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "image": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "published": {
+          "type": "boolean",
+          "default": false
+        },
+        "publishedAt": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "slug",
+        "titleVi",
+        "titleEn",
+        "updatedAt"
+      ]
+    }
+  },
+  "type": "object",
+  "properties": {
+    "project": {
+      "$ref": "#/definitions/Project"
+    },
+    "projectImage": {
+      "$ref": "#/definitions/ProjectImage"
+    },
+    "heroSlide": {
+      "$ref": "#/definitions/HeroSlide"
+    },
+    "service": {
+      "$ref": "#/definitions/Service"
+    },
+    "partner": {
+      "$ref": "#/definitions/Partner"
+    },
+    "timelineItem": {
+      "$ref": "#/definitions/TimelineItem"
+    },
+    "jobPosition": {
+      "$ref": "#/definitions/JobPosition"
+    },
+    "newsArticle": {
+      "$ref": "#/definitions/NewsArticle"
+    }
+  }
+}

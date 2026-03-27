@@ -6,7 +6,9 @@
     "services": "Services",
     "partners": "Partners",
     "news": "News",
-    "careers": "Careers"
+    "careers": "Careers",
+    "catalogue": "Catalogue",
+    "seekProject": "Find Project"
   },
   "hero": {
     "title": "Creating Beautiful Landscapes",
@@ -22,7 +24,8 @@
     "title": "Our Projects",
     "subtitle": "Explore our portfolio of stunning landscape transformations",
     "viewAll": "View All Projects",
-    "viewDetail": "View Detail"
+    "viewDetail": "View Detail",
+    "all": "All"
   },
   "services": {
     "title": "Our Services",
@@ -118,6 +121,14 @@
     "ctaTitle": "Let's build something green together",
     "ctaSubtitle": "From concept to completion — FAM delivers full-service landscape solutions tailored to your vision.",
     "ctaButton": "Contact Us"
+  },
+  "seekProject": {
+    "title": "Find a Project",
+    "subtitle": "Search our portfolio by name, location or category",
+    "searchPlaceholder": "Search projects...",
+    "all": "All",
+    "noResults": "No projects found",
+    "noResultsHint": "Try a different keyword or category"
   },
   "projectDetail": {
     "overview": "Project Overview",

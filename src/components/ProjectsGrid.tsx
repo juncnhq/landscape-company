@@ -3,12 +3,22 @@ import { useTranslations, useLocale } from 'next-intl';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
-import { projects } from '@/lib/data';
 import { useState } from 'react';
 
-const categories = ['All', 'Golf', 'Resort', 'Urban', 'Construction', 'Artwork'];
+type Project = {
+  id: string;
+  slug: string;
+  title: string;
+  titleEn: string | null;
+  category: string;
+  location: string | null;
+  year: string | null;
+  image: string | null;
+};
 
-export default function ProjectsGrid() {
+const CATEGORIES = ['All', 'GOLF', 'RESORT', 'URBAN', 'GARDEN', 'ARTWORK'];
+
+export default function ProjectsGrid({ projects }: { projects: Project[] }) {
   const t = useTranslations('projects');
   const locale = useLocale();
   const [active, setActive] = useState('All');
@@ -17,9 +27,9 @@ export default function ProjectsGrid() {
 
   return (
     <section className="pt-4 pb-0">
-      {/* Minimal filter tabs */}
+      {/* Filter tabs */}
       <div className="flex flex-wrap gap-4 md:gap-8 mb-8 md:mb-10 px-4 sm:px-8 lg:px-12 border-b border-gray-200">
-        {categories.map((cat) => (
+        {CATEGORIES.map((cat) => (
           <button
             key={cat}
             onClick={() => setActive(cat)}
@@ -27,7 +37,7 @@ export default function ProjectsGrid() {
               active === cat ? 'text-black' : 'text-gray-400 hover:text-black'
             }`}
           >
-            {cat}
+            {cat === 'All' ? t('all') ?? 'All' : cat}
             {active === cat && (
               <motion.span
                 layoutId="underline"
@@ -38,11 +48,7 @@ export default function ProjectsGrid() {
         ))}
       </div>
 
-      {/* Tight image grid */}
-      <motion.div
-        layout
-        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[8px]"
-      >
+      <motion.div layout className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[8px]">
         <AnimatePresence mode="popLayout">
           {filtered.map((project, i) => (
             <motion.div
@@ -53,23 +59,26 @@ export default function ProjectsGrid() {
               exit={{ opacity: 0 }}
               transition={{ duration: 0.35, delay: i * 0.04 }}
             >
-              <Link href={`/${locale}/projects/${project.slug}`} className="group block relative overflow-hidden aspect-[4/3]">
-                <Image
-                  src={project.image}
-                  alt={project.title}
-                  fill
-                  className="object-cover transition-transform duration-700 group-hover:scale-105"
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                />
-                {/* Hover overlay */}
+              <Link href={`/${locale}/projects/${project.slug}`} className="group block relative overflow-hidden aspect-[4/3] bg-gray-100">
+                {project.image && (
+                  <Image
+                    src={project.image}
+                    alt={project.title}
+                    fill
+                    className="object-cover transition-transform duration-700 group-hover:scale-105"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                  />
+                )}
                 <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-400 flex flex-col justify-end p-6">
                   <span className="text-white/60 text-[10px] tracking-widest uppercase mb-2">
                     {String(i + 1).padStart(2, '0')} — {project.category}
                   </span>
                   <h3 className="text-white text-lg font-light tracking-wide leading-snug">
-                    {locale === 'vi' ? project.title : project.titleEn}
+                    {locale === 'vi' ? project.title : (project.titleEn ?? project.title)}
                   </h3>
-                  <p className="text-white/50 text-xs mt-1 tracking-wide">{project.location} · {project.year}</p>
+                  <p className="text-white/50 text-xs mt-1 tracking-wide">
+                    {[project.location, project.year].filter(Boolean).join(' · ')}
+                  </p>
                 </div>
               </Link>
             </motion.div>

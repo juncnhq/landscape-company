@@ -6,7 +6,9 @@
     "services": "Dịch vụ",
     "partners": "Đối tác",
     "news": "Tin tức",
-    "careers": "Tuyển dụng"
+    "careers": "Tuyển dụng",
+    "catalogue": "Catalogue",
+    "seekProject": "Tìm Dự Án"
   },
   "hero": {
     "title": "Tạo Ra Những Cảnh Quan Tuyệt Đẹp",
@@ -22,7 +24,8 @@
     "title": "Dự Án Của Chúng Tôi",
     "subtitle": "Khám phá danh mục các công trình cảnh quan tuyệt đẹp",
     "viewAll": "Xem Tất Cả Dự Án",
-    "viewDetail": "Xem Chi Tiết"
+    "viewDetail": "Xem Chi Tiết",
+    "all": "Tất cả"
   },
   "services": {
     "title": "Dịch Vụ Của Chúng Tôi",
@@ -118,6 +121,14 @@
     "ctaTitle": "Hãy Cùng Tạo Ra Điều Gì Đó Xanh",
     "ctaSubtitle": "Từ ý tưởng đến hoàn thiện — FAM cung cấp giải pháp cảnh quan trọn gói theo tầm nhìn của bạn.",
     "ctaButton": "Liên Hệ Ngay"
+  },
+  "seekProject": {
+    "title": "Tìm Dự Án",
+    "subtitle": "Tìm kiếm theo tên, địa điểm hoặc danh mục",
+    "searchPlaceholder": "Tìm kiếm dự án...",
+    "all": "Tất cả",
+    "noResults": "Không tìm thấy dự án",
+    "noResultsHint": "Thử từ khóa hoặc danh mục khác"
   },
   "projectDetail": {
     "overview": "Tổng Quan Dự Án",

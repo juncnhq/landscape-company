@@ -2,9 +2,24 @@
 import { useTranslations, useLocale } from 'next-intl';
 import { motion, useInView, AnimatePresence } from 'framer-motion';
 import { useRef, useState } from 'react';
-import { partners } from '@/lib/data';
 
-type Partner = typeof partners[number];
+type Partner = {
+  id: string;
+  name: string;
+  sector: string;
+  sectorEn: string;
+  descVi: string;
+  descEn: string;
+  founded: number;
+  hq: string;
+  statLabelVi: string;
+  statLabelEn: string;
+  statValue: string;
+  projectsVi: string[];
+  projectsEn: string[];
+  highlightVi: string | null;
+  highlightEn: string | null;
+};
 
 function PartnerModal({ partner, onClose, isVi }: { partner: Partner; onClose: () => void; isVi: boolean }) {
   const projects = isVi ? partner.projectsVi : partner.projectsEn;
@@ -110,7 +125,7 @@ function PartnerModal({ partner, onClose, isVi }: { partner: Partner; onClose: (
   );
 }
 
-export default function PartnersSection() {
+export default function PartnersSection({ partners }: { partners: Partner[] }) {
   const t = useTranslations('partners');
   const locale = useLocale();
   const isVi = locale === 'vi';

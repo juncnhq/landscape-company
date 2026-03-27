@@ -1,0 +1,157 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+generator jsonSchema {
+  provider              = "prisma-json-schema-generator"
+  output                = "../src/generated"
+  includeRequiredFields = "true"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Project {
+  id            String         @id @default(cuid())
+  slug          String         @unique
+  title         String
+  titleEn       String?
+  category      Category
+  location      String?
+  area          String?
+  duration      String?
+  client        String?
+  year          String?
+  image         String?
+  description   String?
+  descriptionEn String?
+  published     Boolean        @default(true)
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  images        ProjectImage[]
+
+  @@map("projects")
+}
+
+model ProjectImage {
+  id        String  @id @default(cuid())
+  url       String
+  order     Int     @default(0)
+  projectId String
+  project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@map("project_images")
+}
+
+model HeroSlide {
+  id        String   @id @default(cuid())
+  url       String
+  labelVi   String
+  labelEn   String
+  order     Int      @default(0)
+  published Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("hero_slides")
+}
+
+model Service {
+  id        String   @id @default(cuid())
+  number    String
+  titleVi   String
+  titleEn   String
+  descVi    String
+  descEn    String
+  tag       String
+  iconSvg   String?
+  order     Int      @default(0)
+  published Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("services")
+}
+
+model Partner {
+  id          String   @id @default(cuid())
+  name        String
+  sector      String
+  sectorEn    String
+  descVi      String
+  descEn      String
+  founded     Int
+  hq          String
+  statLabelVi String
+  statLabelEn String
+  statValue   String
+  projectsVi  String[]
+  projectsEn  String[]
+  highlightVi String?
+  highlightEn String?
+  order       Int      @default(0)
+  published   Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("partners")
+}
+
+model TimelineItem {
+  id            String   @id @default(cuid())
+  year          String
+  title         String
+  titleEn       String
+  description   String
+  descriptionEn String
+  order         Int      @default(0)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@map("timeline_items")
+}
+
+model JobPosition {
+  id         String   @id @default(cuid())
+  titleVi    String
+  titleEn    String
+  typeVi     String
+  typeEn     String
+  locationVi String
+  locationEn String
+  descVi     String
+  descEn     String
+  order      Int      @default(0)
+  published  Boolean  @default(true)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@map("job_positions")
+}
+
+model NewsArticle {
+  id          String    @id @default(cuid())
+  slug        String    @unique
+  titleVi     String
+  titleEn     String
+  summaryVi   String?
+  summaryEn   String?
+  contentVi   String?
+  contentEn   String?
+  image       String?
+  published   Boolean   @default(false)
+  publishedAt DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@map("news_articles")
+}
+
+enum Category {
+  GOLF
+  RESORT
+  URBAN
+  GARDEN
+  ARTWORK
+}
