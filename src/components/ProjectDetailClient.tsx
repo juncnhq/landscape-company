@@ -23,7 +23,7 @@ interface Project {
   images: string[];
   description: string;
   descriptionEn: string;
-  articles: { title: string; date: string; excerpt: string }[];
+  articles?: { title: string; date: string; excerpt: string }[];
 }
 
 export default function ProjectDetailClient({ project }: { project: Project }) {
@@ -80,10 +80,10 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
 
       <p className="text-sm font-light text-gray-500 leading-relaxed">{description}</p>
 
-      {project.articles.length > 0 && (
+      {(project.articles?.length ?? 0) > 0 && (
         <div className="mt-10 space-y-6">
           <p className="text-[9px] tracking-[0.25em] text-gray-400 uppercase">{t('relatedArticles')}</p>
-          {project.articles.map((article, i) => (
+          {project.articles?.map((article, i) => (
             <div key={i} className="border-t border-gray-100 pt-5">
               <p className="text-[9px] tracking-[0.2em] text-gray-400 uppercase mb-2">{article.date}</p>
               <p className="text-sm font-light text-gray-800 mb-1">{article.title}</p>

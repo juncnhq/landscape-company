@@ -219,7 +219,7 @@ const duration = prefersReduced ? 0 : 0.8;
 Tất cả inner pages (About, Services, Careers, News, Projects) dùng cùng hero pattern:
 
 ```tsx
-<section className="relative bg-[#07130a] pt-36 md:pt-48 pb-20 md:pb-28 overflow-hidden">
+<section className="relative bg-black pt-36 md:pt-48 pb-20 md:pb-28 overflow-hidden">
   {/* Dot grid */}
   <div className="absolute inset-0 opacity-[0.07]"
     style={{ backgroundImage: 'radial-gradient(circle, #4ade80 1px, transparent 1px)', backgroundSize: '32px 32px' }} />

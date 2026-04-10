@@ -127,22 +127,41 @@ export default function Navbar() {
         }`}
       >
         <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12">
-          <div className="flex items-center justify-between h-[68px]">
+          <div className="flex items-center justify-between h-[76px]">
 
             {/* Logo */}
             <Link
               href={`/${locale}`}
-              className="flex items-center gap-2 shrink-0"
+              className="flex items-center gap-2 shrink-0 group"
               onClick={() => setMobileOpen(false)}
             >
-              <Image
-                src="/logo.png"
-                alt="FAM Landscape"
-                width={120}
-                height={40}
-                className="h-9 w-auto object-contain"
-                priority
-              />
+              <motion.div
+                whileHover={prefersReducedMotion ? {} : { scale: 1.06, y: -1 }}
+                whileTap={prefersReducedMotion ? {} : { scale: 0.97 }}
+                transition={{ type: 'spring', stiffness: 400, damping: 20 }}
+                className="relative"
+              >
+                {/* Glow halo behind logo */}
+                <span
+                  className={`absolute inset-0 rounded-xl blur-lg transition-opacity duration-500 ${
+                    scrolled
+                      ? 'bg-green-400/20 opacity-0 group-hover:opacity-100'
+                      : 'bg-white/10 opacity-0 group-hover:opacity-100'
+                  }`}
+                />
+                <Image
+                  src="/logo.png"
+                  alt="FAM Landscape"
+                  width={140}
+                  height={48}
+                  className={`relative h-16 w-auto object-contain transition-[filter] duration-500 ${
+                    scrolled
+                      ? 'drop-shadow-[0_2px_8px_rgba(50,132,66,0.25)] group-hover:drop-shadow-[0_4px_16px_rgba(50,132,66,0.45)]'
+                      : 'drop-shadow-[0_2px_12px_rgba(255,255,255,0.15)] group-hover:drop-shadow-[0_4px_20px_rgba(255,255,255,0.3)]'
+                  }`}
+                  priority
+                />
+              </motion.div>
             </Link>
 
             {/* Desktop links */}
@@ -157,8 +176,8 @@ export default function Navbar() {
                         ? 'text-green-600 focus:ring-green-600 focus:ring-offset-white'
                         : 'text-green-400 focus:ring-green-400 focus:ring-offset-transparent'
                       : scrolled
-                        ? 'text-gray-600 hover:text-gray-900 hover:bg-gray-50 focus:ring-green-600 focus:ring-offset-white'
-                        : 'text-white/80 hover:text-white hover:bg-white/10 focus:ring-green-400 focus:ring-offset-transparent'
+                        ? 'text-gray-600 hover:text-green-700 hover:bg-green-50 focus:ring-green-600 focus:ring-offset-white'
+                        : 'text-white/80 hover:text-green-300 hover:bg-green-400/10 focus:ring-green-400 focus:ring-offset-transparent'
                   }`}
                 >
                   {link.label}
@@ -246,7 +265,7 @@ export default function Navbar() {
               className="fixed top-0 right-0 bottom-0 z-50 w-[280px] bg-[#07130a] flex flex-col lg:hidden"
             >
               {/* Drawer header */}
-              <div className="flex items-center justify-between px-6 h-[68px] border-b border-white/[0.07]">
+              <div className="flex items-center justify-between px-6 h-[76px] border-b border-white/[0.07]">
                 <Link href={`/${locale}`} onClick={() => setMobileOpen(false)} className="flex items-center gap-2">
                   <Image
                     src="/logo.png"

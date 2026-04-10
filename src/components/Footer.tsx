@@ -50,13 +50,7 @@ export default function Footer() {
   return (
     <footer className="relative bg-[#07130a] text-green-100/70 overflow-hidden">
 
-      {/* Organic SVG wave divider at top */}
-      <div className="absolute top-0 left-0 right-0 overflow-hidden leading-none pointer-events-none">
-        <svg viewBox="0 0 1440 56" className="w-full h-12 md:h-14" preserveAspectRatio="none">
-          <path d="M0,0 C360,56 1080,56 1440,0 L1440,0 L0,0 Z" fill="white" />
-        </svg>
-      </div>
-
+     
       {/* Top brand gold accent line */}
       <div className="absolute top-12 md:top-14 left-0 right-0 h-px bg-gradient-to-r from-transparent via-secondary-500/40 to-transparent" />
 

@@ -60,7 +60,7 @@ export default function AboutPageContent() {
   return (
     <>
       {/* ════════════════════════════════════════════════════════ HERO ══ */}
-      <section className="relative bg-[#07130a] pt-36 md:pt-48 pb-24 md:pb-32 overflow-hidden">
+      <section className="relative bg-black pt-36 md:pt-48 pb-24 md:pb-32 overflow-hidden">
         {/* Dot grid backdrop */}
         <div
           className="absolute inset-0 opacity-[0.07]"

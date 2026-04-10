@@ -15,7 +15,7 @@ export default function ProjectsSection() {
   const featured = projects.slice(0, 9);
 
   return (
-    <section ref={ref} className="py-12 md:py-24 bg-[#07130a] relative overflow-hidden">
+    <section ref={ref} className="py-12 md:py-24 bg-white relative overflow-hidden">
       {/* Ambient overlays */}
       <div
         className="absolute inset-0 opacity-[0.055]"
@@ -31,8 +31,8 @@ export default function ProjectsSection() {
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.7 }}
         >
-          <p className="text-[10px] tracking-widest uppercase text-green-400 mb-2">Portfolio</p>
-          <h2 className="font-display text-3xl md:text-5xl font-light text-white tracking-tight">{t('title')}</h2>
+          <p className="text-[10px] tracking-widest uppercase text-black mb-2">Portfolio</p>
+          <h2 className="font-display text-3xl md:text-5xl font-light text-black tracking-tight">{t('title')}</h2>
         </motion.div>
         <motion.div
           initial={{ opacity: 0 }}

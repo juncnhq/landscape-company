@@ -9,10 +9,14 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@prisma/adapter-pg": "^7.7.0",
+    "@prisma/client": "^7.7.0",
     "framer-motion": "^12.37.0",
+    "jose": "^6.2.2",
     "next": "16.1.6",
     "next-intl": "^4.8.3",
     "pdf-lib": "^1.17.1",
+    "pg": "^8.20.0",
     "react": "19.2.3",
     "react-dom": "19.2.3",
     "react-pdf-flipbook-viewer": "^0.2.0"
@@ -20,10 +24,13 @@
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
+    "@types/pg": "^8.20.0",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "dotenv": "^17.4.1",
     "eslint": "^9",
     "eslint-config-next": "16.1.6",
+    "prisma": "^7.7.0",
     "tailwindcss": "^4",
     "typescript": "^5"
   }

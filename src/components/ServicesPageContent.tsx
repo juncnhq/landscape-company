@@ -4,7 +4,31 @@ import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
 import Link from 'next/link';
 
-// ── Service data ──────────────────────────────────────────────────────────────
+// ── Accent palette derived from index ────────────────────────────────────────
+const ACCENTS = [
+  { accent: '#328442', accentLight: '#f0fdf4', accentBorder: '#86efac' },
+  { accent: '#16a34a', accentLight: '#f0fdf4', accentBorder: '#86efac' },
+  { accent: '#328442', accentLight: '#f0fdf4', accentBorder: '#86efac' },
+  { accent: '#BE7B2B', accentLight: '#fdf8f0', accentBorder: '#f0c87a' },
+  { accent: '#BE7B2B', accentLight: '#fdf8f0', accentBorder: '#f0c87a' },
+  { accent: '#328442', accentLight: '#f0fdf4', accentBorder: '#86efac' },
+];
+
+type DbService = {
+  id: string;
+  slug: string;
+  icon: string;
+  titleVi: string;
+  titleEn: string;
+  subtitleVi: string;
+  subtitleEn: string;
+  descVi: string;
+  descEn: string;
+  bulletsVi: string[];
+  bulletsEn: string[];
+};
+
+// ── Legacy hardcoded data (kept as fallback, no longer used by default) ───────
 const SERVICES = [
   {
     id: 'consulting',
@@ -182,7 +206,7 @@ function ServiceCard({
   ctaLabel,
   contactHref,
 }: {
-  service: (typeof SERVICES)[number];
+  service: DbService;
   index: number;
   locale: string;
   ctaLabel: string;
@@ -195,6 +219,7 @@ function ServiceCard({
   const subtitle = isVi ? service.subtitleVi : service.subtitleEn;
   const desc = isVi ? service.descVi : service.descEn;
   const bullets = isVi ? service.bulletsVi : service.bulletsEn;
+  const { accent, accentLight, accentBorder } = ACCENTS[index % ACCENTS.length];
 
   return (
     <motion.div
@@ -205,7 +230,7 @@ function ServiceCard({
       className="relative rounded-2xl border border-gray-100 bg-white overflow-hidden shadow-sm hover:shadow-md transition-shadow"
     >
       {/* Coloured top bar */}
-      <div className="h-1 w-full" style={{ background: `linear-gradient(90deg, ${service.accent}, ${service.accentBorder})` }} />
+      <div className="h-1 w-full" style={{ background: `linear-gradient(90deg, ${accent}, ${accentBorder})` }} />
 
       <div className="p-6 md:p-10">
         <div className="flex flex-col md:flex-row md:gap-12">
@@ -216,7 +241,7 @@ function ServiceCard({
               {/* Ghost number */}
               <span
                 className="text-6xl font-black leading-none select-none shrink-0 mt-1"
-                style={{ color: `${service.accent}18` }}
+                style={{ color: `${accent}18` }}
               >
                 {String(index + 1).padStart(2, '0')}
               </span>
@@ -224,7 +249,7 @@ function ServiceCard({
               <div>
                 <div
                   className="inline-flex items-center justify-center w-10 h-10 rounded-xl text-xl mb-3"
-                  style={{ backgroundColor: service.accentLight, border: `1px solid ${service.accentBorder}` }}
+                  style={{ backgroundColor: accentLight, border: `1px solid ${accentBorder}` }}
                 >
                   {service.icon}
                 </div>
@@ -233,7 +258,7 @@ function ServiceCard({
                 </h2>
                 <p
                   className="text-xs font-semibold tracking-widest uppercase mt-1"
-                  style={{ color: service.accent }}
+                  style={{ color: accent }}
                 >
                   {subtitle}
                 </p>
@@ -248,9 +273,9 @@ function ServiceCard({
               href={contactHref}
               className="inline-flex items-center gap-2 text-sm font-semibold rounded-full px-5 py-2.5 transition-colors"
               style={{
-                backgroundColor: service.accentLight,
-                color: service.accent,
-                border: `1px solid ${service.accentBorder}`,
+                backgroundColor: accentLight,
+                color: accent,
+                border: `1px solid ${accentBorder}`,
               }}
             >
               {ctaLabel} →
@@ -260,11 +285,11 @@ function ServiceCard({
           {/* ── Right: bullet list ── */}
           <div
             className="md:w-72 lg:w-80 shrink-0 rounded-xl p-5 md:p-6"
-            style={{ backgroundColor: service.accentLight, border: `1px solid ${service.accentBorder}` }}
+            style={{ backgroundColor: accentLight, border: `1px solid ${accentBorder}` }}
           >
             <p
               className="text-[10px] font-bold tracking-widest uppercase mb-4"
-              style={{ color: service.accent }}
+              style={{ color: accent }}
             >
               {isVi ? 'Phạm vi dịch vụ' : 'Scope of Work'}
             </p>
@@ -273,7 +298,7 @@ function ServiceCard({
                 <li key={b} className="flex items-start gap-2.5 text-sm text-gray-700">
                   <svg
                     className="mt-0.5 shrink-0 w-4 h-4"
-                    style={{ color: service.accent }}
+                    style={{ color: accent }}
                     fill="none"
                     viewBox="0 0 16 16"
                   >
@@ -293,7 +318,7 @@ function ServiceCard({
 }
 
 // ── Page ──────────────────────────────────────────────────────────────────────
-export default function ServicesPageContent() {
+export default function ServicesPageContent({ services }: { services: DbService[] }) {
   const t = useTranslations('servicesPage');
   const locale = useLocale();
   const ctaRef = useRef(null);
@@ -302,7 +327,7 @@ export default function ServicesPageContent() {
   return (
     <>
       {/* ════════════════════════ HERO ══ */}
-      <section className="relative bg-[#07130a] pt-36 md:pt-48 pb-20 md:pb-28 overflow-hidden">
+      <section className="relative bg-black pt-36 md:pt-48 pb-20 md:pb-28 overflow-hidden">
         <div
           className="absolute inset-0 opacity-[0.06]"
           style={{
@@ -343,7 +368,7 @@ export default function ServicesPageContent() {
       {/* ════════════════════ SERVICES LIST ══ */}
       <section className="py-12 md:py-20 bg-[#f7faf7]">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col gap-6 md:gap-8">
-          {SERVICES.map((service, i) => (
+          {services.map((service, i) => (
             <ServiceCard
               key={service.id}
               service={service}

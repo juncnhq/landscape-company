@@ -1,0 +1,54 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Project {
+  id            String   @id @default(cuid())
+  slug          String   @unique
+  title         String
+  titleEn       String
+  category      String
+  location      String
+  area          String   @default("—")
+  duration      String   @default("—")
+  client        String
+  year          String
+  image         String
+  images        String[]
+  description   String   @db.Text
+  descriptionEn String   @db.Text
+  published     Boolean  @default(true)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@map("project")
+  @@index([category])
+  @@index([published])
+}
+
+model Service {
+  id         String   @id @default(cuid())
+  slug       String   @unique
+  order      Int      @default(0)
+  icon       String
+  titleVi    String
+  titleEn    String
+  subtitleVi String
+  subtitleEn String
+  descVi     String   @db.Text
+  descEn     String   @db.Text
+  tag        String
+  bulletsVi  String[]
+  bulletsEn  String[]
+  published  Boolean  @default(true)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@map("service")
+  @@index([published])
+}
