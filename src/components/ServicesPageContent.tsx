@@ -29,7 +29,7 @@ type DbService = {
 };
 
 // ── Legacy hardcoded data (kept as fallback, no longer used by default) ───────
-const SERVICES = [
+export const SERVICES = [
   {
     id: 'consulting',
     icon: '📋',
@@ -196,7 +196,7 @@ const SERVICES = [
       'Other landscape materials and equipment',
     ],
   },
-] as const;
+];
 
 // ── Service card ──────────────────────────────────────────────────────────────
 function ServiceCard({

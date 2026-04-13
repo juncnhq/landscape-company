@@ -19,27 +19,27 @@ function useReducedMotion() {
 
 const heroSlides = [
   {
-    url: 'https://images.unsplash.com/photo-1540541338287-41700207dee6?w=1920&q=90',
+    url: '/images/hero/FUSION 1.webp',
     labelVi: 'Cảnh quan nghỉ dưỡng',
     labelEn: 'Resort Landscape',
   },
   {
-    url: 'https://images.unsplash.com/photo-1587174486073-ae5e5cff23aa?w=1920&q=90',
+    url: '/images/hero/FUSION 2.jpg',
     labelVi: 'Sân Golf',
     labelEn: 'Golf Course',
   },
   {
-    url: 'https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=1920&q=90',
+    url: '/images/hero/FUSION 4.png',
     labelVi: 'Vườn Biệt Thự',
     labelEn: 'Villa Garden',
   },
   {
-    url: 'https://images.unsplash.com/photo-1586348943529-beaae6c28db9?w=1920&q=90',
+    url: '/images/hero/HÌNH 3.jpg',
     labelVi: 'Công Viên Đô Thị',
     labelEn: 'Urban Park',
   },
   {
-    url: 'https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?w=1920&q=90',
+    url: '/images/hero/HÌNH 4.jpg',
     labelVi: 'Cảnh quan Sinh Thái',
     labelEn: 'Eco Landscape',
   },
@@ -60,12 +60,6 @@ export default function HeroSection() {
     return () => clearInterval(timer);
   }, [prefersReducedMotion]);
 
-  // Preload next slide
-  useEffect(() => {
-    const nextIndex = (current + 1) % heroSlides.length;
-    const img = new window.Image();
-    img.src = heroSlides[nextIndex].url;
-  }, [current]);
 
   return (
     <section className="relative h-screen overflow-hidden">

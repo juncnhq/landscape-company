@@ -1,14 +1,36 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { verifySession } from '@/lib/auth'
+import { SERVICES as staticServices } from '@/components/ServicesPageContent'
 
 const unauthorized = () => NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
 export async function GET() {
-  const services = await prisma.service.findMany({
-    orderBy: { order: 'asc' },
-  })
-  return NextResponse.json(services)
+  try {
+    const services = await prisma.service.findMany({
+      orderBy: { order: 'asc' },
+    })
+    return NextResponse.json(services)
+  } catch {
+    return NextResponse.json(
+      staticServices.map((s, i) => ({
+        id: s.id,
+        slug: s.id,
+        order: i,
+        icon: s.icon,
+        titleVi: s.titleVi,
+        titleEn: s.titleEn,
+        subtitleVi: s.subtitleVi,
+        subtitleEn: s.subtitleEn,
+        descVi: s.descVi,
+        descEn: s.descEn,
+        tag: '',
+        bulletsVi: [...s.bulletsVi],
+        bulletsEn: [...s.bulletsEn],
+        published: true,
+      }))
+    )
+  }
 }
 
 export async function POST(request: NextRequest) {
