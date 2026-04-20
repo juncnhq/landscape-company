@@ -10,7 +10,7 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist);
+  --font-sans: var(--font-be-vietnam);
   --font-display: var(--font-playfair);
 
   /* Brand green — overrides Tailwind's default green scale */

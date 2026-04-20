@@ -16,13 +16,6 @@ export default function ProjectsSection() {
 
   return (
     <section ref={ref} className="py-12 md:py-24 bg-white relative overflow-hidden">
-      {/* Ambient overlays */}
-      <div
-        className="absolute inset-0 opacity-[0.055]"
-        style={{ backgroundImage: 'radial-gradient(circle, #4ade80 1px, transparent 1px)', backgroundSize: '32px 32px' }}
-      />
-      <div className="absolute top-0 left-0 w-[600px] h-[300px] bg-green-500/10 rounded-full blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-0 right-0 w-[400px] h-[200px] bg-secondary-500/10 rounded-full blur-[80px] pointer-events-none" />
 
       {/* Section header */}
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-8 md:mb-10 flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
@@ -31,20 +24,8 @@ export default function ProjectsSection() {
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.7 }}
         >
-          <p className="text-[10px] tracking-widest uppercase text-black mb-2">Portfolio</p>
-          <h2 className="font-display text-3xl md:text-5xl font-light text-black tracking-tight">{t('title')}</h2>
-        </motion.div>
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={inView ? { opacity: 1 } : {}}
-          transition={{ duration: 0.7, delay: 0.3 }}
-        >
-          <Link
-            href={`/${locale}/projects`}
-            className="text-xs tracking-widest uppercase text-green-400 hover:text-green-300 transition-colors border-b border-green-700 hover:border-green-400 pb-0.5"
-          >
-            {t('viewAll')}
-          </Link>
+          <p className="text-[10px] tracking-widest uppercase text-green-600 mb-2">Portfolio</p>
+          <h2 className="font-display text-3xl md:text-5xl font-bold text-gray-900 tracking-tight">{t('title')}</h2>
         </motion.div>
       </div>
 
@@ -108,7 +89,7 @@ export default function ProjectsSection() {
       >
         <Link
           href={`/${locale}/projects`}
-          className="inline-flex items-center gap-3 px-8 py-4 border border-green-500/60 text-green-400 text-xs font-semibold tracking-widest uppercase hover:bg-green-500 hover:text-white hover:border-green-500 transition-all duration-300 rounded-full group"
+          className="inline-flex items-center gap-3 px-8 py-4 border border-green-500/60 text-green-600 font-display text-sm font-semibold hover:bg-green-500 hover:text-white hover:border-green-500 transition-all duration-300 rounded-full group"
         >
           {t('viewAll')}
           <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">

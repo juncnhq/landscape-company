@@ -1,6 +1,7 @@
 "use client";
 import { useTranslations, useLocale } from "next-intl";
 import { motion } from "framer-motion";
+import Image from "next/image";
 import { timelineItems } from "@/lib/data";
 
 export default function TimelineSection() {
@@ -9,6 +10,17 @@ export default function TimelineSection() {
 
   return (
     <section className="py-16 md:py-28 overflow-hidden relative bg-black">
+      {/* Company image background */}
+      <Image
+        src="/images/hero/bg-history.jpg"
+        alt=""
+        fill
+        className="object-cover opacity-25"
+        sizes="100vw"
+        aria-hidden="true"
+      />
+      {/* Dark overlay for readability */}
+      <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/60 to-black/60" />
       <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <motion.div

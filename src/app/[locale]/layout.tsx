@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Geist, Playfair_Display } from 'next/font/google';
+import { Be_Vietnam_Pro, Playfair_Display } from 'next/font/google';
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages, setRequestLocale } from 'next-intl/server';
 import { notFound } from 'next/navigation';
@@ -7,8 +7,15 @@ import { routing } from '@/i18n/routing';
 import BackToTop from '@/components/BackToTop';
 import '../globals.css';
 
-const geist = Geist({ subsets: ['latin'], variable: '--font-geist' });
-const playfair = Playfair_Display({ subsets: ['latin'], variable: '--font-playfair' });
+const beVietnamPro = Be_Vietnam_Pro({
+  subsets: ['latin', 'vietnamese'],
+  weight: ['400', '500', '600', '700'],
+  variable: '--font-be-vietnam',
+});
+const playfair = Playfair_Display({
+  subsets: ['latin', 'vietnamese'],
+  variable: '--font-playfair',
+});
 
 export const metadata: Metadata = {
   title: 'Landscape Company - Thiết Kế Cảnh Quan',
@@ -34,7 +41,7 @@ export default async function LocaleLayout({
   const messages = await getMessages({ locale });
   return (
     <html lang={locale}>
-      <body className={`${geist.variable} ${playfair.variable} font-sans`}>
+      <body className={`${beVietnamPro.variable} ${playfair.variable} font-sans`}>
         <NextIntlClientProvider messages={messages}>
           {children}
           <BackToTop />

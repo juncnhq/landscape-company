@@ -48,9 +48,8 @@ export default function Footer() {
   const locale = useLocale();
 
   return (
-    <footer className="relative bg-[#07130a] text-green-100/70 overflow-hidden">
+    <footer className="relative bg-[#07130a] text-white overflow-hidden">
 
-     
       {/* Top brand gold accent line */}
       <div className="absolute top-12 md:top-14 left-0 right-0 h-px bg-gradient-to-r from-transparent via-secondary-500/40 to-transparent" />
 
@@ -76,7 +75,7 @@ export default function Footer() {
                 </div>
               </Link>
             </div>
-            <p className="text-green-100/55 leading-relaxed max-w-sm text-sm">{t('description')}</p>
+            <p className="text-white leading-relaxed max-w-sm text-sm">{t('description')}</p>
 
             {/* Social icons */}
             <div className="flex gap-2.5 mt-6">
@@ -89,7 +88,7 @@ export default function Footer() {
                   aria-label={social.label}
                   whileHover={{ y: -2 }}
                   transition={{ duration: 0.2 }}
-                  className="w-9 h-9 rounded-full bg-white/8 border border-white/10 flex items-center justify-center hover:bg-green-600 hover:border-green-500 transition-colors duration-300 text-green-100/60 hover:text-white"
+                  className="w-9 h-9 rounded-full bg-white/8 border border-white/10 flex items-center justify-center hover:bg-green-600 hover:border-green-500 transition-colors duration-300 text-white hover:text-white"
                 >
                   {social.icon}
                 </motion.a>
@@ -99,7 +98,7 @@ export default function Footer() {
 
           {/* Quick links */}
           <div>
-            <h4 className="text-green-100 font-semibold mb-5 text-xs tracking-widest uppercase">{t('quickLinks')}</h4>
+            <h4 className="text-white font-semibold mb-5 text-xs tracking-widest uppercase">{t('quickLinks')}</h4>
             <ul className="space-y-3">
               {[
                 { href: `/${locale}`,           label: locale === 'vi' ? 'Trang chủ'     : 'Home' },
@@ -111,7 +110,7 @@ export default function Footer() {
                 { href: `/${locale}/careers`,   label: locale === 'vi' ? 'Tuyển dụng'    : 'Careers' },
               ].map((link) => (
                 <li key={link.href}>
-                  <Link href={link.href} className="text-green-100/50 hover:text-green-300 transition-colors text-sm flex items-center gap-1.5 group">
+                  <Link href={link.href} className="text-white hover:text-green-300 transition-colors text-sm flex items-center gap-1.5 group">
                     <span className="w-0 h-px bg-green-400 transition-all duration-300 group-hover:w-3" />
                     {link.label}
                   </Link>
@@ -122,8 +121,8 @@ export default function Footer() {
 
           {/* Contact */}
           <div>
-            <h4 className="text-green-100 font-semibold mb-5 text-xs tracking-widest uppercase">{t('contact')}</h4>
-            <ul className="space-y-4 text-sm text-green-100/50">
+            <h4 className="text-white font-semibold mb-5 text-xs tracking-widest uppercase">{t('contact')}</h4>
+            <ul className="space-y-4 text-sm text-white">
               <li className="flex gap-2.5 items-start">
                 <svg className="w-4 h-4 shrink-0 mt-0.5 text-green-500/70" fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -148,11 +147,11 @@ export default function Footer() {
         </div>
 
         {/* Bottom bar */}
-        <div className="border-t border-green-900/60 pt-8 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-green-100/30">
+        <div className="border-t border-green-900/60 pt-8 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-white">
           <p>© {new Date().getFullYear()} Công Ty TNHH SX-TM-DV Hoa Và Hơn Thế Nữa (FAM). {t('rights')}</p>
           <div className="flex items-center gap-1.5">
             <span className="w-1.5 h-1.5 rounded-full bg-green-500/50" />
-            <span className="text-green-100/40">landscape · artwork · maintenance</span>
+            <span className="text-white">landscape · artwork · maintenance</span>
           </div>
         </div>
       </div>

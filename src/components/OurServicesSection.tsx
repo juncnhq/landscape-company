@@ -101,6 +101,7 @@ export default function OurServicesSection() {
             <h2 className="font-display text-3xl md:text-5xl font-bold text-gray-900 tracking-tight leading-tight">
               {t('title')}
             </h2>
+
           </motion.div>
           <motion.div
             initial={{ opacity: 0, y: 16 }}
@@ -157,7 +158,7 @@ export default function OurServicesSection() {
                     {/* Main content */}
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-3 mb-0">
-                        <h3 className={`text-base md:text-xl font-semibold tracking-tight transition-colors duration-300 ${isActive ? 'text-green-600' : 'text-gray-900'}`}>
+                        <h3 className={`text-base md:text-xl font-semibold tracking-tight transition-all duration-300 ${isActive || isHovered ? 'text-green-600 scale-[1.02] origin-left' : 'text-gray-900'}`}>
                           {locale === 'vi' ? service.titleVi : service.titleEn}
                         </h3>
                         <span className={`hidden sm:inline text-[9px] tracking-widest uppercase rounded-full px-2 py-0.5 transition-colors duration-300 ${isActive || isHovered ? 'border border-green-500/40 text-green-600' : 'border border-gray-200 text-gray-400'}`}>
@@ -180,7 +181,7 @@ export default function OurServicesSection() {
 
                     {/* Icon + arrow */}
                     <div className="flex items-center gap-4 shrink-0">
-                      <div className={`transition-colors duration-300 ${isActive ? 'text-green-600' : isHovered ? 'text-gray-500' : 'text-gray-400'}`}>
+                      <div className={`transition-all duration-300 ${isActive || isHovered ? 'text-green-600 scale-125' : 'text-gray-400'}`}>
                         {service.icon}
                       </div>
                       <div className={`w-8 h-8 rounded-full border flex items-center justify-center transition-all duration-300 ${isActive ? 'border-green-500 bg-green-500/10' : isHovered ? 'border-gray-400' : 'border-gray-200'}`}>

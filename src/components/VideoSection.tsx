@@ -1,7 +1,7 @@
 'use client';
 import { useTranslations, useLocale } from 'next-intl';
 import { motion, useInView } from 'framer-motion';
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 
 export default function VideoSection() {
   const t = useTranslations('video');
@@ -10,21 +10,12 @@ export default function VideoSection() {
   const inView = useInView(ref, { once: true, margin: '-80px' });
   const [playing, setPlaying] = useState(false);
 
+  useEffect(() => {
+    if (inView) setPlaying(true);
+  }, [inView]);
+
   return (
     <section ref={ref} className="relative bg-white py-20 md:py-32 overflow-hidden">
-      {/* Organic curved accent top-left — brand green shape */}
-      <div className="absolute top-0 left-0 w-[400px] h-[360px] bg-green-50 rounded-br-[160px] pointer-events-none opacity-80" />
-      <div className="absolute top-0 left-0 w-[200px] h-[180px] bg-green-100/60 rounded-br-[120px] pointer-events-none" />
-      {/* Larger dot grid — brand green, more visible */}
-      <div
-        className="absolute top-0 right-0 w-72 h-72 opacity-[0.12] pointer-events-none"
-        style={{
-          backgroundImage: 'radial-gradient(circle, #328442 1.5px, transparent 1.5px)',
-          backgroundSize: '24px 24px',
-        }}
-      />
-      {/* Gold accent bottom right */}
-      <div className="absolute bottom-0 right-0 w-[300px] h-[300px] bg-[radial-gradient(ellipse_at_bottom_right,rgba(190,123,43,0.06)_0%,transparent_65%)] pointer-events-none" />
 
       <div className="relative max-w-6xl mx-auto px-5 sm:px-8 lg:px-12">
 
@@ -36,7 +27,6 @@ export default function VideoSection() {
             transition={{ duration: 0.7 }}
           >
             <div className="flex items-center gap-3 mb-3">
-              <span className="w-8 h-px bg-green-500" />
               <p className="text-green-600 text-[10px] font-semibold tracking-[0.3em] uppercase">
                 Showreel
               </p>
@@ -122,7 +112,7 @@ export default function VideoSection() {
             ) : (
               <iframe
                 className="w-full h-full"
-                src="https://www.youtube.com/embed/B9VRvOKKwfs?autoplay=1&rel=0"
+                src="https://www.youtube.com/embed/B9VRvOKKwfs?autoplay=1&mute=1&rel=0"
                 title="FAM Landscape Showreel"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
