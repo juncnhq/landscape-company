@@ -52,3 +52,82 @@ model Service {
   @@index([published])
   @@map("service")
 }
+
+model NewsArticle {
+  id         String   @id @default(cuid())
+  slug       String   @unique
+  titleVi    String
+  titleEn    String
+  summaryVi  String   @db.Text
+  summaryEn  String   @db.Text
+  contentVi  String[]
+  contentEn  String[]
+  image      String
+  categoryVi String
+  categoryEn String
+  date       String
+  readTime   Int      @default(4)
+  published  Boolean  @default(true)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([published])
+  @@index([categoryVi])
+  @@map("news_article")
+}
+
+model Partner {
+  id          String   @id @default(cuid())
+  order       Int      @default(0)
+  name        String
+  sectorVi    String
+  sectorEn    String
+  descVi      String   @db.Text
+  descEn      String   @db.Text
+  founded     Int
+  hq          String
+  statLabelVi String
+  statLabelEn String
+  statValue   String
+  projectsVi  String[]
+  projectsEn  String[]
+  highlightVi String   @db.Text
+  highlightEn String   @db.Text
+  published   Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([published])
+  @@map("partner")
+}
+
+model TimelineItem {
+  id        String   @id @default(cuid())
+  order     Int      @default(0)
+  year      String
+  titleVi   String
+  titleEn   String
+  descVi    String   @db.Text
+  descEn    String   @db.Text
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("timeline_item")
+}
+
+model MemberCompany {
+  id        String   @id @default(cuid())
+  order     Int      @default(0)
+  abbr      String
+  name      String
+  tagline   String
+  descVi    String
+  descEn    String
+  accent    String
+  published Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([published])
+  @@map("member_company")
+}

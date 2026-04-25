@@ -23,6 +23,26 @@ export type Project = $Result.DefaultSelection<Prisma.$ProjectPayload>
  * 
  */
 export type Service = $Result.DefaultSelection<Prisma.$ServicePayload>
+/**
+ * Model NewsArticle
+ * 
+ */
+export type NewsArticle = $Result.DefaultSelection<Prisma.$NewsArticlePayload>
+/**
+ * Model Partner
+ * 
+ */
+export type Partner = $Result.DefaultSelection<Prisma.$PartnerPayload>
+/**
+ * Model TimelineItem
+ * 
+ */
+export type TimelineItem = $Result.DefaultSelection<Prisma.$TimelineItemPayload>
+/**
+ * Model MemberCompany
+ * 
+ */
+export type MemberCompany = $Result.DefaultSelection<Prisma.$MemberCompanyPayload>
 
 /**
  * ##  Prisma Client ʲˢ
@@ -164,6 +184,46 @@ export class PrismaClient<
     * ```
     */
   get service(): Prisma.ServiceDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.newsArticle`: Exposes CRUD operations for the **NewsArticle** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more NewsArticles
+    * const newsArticles = await prisma.newsArticle.findMany()
+    * ```
+    */
+  get newsArticle(): Prisma.NewsArticleDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.partner`: Exposes CRUD operations for the **Partner** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Partners
+    * const partners = await prisma.partner.findMany()
+    * ```
+    */
+  get partner(): Prisma.PartnerDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.timelineItem`: Exposes CRUD operations for the **TimelineItem** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more TimelineItems
+    * const timelineItems = await prisma.timelineItem.findMany()
+    * ```
+    */
+  get timelineItem(): Prisma.TimelineItemDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.memberCompany`: Exposes CRUD operations for the **MemberCompany** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more MemberCompanies
+    * const memberCompanies = await prisma.memberCompany.findMany()
+    * ```
+    */
+  get memberCompany(): Prisma.MemberCompanyDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -599,7 +659,11 @@ export namespace Prisma {
 
   export const ModelName: {
     Project: 'Project',
-    Service: 'Service'
+    Service: 'Service',
+    NewsArticle: 'NewsArticle',
+    Partner: 'Partner',
+    TimelineItem: 'TimelineItem',
+    MemberCompany: 'MemberCompany'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -615,7 +679,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "project" | "service"
+      modelProps: "project" | "service" | "newsArticle" | "partner" | "timelineItem" | "memberCompany"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -767,6 +831,302 @@ export namespace Prisma {
           }
         }
       }
+      NewsArticle: {
+        payload: Prisma.$NewsArticlePayload<ExtArgs>
+        fields: Prisma.NewsArticleFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.NewsArticleFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NewsArticlePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.NewsArticleFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NewsArticlePayload>
+          }
+          findFirst: {
+            args: Prisma.NewsArticleFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NewsArticlePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.NewsArticleFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NewsArticlePayload>
+          }
+          findMany: {
+            args: Prisma.NewsArticleFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NewsArticlePayload>[]
+          }
+          create: {
+            args: Prisma.NewsArticleCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NewsArticlePayload>
+          }
+          createMany: {
+            args: Prisma.NewsArticleCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.NewsArticleCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NewsArticlePayload>[]
+          }
+          delete: {
+            args: Prisma.NewsArticleDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NewsArticlePayload>
+          }
+          update: {
+            args: Prisma.NewsArticleUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NewsArticlePayload>
+          }
+          deleteMany: {
+            args: Prisma.NewsArticleDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.NewsArticleUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.NewsArticleUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NewsArticlePayload>[]
+          }
+          upsert: {
+            args: Prisma.NewsArticleUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NewsArticlePayload>
+          }
+          aggregate: {
+            args: Prisma.NewsArticleAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateNewsArticle>
+          }
+          groupBy: {
+            args: Prisma.NewsArticleGroupByArgs<ExtArgs>
+            result: $Utils.Optional<NewsArticleGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.NewsArticleCountArgs<ExtArgs>
+            result: $Utils.Optional<NewsArticleCountAggregateOutputType> | number
+          }
+        }
+      }
+      Partner: {
+        payload: Prisma.$PartnerPayload<ExtArgs>
+        fields: Prisma.PartnerFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.PartnerFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PartnerPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.PartnerFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PartnerPayload>
+          }
+          findFirst: {
+            args: Prisma.PartnerFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PartnerPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.PartnerFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PartnerPayload>
+          }
+          findMany: {
+            args: Prisma.PartnerFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PartnerPayload>[]
+          }
+          create: {
+            args: Prisma.PartnerCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PartnerPayload>
+          }
+          createMany: {
+            args: Prisma.PartnerCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.PartnerCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PartnerPayload>[]
+          }
+          delete: {
+            args: Prisma.PartnerDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PartnerPayload>
+          }
+          update: {
+            args: Prisma.PartnerUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PartnerPayload>
+          }
+          deleteMany: {
+            args: Prisma.PartnerDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.PartnerUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.PartnerUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PartnerPayload>[]
+          }
+          upsert: {
+            args: Prisma.PartnerUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PartnerPayload>
+          }
+          aggregate: {
+            args: Prisma.PartnerAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregatePartner>
+          }
+          groupBy: {
+            args: Prisma.PartnerGroupByArgs<ExtArgs>
+            result: $Utils.Optional<PartnerGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.PartnerCountArgs<ExtArgs>
+            result: $Utils.Optional<PartnerCountAggregateOutputType> | number
+          }
+        }
+      }
+      TimelineItem: {
+        payload: Prisma.$TimelineItemPayload<ExtArgs>
+        fields: Prisma.TimelineItemFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.TimelineItemFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TimelineItemPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.TimelineItemFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TimelineItemPayload>
+          }
+          findFirst: {
+            args: Prisma.TimelineItemFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TimelineItemPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.TimelineItemFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TimelineItemPayload>
+          }
+          findMany: {
+            args: Prisma.TimelineItemFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TimelineItemPayload>[]
+          }
+          create: {
+            args: Prisma.TimelineItemCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TimelineItemPayload>
+          }
+          createMany: {
+            args: Prisma.TimelineItemCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.TimelineItemCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TimelineItemPayload>[]
+          }
+          delete: {
+            args: Prisma.TimelineItemDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TimelineItemPayload>
+          }
+          update: {
+            args: Prisma.TimelineItemUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TimelineItemPayload>
+          }
+          deleteMany: {
+            args: Prisma.TimelineItemDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.TimelineItemUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.TimelineItemUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TimelineItemPayload>[]
+          }
+          upsert: {
+            args: Prisma.TimelineItemUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TimelineItemPayload>
+          }
+          aggregate: {
+            args: Prisma.TimelineItemAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateTimelineItem>
+          }
+          groupBy: {
+            args: Prisma.TimelineItemGroupByArgs<ExtArgs>
+            result: $Utils.Optional<TimelineItemGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.TimelineItemCountArgs<ExtArgs>
+            result: $Utils.Optional<TimelineItemCountAggregateOutputType> | number
+          }
+        }
+      }
+      MemberCompany: {
+        payload: Prisma.$MemberCompanyPayload<ExtArgs>
+        fields: Prisma.MemberCompanyFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.MemberCompanyFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MemberCompanyPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.MemberCompanyFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MemberCompanyPayload>
+          }
+          findFirst: {
+            args: Prisma.MemberCompanyFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MemberCompanyPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.MemberCompanyFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MemberCompanyPayload>
+          }
+          findMany: {
+            args: Prisma.MemberCompanyFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MemberCompanyPayload>[]
+          }
+          create: {
+            args: Prisma.MemberCompanyCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MemberCompanyPayload>
+          }
+          createMany: {
+            args: Prisma.MemberCompanyCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.MemberCompanyCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MemberCompanyPayload>[]
+          }
+          delete: {
+            args: Prisma.MemberCompanyDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MemberCompanyPayload>
+          }
+          update: {
+            args: Prisma.MemberCompanyUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MemberCompanyPayload>
+          }
+          deleteMany: {
+            args: Prisma.MemberCompanyDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.MemberCompanyUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.MemberCompanyUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MemberCompanyPayload>[]
+          }
+          upsert: {
+            args: Prisma.MemberCompanyUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MemberCompanyPayload>
+          }
+          aggregate: {
+            args: Prisma.MemberCompanyAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateMemberCompany>
+          }
+          groupBy: {
+            args: Prisma.MemberCompanyGroupByArgs<ExtArgs>
+            result: $Utils.Optional<MemberCompanyGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.MemberCompanyCountArgs<ExtArgs>
+            result: $Utils.Optional<MemberCompanyCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -877,6 +1237,10 @@ export namespace Prisma {
   export type GlobalOmitConfig = {
     project?: ProjectOmit
     service?: ServiceOmit
+    newsArticle?: NewsArticleOmit
+    partner?: PartnerOmit
+    timelineItem?: TimelineItemOmit
+    memberCompany?: MemberCompanyOmit
   }
 
   /* Types for Logging */
@@ -3279,6 +3643,4585 @@ export namespace Prisma {
 
 
   /**
+   * Model NewsArticle
+   */
+
+  export type AggregateNewsArticle = {
+    _count: NewsArticleCountAggregateOutputType | null
+    _avg: NewsArticleAvgAggregateOutputType | null
+    _sum: NewsArticleSumAggregateOutputType | null
+    _min: NewsArticleMinAggregateOutputType | null
+    _max: NewsArticleMaxAggregateOutputType | null
+  }
+
+  export type NewsArticleAvgAggregateOutputType = {
+    readTime: number | null
+  }
+
+  export type NewsArticleSumAggregateOutputType = {
+    readTime: number | null
+  }
+
+  export type NewsArticleMinAggregateOutputType = {
+    id: string | null
+    slug: string | null
+    titleVi: string | null
+    titleEn: string | null
+    summaryVi: string | null
+    summaryEn: string | null
+    image: string | null
+    categoryVi: string | null
+    categoryEn: string | null
+    date: string | null
+    readTime: number | null
+    published: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type NewsArticleMaxAggregateOutputType = {
+    id: string | null
+    slug: string | null
+    titleVi: string | null
+    titleEn: string | null
+    summaryVi: string | null
+    summaryEn: string | null
+    image: string | null
+    categoryVi: string | null
+    categoryEn: string | null
+    date: string | null
+    readTime: number | null
+    published: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type NewsArticleCountAggregateOutputType = {
+    id: number
+    slug: number
+    titleVi: number
+    titleEn: number
+    summaryVi: number
+    summaryEn: number
+    contentVi: number
+    contentEn: number
+    image: number
+    categoryVi: number
+    categoryEn: number
+    date: number
+    readTime: number
+    published: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type NewsArticleAvgAggregateInputType = {
+    readTime?: true
+  }
+
+  export type NewsArticleSumAggregateInputType = {
+    readTime?: true
+  }
+
+  export type NewsArticleMinAggregateInputType = {
+    id?: true
+    slug?: true
+    titleVi?: true
+    titleEn?: true
+    summaryVi?: true
+    summaryEn?: true
+    image?: true
+    categoryVi?: true
+    categoryEn?: true
+    date?: true
+    readTime?: true
+    published?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type NewsArticleMaxAggregateInputType = {
+    id?: true
+    slug?: true
+    titleVi?: true
+    titleEn?: true
+    summaryVi?: true
+    summaryEn?: true
+    image?: true
+    categoryVi?: true
+    categoryEn?: true
+    date?: true
+    readTime?: true
+    published?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type NewsArticleCountAggregateInputType = {
+    id?: true
+    slug?: true
+    titleVi?: true
+    titleEn?: true
+    summaryVi?: true
+    summaryEn?: true
+    contentVi?: true
+    contentEn?: true
+    image?: true
+    categoryVi?: true
+    categoryEn?: true
+    date?: true
+    readTime?: true
+    published?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type NewsArticleAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which NewsArticle to aggregate.
+     */
+    where?: NewsArticleWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of NewsArticles to fetch.
+     */
+    orderBy?: NewsArticleOrderByWithRelationInput | NewsArticleOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: NewsArticleWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` NewsArticles from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` NewsArticles.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned NewsArticles
+    **/
+    _count?: true | NewsArticleCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: NewsArticleAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: NewsArticleSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: NewsArticleMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: NewsArticleMaxAggregateInputType
+  }
+
+  export type GetNewsArticleAggregateType<T extends NewsArticleAggregateArgs> = {
+        [P in keyof T & keyof AggregateNewsArticle]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateNewsArticle[P]>
+      : GetScalarType<T[P], AggregateNewsArticle[P]>
+  }
+
+
+
+
+  export type NewsArticleGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: NewsArticleWhereInput
+    orderBy?: NewsArticleOrderByWithAggregationInput | NewsArticleOrderByWithAggregationInput[]
+    by: NewsArticleScalarFieldEnum[] | NewsArticleScalarFieldEnum
+    having?: NewsArticleScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: NewsArticleCountAggregateInputType | true
+    _avg?: NewsArticleAvgAggregateInputType
+    _sum?: NewsArticleSumAggregateInputType
+    _min?: NewsArticleMinAggregateInputType
+    _max?: NewsArticleMaxAggregateInputType
+  }
+
+  export type NewsArticleGroupByOutputType = {
+    id: string
+    slug: string
+    titleVi: string
+    titleEn: string
+    summaryVi: string
+    summaryEn: string
+    contentVi: string[]
+    contentEn: string[]
+    image: string
+    categoryVi: string
+    categoryEn: string
+    date: string
+    readTime: number
+    published: boolean
+    createdAt: Date
+    updatedAt: Date
+    _count: NewsArticleCountAggregateOutputType | null
+    _avg: NewsArticleAvgAggregateOutputType | null
+    _sum: NewsArticleSumAggregateOutputType | null
+    _min: NewsArticleMinAggregateOutputType | null
+    _max: NewsArticleMaxAggregateOutputType | null
+  }
+
+  type GetNewsArticleGroupByPayload<T extends NewsArticleGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<NewsArticleGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof NewsArticleGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], NewsArticleGroupByOutputType[P]>
+            : GetScalarType<T[P], NewsArticleGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type NewsArticleSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    slug?: boolean
+    titleVi?: boolean
+    titleEn?: boolean
+    summaryVi?: boolean
+    summaryEn?: boolean
+    contentVi?: boolean
+    contentEn?: boolean
+    image?: boolean
+    categoryVi?: boolean
+    categoryEn?: boolean
+    date?: boolean
+    readTime?: boolean
+    published?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["newsArticle"]>
+
+  export type NewsArticleSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    slug?: boolean
+    titleVi?: boolean
+    titleEn?: boolean
+    summaryVi?: boolean
+    summaryEn?: boolean
+    contentVi?: boolean
+    contentEn?: boolean
+    image?: boolean
+    categoryVi?: boolean
+    categoryEn?: boolean
+    date?: boolean
+    readTime?: boolean
+    published?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["newsArticle"]>
+
+  export type NewsArticleSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    slug?: boolean
+    titleVi?: boolean
+    titleEn?: boolean
+    summaryVi?: boolean
+    summaryEn?: boolean
+    contentVi?: boolean
+    contentEn?: boolean
+    image?: boolean
+    categoryVi?: boolean
+    categoryEn?: boolean
+    date?: boolean
+    readTime?: boolean
+    published?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["newsArticle"]>
+
+  export type NewsArticleSelectScalar = {
+    id?: boolean
+    slug?: boolean
+    titleVi?: boolean
+    titleEn?: boolean
+    summaryVi?: boolean
+    summaryEn?: boolean
+    contentVi?: boolean
+    contentEn?: boolean
+    image?: boolean
+    categoryVi?: boolean
+    categoryEn?: boolean
+    date?: boolean
+    readTime?: boolean
+    published?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type NewsArticleOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "slug" | "titleVi" | "titleEn" | "summaryVi" | "summaryEn" | "contentVi" | "contentEn" | "image" | "categoryVi" | "categoryEn" | "date" | "readTime" | "published" | "createdAt" | "updatedAt", ExtArgs["result"]["newsArticle"]>
+
+  export type $NewsArticlePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "NewsArticle"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      slug: string
+      titleVi: string
+      titleEn: string
+      summaryVi: string
+      summaryEn: string
+      contentVi: string[]
+      contentEn: string[]
+      image: string
+      categoryVi: string
+      categoryEn: string
+      date: string
+      readTime: number
+      published: boolean
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["newsArticle"]>
+    composites: {}
+  }
+
+  type NewsArticleGetPayload<S extends boolean | null | undefined | NewsArticleDefaultArgs> = $Result.GetResult<Prisma.$NewsArticlePayload, S>
+
+  type NewsArticleCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<NewsArticleFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: NewsArticleCountAggregateInputType | true
+    }
+
+  export interface NewsArticleDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['NewsArticle'], meta: { name: 'NewsArticle' } }
+    /**
+     * Find zero or one NewsArticle that matches the filter.
+     * @param {NewsArticleFindUniqueArgs} args - Arguments to find a NewsArticle
+     * @example
+     * // Get one NewsArticle
+     * const newsArticle = await prisma.newsArticle.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends NewsArticleFindUniqueArgs>(args: SelectSubset<T, NewsArticleFindUniqueArgs<ExtArgs>>): Prisma__NewsArticleClient<$Result.GetResult<Prisma.$NewsArticlePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one NewsArticle that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {NewsArticleFindUniqueOrThrowArgs} args - Arguments to find a NewsArticle
+     * @example
+     * // Get one NewsArticle
+     * const newsArticle = await prisma.newsArticle.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends NewsArticleFindUniqueOrThrowArgs>(args: SelectSubset<T, NewsArticleFindUniqueOrThrowArgs<ExtArgs>>): Prisma__NewsArticleClient<$Result.GetResult<Prisma.$NewsArticlePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first NewsArticle that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NewsArticleFindFirstArgs} args - Arguments to find a NewsArticle
+     * @example
+     * // Get one NewsArticle
+     * const newsArticle = await prisma.newsArticle.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends NewsArticleFindFirstArgs>(args?: SelectSubset<T, NewsArticleFindFirstArgs<ExtArgs>>): Prisma__NewsArticleClient<$Result.GetResult<Prisma.$NewsArticlePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first NewsArticle that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NewsArticleFindFirstOrThrowArgs} args - Arguments to find a NewsArticle
+     * @example
+     * // Get one NewsArticle
+     * const newsArticle = await prisma.newsArticle.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends NewsArticleFindFirstOrThrowArgs>(args?: SelectSubset<T, NewsArticleFindFirstOrThrowArgs<ExtArgs>>): Prisma__NewsArticleClient<$Result.GetResult<Prisma.$NewsArticlePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more NewsArticles that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NewsArticleFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all NewsArticles
+     * const newsArticles = await prisma.newsArticle.findMany()
+     * 
+     * // Get first 10 NewsArticles
+     * const newsArticles = await prisma.newsArticle.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const newsArticleWithIdOnly = await prisma.newsArticle.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends NewsArticleFindManyArgs>(args?: SelectSubset<T, NewsArticleFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NewsArticlePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a NewsArticle.
+     * @param {NewsArticleCreateArgs} args - Arguments to create a NewsArticle.
+     * @example
+     * // Create one NewsArticle
+     * const NewsArticle = await prisma.newsArticle.create({
+     *   data: {
+     *     // ... data to create a NewsArticle
+     *   }
+     * })
+     * 
+     */
+    create<T extends NewsArticleCreateArgs>(args: SelectSubset<T, NewsArticleCreateArgs<ExtArgs>>): Prisma__NewsArticleClient<$Result.GetResult<Prisma.$NewsArticlePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many NewsArticles.
+     * @param {NewsArticleCreateManyArgs} args - Arguments to create many NewsArticles.
+     * @example
+     * // Create many NewsArticles
+     * const newsArticle = await prisma.newsArticle.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends NewsArticleCreateManyArgs>(args?: SelectSubset<T, NewsArticleCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many NewsArticles and returns the data saved in the database.
+     * @param {NewsArticleCreateManyAndReturnArgs} args - Arguments to create many NewsArticles.
+     * @example
+     * // Create many NewsArticles
+     * const newsArticle = await prisma.newsArticle.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many NewsArticles and only return the `id`
+     * const newsArticleWithIdOnly = await prisma.newsArticle.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends NewsArticleCreateManyAndReturnArgs>(args?: SelectSubset<T, NewsArticleCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NewsArticlePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a NewsArticle.
+     * @param {NewsArticleDeleteArgs} args - Arguments to delete one NewsArticle.
+     * @example
+     * // Delete one NewsArticle
+     * const NewsArticle = await prisma.newsArticle.delete({
+     *   where: {
+     *     // ... filter to delete one NewsArticle
+     *   }
+     * })
+     * 
+     */
+    delete<T extends NewsArticleDeleteArgs>(args: SelectSubset<T, NewsArticleDeleteArgs<ExtArgs>>): Prisma__NewsArticleClient<$Result.GetResult<Prisma.$NewsArticlePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one NewsArticle.
+     * @param {NewsArticleUpdateArgs} args - Arguments to update one NewsArticle.
+     * @example
+     * // Update one NewsArticle
+     * const newsArticle = await prisma.newsArticle.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends NewsArticleUpdateArgs>(args: SelectSubset<T, NewsArticleUpdateArgs<ExtArgs>>): Prisma__NewsArticleClient<$Result.GetResult<Prisma.$NewsArticlePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more NewsArticles.
+     * @param {NewsArticleDeleteManyArgs} args - Arguments to filter NewsArticles to delete.
+     * @example
+     * // Delete a few NewsArticles
+     * const { count } = await prisma.newsArticle.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends NewsArticleDeleteManyArgs>(args?: SelectSubset<T, NewsArticleDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more NewsArticles.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NewsArticleUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many NewsArticles
+     * const newsArticle = await prisma.newsArticle.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends NewsArticleUpdateManyArgs>(args: SelectSubset<T, NewsArticleUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more NewsArticles and returns the data updated in the database.
+     * @param {NewsArticleUpdateManyAndReturnArgs} args - Arguments to update many NewsArticles.
+     * @example
+     * // Update many NewsArticles
+     * const newsArticle = await prisma.newsArticle.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more NewsArticles and only return the `id`
+     * const newsArticleWithIdOnly = await prisma.newsArticle.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends NewsArticleUpdateManyAndReturnArgs>(args: SelectSubset<T, NewsArticleUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NewsArticlePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one NewsArticle.
+     * @param {NewsArticleUpsertArgs} args - Arguments to update or create a NewsArticle.
+     * @example
+     * // Update or create a NewsArticle
+     * const newsArticle = await prisma.newsArticle.upsert({
+     *   create: {
+     *     // ... data to create a NewsArticle
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the NewsArticle we want to update
+     *   }
+     * })
+     */
+    upsert<T extends NewsArticleUpsertArgs>(args: SelectSubset<T, NewsArticleUpsertArgs<ExtArgs>>): Prisma__NewsArticleClient<$Result.GetResult<Prisma.$NewsArticlePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of NewsArticles.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NewsArticleCountArgs} args - Arguments to filter NewsArticles to count.
+     * @example
+     * // Count the number of NewsArticles
+     * const count = await prisma.newsArticle.count({
+     *   where: {
+     *     // ... the filter for the NewsArticles we want to count
+     *   }
+     * })
+    **/
+    count<T extends NewsArticleCountArgs>(
+      args?: Subset<T, NewsArticleCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], NewsArticleCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a NewsArticle.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NewsArticleAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends NewsArticleAggregateArgs>(args: Subset<T, NewsArticleAggregateArgs>): Prisma.PrismaPromise<GetNewsArticleAggregateType<T>>
+
+    /**
+     * Group by NewsArticle.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NewsArticleGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends NewsArticleGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: NewsArticleGroupByArgs['orderBy'] }
+        : { orderBy?: NewsArticleGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, NewsArticleGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetNewsArticleGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the NewsArticle model
+   */
+  readonly fields: NewsArticleFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for NewsArticle.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__NewsArticleClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the NewsArticle model
+   */
+  interface NewsArticleFieldRefs {
+    readonly id: FieldRef<"NewsArticle", 'String'>
+    readonly slug: FieldRef<"NewsArticle", 'String'>
+    readonly titleVi: FieldRef<"NewsArticle", 'String'>
+    readonly titleEn: FieldRef<"NewsArticle", 'String'>
+    readonly summaryVi: FieldRef<"NewsArticle", 'String'>
+    readonly summaryEn: FieldRef<"NewsArticle", 'String'>
+    readonly contentVi: FieldRef<"NewsArticle", 'String[]'>
+    readonly contentEn: FieldRef<"NewsArticle", 'String[]'>
+    readonly image: FieldRef<"NewsArticle", 'String'>
+    readonly categoryVi: FieldRef<"NewsArticle", 'String'>
+    readonly categoryEn: FieldRef<"NewsArticle", 'String'>
+    readonly date: FieldRef<"NewsArticle", 'String'>
+    readonly readTime: FieldRef<"NewsArticle", 'Int'>
+    readonly published: FieldRef<"NewsArticle", 'Boolean'>
+    readonly createdAt: FieldRef<"NewsArticle", 'DateTime'>
+    readonly updatedAt: FieldRef<"NewsArticle", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * NewsArticle findUnique
+   */
+  export type NewsArticleFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NewsArticle
+     */
+    select?: NewsArticleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the NewsArticle
+     */
+    omit?: NewsArticleOmit<ExtArgs> | null
+    /**
+     * Filter, which NewsArticle to fetch.
+     */
+    where: NewsArticleWhereUniqueInput
+  }
+
+  /**
+   * NewsArticle findUniqueOrThrow
+   */
+  export type NewsArticleFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NewsArticle
+     */
+    select?: NewsArticleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the NewsArticle
+     */
+    omit?: NewsArticleOmit<ExtArgs> | null
+    /**
+     * Filter, which NewsArticle to fetch.
+     */
+    where: NewsArticleWhereUniqueInput
+  }
+
+  /**
+   * NewsArticle findFirst
+   */
+  export type NewsArticleFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NewsArticle
+     */
+    select?: NewsArticleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the NewsArticle
+     */
+    omit?: NewsArticleOmit<ExtArgs> | null
+    /**
+     * Filter, which NewsArticle to fetch.
+     */
+    where?: NewsArticleWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of NewsArticles to fetch.
+     */
+    orderBy?: NewsArticleOrderByWithRelationInput | NewsArticleOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for NewsArticles.
+     */
+    cursor?: NewsArticleWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` NewsArticles from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` NewsArticles.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of NewsArticles.
+     */
+    distinct?: NewsArticleScalarFieldEnum | NewsArticleScalarFieldEnum[]
+  }
+
+  /**
+   * NewsArticle findFirstOrThrow
+   */
+  export type NewsArticleFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NewsArticle
+     */
+    select?: NewsArticleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the NewsArticle
+     */
+    omit?: NewsArticleOmit<ExtArgs> | null
+    /**
+     * Filter, which NewsArticle to fetch.
+     */
+    where?: NewsArticleWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of NewsArticles to fetch.
+     */
+    orderBy?: NewsArticleOrderByWithRelationInput | NewsArticleOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for NewsArticles.
+     */
+    cursor?: NewsArticleWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` NewsArticles from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` NewsArticles.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of NewsArticles.
+     */
+    distinct?: NewsArticleScalarFieldEnum | NewsArticleScalarFieldEnum[]
+  }
+
+  /**
+   * NewsArticle findMany
+   */
+  export type NewsArticleFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NewsArticle
+     */
+    select?: NewsArticleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the NewsArticle
+     */
+    omit?: NewsArticleOmit<ExtArgs> | null
+    /**
+     * Filter, which NewsArticles to fetch.
+     */
+    where?: NewsArticleWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of NewsArticles to fetch.
+     */
+    orderBy?: NewsArticleOrderByWithRelationInput | NewsArticleOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing NewsArticles.
+     */
+    cursor?: NewsArticleWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` NewsArticles from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` NewsArticles.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of NewsArticles.
+     */
+    distinct?: NewsArticleScalarFieldEnum | NewsArticleScalarFieldEnum[]
+  }
+
+  /**
+   * NewsArticle create
+   */
+  export type NewsArticleCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NewsArticle
+     */
+    select?: NewsArticleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the NewsArticle
+     */
+    omit?: NewsArticleOmit<ExtArgs> | null
+    /**
+     * The data needed to create a NewsArticle.
+     */
+    data: XOR<NewsArticleCreateInput, NewsArticleUncheckedCreateInput>
+  }
+
+  /**
+   * NewsArticle createMany
+   */
+  export type NewsArticleCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many NewsArticles.
+     */
+    data: NewsArticleCreateManyInput | NewsArticleCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * NewsArticle createManyAndReturn
+   */
+  export type NewsArticleCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NewsArticle
+     */
+    select?: NewsArticleSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the NewsArticle
+     */
+    omit?: NewsArticleOmit<ExtArgs> | null
+    /**
+     * The data used to create many NewsArticles.
+     */
+    data: NewsArticleCreateManyInput | NewsArticleCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * NewsArticle update
+   */
+  export type NewsArticleUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NewsArticle
+     */
+    select?: NewsArticleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the NewsArticle
+     */
+    omit?: NewsArticleOmit<ExtArgs> | null
+    /**
+     * The data needed to update a NewsArticle.
+     */
+    data: XOR<NewsArticleUpdateInput, NewsArticleUncheckedUpdateInput>
+    /**
+     * Choose, which NewsArticle to update.
+     */
+    where: NewsArticleWhereUniqueInput
+  }
+
+  /**
+   * NewsArticle updateMany
+   */
+  export type NewsArticleUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update NewsArticles.
+     */
+    data: XOR<NewsArticleUpdateManyMutationInput, NewsArticleUncheckedUpdateManyInput>
+    /**
+     * Filter which NewsArticles to update
+     */
+    where?: NewsArticleWhereInput
+    /**
+     * Limit how many NewsArticles to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * NewsArticle updateManyAndReturn
+   */
+  export type NewsArticleUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NewsArticle
+     */
+    select?: NewsArticleSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the NewsArticle
+     */
+    omit?: NewsArticleOmit<ExtArgs> | null
+    /**
+     * The data used to update NewsArticles.
+     */
+    data: XOR<NewsArticleUpdateManyMutationInput, NewsArticleUncheckedUpdateManyInput>
+    /**
+     * Filter which NewsArticles to update
+     */
+    where?: NewsArticleWhereInput
+    /**
+     * Limit how many NewsArticles to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * NewsArticle upsert
+   */
+  export type NewsArticleUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NewsArticle
+     */
+    select?: NewsArticleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the NewsArticle
+     */
+    omit?: NewsArticleOmit<ExtArgs> | null
+    /**
+     * The filter to search for the NewsArticle to update in case it exists.
+     */
+    where: NewsArticleWhereUniqueInput
+    /**
+     * In case the NewsArticle found by the `where` argument doesn't exist, create a new NewsArticle with this data.
+     */
+    create: XOR<NewsArticleCreateInput, NewsArticleUncheckedCreateInput>
+    /**
+     * In case the NewsArticle was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<NewsArticleUpdateInput, NewsArticleUncheckedUpdateInput>
+  }
+
+  /**
+   * NewsArticle delete
+   */
+  export type NewsArticleDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NewsArticle
+     */
+    select?: NewsArticleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the NewsArticle
+     */
+    omit?: NewsArticleOmit<ExtArgs> | null
+    /**
+     * Filter which NewsArticle to delete.
+     */
+    where: NewsArticleWhereUniqueInput
+  }
+
+  /**
+   * NewsArticle deleteMany
+   */
+  export type NewsArticleDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which NewsArticles to delete
+     */
+    where?: NewsArticleWhereInput
+    /**
+     * Limit how many NewsArticles to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * NewsArticle without action
+   */
+  export type NewsArticleDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NewsArticle
+     */
+    select?: NewsArticleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the NewsArticle
+     */
+    omit?: NewsArticleOmit<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Partner
+   */
+
+  export type AggregatePartner = {
+    _count: PartnerCountAggregateOutputType | null
+    _avg: PartnerAvgAggregateOutputType | null
+    _sum: PartnerSumAggregateOutputType | null
+    _min: PartnerMinAggregateOutputType | null
+    _max: PartnerMaxAggregateOutputType | null
+  }
+
+  export type PartnerAvgAggregateOutputType = {
+    order: number | null
+    founded: number | null
+  }
+
+  export type PartnerSumAggregateOutputType = {
+    order: number | null
+    founded: number | null
+  }
+
+  export type PartnerMinAggregateOutputType = {
+    id: string | null
+    order: number | null
+    name: string | null
+    sectorVi: string | null
+    sectorEn: string | null
+    descVi: string | null
+    descEn: string | null
+    founded: number | null
+    hq: string | null
+    statLabelVi: string | null
+    statLabelEn: string | null
+    statValue: string | null
+    highlightVi: string | null
+    highlightEn: string | null
+    published: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type PartnerMaxAggregateOutputType = {
+    id: string | null
+    order: number | null
+    name: string | null
+    sectorVi: string | null
+    sectorEn: string | null
+    descVi: string | null
+    descEn: string | null
+    founded: number | null
+    hq: string | null
+    statLabelVi: string | null
+    statLabelEn: string | null
+    statValue: string | null
+    highlightVi: string | null
+    highlightEn: string | null
+    published: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type PartnerCountAggregateOutputType = {
+    id: number
+    order: number
+    name: number
+    sectorVi: number
+    sectorEn: number
+    descVi: number
+    descEn: number
+    founded: number
+    hq: number
+    statLabelVi: number
+    statLabelEn: number
+    statValue: number
+    projectsVi: number
+    projectsEn: number
+    highlightVi: number
+    highlightEn: number
+    published: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type PartnerAvgAggregateInputType = {
+    order?: true
+    founded?: true
+  }
+
+  export type PartnerSumAggregateInputType = {
+    order?: true
+    founded?: true
+  }
+
+  export type PartnerMinAggregateInputType = {
+    id?: true
+    order?: true
+    name?: true
+    sectorVi?: true
+    sectorEn?: true
+    descVi?: true
+    descEn?: true
+    founded?: true
+    hq?: true
+    statLabelVi?: true
+    statLabelEn?: true
+    statValue?: true
+    highlightVi?: true
+    highlightEn?: true
+    published?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type PartnerMaxAggregateInputType = {
+    id?: true
+    order?: true
+    name?: true
+    sectorVi?: true
+    sectorEn?: true
+    descVi?: true
+    descEn?: true
+    founded?: true
+    hq?: true
+    statLabelVi?: true
+    statLabelEn?: true
+    statValue?: true
+    highlightVi?: true
+    highlightEn?: true
+    published?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type PartnerCountAggregateInputType = {
+    id?: true
+    order?: true
+    name?: true
+    sectorVi?: true
+    sectorEn?: true
+    descVi?: true
+    descEn?: true
+    founded?: true
+    hq?: true
+    statLabelVi?: true
+    statLabelEn?: true
+    statValue?: true
+    projectsVi?: true
+    projectsEn?: true
+    highlightVi?: true
+    highlightEn?: true
+    published?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type PartnerAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Partner to aggregate.
+     */
+    where?: PartnerWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Partners to fetch.
+     */
+    orderBy?: PartnerOrderByWithRelationInput | PartnerOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: PartnerWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Partners from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Partners.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Partners
+    **/
+    _count?: true | PartnerCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: PartnerAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: PartnerSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: PartnerMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: PartnerMaxAggregateInputType
+  }
+
+  export type GetPartnerAggregateType<T extends PartnerAggregateArgs> = {
+        [P in keyof T & keyof AggregatePartner]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregatePartner[P]>
+      : GetScalarType<T[P], AggregatePartner[P]>
+  }
+
+
+
+
+  export type PartnerGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PartnerWhereInput
+    orderBy?: PartnerOrderByWithAggregationInput | PartnerOrderByWithAggregationInput[]
+    by: PartnerScalarFieldEnum[] | PartnerScalarFieldEnum
+    having?: PartnerScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: PartnerCountAggregateInputType | true
+    _avg?: PartnerAvgAggregateInputType
+    _sum?: PartnerSumAggregateInputType
+    _min?: PartnerMinAggregateInputType
+    _max?: PartnerMaxAggregateInputType
+  }
+
+  export type PartnerGroupByOutputType = {
+    id: string
+    order: number
+    name: string
+    sectorVi: string
+    sectorEn: string
+    descVi: string
+    descEn: string
+    founded: number
+    hq: string
+    statLabelVi: string
+    statLabelEn: string
+    statValue: string
+    projectsVi: string[]
+    projectsEn: string[]
+    highlightVi: string
+    highlightEn: string
+    published: boolean
+    createdAt: Date
+    updatedAt: Date
+    _count: PartnerCountAggregateOutputType | null
+    _avg: PartnerAvgAggregateOutputType | null
+    _sum: PartnerSumAggregateOutputType | null
+    _min: PartnerMinAggregateOutputType | null
+    _max: PartnerMaxAggregateOutputType | null
+  }
+
+  type GetPartnerGroupByPayload<T extends PartnerGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<PartnerGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof PartnerGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], PartnerGroupByOutputType[P]>
+            : GetScalarType<T[P], PartnerGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type PartnerSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    order?: boolean
+    name?: boolean
+    sectorVi?: boolean
+    sectorEn?: boolean
+    descVi?: boolean
+    descEn?: boolean
+    founded?: boolean
+    hq?: boolean
+    statLabelVi?: boolean
+    statLabelEn?: boolean
+    statValue?: boolean
+    projectsVi?: boolean
+    projectsEn?: boolean
+    highlightVi?: boolean
+    highlightEn?: boolean
+    published?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["partner"]>
+
+  export type PartnerSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    order?: boolean
+    name?: boolean
+    sectorVi?: boolean
+    sectorEn?: boolean
+    descVi?: boolean
+    descEn?: boolean
+    founded?: boolean
+    hq?: boolean
+    statLabelVi?: boolean
+    statLabelEn?: boolean
+    statValue?: boolean
+    projectsVi?: boolean
+    projectsEn?: boolean
+    highlightVi?: boolean
+    highlightEn?: boolean
+    published?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["partner"]>
+
+  export type PartnerSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    order?: boolean
+    name?: boolean
+    sectorVi?: boolean
+    sectorEn?: boolean
+    descVi?: boolean
+    descEn?: boolean
+    founded?: boolean
+    hq?: boolean
+    statLabelVi?: boolean
+    statLabelEn?: boolean
+    statValue?: boolean
+    projectsVi?: boolean
+    projectsEn?: boolean
+    highlightVi?: boolean
+    highlightEn?: boolean
+    published?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["partner"]>
+
+  export type PartnerSelectScalar = {
+    id?: boolean
+    order?: boolean
+    name?: boolean
+    sectorVi?: boolean
+    sectorEn?: boolean
+    descVi?: boolean
+    descEn?: boolean
+    founded?: boolean
+    hq?: boolean
+    statLabelVi?: boolean
+    statLabelEn?: boolean
+    statValue?: boolean
+    projectsVi?: boolean
+    projectsEn?: boolean
+    highlightVi?: boolean
+    highlightEn?: boolean
+    published?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type PartnerOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "order" | "name" | "sectorVi" | "sectorEn" | "descVi" | "descEn" | "founded" | "hq" | "statLabelVi" | "statLabelEn" | "statValue" | "projectsVi" | "projectsEn" | "highlightVi" | "highlightEn" | "published" | "createdAt" | "updatedAt", ExtArgs["result"]["partner"]>
+
+  export type $PartnerPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Partner"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      order: number
+      name: string
+      sectorVi: string
+      sectorEn: string
+      descVi: string
+      descEn: string
+      founded: number
+      hq: string
+      statLabelVi: string
+      statLabelEn: string
+      statValue: string
+      projectsVi: string[]
+      projectsEn: string[]
+      highlightVi: string
+      highlightEn: string
+      published: boolean
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["partner"]>
+    composites: {}
+  }
+
+  type PartnerGetPayload<S extends boolean | null | undefined | PartnerDefaultArgs> = $Result.GetResult<Prisma.$PartnerPayload, S>
+
+  type PartnerCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<PartnerFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: PartnerCountAggregateInputType | true
+    }
+
+  export interface PartnerDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Partner'], meta: { name: 'Partner' } }
+    /**
+     * Find zero or one Partner that matches the filter.
+     * @param {PartnerFindUniqueArgs} args - Arguments to find a Partner
+     * @example
+     * // Get one Partner
+     * const partner = await prisma.partner.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends PartnerFindUniqueArgs>(args: SelectSubset<T, PartnerFindUniqueArgs<ExtArgs>>): Prisma__PartnerClient<$Result.GetResult<Prisma.$PartnerPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Partner that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {PartnerFindUniqueOrThrowArgs} args - Arguments to find a Partner
+     * @example
+     * // Get one Partner
+     * const partner = await prisma.partner.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends PartnerFindUniqueOrThrowArgs>(args: SelectSubset<T, PartnerFindUniqueOrThrowArgs<ExtArgs>>): Prisma__PartnerClient<$Result.GetResult<Prisma.$PartnerPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Partner that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PartnerFindFirstArgs} args - Arguments to find a Partner
+     * @example
+     * // Get one Partner
+     * const partner = await prisma.partner.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends PartnerFindFirstArgs>(args?: SelectSubset<T, PartnerFindFirstArgs<ExtArgs>>): Prisma__PartnerClient<$Result.GetResult<Prisma.$PartnerPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Partner that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PartnerFindFirstOrThrowArgs} args - Arguments to find a Partner
+     * @example
+     * // Get one Partner
+     * const partner = await prisma.partner.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends PartnerFindFirstOrThrowArgs>(args?: SelectSubset<T, PartnerFindFirstOrThrowArgs<ExtArgs>>): Prisma__PartnerClient<$Result.GetResult<Prisma.$PartnerPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Partners that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PartnerFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Partners
+     * const partners = await prisma.partner.findMany()
+     * 
+     * // Get first 10 Partners
+     * const partners = await prisma.partner.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const partnerWithIdOnly = await prisma.partner.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends PartnerFindManyArgs>(args?: SelectSubset<T, PartnerFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PartnerPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Partner.
+     * @param {PartnerCreateArgs} args - Arguments to create a Partner.
+     * @example
+     * // Create one Partner
+     * const Partner = await prisma.partner.create({
+     *   data: {
+     *     // ... data to create a Partner
+     *   }
+     * })
+     * 
+     */
+    create<T extends PartnerCreateArgs>(args: SelectSubset<T, PartnerCreateArgs<ExtArgs>>): Prisma__PartnerClient<$Result.GetResult<Prisma.$PartnerPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Partners.
+     * @param {PartnerCreateManyArgs} args - Arguments to create many Partners.
+     * @example
+     * // Create many Partners
+     * const partner = await prisma.partner.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends PartnerCreateManyArgs>(args?: SelectSubset<T, PartnerCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Partners and returns the data saved in the database.
+     * @param {PartnerCreateManyAndReturnArgs} args - Arguments to create many Partners.
+     * @example
+     * // Create many Partners
+     * const partner = await prisma.partner.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Partners and only return the `id`
+     * const partnerWithIdOnly = await prisma.partner.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends PartnerCreateManyAndReturnArgs>(args?: SelectSubset<T, PartnerCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PartnerPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Partner.
+     * @param {PartnerDeleteArgs} args - Arguments to delete one Partner.
+     * @example
+     * // Delete one Partner
+     * const Partner = await prisma.partner.delete({
+     *   where: {
+     *     // ... filter to delete one Partner
+     *   }
+     * })
+     * 
+     */
+    delete<T extends PartnerDeleteArgs>(args: SelectSubset<T, PartnerDeleteArgs<ExtArgs>>): Prisma__PartnerClient<$Result.GetResult<Prisma.$PartnerPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Partner.
+     * @param {PartnerUpdateArgs} args - Arguments to update one Partner.
+     * @example
+     * // Update one Partner
+     * const partner = await prisma.partner.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends PartnerUpdateArgs>(args: SelectSubset<T, PartnerUpdateArgs<ExtArgs>>): Prisma__PartnerClient<$Result.GetResult<Prisma.$PartnerPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Partners.
+     * @param {PartnerDeleteManyArgs} args - Arguments to filter Partners to delete.
+     * @example
+     * // Delete a few Partners
+     * const { count } = await prisma.partner.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends PartnerDeleteManyArgs>(args?: SelectSubset<T, PartnerDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Partners.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PartnerUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Partners
+     * const partner = await prisma.partner.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends PartnerUpdateManyArgs>(args: SelectSubset<T, PartnerUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Partners and returns the data updated in the database.
+     * @param {PartnerUpdateManyAndReturnArgs} args - Arguments to update many Partners.
+     * @example
+     * // Update many Partners
+     * const partner = await prisma.partner.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Partners and only return the `id`
+     * const partnerWithIdOnly = await prisma.partner.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends PartnerUpdateManyAndReturnArgs>(args: SelectSubset<T, PartnerUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PartnerPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Partner.
+     * @param {PartnerUpsertArgs} args - Arguments to update or create a Partner.
+     * @example
+     * // Update or create a Partner
+     * const partner = await prisma.partner.upsert({
+     *   create: {
+     *     // ... data to create a Partner
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Partner we want to update
+     *   }
+     * })
+     */
+    upsert<T extends PartnerUpsertArgs>(args: SelectSubset<T, PartnerUpsertArgs<ExtArgs>>): Prisma__PartnerClient<$Result.GetResult<Prisma.$PartnerPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Partners.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PartnerCountArgs} args - Arguments to filter Partners to count.
+     * @example
+     * // Count the number of Partners
+     * const count = await prisma.partner.count({
+     *   where: {
+     *     // ... the filter for the Partners we want to count
+     *   }
+     * })
+    **/
+    count<T extends PartnerCountArgs>(
+      args?: Subset<T, PartnerCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], PartnerCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Partner.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PartnerAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends PartnerAggregateArgs>(args: Subset<T, PartnerAggregateArgs>): Prisma.PrismaPromise<GetPartnerAggregateType<T>>
+
+    /**
+     * Group by Partner.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PartnerGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends PartnerGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: PartnerGroupByArgs['orderBy'] }
+        : { orderBy?: PartnerGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, PartnerGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetPartnerGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Partner model
+   */
+  readonly fields: PartnerFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Partner.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__PartnerClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Partner model
+   */
+  interface PartnerFieldRefs {
+    readonly id: FieldRef<"Partner", 'String'>
+    readonly order: FieldRef<"Partner", 'Int'>
+    readonly name: FieldRef<"Partner", 'String'>
+    readonly sectorVi: FieldRef<"Partner", 'String'>
+    readonly sectorEn: FieldRef<"Partner", 'String'>
+    readonly descVi: FieldRef<"Partner", 'String'>
+    readonly descEn: FieldRef<"Partner", 'String'>
+    readonly founded: FieldRef<"Partner", 'Int'>
+    readonly hq: FieldRef<"Partner", 'String'>
+    readonly statLabelVi: FieldRef<"Partner", 'String'>
+    readonly statLabelEn: FieldRef<"Partner", 'String'>
+    readonly statValue: FieldRef<"Partner", 'String'>
+    readonly projectsVi: FieldRef<"Partner", 'String[]'>
+    readonly projectsEn: FieldRef<"Partner", 'String[]'>
+    readonly highlightVi: FieldRef<"Partner", 'String'>
+    readonly highlightEn: FieldRef<"Partner", 'String'>
+    readonly published: FieldRef<"Partner", 'Boolean'>
+    readonly createdAt: FieldRef<"Partner", 'DateTime'>
+    readonly updatedAt: FieldRef<"Partner", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Partner findUnique
+   */
+  export type PartnerFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Partner
+     */
+    select?: PartnerSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Partner
+     */
+    omit?: PartnerOmit<ExtArgs> | null
+    /**
+     * Filter, which Partner to fetch.
+     */
+    where: PartnerWhereUniqueInput
+  }
+
+  /**
+   * Partner findUniqueOrThrow
+   */
+  export type PartnerFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Partner
+     */
+    select?: PartnerSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Partner
+     */
+    omit?: PartnerOmit<ExtArgs> | null
+    /**
+     * Filter, which Partner to fetch.
+     */
+    where: PartnerWhereUniqueInput
+  }
+
+  /**
+   * Partner findFirst
+   */
+  export type PartnerFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Partner
+     */
+    select?: PartnerSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Partner
+     */
+    omit?: PartnerOmit<ExtArgs> | null
+    /**
+     * Filter, which Partner to fetch.
+     */
+    where?: PartnerWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Partners to fetch.
+     */
+    orderBy?: PartnerOrderByWithRelationInput | PartnerOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Partners.
+     */
+    cursor?: PartnerWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Partners from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Partners.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Partners.
+     */
+    distinct?: PartnerScalarFieldEnum | PartnerScalarFieldEnum[]
+  }
+
+  /**
+   * Partner findFirstOrThrow
+   */
+  export type PartnerFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Partner
+     */
+    select?: PartnerSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Partner
+     */
+    omit?: PartnerOmit<ExtArgs> | null
+    /**
+     * Filter, which Partner to fetch.
+     */
+    where?: PartnerWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Partners to fetch.
+     */
+    orderBy?: PartnerOrderByWithRelationInput | PartnerOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Partners.
+     */
+    cursor?: PartnerWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Partners from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Partners.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Partners.
+     */
+    distinct?: PartnerScalarFieldEnum | PartnerScalarFieldEnum[]
+  }
+
+  /**
+   * Partner findMany
+   */
+  export type PartnerFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Partner
+     */
+    select?: PartnerSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Partner
+     */
+    omit?: PartnerOmit<ExtArgs> | null
+    /**
+     * Filter, which Partners to fetch.
+     */
+    where?: PartnerWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Partners to fetch.
+     */
+    orderBy?: PartnerOrderByWithRelationInput | PartnerOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Partners.
+     */
+    cursor?: PartnerWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Partners from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Partners.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Partners.
+     */
+    distinct?: PartnerScalarFieldEnum | PartnerScalarFieldEnum[]
+  }
+
+  /**
+   * Partner create
+   */
+  export type PartnerCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Partner
+     */
+    select?: PartnerSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Partner
+     */
+    omit?: PartnerOmit<ExtArgs> | null
+    /**
+     * The data needed to create a Partner.
+     */
+    data: XOR<PartnerCreateInput, PartnerUncheckedCreateInput>
+  }
+
+  /**
+   * Partner createMany
+   */
+  export type PartnerCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Partners.
+     */
+    data: PartnerCreateManyInput | PartnerCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Partner createManyAndReturn
+   */
+  export type PartnerCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Partner
+     */
+    select?: PartnerSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Partner
+     */
+    omit?: PartnerOmit<ExtArgs> | null
+    /**
+     * The data used to create many Partners.
+     */
+    data: PartnerCreateManyInput | PartnerCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Partner update
+   */
+  export type PartnerUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Partner
+     */
+    select?: PartnerSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Partner
+     */
+    omit?: PartnerOmit<ExtArgs> | null
+    /**
+     * The data needed to update a Partner.
+     */
+    data: XOR<PartnerUpdateInput, PartnerUncheckedUpdateInput>
+    /**
+     * Choose, which Partner to update.
+     */
+    where: PartnerWhereUniqueInput
+  }
+
+  /**
+   * Partner updateMany
+   */
+  export type PartnerUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Partners.
+     */
+    data: XOR<PartnerUpdateManyMutationInput, PartnerUncheckedUpdateManyInput>
+    /**
+     * Filter which Partners to update
+     */
+    where?: PartnerWhereInput
+    /**
+     * Limit how many Partners to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Partner updateManyAndReturn
+   */
+  export type PartnerUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Partner
+     */
+    select?: PartnerSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Partner
+     */
+    omit?: PartnerOmit<ExtArgs> | null
+    /**
+     * The data used to update Partners.
+     */
+    data: XOR<PartnerUpdateManyMutationInput, PartnerUncheckedUpdateManyInput>
+    /**
+     * Filter which Partners to update
+     */
+    where?: PartnerWhereInput
+    /**
+     * Limit how many Partners to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Partner upsert
+   */
+  export type PartnerUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Partner
+     */
+    select?: PartnerSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Partner
+     */
+    omit?: PartnerOmit<ExtArgs> | null
+    /**
+     * The filter to search for the Partner to update in case it exists.
+     */
+    where: PartnerWhereUniqueInput
+    /**
+     * In case the Partner found by the `where` argument doesn't exist, create a new Partner with this data.
+     */
+    create: XOR<PartnerCreateInput, PartnerUncheckedCreateInput>
+    /**
+     * In case the Partner was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<PartnerUpdateInput, PartnerUncheckedUpdateInput>
+  }
+
+  /**
+   * Partner delete
+   */
+  export type PartnerDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Partner
+     */
+    select?: PartnerSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Partner
+     */
+    omit?: PartnerOmit<ExtArgs> | null
+    /**
+     * Filter which Partner to delete.
+     */
+    where: PartnerWhereUniqueInput
+  }
+
+  /**
+   * Partner deleteMany
+   */
+  export type PartnerDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Partners to delete
+     */
+    where?: PartnerWhereInput
+    /**
+     * Limit how many Partners to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Partner without action
+   */
+  export type PartnerDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Partner
+     */
+    select?: PartnerSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Partner
+     */
+    omit?: PartnerOmit<ExtArgs> | null
+  }
+
+
+  /**
+   * Model TimelineItem
+   */
+
+  export type AggregateTimelineItem = {
+    _count: TimelineItemCountAggregateOutputType | null
+    _avg: TimelineItemAvgAggregateOutputType | null
+    _sum: TimelineItemSumAggregateOutputType | null
+    _min: TimelineItemMinAggregateOutputType | null
+    _max: TimelineItemMaxAggregateOutputType | null
+  }
+
+  export type TimelineItemAvgAggregateOutputType = {
+    order: number | null
+  }
+
+  export type TimelineItemSumAggregateOutputType = {
+    order: number | null
+  }
+
+  export type TimelineItemMinAggregateOutputType = {
+    id: string | null
+    order: number | null
+    year: string | null
+    titleVi: string | null
+    titleEn: string | null
+    descVi: string | null
+    descEn: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type TimelineItemMaxAggregateOutputType = {
+    id: string | null
+    order: number | null
+    year: string | null
+    titleVi: string | null
+    titleEn: string | null
+    descVi: string | null
+    descEn: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type TimelineItemCountAggregateOutputType = {
+    id: number
+    order: number
+    year: number
+    titleVi: number
+    titleEn: number
+    descVi: number
+    descEn: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type TimelineItemAvgAggregateInputType = {
+    order?: true
+  }
+
+  export type TimelineItemSumAggregateInputType = {
+    order?: true
+  }
+
+  export type TimelineItemMinAggregateInputType = {
+    id?: true
+    order?: true
+    year?: true
+    titleVi?: true
+    titleEn?: true
+    descVi?: true
+    descEn?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type TimelineItemMaxAggregateInputType = {
+    id?: true
+    order?: true
+    year?: true
+    titleVi?: true
+    titleEn?: true
+    descVi?: true
+    descEn?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type TimelineItemCountAggregateInputType = {
+    id?: true
+    order?: true
+    year?: true
+    titleVi?: true
+    titleEn?: true
+    descVi?: true
+    descEn?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type TimelineItemAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which TimelineItem to aggregate.
+     */
+    where?: TimelineItemWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TimelineItems to fetch.
+     */
+    orderBy?: TimelineItemOrderByWithRelationInput | TimelineItemOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: TimelineItemWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TimelineItems from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TimelineItems.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned TimelineItems
+    **/
+    _count?: true | TimelineItemCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: TimelineItemAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: TimelineItemSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: TimelineItemMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: TimelineItemMaxAggregateInputType
+  }
+
+  export type GetTimelineItemAggregateType<T extends TimelineItemAggregateArgs> = {
+        [P in keyof T & keyof AggregateTimelineItem]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateTimelineItem[P]>
+      : GetScalarType<T[P], AggregateTimelineItem[P]>
+  }
+
+
+
+
+  export type TimelineItemGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TimelineItemWhereInput
+    orderBy?: TimelineItemOrderByWithAggregationInput | TimelineItemOrderByWithAggregationInput[]
+    by: TimelineItemScalarFieldEnum[] | TimelineItemScalarFieldEnum
+    having?: TimelineItemScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: TimelineItemCountAggregateInputType | true
+    _avg?: TimelineItemAvgAggregateInputType
+    _sum?: TimelineItemSumAggregateInputType
+    _min?: TimelineItemMinAggregateInputType
+    _max?: TimelineItemMaxAggregateInputType
+  }
+
+  export type TimelineItemGroupByOutputType = {
+    id: string
+    order: number
+    year: string
+    titleVi: string
+    titleEn: string
+    descVi: string
+    descEn: string
+    createdAt: Date
+    updatedAt: Date
+    _count: TimelineItemCountAggregateOutputType | null
+    _avg: TimelineItemAvgAggregateOutputType | null
+    _sum: TimelineItemSumAggregateOutputType | null
+    _min: TimelineItemMinAggregateOutputType | null
+    _max: TimelineItemMaxAggregateOutputType | null
+  }
+
+  type GetTimelineItemGroupByPayload<T extends TimelineItemGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<TimelineItemGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof TimelineItemGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], TimelineItemGroupByOutputType[P]>
+            : GetScalarType<T[P], TimelineItemGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type TimelineItemSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    order?: boolean
+    year?: boolean
+    titleVi?: boolean
+    titleEn?: boolean
+    descVi?: boolean
+    descEn?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["timelineItem"]>
+
+  export type TimelineItemSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    order?: boolean
+    year?: boolean
+    titleVi?: boolean
+    titleEn?: boolean
+    descVi?: boolean
+    descEn?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["timelineItem"]>
+
+  export type TimelineItemSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    order?: boolean
+    year?: boolean
+    titleVi?: boolean
+    titleEn?: boolean
+    descVi?: boolean
+    descEn?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["timelineItem"]>
+
+  export type TimelineItemSelectScalar = {
+    id?: boolean
+    order?: boolean
+    year?: boolean
+    titleVi?: boolean
+    titleEn?: boolean
+    descVi?: boolean
+    descEn?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type TimelineItemOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "order" | "year" | "titleVi" | "titleEn" | "descVi" | "descEn" | "createdAt" | "updatedAt", ExtArgs["result"]["timelineItem"]>
+
+  export type $TimelineItemPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "TimelineItem"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      order: number
+      year: string
+      titleVi: string
+      titleEn: string
+      descVi: string
+      descEn: string
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["timelineItem"]>
+    composites: {}
+  }
+
+  type TimelineItemGetPayload<S extends boolean | null | undefined | TimelineItemDefaultArgs> = $Result.GetResult<Prisma.$TimelineItemPayload, S>
+
+  type TimelineItemCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<TimelineItemFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: TimelineItemCountAggregateInputType | true
+    }
+
+  export interface TimelineItemDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['TimelineItem'], meta: { name: 'TimelineItem' } }
+    /**
+     * Find zero or one TimelineItem that matches the filter.
+     * @param {TimelineItemFindUniqueArgs} args - Arguments to find a TimelineItem
+     * @example
+     * // Get one TimelineItem
+     * const timelineItem = await prisma.timelineItem.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends TimelineItemFindUniqueArgs>(args: SelectSubset<T, TimelineItemFindUniqueArgs<ExtArgs>>): Prisma__TimelineItemClient<$Result.GetResult<Prisma.$TimelineItemPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one TimelineItem that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {TimelineItemFindUniqueOrThrowArgs} args - Arguments to find a TimelineItem
+     * @example
+     * // Get one TimelineItem
+     * const timelineItem = await prisma.timelineItem.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends TimelineItemFindUniqueOrThrowArgs>(args: SelectSubset<T, TimelineItemFindUniqueOrThrowArgs<ExtArgs>>): Prisma__TimelineItemClient<$Result.GetResult<Prisma.$TimelineItemPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first TimelineItem that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TimelineItemFindFirstArgs} args - Arguments to find a TimelineItem
+     * @example
+     * // Get one TimelineItem
+     * const timelineItem = await prisma.timelineItem.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends TimelineItemFindFirstArgs>(args?: SelectSubset<T, TimelineItemFindFirstArgs<ExtArgs>>): Prisma__TimelineItemClient<$Result.GetResult<Prisma.$TimelineItemPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first TimelineItem that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TimelineItemFindFirstOrThrowArgs} args - Arguments to find a TimelineItem
+     * @example
+     * // Get one TimelineItem
+     * const timelineItem = await prisma.timelineItem.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends TimelineItemFindFirstOrThrowArgs>(args?: SelectSubset<T, TimelineItemFindFirstOrThrowArgs<ExtArgs>>): Prisma__TimelineItemClient<$Result.GetResult<Prisma.$TimelineItemPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more TimelineItems that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TimelineItemFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all TimelineItems
+     * const timelineItems = await prisma.timelineItem.findMany()
+     * 
+     * // Get first 10 TimelineItems
+     * const timelineItems = await prisma.timelineItem.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const timelineItemWithIdOnly = await prisma.timelineItem.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends TimelineItemFindManyArgs>(args?: SelectSubset<T, TimelineItemFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TimelineItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a TimelineItem.
+     * @param {TimelineItemCreateArgs} args - Arguments to create a TimelineItem.
+     * @example
+     * // Create one TimelineItem
+     * const TimelineItem = await prisma.timelineItem.create({
+     *   data: {
+     *     // ... data to create a TimelineItem
+     *   }
+     * })
+     * 
+     */
+    create<T extends TimelineItemCreateArgs>(args: SelectSubset<T, TimelineItemCreateArgs<ExtArgs>>): Prisma__TimelineItemClient<$Result.GetResult<Prisma.$TimelineItemPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many TimelineItems.
+     * @param {TimelineItemCreateManyArgs} args - Arguments to create many TimelineItems.
+     * @example
+     * // Create many TimelineItems
+     * const timelineItem = await prisma.timelineItem.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends TimelineItemCreateManyArgs>(args?: SelectSubset<T, TimelineItemCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many TimelineItems and returns the data saved in the database.
+     * @param {TimelineItemCreateManyAndReturnArgs} args - Arguments to create many TimelineItems.
+     * @example
+     * // Create many TimelineItems
+     * const timelineItem = await prisma.timelineItem.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many TimelineItems and only return the `id`
+     * const timelineItemWithIdOnly = await prisma.timelineItem.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends TimelineItemCreateManyAndReturnArgs>(args?: SelectSubset<T, TimelineItemCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TimelineItemPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a TimelineItem.
+     * @param {TimelineItemDeleteArgs} args - Arguments to delete one TimelineItem.
+     * @example
+     * // Delete one TimelineItem
+     * const TimelineItem = await prisma.timelineItem.delete({
+     *   where: {
+     *     // ... filter to delete one TimelineItem
+     *   }
+     * })
+     * 
+     */
+    delete<T extends TimelineItemDeleteArgs>(args: SelectSubset<T, TimelineItemDeleteArgs<ExtArgs>>): Prisma__TimelineItemClient<$Result.GetResult<Prisma.$TimelineItemPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one TimelineItem.
+     * @param {TimelineItemUpdateArgs} args - Arguments to update one TimelineItem.
+     * @example
+     * // Update one TimelineItem
+     * const timelineItem = await prisma.timelineItem.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends TimelineItemUpdateArgs>(args: SelectSubset<T, TimelineItemUpdateArgs<ExtArgs>>): Prisma__TimelineItemClient<$Result.GetResult<Prisma.$TimelineItemPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more TimelineItems.
+     * @param {TimelineItemDeleteManyArgs} args - Arguments to filter TimelineItems to delete.
+     * @example
+     * // Delete a few TimelineItems
+     * const { count } = await prisma.timelineItem.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends TimelineItemDeleteManyArgs>(args?: SelectSubset<T, TimelineItemDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more TimelineItems.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TimelineItemUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many TimelineItems
+     * const timelineItem = await prisma.timelineItem.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends TimelineItemUpdateManyArgs>(args: SelectSubset<T, TimelineItemUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more TimelineItems and returns the data updated in the database.
+     * @param {TimelineItemUpdateManyAndReturnArgs} args - Arguments to update many TimelineItems.
+     * @example
+     * // Update many TimelineItems
+     * const timelineItem = await prisma.timelineItem.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more TimelineItems and only return the `id`
+     * const timelineItemWithIdOnly = await prisma.timelineItem.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends TimelineItemUpdateManyAndReturnArgs>(args: SelectSubset<T, TimelineItemUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TimelineItemPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one TimelineItem.
+     * @param {TimelineItemUpsertArgs} args - Arguments to update or create a TimelineItem.
+     * @example
+     * // Update or create a TimelineItem
+     * const timelineItem = await prisma.timelineItem.upsert({
+     *   create: {
+     *     // ... data to create a TimelineItem
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the TimelineItem we want to update
+     *   }
+     * })
+     */
+    upsert<T extends TimelineItemUpsertArgs>(args: SelectSubset<T, TimelineItemUpsertArgs<ExtArgs>>): Prisma__TimelineItemClient<$Result.GetResult<Prisma.$TimelineItemPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of TimelineItems.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TimelineItemCountArgs} args - Arguments to filter TimelineItems to count.
+     * @example
+     * // Count the number of TimelineItems
+     * const count = await prisma.timelineItem.count({
+     *   where: {
+     *     // ... the filter for the TimelineItems we want to count
+     *   }
+     * })
+    **/
+    count<T extends TimelineItemCountArgs>(
+      args?: Subset<T, TimelineItemCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], TimelineItemCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a TimelineItem.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TimelineItemAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends TimelineItemAggregateArgs>(args: Subset<T, TimelineItemAggregateArgs>): Prisma.PrismaPromise<GetTimelineItemAggregateType<T>>
+
+    /**
+     * Group by TimelineItem.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TimelineItemGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends TimelineItemGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: TimelineItemGroupByArgs['orderBy'] }
+        : { orderBy?: TimelineItemGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, TimelineItemGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetTimelineItemGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the TimelineItem model
+   */
+  readonly fields: TimelineItemFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for TimelineItem.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__TimelineItemClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the TimelineItem model
+   */
+  interface TimelineItemFieldRefs {
+    readonly id: FieldRef<"TimelineItem", 'String'>
+    readonly order: FieldRef<"TimelineItem", 'Int'>
+    readonly year: FieldRef<"TimelineItem", 'String'>
+    readonly titleVi: FieldRef<"TimelineItem", 'String'>
+    readonly titleEn: FieldRef<"TimelineItem", 'String'>
+    readonly descVi: FieldRef<"TimelineItem", 'String'>
+    readonly descEn: FieldRef<"TimelineItem", 'String'>
+    readonly createdAt: FieldRef<"TimelineItem", 'DateTime'>
+    readonly updatedAt: FieldRef<"TimelineItem", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * TimelineItem findUnique
+   */
+  export type TimelineItemFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TimelineItem
+     */
+    select?: TimelineItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TimelineItem
+     */
+    omit?: TimelineItemOmit<ExtArgs> | null
+    /**
+     * Filter, which TimelineItem to fetch.
+     */
+    where: TimelineItemWhereUniqueInput
+  }
+
+  /**
+   * TimelineItem findUniqueOrThrow
+   */
+  export type TimelineItemFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TimelineItem
+     */
+    select?: TimelineItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TimelineItem
+     */
+    omit?: TimelineItemOmit<ExtArgs> | null
+    /**
+     * Filter, which TimelineItem to fetch.
+     */
+    where: TimelineItemWhereUniqueInput
+  }
+
+  /**
+   * TimelineItem findFirst
+   */
+  export type TimelineItemFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TimelineItem
+     */
+    select?: TimelineItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TimelineItem
+     */
+    omit?: TimelineItemOmit<ExtArgs> | null
+    /**
+     * Filter, which TimelineItem to fetch.
+     */
+    where?: TimelineItemWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TimelineItems to fetch.
+     */
+    orderBy?: TimelineItemOrderByWithRelationInput | TimelineItemOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for TimelineItems.
+     */
+    cursor?: TimelineItemWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TimelineItems from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TimelineItems.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of TimelineItems.
+     */
+    distinct?: TimelineItemScalarFieldEnum | TimelineItemScalarFieldEnum[]
+  }
+
+  /**
+   * TimelineItem findFirstOrThrow
+   */
+  export type TimelineItemFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TimelineItem
+     */
+    select?: TimelineItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TimelineItem
+     */
+    omit?: TimelineItemOmit<ExtArgs> | null
+    /**
+     * Filter, which TimelineItem to fetch.
+     */
+    where?: TimelineItemWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TimelineItems to fetch.
+     */
+    orderBy?: TimelineItemOrderByWithRelationInput | TimelineItemOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for TimelineItems.
+     */
+    cursor?: TimelineItemWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TimelineItems from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TimelineItems.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of TimelineItems.
+     */
+    distinct?: TimelineItemScalarFieldEnum | TimelineItemScalarFieldEnum[]
+  }
+
+  /**
+   * TimelineItem findMany
+   */
+  export type TimelineItemFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TimelineItem
+     */
+    select?: TimelineItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TimelineItem
+     */
+    omit?: TimelineItemOmit<ExtArgs> | null
+    /**
+     * Filter, which TimelineItems to fetch.
+     */
+    where?: TimelineItemWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TimelineItems to fetch.
+     */
+    orderBy?: TimelineItemOrderByWithRelationInput | TimelineItemOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing TimelineItems.
+     */
+    cursor?: TimelineItemWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TimelineItems from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TimelineItems.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of TimelineItems.
+     */
+    distinct?: TimelineItemScalarFieldEnum | TimelineItemScalarFieldEnum[]
+  }
+
+  /**
+   * TimelineItem create
+   */
+  export type TimelineItemCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TimelineItem
+     */
+    select?: TimelineItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TimelineItem
+     */
+    omit?: TimelineItemOmit<ExtArgs> | null
+    /**
+     * The data needed to create a TimelineItem.
+     */
+    data: XOR<TimelineItemCreateInput, TimelineItemUncheckedCreateInput>
+  }
+
+  /**
+   * TimelineItem createMany
+   */
+  export type TimelineItemCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many TimelineItems.
+     */
+    data: TimelineItemCreateManyInput | TimelineItemCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * TimelineItem createManyAndReturn
+   */
+  export type TimelineItemCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TimelineItem
+     */
+    select?: TimelineItemSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the TimelineItem
+     */
+    omit?: TimelineItemOmit<ExtArgs> | null
+    /**
+     * The data used to create many TimelineItems.
+     */
+    data: TimelineItemCreateManyInput | TimelineItemCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * TimelineItem update
+   */
+  export type TimelineItemUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TimelineItem
+     */
+    select?: TimelineItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TimelineItem
+     */
+    omit?: TimelineItemOmit<ExtArgs> | null
+    /**
+     * The data needed to update a TimelineItem.
+     */
+    data: XOR<TimelineItemUpdateInput, TimelineItemUncheckedUpdateInput>
+    /**
+     * Choose, which TimelineItem to update.
+     */
+    where: TimelineItemWhereUniqueInput
+  }
+
+  /**
+   * TimelineItem updateMany
+   */
+  export type TimelineItemUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update TimelineItems.
+     */
+    data: XOR<TimelineItemUpdateManyMutationInput, TimelineItemUncheckedUpdateManyInput>
+    /**
+     * Filter which TimelineItems to update
+     */
+    where?: TimelineItemWhereInput
+    /**
+     * Limit how many TimelineItems to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * TimelineItem updateManyAndReturn
+   */
+  export type TimelineItemUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TimelineItem
+     */
+    select?: TimelineItemSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the TimelineItem
+     */
+    omit?: TimelineItemOmit<ExtArgs> | null
+    /**
+     * The data used to update TimelineItems.
+     */
+    data: XOR<TimelineItemUpdateManyMutationInput, TimelineItemUncheckedUpdateManyInput>
+    /**
+     * Filter which TimelineItems to update
+     */
+    where?: TimelineItemWhereInput
+    /**
+     * Limit how many TimelineItems to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * TimelineItem upsert
+   */
+  export type TimelineItemUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TimelineItem
+     */
+    select?: TimelineItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TimelineItem
+     */
+    omit?: TimelineItemOmit<ExtArgs> | null
+    /**
+     * The filter to search for the TimelineItem to update in case it exists.
+     */
+    where: TimelineItemWhereUniqueInput
+    /**
+     * In case the TimelineItem found by the `where` argument doesn't exist, create a new TimelineItem with this data.
+     */
+    create: XOR<TimelineItemCreateInput, TimelineItemUncheckedCreateInput>
+    /**
+     * In case the TimelineItem was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<TimelineItemUpdateInput, TimelineItemUncheckedUpdateInput>
+  }
+
+  /**
+   * TimelineItem delete
+   */
+  export type TimelineItemDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TimelineItem
+     */
+    select?: TimelineItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TimelineItem
+     */
+    omit?: TimelineItemOmit<ExtArgs> | null
+    /**
+     * Filter which TimelineItem to delete.
+     */
+    where: TimelineItemWhereUniqueInput
+  }
+
+  /**
+   * TimelineItem deleteMany
+   */
+  export type TimelineItemDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which TimelineItems to delete
+     */
+    where?: TimelineItemWhereInput
+    /**
+     * Limit how many TimelineItems to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * TimelineItem without action
+   */
+  export type TimelineItemDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TimelineItem
+     */
+    select?: TimelineItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TimelineItem
+     */
+    omit?: TimelineItemOmit<ExtArgs> | null
+  }
+
+
+  /**
+   * Model MemberCompany
+   */
+
+  export type AggregateMemberCompany = {
+    _count: MemberCompanyCountAggregateOutputType | null
+    _avg: MemberCompanyAvgAggregateOutputType | null
+    _sum: MemberCompanySumAggregateOutputType | null
+    _min: MemberCompanyMinAggregateOutputType | null
+    _max: MemberCompanyMaxAggregateOutputType | null
+  }
+
+  export type MemberCompanyAvgAggregateOutputType = {
+    order: number | null
+  }
+
+  export type MemberCompanySumAggregateOutputType = {
+    order: number | null
+  }
+
+  export type MemberCompanyMinAggregateOutputType = {
+    id: string | null
+    order: number | null
+    abbr: string | null
+    name: string | null
+    tagline: string | null
+    descVi: string | null
+    descEn: string | null
+    accent: string | null
+    published: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type MemberCompanyMaxAggregateOutputType = {
+    id: string | null
+    order: number | null
+    abbr: string | null
+    name: string | null
+    tagline: string | null
+    descVi: string | null
+    descEn: string | null
+    accent: string | null
+    published: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type MemberCompanyCountAggregateOutputType = {
+    id: number
+    order: number
+    abbr: number
+    name: number
+    tagline: number
+    descVi: number
+    descEn: number
+    accent: number
+    published: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type MemberCompanyAvgAggregateInputType = {
+    order?: true
+  }
+
+  export type MemberCompanySumAggregateInputType = {
+    order?: true
+  }
+
+  export type MemberCompanyMinAggregateInputType = {
+    id?: true
+    order?: true
+    abbr?: true
+    name?: true
+    tagline?: true
+    descVi?: true
+    descEn?: true
+    accent?: true
+    published?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type MemberCompanyMaxAggregateInputType = {
+    id?: true
+    order?: true
+    abbr?: true
+    name?: true
+    tagline?: true
+    descVi?: true
+    descEn?: true
+    accent?: true
+    published?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type MemberCompanyCountAggregateInputType = {
+    id?: true
+    order?: true
+    abbr?: true
+    name?: true
+    tagline?: true
+    descVi?: true
+    descEn?: true
+    accent?: true
+    published?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type MemberCompanyAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which MemberCompany to aggregate.
+     */
+    where?: MemberCompanyWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of MemberCompanies to fetch.
+     */
+    orderBy?: MemberCompanyOrderByWithRelationInput | MemberCompanyOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: MemberCompanyWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` MemberCompanies from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` MemberCompanies.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned MemberCompanies
+    **/
+    _count?: true | MemberCompanyCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: MemberCompanyAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: MemberCompanySumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: MemberCompanyMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: MemberCompanyMaxAggregateInputType
+  }
+
+  export type GetMemberCompanyAggregateType<T extends MemberCompanyAggregateArgs> = {
+        [P in keyof T & keyof AggregateMemberCompany]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateMemberCompany[P]>
+      : GetScalarType<T[P], AggregateMemberCompany[P]>
+  }
+
+
+
+
+  export type MemberCompanyGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: MemberCompanyWhereInput
+    orderBy?: MemberCompanyOrderByWithAggregationInput | MemberCompanyOrderByWithAggregationInput[]
+    by: MemberCompanyScalarFieldEnum[] | MemberCompanyScalarFieldEnum
+    having?: MemberCompanyScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: MemberCompanyCountAggregateInputType | true
+    _avg?: MemberCompanyAvgAggregateInputType
+    _sum?: MemberCompanySumAggregateInputType
+    _min?: MemberCompanyMinAggregateInputType
+    _max?: MemberCompanyMaxAggregateInputType
+  }
+
+  export type MemberCompanyGroupByOutputType = {
+    id: string
+    order: number
+    abbr: string
+    name: string
+    tagline: string
+    descVi: string
+    descEn: string
+    accent: string
+    published: boolean
+    createdAt: Date
+    updatedAt: Date
+    _count: MemberCompanyCountAggregateOutputType | null
+    _avg: MemberCompanyAvgAggregateOutputType | null
+    _sum: MemberCompanySumAggregateOutputType | null
+    _min: MemberCompanyMinAggregateOutputType | null
+    _max: MemberCompanyMaxAggregateOutputType | null
+  }
+
+  type GetMemberCompanyGroupByPayload<T extends MemberCompanyGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<MemberCompanyGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof MemberCompanyGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], MemberCompanyGroupByOutputType[P]>
+            : GetScalarType<T[P], MemberCompanyGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type MemberCompanySelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    order?: boolean
+    abbr?: boolean
+    name?: boolean
+    tagline?: boolean
+    descVi?: boolean
+    descEn?: boolean
+    accent?: boolean
+    published?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["memberCompany"]>
+
+  export type MemberCompanySelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    order?: boolean
+    abbr?: boolean
+    name?: boolean
+    tagline?: boolean
+    descVi?: boolean
+    descEn?: boolean
+    accent?: boolean
+    published?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["memberCompany"]>
+
+  export type MemberCompanySelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    order?: boolean
+    abbr?: boolean
+    name?: boolean
+    tagline?: boolean
+    descVi?: boolean
+    descEn?: boolean
+    accent?: boolean
+    published?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["memberCompany"]>
+
+  export type MemberCompanySelectScalar = {
+    id?: boolean
+    order?: boolean
+    abbr?: boolean
+    name?: boolean
+    tagline?: boolean
+    descVi?: boolean
+    descEn?: boolean
+    accent?: boolean
+    published?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type MemberCompanyOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "order" | "abbr" | "name" | "tagline" | "descVi" | "descEn" | "accent" | "published" | "createdAt" | "updatedAt", ExtArgs["result"]["memberCompany"]>
+
+  export type $MemberCompanyPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "MemberCompany"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      order: number
+      abbr: string
+      name: string
+      tagline: string
+      descVi: string
+      descEn: string
+      accent: string
+      published: boolean
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["memberCompany"]>
+    composites: {}
+  }
+
+  type MemberCompanyGetPayload<S extends boolean | null | undefined | MemberCompanyDefaultArgs> = $Result.GetResult<Prisma.$MemberCompanyPayload, S>
+
+  type MemberCompanyCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<MemberCompanyFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: MemberCompanyCountAggregateInputType | true
+    }
+
+  export interface MemberCompanyDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['MemberCompany'], meta: { name: 'MemberCompany' } }
+    /**
+     * Find zero or one MemberCompany that matches the filter.
+     * @param {MemberCompanyFindUniqueArgs} args - Arguments to find a MemberCompany
+     * @example
+     * // Get one MemberCompany
+     * const memberCompany = await prisma.memberCompany.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends MemberCompanyFindUniqueArgs>(args: SelectSubset<T, MemberCompanyFindUniqueArgs<ExtArgs>>): Prisma__MemberCompanyClient<$Result.GetResult<Prisma.$MemberCompanyPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one MemberCompany that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {MemberCompanyFindUniqueOrThrowArgs} args - Arguments to find a MemberCompany
+     * @example
+     * // Get one MemberCompany
+     * const memberCompany = await prisma.memberCompany.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends MemberCompanyFindUniqueOrThrowArgs>(args: SelectSubset<T, MemberCompanyFindUniqueOrThrowArgs<ExtArgs>>): Prisma__MemberCompanyClient<$Result.GetResult<Prisma.$MemberCompanyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first MemberCompany that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MemberCompanyFindFirstArgs} args - Arguments to find a MemberCompany
+     * @example
+     * // Get one MemberCompany
+     * const memberCompany = await prisma.memberCompany.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends MemberCompanyFindFirstArgs>(args?: SelectSubset<T, MemberCompanyFindFirstArgs<ExtArgs>>): Prisma__MemberCompanyClient<$Result.GetResult<Prisma.$MemberCompanyPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first MemberCompany that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MemberCompanyFindFirstOrThrowArgs} args - Arguments to find a MemberCompany
+     * @example
+     * // Get one MemberCompany
+     * const memberCompany = await prisma.memberCompany.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends MemberCompanyFindFirstOrThrowArgs>(args?: SelectSubset<T, MemberCompanyFindFirstOrThrowArgs<ExtArgs>>): Prisma__MemberCompanyClient<$Result.GetResult<Prisma.$MemberCompanyPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more MemberCompanies that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MemberCompanyFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all MemberCompanies
+     * const memberCompanies = await prisma.memberCompany.findMany()
+     * 
+     * // Get first 10 MemberCompanies
+     * const memberCompanies = await prisma.memberCompany.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const memberCompanyWithIdOnly = await prisma.memberCompany.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends MemberCompanyFindManyArgs>(args?: SelectSubset<T, MemberCompanyFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MemberCompanyPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a MemberCompany.
+     * @param {MemberCompanyCreateArgs} args - Arguments to create a MemberCompany.
+     * @example
+     * // Create one MemberCompany
+     * const MemberCompany = await prisma.memberCompany.create({
+     *   data: {
+     *     // ... data to create a MemberCompany
+     *   }
+     * })
+     * 
+     */
+    create<T extends MemberCompanyCreateArgs>(args: SelectSubset<T, MemberCompanyCreateArgs<ExtArgs>>): Prisma__MemberCompanyClient<$Result.GetResult<Prisma.$MemberCompanyPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many MemberCompanies.
+     * @param {MemberCompanyCreateManyArgs} args - Arguments to create many MemberCompanies.
+     * @example
+     * // Create many MemberCompanies
+     * const memberCompany = await prisma.memberCompany.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends MemberCompanyCreateManyArgs>(args?: SelectSubset<T, MemberCompanyCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many MemberCompanies and returns the data saved in the database.
+     * @param {MemberCompanyCreateManyAndReturnArgs} args - Arguments to create many MemberCompanies.
+     * @example
+     * // Create many MemberCompanies
+     * const memberCompany = await prisma.memberCompany.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many MemberCompanies and only return the `id`
+     * const memberCompanyWithIdOnly = await prisma.memberCompany.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends MemberCompanyCreateManyAndReturnArgs>(args?: SelectSubset<T, MemberCompanyCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MemberCompanyPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a MemberCompany.
+     * @param {MemberCompanyDeleteArgs} args - Arguments to delete one MemberCompany.
+     * @example
+     * // Delete one MemberCompany
+     * const MemberCompany = await prisma.memberCompany.delete({
+     *   where: {
+     *     // ... filter to delete one MemberCompany
+     *   }
+     * })
+     * 
+     */
+    delete<T extends MemberCompanyDeleteArgs>(args: SelectSubset<T, MemberCompanyDeleteArgs<ExtArgs>>): Prisma__MemberCompanyClient<$Result.GetResult<Prisma.$MemberCompanyPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one MemberCompany.
+     * @param {MemberCompanyUpdateArgs} args - Arguments to update one MemberCompany.
+     * @example
+     * // Update one MemberCompany
+     * const memberCompany = await prisma.memberCompany.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends MemberCompanyUpdateArgs>(args: SelectSubset<T, MemberCompanyUpdateArgs<ExtArgs>>): Prisma__MemberCompanyClient<$Result.GetResult<Prisma.$MemberCompanyPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more MemberCompanies.
+     * @param {MemberCompanyDeleteManyArgs} args - Arguments to filter MemberCompanies to delete.
+     * @example
+     * // Delete a few MemberCompanies
+     * const { count } = await prisma.memberCompany.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends MemberCompanyDeleteManyArgs>(args?: SelectSubset<T, MemberCompanyDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more MemberCompanies.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MemberCompanyUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many MemberCompanies
+     * const memberCompany = await prisma.memberCompany.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends MemberCompanyUpdateManyArgs>(args: SelectSubset<T, MemberCompanyUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more MemberCompanies and returns the data updated in the database.
+     * @param {MemberCompanyUpdateManyAndReturnArgs} args - Arguments to update many MemberCompanies.
+     * @example
+     * // Update many MemberCompanies
+     * const memberCompany = await prisma.memberCompany.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more MemberCompanies and only return the `id`
+     * const memberCompanyWithIdOnly = await prisma.memberCompany.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends MemberCompanyUpdateManyAndReturnArgs>(args: SelectSubset<T, MemberCompanyUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MemberCompanyPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one MemberCompany.
+     * @param {MemberCompanyUpsertArgs} args - Arguments to update or create a MemberCompany.
+     * @example
+     * // Update or create a MemberCompany
+     * const memberCompany = await prisma.memberCompany.upsert({
+     *   create: {
+     *     // ... data to create a MemberCompany
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the MemberCompany we want to update
+     *   }
+     * })
+     */
+    upsert<T extends MemberCompanyUpsertArgs>(args: SelectSubset<T, MemberCompanyUpsertArgs<ExtArgs>>): Prisma__MemberCompanyClient<$Result.GetResult<Prisma.$MemberCompanyPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of MemberCompanies.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MemberCompanyCountArgs} args - Arguments to filter MemberCompanies to count.
+     * @example
+     * // Count the number of MemberCompanies
+     * const count = await prisma.memberCompany.count({
+     *   where: {
+     *     // ... the filter for the MemberCompanies we want to count
+     *   }
+     * })
+    **/
+    count<T extends MemberCompanyCountArgs>(
+      args?: Subset<T, MemberCompanyCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], MemberCompanyCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a MemberCompany.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MemberCompanyAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends MemberCompanyAggregateArgs>(args: Subset<T, MemberCompanyAggregateArgs>): Prisma.PrismaPromise<GetMemberCompanyAggregateType<T>>
+
+    /**
+     * Group by MemberCompany.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MemberCompanyGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends MemberCompanyGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: MemberCompanyGroupByArgs['orderBy'] }
+        : { orderBy?: MemberCompanyGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, MemberCompanyGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetMemberCompanyGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the MemberCompany model
+   */
+  readonly fields: MemberCompanyFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for MemberCompany.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__MemberCompanyClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the MemberCompany model
+   */
+  interface MemberCompanyFieldRefs {
+    readonly id: FieldRef<"MemberCompany", 'String'>
+    readonly order: FieldRef<"MemberCompany", 'Int'>
+    readonly abbr: FieldRef<"MemberCompany", 'String'>
+    readonly name: FieldRef<"MemberCompany", 'String'>
+    readonly tagline: FieldRef<"MemberCompany", 'String'>
+    readonly descVi: FieldRef<"MemberCompany", 'String'>
+    readonly descEn: FieldRef<"MemberCompany", 'String'>
+    readonly accent: FieldRef<"MemberCompany", 'String'>
+    readonly published: FieldRef<"MemberCompany", 'Boolean'>
+    readonly createdAt: FieldRef<"MemberCompany", 'DateTime'>
+    readonly updatedAt: FieldRef<"MemberCompany", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * MemberCompany findUnique
+   */
+  export type MemberCompanyFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MemberCompany
+     */
+    select?: MemberCompanySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MemberCompany
+     */
+    omit?: MemberCompanyOmit<ExtArgs> | null
+    /**
+     * Filter, which MemberCompany to fetch.
+     */
+    where: MemberCompanyWhereUniqueInput
+  }
+
+  /**
+   * MemberCompany findUniqueOrThrow
+   */
+  export type MemberCompanyFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MemberCompany
+     */
+    select?: MemberCompanySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MemberCompany
+     */
+    omit?: MemberCompanyOmit<ExtArgs> | null
+    /**
+     * Filter, which MemberCompany to fetch.
+     */
+    where: MemberCompanyWhereUniqueInput
+  }
+
+  /**
+   * MemberCompany findFirst
+   */
+  export type MemberCompanyFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MemberCompany
+     */
+    select?: MemberCompanySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MemberCompany
+     */
+    omit?: MemberCompanyOmit<ExtArgs> | null
+    /**
+     * Filter, which MemberCompany to fetch.
+     */
+    where?: MemberCompanyWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of MemberCompanies to fetch.
+     */
+    orderBy?: MemberCompanyOrderByWithRelationInput | MemberCompanyOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for MemberCompanies.
+     */
+    cursor?: MemberCompanyWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` MemberCompanies from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` MemberCompanies.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of MemberCompanies.
+     */
+    distinct?: MemberCompanyScalarFieldEnum | MemberCompanyScalarFieldEnum[]
+  }
+
+  /**
+   * MemberCompany findFirstOrThrow
+   */
+  export type MemberCompanyFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MemberCompany
+     */
+    select?: MemberCompanySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MemberCompany
+     */
+    omit?: MemberCompanyOmit<ExtArgs> | null
+    /**
+     * Filter, which MemberCompany to fetch.
+     */
+    where?: MemberCompanyWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of MemberCompanies to fetch.
+     */
+    orderBy?: MemberCompanyOrderByWithRelationInput | MemberCompanyOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for MemberCompanies.
+     */
+    cursor?: MemberCompanyWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` MemberCompanies from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` MemberCompanies.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of MemberCompanies.
+     */
+    distinct?: MemberCompanyScalarFieldEnum | MemberCompanyScalarFieldEnum[]
+  }
+
+  /**
+   * MemberCompany findMany
+   */
+  export type MemberCompanyFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MemberCompany
+     */
+    select?: MemberCompanySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MemberCompany
+     */
+    omit?: MemberCompanyOmit<ExtArgs> | null
+    /**
+     * Filter, which MemberCompanies to fetch.
+     */
+    where?: MemberCompanyWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of MemberCompanies to fetch.
+     */
+    orderBy?: MemberCompanyOrderByWithRelationInput | MemberCompanyOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing MemberCompanies.
+     */
+    cursor?: MemberCompanyWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` MemberCompanies from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` MemberCompanies.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of MemberCompanies.
+     */
+    distinct?: MemberCompanyScalarFieldEnum | MemberCompanyScalarFieldEnum[]
+  }
+
+  /**
+   * MemberCompany create
+   */
+  export type MemberCompanyCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MemberCompany
+     */
+    select?: MemberCompanySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MemberCompany
+     */
+    omit?: MemberCompanyOmit<ExtArgs> | null
+    /**
+     * The data needed to create a MemberCompany.
+     */
+    data: XOR<MemberCompanyCreateInput, MemberCompanyUncheckedCreateInput>
+  }
+
+  /**
+   * MemberCompany createMany
+   */
+  export type MemberCompanyCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many MemberCompanies.
+     */
+    data: MemberCompanyCreateManyInput | MemberCompanyCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * MemberCompany createManyAndReturn
+   */
+  export type MemberCompanyCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MemberCompany
+     */
+    select?: MemberCompanySelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the MemberCompany
+     */
+    omit?: MemberCompanyOmit<ExtArgs> | null
+    /**
+     * The data used to create many MemberCompanies.
+     */
+    data: MemberCompanyCreateManyInput | MemberCompanyCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * MemberCompany update
+   */
+  export type MemberCompanyUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MemberCompany
+     */
+    select?: MemberCompanySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MemberCompany
+     */
+    omit?: MemberCompanyOmit<ExtArgs> | null
+    /**
+     * The data needed to update a MemberCompany.
+     */
+    data: XOR<MemberCompanyUpdateInput, MemberCompanyUncheckedUpdateInput>
+    /**
+     * Choose, which MemberCompany to update.
+     */
+    where: MemberCompanyWhereUniqueInput
+  }
+
+  /**
+   * MemberCompany updateMany
+   */
+  export type MemberCompanyUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update MemberCompanies.
+     */
+    data: XOR<MemberCompanyUpdateManyMutationInput, MemberCompanyUncheckedUpdateManyInput>
+    /**
+     * Filter which MemberCompanies to update
+     */
+    where?: MemberCompanyWhereInput
+    /**
+     * Limit how many MemberCompanies to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * MemberCompany updateManyAndReturn
+   */
+  export type MemberCompanyUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MemberCompany
+     */
+    select?: MemberCompanySelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the MemberCompany
+     */
+    omit?: MemberCompanyOmit<ExtArgs> | null
+    /**
+     * The data used to update MemberCompanies.
+     */
+    data: XOR<MemberCompanyUpdateManyMutationInput, MemberCompanyUncheckedUpdateManyInput>
+    /**
+     * Filter which MemberCompanies to update
+     */
+    where?: MemberCompanyWhereInput
+    /**
+     * Limit how many MemberCompanies to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * MemberCompany upsert
+   */
+  export type MemberCompanyUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MemberCompany
+     */
+    select?: MemberCompanySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MemberCompany
+     */
+    omit?: MemberCompanyOmit<ExtArgs> | null
+    /**
+     * The filter to search for the MemberCompany to update in case it exists.
+     */
+    where: MemberCompanyWhereUniqueInput
+    /**
+     * In case the MemberCompany found by the `where` argument doesn't exist, create a new MemberCompany with this data.
+     */
+    create: XOR<MemberCompanyCreateInput, MemberCompanyUncheckedCreateInput>
+    /**
+     * In case the MemberCompany was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<MemberCompanyUpdateInput, MemberCompanyUncheckedUpdateInput>
+  }
+
+  /**
+   * MemberCompany delete
+   */
+  export type MemberCompanyDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MemberCompany
+     */
+    select?: MemberCompanySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MemberCompany
+     */
+    omit?: MemberCompanyOmit<ExtArgs> | null
+    /**
+     * Filter which MemberCompany to delete.
+     */
+    where: MemberCompanyWhereUniqueInput
+  }
+
+  /**
+   * MemberCompany deleteMany
+   */
+  export type MemberCompanyDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which MemberCompanies to delete
+     */
+    where?: MemberCompanyWhereInput
+    /**
+     * Limit how many MemberCompanies to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * MemberCompany without action
+   */
+  export type MemberCompanyDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MemberCompany
+     */
+    select?: MemberCompanySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MemberCompany
+     */
+    omit?: MemberCompanyOmit<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -3335,6 +8278,85 @@ export namespace Prisma {
   };
 
   export type ServiceScalarFieldEnum = (typeof ServiceScalarFieldEnum)[keyof typeof ServiceScalarFieldEnum]
+
+
+  export const NewsArticleScalarFieldEnum: {
+    id: 'id',
+    slug: 'slug',
+    titleVi: 'titleVi',
+    titleEn: 'titleEn',
+    summaryVi: 'summaryVi',
+    summaryEn: 'summaryEn',
+    contentVi: 'contentVi',
+    contentEn: 'contentEn',
+    image: 'image',
+    categoryVi: 'categoryVi',
+    categoryEn: 'categoryEn',
+    date: 'date',
+    readTime: 'readTime',
+    published: 'published',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type NewsArticleScalarFieldEnum = (typeof NewsArticleScalarFieldEnum)[keyof typeof NewsArticleScalarFieldEnum]
+
+
+  export const PartnerScalarFieldEnum: {
+    id: 'id',
+    order: 'order',
+    name: 'name',
+    sectorVi: 'sectorVi',
+    sectorEn: 'sectorEn',
+    descVi: 'descVi',
+    descEn: 'descEn',
+    founded: 'founded',
+    hq: 'hq',
+    statLabelVi: 'statLabelVi',
+    statLabelEn: 'statLabelEn',
+    statValue: 'statValue',
+    projectsVi: 'projectsVi',
+    projectsEn: 'projectsEn',
+    highlightVi: 'highlightVi',
+    highlightEn: 'highlightEn',
+    published: 'published',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type PartnerScalarFieldEnum = (typeof PartnerScalarFieldEnum)[keyof typeof PartnerScalarFieldEnum]
+
+
+  export const TimelineItemScalarFieldEnum: {
+    id: 'id',
+    order: 'order',
+    year: 'year',
+    titleVi: 'titleVi',
+    titleEn: 'titleEn',
+    descVi: 'descVi',
+    descEn: 'descEn',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type TimelineItemScalarFieldEnum = (typeof TimelineItemScalarFieldEnum)[keyof typeof TimelineItemScalarFieldEnum]
+
+
+  export const MemberCompanyScalarFieldEnum: {
+    id: 'id',
+    order: 'order',
+    abbr: 'abbr',
+    name: 'name',
+    tagline: 'tagline',
+    descVi: 'descVi',
+    descEn: 'descEn',
+    accent: 'accent',
+    published: 'published',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type MemberCompanyScalarFieldEnum = (typeof MemberCompanyScalarFieldEnum)[keyof typeof MemberCompanyScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -3645,6 +8667,397 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"Service"> | Date | string
   }
 
+  export type NewsArticleWhereInput = {
+    AND?: NewsArticleWhereInput | NewsArticleWhereInput[]
+    OR?: NewsArticleWhereInput[]
+    NOT?: NewsArticleWhereInput | NewsArticleWhereInput[]
+    id?: StringFilter<"NewsArticle"> | string
+    slug?: StringFilter<"NewsArticle"> | string
+    titleVi?: StringFilter<"NewsArticle"> | string
+    titleEn?: StringFilter<"NewsArticle"> | string
+    summaryVi?: StringFilter<"NewsArticle"> | string
+    summaryEn?: StringFilter<"NewsArticle"> | string
+    contentVi?: StringNullableListFilter<"NewsArticle">
+    contentEn?: StringNullableListFilter<"NewsArticle">
+    image?: StringFilter<"NewsArticle"> | string
+    categoryVi?: StringFilter<"NewsArticle"> | string
+    categoryEn?: StringFilter<"NewsArticle"> | string
+    date?: StringFilter<"NewsArticle"> | string
+    readTime?: IntFilter<"NewsArticle"> | number
+    published?: BoolFilter<"NewsArticle"> | boolean
+    createdAt?: DateTimeFilter<"NewsArticle"> | Date | string
+    updatedAt?: DateTimeFilter<"NewsArticle"> | Date | string
+  }
+
+  export type NewsArticleOrderByWithRelationInput = {
+    id?: SortOrder
+    slug?: SortOrder
+    titleVi?: SortOrder
+    titleEn?: SortOrder
+    summaryVi?: SortOrder
+    summaryEn?: SortOrder
+    contentVi?: SortOrder
+    contentEn?: SortOrder
+    image?: SortOrder
+    categoryVi?: SortOrder
+    categoryEn?: SortOrder
+    date?: SortOrder
+    readTime?: SortOrder
+    published?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type NewsArticleWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    slug?: string
+    AND?: NewsArticleWhereInput | NewsArticleWhereInput[]
+    OR?: NewsArticleWhereInput[]
+    NOT?: NewsArticleWhereInput | NewsArticleWhereInput[]
+    titleVi?: StringFilter<"NewsArticle"> | string
+    titleEn?: StringFilter<"NewsArticle"> | string
+    summaryVi?: StringFilter<"NewsArticle"> | string
+    summaryEn?: StringFilter<"NewsArticle"> | string
+    contentVi?: StringNullableListFilter<"NewsArticle">
+    contentEn?: StringNullableListFilter<"NewsArticle">
+    image?: StringFilter<"NewsArticle"> | string
+    categoryVi?: StringFilter<"NewsArticle"> | string
+    categoryEn?: StringFilter<"NewsArticle"> | string
+    date?: StringFilter<"NewsArticle"> | string
+    readTime?: IntFilter<"NewsArticle"> | number
+    published?: BoolFilter<"NewsArticle"> | boolean
+    createdAt?: DateTimeFilter<"NewsArticle"> | Date | string
+    updatedAt?: DateTimeFilter<"NewsArticle"> | Date | string
+  }, "id" | "slug">
+
+  export type NewsArticleOrderByWithAggregationInput = {
+    id?: SortOrder
+    slug?: SortOrder
+    titleVi?: SortOrder
+    titleEn?: SortOrder
+    summaryVi?: SortOrder
+    summaryEn?: SortOrder
+    contentVi?: SortOrder
+    contentEn?: SortOrder
+    image?: SortOrder
+    categoryVi?: SortOrder
+    categoryEn?: SortOrder
+    date?: SortOrder
+    readTime?: SortOrder
+    published?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: NewsArticleCountOrderByAggregateInput
+    _avg?: NewsArticleAvgOrderByAggregateInput
+    _max?: NewsArticleMaxOrderByAggregateInput
+    _min?: NewsArticleMinOrderByAggregateInput
+    _sum?: NewsArticleSumOrderByAggregateInput
+  }
+
+  export type NewsArticleScalarWhereWithAggregatesInput = {
+    AND?: NewsArticleScalarWhereWithAggregatesInput | NewsArticleScalarWhereWithAggregatesInput[]
+    OR?: NewsArticleScalarWhereWithAggregatesInput[]
+    NOT?: NewsArticleScalarWhereWithAggregatesInput | NewsArticleScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"NewsArticle"> | string
+    slug?: StringWithAggregatesFilter<"NewsArticle"> | string
+    titleVi?: StringWithAggregatesFilter<"NewsArticle"> | string
+    titleEn?: StringWithAggregatesFilter<"NewsArticle"> | string
+    summaryVi?: StringWithAggregatesFilter<"NewsArticle"> | string
+    summaryEn?: StringWithAggregatesFilter<"NewsArticle"> | string
+    contentVi?: StringNullableListFilter<"NewsArticle">
+    contentEn?: StringNullableListFilter<"NewsArticle">
+    image?: StringWithAggregatesFilter<"NewsArticle"> | string
+    categoryVi?: StringWithAggregatesFilter<"NewsArticle"> | string
+    categoryEn?: StringWithAggregatesFilter<"NewsArticle"> | string
+    date?: StringWithAggregatesFilter<"NewsArticle"> | string
+    readTime?: IntWithAggregatesFilter<"NewsArticle"> | number
+    published?: BoolWithAggregatesFilter<"NewsArticle"> | boolean
+    createdAt?: DateTimeWithAggregatesFilter<"NewsArticle"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"NewsArticle"> | Date | string
+  }
+
+  export type PartnerWhereInput = {
+    AND?: PartnerWhereInput | PartnerWhereInput[]
+    OR?: PartnerWhereInput[]
+    NOT?: PartnerWhereInput | PartnerWhereInput[]
+    id?: StringFilter<"Partner"> | string
+    order?: IntFilter<"Partner"> | number
+    name?: StringFilter<"Partner"> | string
+    sectorVi?: StringFilter<"Partner"> | string
+    sectorEn?: StringFilter<"Partner"> | string
+    descVi?: StringFilter<"Partner"> | string
+    descEn?: StringFilter<"Partner"> | string
+    founded?: IntFilter<"Partner"> | number
+    hq?: StringFilter<"Partner"> | string
+    statLabelVi?: StringFilter<"Partner"> | string
+    statLabelEn?: StringFilter<"Partner"> | string
+    statValue?: StringFilter<"Partner"> | string
+    projectsVi?: StringNullableListFilter<"Partner">
+    projectsEn?: StringNullableListFilter<"Partner">
+    highlightVi?: StringFilter<"Partner"> | string
+    highlightEn?: StringFilter<"Partner"> | string
+    published?: BoolFilter<"Partner"> | boolean
+    createdAt?: DateTimeFilter<"Partner"> | Date | string
+    updatedAt?: DateTimeFilter<"Partner"> | Date | string
+  }
+
+  export type PartnerOrderByWithRelationInput = {
+    id?: SortOrder
+    order?: SortOrder
+    name?: SortOrder
+    sectorVi?: SortOrder
+    sectorEn?: SortOrder
+    descVi?: SortOrder
+    descEn?: SortOrder
+    founded?: SortOrder
+    hq?: SortOrder
+    statLabelVi?: SortOrder
+    statLabelEn?: SortOrder
+    statValue?: SortOrder
+    projectsVi?: SortOrder
+    projectsEn?: SortOrder
+    highlightVi?: SortOrder
+    highlightEn?: SortOrder
+    published?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type PartnerWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: PartnerWhereInput | PartnerWhereInput[]
+    OR?: PartnerWhereInput[]
+    NOT?: PartnerWhereInput | PartnerWhereInput[]
+    order?: IntFilter<"Partner"> | number
+    name?: StringFilter<"Partner"> | string
+    sectorVi?: StringFilter<"Partner"> | string
+    sectorEn?: StringFilter<"Partner"> | string
+    descVi?: StringFilter<"Partner"> | string
+    descEn?: StringFilter<"Partner"> | string
+    founded?: IntFilter<"Partner"> | number
+    hq?: StringFilter<"Partner"> | string
+    statLabelVi?: StringFilter<"Partner"> | string
+    statLabelEn?: StringFilter<"Partner"> | string
+    statValue?: StringFilter<"Partner"> | string
+    projectsVi?: StringNullableListFilter<"Partner">
+    projectsEn?: StringNullableListFilter<"Partner">
+    highlightVi?: StringFilter<"Partner"> | string
+    highlightEn?: StringFilter<"Partner"> | string
+    published?: BoolFilter<"Partner"> | boolean
+    createdAt?: DateTimeFilter<"Partner"> | Date | string
+    updatedAt?: DateTimeFilter<"Partner"> | Date | string
+  }, "id">
+
+  export type PartnerOrderByWithAggregationInput = {
+    id?: SortOrder
+    order?: SortOrder
+    name?: SortOrder
+    sectorVi?: SortOrder
+    sectorEn?: SortOrder
+    descVi?: SortOrder
+    descEn?: SortOrder
+    founded?: SortOrder
+    hq?: SortOrder
+    statLabelVi?: SortOrder
+    statLabelEn?: SortOrder
+    statValue?: SortOrder
+    projectsVi?: SortOrder
+    projectsEn?: SortOrder
+    highlightVi?: SortOrder
+    highlightEn?: SortOrder
+    published?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: PartnerCountOrderByAggregateInput
+    _avg?: PartnerAvgOrderByAggregateInput
+    _max?: PartnerMaxOrderByAggregateInput
+    _min?: PartnerMinOrderByAggregateInput
+    _sum?: PartnerSumOrderByAggregateInput
+  }
+
+  export type PartnerScalarWhereWithAggregatesInput = {
+    AND?: PartnerScalarWhereWithAggregatesInput | PartnerScalarWhereWithAggregatesInput[]
+    OR?: PartnerScalarWhereWithAggregatesInput[]
+    NOT?: PartnerScalarWhereWithAggregatesInput | PartnerScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Partner"> | string
+    order?: IntWithAggregatesFilter<"Partner"> | number
+    name?: StringWithAggregatesFilter<"Partner"> | string
+    sectorVi?: StringWithAggregatesFilter<"Partner"> | string
+    sectorEn?: StringWithAggregatesFilter<"Partner"> | string
+    descVi?: StringWithAggregatesFilter<"Partner"> | string
+    descEn?: StringWithAggregatesFilter<"Partner"> | string
+    founded?: IntWithAggregatesFilter<"Partner"> | number
+    hq?: StringWithAggregatesFilter<"Partner"> | string
+    statLabelVi?: StringWithAggregatesFilter<"Partner"> | string
+    statLabelEn?: StringWithAggregatesFilter<"Partner"> | string
+    statValue?: StringWithAggregatesFilter<"Partner"> | string
+    projectsVi?: StringNullableListFilter<"Partner">
+    projectsEn?: StringNullableListFilter<"Partner">
+    highlightVi?: StringWithAggregatesFilter<"Partner"> | string
+    highlightEn?: StringWithAggregatesFilter<"Partner"> | string
+    published?: BoolWithAggregatesFilter<"Partner"> | boolean
+    createdAt?: DateTimeWithAggregatesFilter<"Partner"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Partner"> | Date | string
+  }
+
+  export type TimelineItemWhereInput = {
+    AND?: TimelineItemWhereInput | TimelineItemWhereInput[]
+    OR?: TimelineItemWhereInput[]
+    NOT?: TimelineItemWhereInput | TimelineItemWhereInput[]
+    id?: StringFilter<"TimelineItem"> | string
+    order?: IntFilter<"TimelineItem"> | number
+    year?: StringFilter<"TimelineItem"> | string
+    titleVi?: StringFilter<"TimelineItem"> | string
+    titleEn?: StringFilter<"TimelineItem"> | string
+    descVi?: StringFilter<"TimelineItem"> | string
+    descEn?: StringFilter<"TimelineItem"> | string
+    createdAt?: DateTimeFilter<"TimelineItem"> | Date | string
+    updatedAt?: DateTimeFilter<"TimelineItem"> | Date | string
+  }
+
+  export type TimelineItemOrderByWithRelationInput = {
+    id?: SortOrder
+    order?: SortOrder
+    year?: SortOrder
+    titleVi?: SortOrder
+    titleEn?: SortOrder
+    descVi?: SortOrder
+    descEn?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type TimelineItemWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: TimelineItemWhereInput | TimelineItemWhereInput[]
+    OR?: TimelineItemWhereInput[]
+    NOT?: TimelineItemWhereInput | TimelineItemWhereInput[]
+    order?: IntFilter<"TimelineItem"> | number
+    year?: StringFilter<"TimelineItem"> | string
+    titleVi?: StringFilter<"TimelineItem"> | string
+    titleEn?: StringFilter<"TimelineItem"> | string
+    descVi?: StringFilter<"TimelineItem"> | string
+    descEn?: StringFilter<"TimelineItem"> | string
+    createdAt?: DateTimeFilter<"TimelineItem"> | Date | string
+    updatedAt?: DateTimeFilter<"TimelineItem"> | Date | string
+  }, "id">
+
+  export type TimelineItemOrderByWithAggregationInput = {
+    id?: SortOrder
+    order?: SortOrder
+    year?: SortOrder
+    titleVi?: SortOrder
+    titleEn?: SortOrder
+    descVi?: SortOrder
+    descEn?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: TimelineItemCountOrderByAggregateInput
+    _avg?: TimelineItemAvgOrderByAggregateInput
+    _max?: TimelineItemMaxOrderByAggregateInput
+    _min?: TimelineItemMinOrderByAggregateInput
+    _sum?: TimelineItemSumOrderByAggregateInput
+  }
+
+  export type TimelineItemScalarWhereWithAggregatesInput = {
+    AND?: TimelineItemScalarWhereWithAggregatesInput | TimelineItemScalarWhereWithAggregatesInput[]
+    OR?: TimelineItemScalarWhereWithAggregatesInput[]
+    NOT?: TimelineItemScalarWhereWithAggregatesInput | TimelineItemScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"TimelineItem"> | string
+    order?: IntWithAggregatesFilter<"TimelineItem"> | number
+    year?: StringWithAggregatesFilter<"TimelineItem"> | string
+    titleVi?: StringWithAggregatesFilter<"TimelineItem"> | string
+    titleEn?: StringWithAggregatesFilter<"TimelineItem"> | string
+    descVi?: StringWithAggregatesFilter<"TimelineItem"> | string
+    descEn?: StringWithAggregatesFilter<"TimelineItem"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"TimelineItem"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"TimelineItem"> | Date | string
+  }
+
+  export type MemberCompanyWhereInput = {
+    AND?: MemberCompanyWhereInput | MemberCompanyWhereInput[]
+    OR?: MemberCompanyWhereInput[]
+    NOT?: MemberCompanyWhereInput | MemberCompanyWhereInput[]
+    id?: StringFilter<"MemberCompany"> | string
+    order?: IntFilter<"MemberCompany"> | number
+    abbr?: StringFilter<"MemberCompany"> | string
+    name?: StringFilter<"MemberCompany"> | string
+    tagline?: StringFilter<"MemberCompany"> | string
+    descVi?: StringFilter<"MemberCompany"> | string
+    descEn?: StringFilter<"MemberCompany"> | string
+    accent?: StringFilter<"MemberCompany"> | string
+    published?: BoolFilter<"MemberCompany"> | boolean
+    createdAt?: DateTimeFilter<"MemberCompany"> | Date | string
+    updatedAt?: DateTimeFilter<"MemberCompany"> | Date | string
+  }
+
+  export type MemberCompanyOrderByWithRelationInput = {
+    id?: SortOrder
+    order?: SortOrder
+    abbr?: SortOrder
+    name?: SortOrder
+    tagline?: SortOrder
+    descVi?: SortOrder
+    descEn?: SortOrder
+    accent?: SortOrder
+    published?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type MemberCompanyWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: MemberCompanyWhereInput | MemberCompanyWhereInput[]
+    OR?: MemberCompanyWhereInput[]
+    NOT?: MemberCompanyWhereInput | MemberCompanyWhereInput[]
+    order?: IntFilter<"MemberCompany"> | number
+    abbr?: StringFilter<"MemberCompany"> | string
+    name?: StringFilter<"MemberCompany"> | string
+    tagline?: StringFilter<"MemberCompany"> | string
+    descVi?: StringFilter<"MemberCompany"> | string
+    descEn?: StringFilter<"MemberCompany"> | string
+    accent?: StringFilter<"MemberCompany"> | string
+    published?: BoolFilter<"MemberCompany"> | boolean
+    createdAt?: DateTimeFilter<"MemberCompany"> | Date | string
+    updatedAt?: DateTimeFilter<"MemberCompany"> | Date | string
+  }, "id">
+
+  export type MemberCompanyOrderByWithAggregationInput = {
+    id?: SortOrder
+    order?: SortOrder
+    abbr?: SortOrder
+    name?: SortOrder
+    tagline?: SortOrder
+    descVi?: SortOrder
+    descEn?: SortOrder
+    accent?: SortOrder
+    published?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: MemberCompanyCountOrderByAggregateInput
+    _avg?: MemberCompanyAvgOrderByAggregateInput
+    _max?: MemberCompanyMaxOrderByAggregateInput
+    _min?: MemberCompanyMinOrderByAggregateInput
+    _sum?: MemberCompanySumOrderByAggregateInput
+  }
+
+  export type MemberCompanyScalarWhereWithAggregatesInput = {
+    AND?: MemberCompanyScalarWhereWithAggregatesInput | MemberCompanyScalarWhereWithAggregatesInput[]
+    OR?: MemberCompanyScalarWhereWithAggregatesInput[]
+    NOT?: MemberCompanyScalarWhereWithAggregatesInput | MemberCompanyScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"MemberCompany"> | string
+    order?: IntWithAggregatesFilter<"MemberCompany"> | number
+    abbr?: StringWithAggregatesFilter<"MemberCompany"> | string
+    name?: StringWithAggregatesFilter<"MemberCompany"> | string
+    tagline?: StringWithAggregatesFilter<"MemberCompany"> | string
+    descVi?: StringWithAggregatesFilter<"MemberCompany"> | string
+    descEn?: StringWithAggregatesFilter<"MemberCompany"> | string
+    accent?: StringWithAggregatesFilter<"MemberCompany"> | string
+    published?: BoolWithAggregatesFilter<"MemberCompany"> | boolean
+    createdAt?: DateTimeWithAggregatesFilter<"MemberCompany"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"MemberCompany"> | Date | string
+  }
+
   export type ProjectCreateInput = {
     id?: string
     slug: string
@@ -3918,6 +9331,475 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type NewsArticleCreateInput = {
+    id?: string
+    slug: string
+    titleVi: string
+    titleEn: string
+    summaryVi: string
+    summaryEn: string
+    contentVi?: NewsArticleCreatecontentViInput | string[]
+    contentEn?: NewsArticleCreatecontentEnInput | string[]
+    image: string
+    categoryVi: string
+    categoryEn: string
+    date: string
+    readTime?: number
+    published?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type NewsArticleUncheckedCreateInput = {
+    id?: string
+    slug: string
+    titleVi: string
+    titleEn: string
+    summaryVi: string
+    summaryEn: string
+    contentVi?: NewsArticleCreatecontentViInput | string[]
+    contentEn?: NewsArticleCreatecontentEnInput | string[]
+    image: string
+    categoryVi: string
+    categoryEn: string
+    date: string
+    readTime?: number
+    published?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type NewsArticleUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    titleVi?: StringFieldUpdateOperationsInput | string
+    titleEn?: StringFieldUpdateOperationsInput | string
+    summaryVi?: StringFieldUpdateOperationsInput | string
+    summaryEn?: StringFieldUpdateOperationsInput | string
+    contentVi?: NewsArticleUpdatecontentViInput | string[]
+    contentEn?: NewsArticleUpdatecontentEnInput | string[]
+    image?: StringFieldUpdateOperationsInput | string
+    categoryVi?: StringFieldUpdateOperationsInput | string
+    categoryEn?: StringFieldUpdateOperationsInput | string
+    date?: StringFieldUpdateOperationsInput | string
+    readTime?: IntFieldUpdateOperationsInput | number
+    published?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type NewsArticleUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    titleVi?: StringFieldUpdateOperationsInput | string
+    titleEn?: StringFieldUpdateOperationsInput | string
+    summaryVi?: StringFieldUpdateOperationsInput | string
+    summaryEn?: StringFieldUpdateOperationsInput | string
+    contentVi?: NewsArticleUpdatecontentViInput | string[]
+    contentEn?: NewsArticleUpdatecontentEnInput | string[]
+    image?: StringFieldUpdateOperationsInput | string
+    categoryVi?: StringFieldUpdateOperationsInput | string
+    categoryEn?: StringFieldUpdateOperationsInput | string
+    date?: StringFieldUpdateOperationsInput | string
+    readTime?: IntFieldUpdateOperationsInput | number
+    published?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type NewsArticleCreateManyInput = {
+    id?: string
+    slug: string
+    titleVi: string
+    titleEn: string
+    summaryVi: string
+    summaryEn: string
+    contentVi?: NewsArticleCreatecontentViInput | string[]
+    contentEn?: NewsArticleCreatecontentEnInput | string[]
+    image: string
+    categoryVi: string
+    categoryEn: string
+    date: string
+    readTime?: number
+    published?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type NewsArticleUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    titleVi?: StringFieldUpdateOperationsInput | string
+    titleEn?: StringFieldUpdateOperationsInput | string
+    summaryVi?: StringFieldUpdateOperationsInput | string
+    summaryEn?: StringFieldUpdateOperationsInput | string
+    contentVi?: NewsArticleUpdatecontentViInput | string[]
+    contentEn?: NewsArticleUpdatecontentEnInput | string[]
+    image?: StringFieldUpdateOperationsInput | string
+    categoryVi?: StringFieldUpdateOperationsInput | string
+    categoryEn?: StringFieldUpdateOperationsInput | string
+    date?: StringFieldUpdateOperationsInput | string
+    readTime?: IntFieldUpdateOperationsInput | number
+    published?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type NewsArticleUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    titleVi?: StringFieldUpdateOperationsInput | string
+    titleEn?: StringFieldUpdateOperationsInput | string
+    summaryVi?: StringFieldUpdateOperationsInput | string
+    summaryEn?: StringFieldUpdateOperationsInput | string
+    contentVi?: NewsArticleUpdatecontentViInput | string[]
+    contentEn?: NewsArticleUpdatecontentEnInput | string[]
+    image?: StringFieldUpdateOperationsInput | string
+    categoryVi?: StringFieldUpdateOperationsInput | string
+    categoryEn?: StringFieldUpdateOperationsInput | string
+    date?: StringFieldUpdateOperationsInput | string
+    readTime?: IntFieldUpdateOperationsInput | number
+    published?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PartnerCreateInput = {
+    id?: string
+    order?: number
+    name: string
+    sectorVi: string
+    sectorEn: string
+    descVi: string
+    descEn: string
+    founded: number
+    hq: string
+    statLabelVi: string
+    statLabelEn: string
+    statValue: string
+    projectsVi?: PartnerCreateprojectsViInput | string[]
+    projectsEn?: PartnerCreateprojectsEnInput | string[]
+    highlightVi: string
+    highlightEn: string
+    published?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PartnerUncheckedCreateInput = {
+    id?: string
+    order?: number
+    name: string
+    sectorVi: string
+    sectorEn: string
+    descVi: string
+    descEn: string
+    founded: number
+    hq: string
+    statLabelVi: string
+    statLabelEn: string
+    statValue: string
+    projectsVi?: PartnerCreateprojectsViInput | string[]
+    projectsEn?: PartnerCreateprojectsEnInput | string[]
+    highlightVi: string
+    highlightEn: string
+    published?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PartnerUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    order?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    sectorVi?: StringFieldUpdateOperationsInput | string
+    sectorEn?: StringFieldUpdateOperationsInput | string
+    descVi?: StringFieldUpdateOperationsInput | string
+    descEn?: StringFieldUpdateOperationsInput | string
+    founded?: IntFieldUpdateOperationsInput | number
+    hq?: StringFieldUpdateOperationsInput | string
+    statLabelVi?: StringFieldUpdateOperationsInput | string
+    statLabelEn?: StringFieldUpdateOperationsInput | string
+    statValue?: StringFieldUpdateOperationsInput | string
+    projectsVi?: PartnerUpdateprojectsViInput | string[]
+    projectsEn?: PartnerUpdateprojectsEnInput | string[]
+    highlightVi?: StringFieldUpdateOperationsInput | string
+    highlightEn?: StringFieldUpdateOperationsInput | string
+    published?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PartnerUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    order?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    sectorVi?: StringFieldUpdateOperationsInput | string
+    sectorEn?: StringFieldUpdateOperationsInput | string
+    descVi?: StringFieldUpdateOperationsInput | string
+    descEn?: StringFieldUpdateOperationsInput | string
+    founded?: IntFieldUpdateOperationsInput | number
+    hq?: StringFieldUpdateOperationsInput | string
+    statLabelVi?: StringFieldUpdateOperationsInput | string
+    statLabelEn?: StringFieldUpdateOperationsInput | string
+    statValue?: StringFieldUpdateOperationsInput | string
+    projectsVi?: PartnerUpdateprojectsViInput | string[]
+    projectsEn?: PartnerUpdateprojectsEnInput | string[]
+    highlightVi?: StringFieldUpdateOperationsInput | string
+    highlightEn?: StringFieldUpdateOperationsInput | string
+    published?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PartnerCreateManyInput = {
+    id?: string
+    order?: number
+    name: string
+    sectorVi: string
+    sectorEn: string
+    descVi: string
+    descEn: string
+    founded: number
+    hq: string
+    statLabelVi: string
+    statLabelEn: string
+    statValue: string
+    projectsVi?: PartnerCreateprojectsViInput | string[]
+    projectsEn?: PartnerCreateprojectsEnInput | string[]
+    highlightVi: string
+    highlightEn: string
+    published?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PartnerUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    order?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    sectorVi?: StringFieldUpdateOperationsInput | string
+    sectorEn?: StringFieldUpdateOperationsInput | string
+    descVi?: StringFieldUpdateOperationsInput | string
+    descEn?: StringFieldUpdateOperationsInput | string
+    founded?: IntFieldUpdateOperationsInput | number
+    hq?: StringFieldUpdateOperationsInput | string
+    statLabelVi?: StringFieldUpdateOperationsInput | string
+    statLabelEn?: StringFieldUpdateOperationsInput | string
+    statValue?: StringFieldUpdateOperationsInput | string
+    projectsVi?: PartnerUpdateprojectsViInput | string[]
+    projectsEn?: PartnerUpdateprojectsEnInput | string[]
+    highlightVi?: StringFieldUpdateOperationsInput | string
+    highlightEn?: StringFieldUpdateOperationsInput | string
+    published?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PartnerUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    order?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    sectorVi?: StringFieldUpdateOperationsInput | string
+    sectorEn?: StringFieldUpdateOperationsInput | string
+    descVi?: StringFieldUpdateOperationsInput | string
+    descEn?: StringFieldUpdateOperationsInput | string
+    founded?: IntFieldUpdateOperationsInput | number
+    hq?: StringFieldUpdateOperationsInput | string
+    statLabelVi?: StringFieldUpdateOperationsInput | string
+    statLabelEn?: StringFieldUpdateOperationsInput | string
+    statValue?: StringFieldUpdateOperationsInput | string
+    projectsVi?: PartnerUpdateprojectsViInput | string[]
+    projectsEn?: PartnerUpdateprojectsEnInput | string[]
+    highlightVi?: StringFieldUpdateOperationsInput | string
+    highlightEn?: StringFieldUpdateOperationsInput | string
+    published?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TimelineItemCreateInput = {
+    id?: string
+    order?: number
+    year: string
+    titleVi: string
+    titleEn: string
+    descVi: string
+    descEn: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type TimelineItemUncheckedCreateInput = {
+    id?: string
+    order?: number
+    year: string
+    titleVi: string
+    titleEn: string
+    descVi: string
+    descEn: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type TimelineItemUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    order?: IntFieldUpdateOperationsInput | number
+    year?: StringFieldUpdateOperationsInput | string
+    titleVi?: StringFieldUpdateOperationsInput | string
+    titleEn?: StringFieldUpdateOperationsInput | string
+    descVi?: StringFieldUpdateOperationsInput | string
+    descEn?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TimelineItemUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    order?: IntFieldUpdateOperationsInput | number
+    year?: StringFieldUpdateOperationsInput | string
+    titleVi?: StringFieldUpdateOperationsInput | string
+    titleEn?: StringFieldUpdateOperationsInput | string
+    descVi?: StringFieldUpdateOperationsInput | string
+    descEn?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TimelineItemCreateManyInput = {
+    id?: string
+    order?: number
+    year: string
+    titleVi: string
+    titleEn: string
+    descVi: string
+    descEn: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type TimelineItemUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    order?: IntFieldUpdateOperationsInput | number
+    year?: StringFieldUpdateOperationsInput | string
+    titleVi?: StringFieldUpdateOperationsInput | string
+    titleEn?: StringFieldUpdateOperationsInput | string
+    descVi?: StringFieldUpdateOperationsInput | string
+    descEn?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TimelineItemUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    order?: IntFieldUpdateOperationsInput | number
+    year?: StringFieldUpdateOperationsInput | string
+    titleVi?: StringFieldUpdateOperationsInput | string
+    titleEn?: StringFieldUpdateOperationsInput | string
+    descVi?: StringFieldUpdateOperationsInput | string
+    descEn?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MemberCompanyCreateInput = {
+    id?: string
+    order?: number
+    abbr: string
+    name: string
+    tagline: string
+    descVi: string
+    descEn: string
+    accent: string
+    published?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type MemberCompanyUncheckedCreateInput = {
+    id?: string
+    order?: number
+    abbr: string
+    name: string
+    tagline: string
+    descVi: string
+    descEn: string
+    accent: string
+    published?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type MemberCompanyUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    order?: IntFieldUpdateOperationsInput | number
+    abbr?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    tagline?: StringFieldUpdateOperationsInput | string
+    descVi?: StringFieldUpdateOperationsInput | string
+    descEn?: StringFieldUpdateOperationsInput | string
+    accent?: StringFieldUpdateOperationsInput | string
+    published?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MemberCompanyUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    order?: IntFieldUpdateOperationsInput | number
+    abbr?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    tagline?: StringFieldUpdateOperationsInput | string
+    descVi?: StringFieldUpdateOperationsInput | string
+    descEn?: StringFieldUpdateOperationsInput | string
+    accent?: StringFieldUpdateOperationsInput | string
+    published?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MemberCompanyCreateManyInput = {
+    id?: string
+    order?: number
+    abbr: string
+    name: string
+    tagline: string
+    descVi: string
+    descEn: string
+    accent: string
+    published?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type MemberCompanyUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    order?: IntFieldUpdateOperationsInput | number
+    abbr?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    tagline?: StringFieldUpdateOperationsInput | string
+    descVi?: StringFieldUpdateOperationsInput | string
+    descEn?: StringFieldUpdateOperationsInput | string
+    accent?: StringFieldUpdateOperationsInput | string
+    published?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MemberCompanyUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    order?: IntFieldUpdateOperationsInput | number
+    abbr?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    tagline?: StringFieldUpdateOperationsInput | string
+    descVi?: StringFieldUpdateOperationsInput | string
+    descEn?: StringFieldUpdateOperationsInput | string
+    accent?: StringFieldUpdateOperationsInput | string
+    published?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -4143,6 +10025,233 @@ export namespace Prisma {
     _max?: NestedIntFilter<$PrismaModel>
   }
 
+  export type NewsArticleCountOrderByAggregateInput = {
+    id?: SortOrder
+    slug?: SortOrder
+    titleVi?: SortOrder
+    titleEn?: SortOrder
+    summaryVi?: SortOrder
+    summaryEn?: SortOrder
+    contentVi?: SortOrder
+    contentEn?: SortOrder
+    image?: SortOrder
+    categoryVi?: SortOrder
+    categoryEn?: SortOrder
+    date?: SortOrder
+    readTime?: SortOrder
+    published?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type NewsArticleAvgOrderByAggregateInput = {
+    readTime?: SortOrder
+  }
+
+  export type NewsArticleMaxOrderByAggregateInput = {
+    id?: SortOrder
+    slug?: SortOrder
+    titleVi?: SortOrder
+    titleEn?: SortOrder
+    summaryVi?: SortOrder
+    summaryEn?: SortOrder
+    image?: SortOrder
+    categoryVi?: SortOrder
+    categoryEn?: SortOrder
+    date?: SortOrder
+    readTime?: SortOrder
+    published?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type NewsArticleMinOrderByAggregateInput = {
+    id?: SortOrder
+    slug?: SortOrder
+    titleVi?: SortOrder
+    titleEn?: SortOrder
+    summaryVi?: SortOrder
+    summaryEn?: SortOrder
+    image?: SortOrder
+    categoryVi?: SortOrder
+    categoryEn?: SortOrder
+    date?: SortOrder
+    readTime?: SortOrder
+    published?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type NewsArticleSumOrderByAggregateInput = {
+    readTime?: SortOrder
+  }
+
+  export type PartnerCountOrderByAggregateInput = {
+    id?: SortOrder
+    order?: SortOrder
+    name?: SortOrder
+    sectorVi?: SortOrder
+    sectorEn?: SortOrder
+    descVi?: SortOrder
+    descEn?: SortOrder
+    founded?: SortOrder
+    hq?: SortOrder
+    statLabelVi?: SortOrder
+    statLabelEn?: SortOrder
+    statValue?: SortOrder
+    projectsVi?: SortOrder
+    projectsEn?: SortOrder
+    highlightVi?: SortOrder
+    highlightEn?: SortOrder
+    published?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type PartnerAvgOrderByAggregateInput = {
+    order?: SortOrder
+    founded?: SortOrder
+  }
+
+  export type PartnerMaxOrderByAggregateInput = {
+    id?: SortOrder
+    order?: SortOrder
+    name?: SortOrder
+    sectorVi?: SortOrder
+    sectorEn?: SortOrder
+    descVi?: SortOrder
+    descEn?: SortOrder
+    founded?: SortOrder
+    hq?: SortOrder
+    statLabelVi?: SortOrder
+    statLabelEn?: SortOrder
+    statValue?: SortOrder
+    highlightVi?: SortOrder
+    highlightEn?: SortOrder
+    published?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type PartnerMinOrderByAggregateInput = {
+    id?: SortOrder
+    order?: SortOrder
+    name?: SortOrder
+    sectorVi?: SortOrder
+    sectorEn?: SortOrder
+    descVi?: SortOrder
+    descEn?: SortOrder
+    founded?: SortOrder
+    hq?: SortOrder
+    statLabelVi?: SortOrder
+    statLabelEn?: SortOrder
+    statValue?: SortOrder
+    highlightVi?: SortOrder
+    highlightEn?: SortOrder
+    published?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type PartnerSumOrderByAggregateInput = {
+    order?: SortOrder
+    founded?: SortOrder
+  }
+
+  export type TimelineItemCountOrderByAggregateInput = {
+    id?: SortOrder
+    order?: SortOrder
+    year?: SortOrder
+    titleVi?: SortOrder
+    titleEn?: SortOrder
+    descVi?: SortOrder
+    descEn?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type TimelineItemAvgOrderByAggregateInput = {
+    order?: SortOrder
+  }
+
+  export type TimelineItemMaxOrderByAggregateInput = {
+    id?: SortOrder
+    order?: SortOrder
+    year?: SortOrder
+    titleVi?: SortOrder
+    titleEn?: SortOrder
+    descVi?: SortOrder
+    descEn?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type TimelineItemMinOrderByAggregateInput = {
+    id?: SortOrder
+    order?: SortOrder
+    year?: SortOrder
+    titleVi?: SortOrder
+    titleEn?: SortOrder
+    descVi?: SortOrder
+    descEn?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type TimelineItemSumOrderByAggregateInput = {
+    order?: SortOrder
+  }
+
+  export type MemberCompanyCountOrderByAggregateInput = {
+    id?: SortOrder
+    order?: SortOrder
+    abbr?: SortOrder
+    name?: SortOrder
+    tagline?: SortOrder
+    descVi?: SortOrder
+    descEn?: SortOrder
+    accent?: SortOrder
+    published?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type MemberCompanyAvgOrderByAggregateInput = {
+    order?: SortOrder
+  }
+
+  export type MemberCompanyMaxOrderByAggregateInput = {
+    id?: SortOrder
+    order?: SortOrder
+    abbr?: SortOrder
+    name?: SortOrder
+    tagline?: SortOrder
+    descVi?: SortOrder
+    descEn?: SortOrder
+    accent?: SortOrder
+    published?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type MemberCompanyMinOrderByAggregateInput = {
+    id?: SortOrder
+    order?: SortOrder
+    abbr?: SortOrder
+    name?: SortOrder
+    tagline?: SortOrder
+    descVi?: SortOrder
+    descEn?: SortOrder
+    accent?: SortOrder
+    published?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type MemberCompanySumOrderByAggregateInput = {
+    order?: SortOrder
+  }
+
   export type ProjectCreateimagesInput = {
     set: string[]
   }
@@ -4186,6 +10295,42 @@ export namespace Prisma {
   }
 
   export type ServiceUpdatebulletsEnInput = {
+    set?: string[]
+    push?: string | string[]
+  }
+
+  export type NewsArticleCreatecontentViInput = {
+    set: string[]
+  }
+
+  export type NewsArticleCreatecontentEnInput = {
+    set: string[]
+  }
+
+  export type NewsArticleUpdatecontentViInput = {
+    set?: string[]
+    push?: string | string[]
+  }
+
+  export type NewsArticleUpdatecontentEnInput = {
+    set?: string[]
+    push?: string | string[]
+  }
+
+  export type PartnerCreateprojectsViInput = {
+    set: string[]
+  }
+
+  export type PartnerCreateprojectsEnInput = {
+    set: string[]
+  }
+
+  export type PartnerUpdateprojectsViInput = {
+    set?: string[]
+    push?: string | string[]
+  }
+
+  export type PartnerUpdateprojectsEnInput = {
     set?: string[]
     push?: string | string[]
   }

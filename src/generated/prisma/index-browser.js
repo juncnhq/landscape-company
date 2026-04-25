@@ -159,6 +159,73 @@ exports.Prisma.ServiceScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.NewsArticleScalarFieldEnum = {
+  id: 'id',
+  slug: 'slug',
+  titleVi: 'titleVi',
+  titleEn: 'titleEn',
+  summaryVi: 'summaryVi',
+  summaryEn: 'summaryEn',
+  contentVi: 'contentVi',
+  contentEn: 'contentEn',
+  image: 'image',
+  categoryVi: 'categoryVi',
+  categoryEn: 'categoryEn',
+  date: 'date',
+  readTime: 'readTime',
+  published: 'published',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.PartnerScalarFieldEnum = {
+  id: 'id',
+  order: 'order',
+  name: 'name',
+  sectorVi: 'sectorVi',
+  sectorEn: 'sectorEn',
+  descVi: 'descVi',
+  descEn: 'descEn',
+  founded: 'founded',
+  hq: 'hq',
+  statLabelVi: 'statLabelVi',
+  statLabelEn: 'statLabelEn',
+  statValue: 'statValue',
+  projectsVi: 'projectsVi',
+  projectsEn: 'projectsEn',
+  highlightVi: 'highlightVi',
+  highlightEn: 'highlightEn',
+  published: 'published',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.TimelineItemScalarFieldEnum = {
+  id: 'id',
+  order: 'order',
+  year: 'year',
+  titleVi: 'titleVi',
+  titleEn: 'titleEn',
+  descVi: 'descVi',
+  descEn: 'descEn',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.MemberCompanyScalarFieldEnum = {
+  id: 'id',
+  order: 'order',
+  abbr: 'abbr',
+  name: 'name',
+  tagline: 'tagline',
+  descVi: 'descVi',
+  descEn: 'descEn',
+  accent: 'accent',
+  published: 'published',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -172,7 +239,11 @@ exports.Prisma.QueryMode = {
 
 exports.Prisma.ModelName = {
   Project: 'Project',
-  Service: 'Service'
+  Service: 'Service',
+  NewsArticle: 'NewsArticle',
+  Partner: 'Partner',
+  TimelineItem: 'TimelineItem',
+  MemberCompany: 'MemberCompany'
 };
 
 /**
