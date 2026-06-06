@@ -37,7 +37,7 @@ const plans = {
         { vi: 'Thăm 2 lần/tháng', en: 'Bi-weekly visits' },
       ],
       popular: true,
-      color: '#0f541e',
+      color: 'var(--color-brand)',
     },
     {
       name: { vi: 'Gói Cao Cấp', en: 'Premium Landscape Care' },
@@ -87,7 +87,7 @@ const plans = {
         { vi: 'Thăm hàng tuần', en: 'Weekly visits' },
       ],
       popular: true,
-      color: '#0f541e',
+      color: 'var(--color-brand)',
     },
     {
       name: { vi: 'Gói Cao Cấp Doanh Nghiệp', en: 'Corporate Premium' },
@@ -127,7 +127,7 @@ export default function PricingSection() {
 
         {/* Header */}
         <div className="text-center mb-10">
-          <p className="text-xs font-black uppercase tracking-[0.25em] mb-3" style={{ color: '#0f541e' }}>
+          <p className="text-xs font-black uppercase tracking-[0.25em] mb-3" style={{ color: 'var(--color-brand)' }}>
             {isVi ? 'Bảng giá dịch vụ' : 'OUR PRICING'}
           </p>
           <h2 className="font-bold mb-6" style={{ fontSize: 'clamp(1.8rem, 3.5vw, 2.8rem)', color: '#0e2208', letterSpacing: '-0.02em' }}>
@@ -142,8 +142,8 @@ export default function PricingSection() {
                 onClick={() => setActiveTab(tab)}
                 className="px-8 py-3 text-xs font-black uppercase tracking-widest transition-all duration-200"
                 style={{
-                  backgroundColor: activeTab === tab ? '#c7dc49' : 'white',
-                  color: activeTab === tab ? '#141414' : '#545454',
+                  backgroundColor: activeTab === tab ? 'var(--color-accent)' : 'white',
+                  color: activeTab === tab ? 'var(--color-text-primary)' : 'var(--color-text-secondary)',
                 }}
               >
                 {tab === 'residential' ? (isVi ? 'Dân dụng' : 'Residential') : (isVi ? 'Thương mại' : 'Commercial')}
@@ -159,7 +159,7 @@ export default function PricingSection() {
               key={idx}
               className="relative flex flex-col overflow-hidden transition-transform duration-300 hover:-translate-y-1"
               style={{
-                backgroundColor: plan.popular ? '#0f541e' : 'white',
+                backgroundColor: plan.popular ? 'var(--color-brand)' : 'white',
                 boxShadow: plan.popular ? '0 20px 60px rgba(130,180,64,0.25)' : '0 4px 20px rgba(0,0,0,0.06)',
               }}
             >
@@ -183,7 +183,7 @@ export default function PricingSection() {
                 </h3>
                 <p
                   className="text-sm leading-relaxed mb-5"
-                  style={{ color: plan.popular ? 'rgba(255,255,255,0.8)' : '#545454' }}
+                  style={{ color: plan.popular ? 'rgba(255,255,255,0.8)' : 'var(--color-text-secondary)' }}
                 >
                   {isVi ? plan.desc.vi : plan.desc.en}
                 </p>
@@ -196,7 +196,7 @@ export default function PricingSection() {
                   </span>
                   <span
                     className="text-sm mb-1"
-                    style={{ color: plan.popular ? 'rgba(255,255,255,0.7)' : '#0f541e' }}
+                    style={{ color: plan.popular ? 'rgba(255,255,255,0.7)' : 'var(--color-brand)' }}
                   >
                     /{isVi ? plan.period.vi : plan.period.en}
                   </span>
@@ -207,7 +207,7 @@ export default function PricingSection() {
               <div className="px-7 py-6 flex-1">
                 <p
                   className="text-[10px] font-black uppercase tracking-widest mb-4"
-                  style={{ color: plan.popular ? 'rgba(255,255,255,0.6)' : '#0f541e' }}
+                  style={{ color: plan.popular ? 'rgba(255,255,255,0.6)' : 'var(--color-brand)' }}
                 >
                   {isVi ? "Bao gồm:" : "What's included:"}
                 </p>
@@ -218,14 +218,14 @@ export default function PricingSection() {
                         className="w-5 h-5 flex items-center justify-center shrink-0"
                         style={{
                           backgroundColor: plan.popular ? 'rgba(255,255,255,0.2)' : '#f0f7e8',
-                          color: plan.popular ? 'white' : '#0f541e',
+                          color: plan.popular ? 'white' : 'var(--color-brand)',
                         }}
                       >
                         <CheckIcon />
                       </span>
                       <span
                         className="text-sm"
-                        style={{ color: plan.popular ? 'rgba(255,255,255,0.88)' : '#545454' }}
+                        style={{ color: plan.popular ? 'rgba(255,255,255,0.88)' : 'var(--color-text-secondary)' }}
                       >
                         {isVi ? f.vi : f.en}
                       </span>
@@ -241,7 +241,7 @@ export default function PricingSection() {
                   className="flex items-center justify-center gap-2 w-full py-4 text-xs font-black uppercase tracking-widest transition-all duration-200 hover:opacity-90"
                   style={{
                     backgroundColor: plan.popular ? 'white' : '#0e2208',
-                    color: plan.popular ? '#c7dc49' : 'white',
+                    color: plan.popular ? 'var(--color-accent)' : 'white',
                     boxShadow: plan.popular ? 'none' : 'rgb(5,18,3) 0px 4px 0px 0px',
                   }}
                 >
@@ -271,7 +271,7 @@ export default function PricingSection() {
           <Link
             href={`/${locale}#contact`}
             className="inline-flex items-center gap-2 px-7 py-4 text-xs font-black uppercase tracking-widest transition-all duration-200 hover:opacity-90 shrink-0"
-            style={{ backgroundColor: '#c7dc49', color: '#141414', borderRadius: '10px' }}
+            style={{ backgroundColor: 'var(--color-accent)', color: 'var(--color-text-primary)', borderRadius: '10px' }}
           >
             {isVi ? 'Liên hệ tư vấn' : 'GET STARTED'}
             <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24">

@@ -65,7 +65,7 @@ export default function ValuesSection() {
             <div className="relative">
               <div className="relative rounded overflow-hidden" style={{ height: '500px' }}>
                 <Image
-                  src="/images/hero/FUSION 1.webp"
+                  src="https://res.cloudinary.com/dg9khx2s7/image/upload/v1780671447/dq8l14ajn2y7kxdku0nb.png"
                   alt={isVi ? 'Cảnh quan Lapla' : 'Lapla Landscape'}
                   fill
                   className="object-cover"
@@ -81,22 +81,22 @@ export default function ValuesSection() {
               >
                 <div className="flex items-center gap-5">
                   <div className="text-center">
-                    <p className="font-display font-bold text-2xl" style={{ color: '#0f541e' }}>17+</p>
-                    <p className="text-[10px] uppercase tracking-wider mt-0.5" style={{ color: '#545454' }}>
+                    <p className="font-display font-bold text-2xl" style={{ color: 'var(--color-brand)' }}>17+</p>
+                    <p className="text-[10px] uppercase tracking-wider mt-0.5" style={{ color: 'var(--color-text-secondary)' }}>
                       {isVi ? 'Năm KN' : 'Years'}
                     </p>
                   </div>
                   <div className="w-px h-10" style={{ backgroundColor: '#e8e8e8' }} />
                   <div className="text-center">
-                    <p className="font-display font-bold text-2xl" style={{ color: '#0f541e' }}>200+</p>
-                    <p className="text-[10px] uppercase tracking-wider mt-0.5" style={{ color: '#545454' }}>
+                    <p className="font-display font-bold text-2xl" style={{ color: 'var(--color-brand)' }}>200+</p>
+                    <p className="text-[10px] uppercase tracking-wider mt-0.5" style={{ color: 'var(--color-text-secondary)' }}>
                       {isVi ? 'Dự án' : 'Projects'}
                     </p>
                   </div>
                   <div className="w-px h-10" style={{ backgroundColor: '#e8e8e8' }} />
                   <div className="text-center">
-                    <p className="font-display font-bold text-2xl" style={{ color: '#0f541e' }}>5★</p>
-                    <p className="text-[10px] uppercase tracking-wider mt-0.5" style={{ color: '#545454' }}>
+                    <p className="font-display font-bold text-2xl" style={{ color: 'var(--color-brand)' }}>5★</p>
+                    <p className="text-[10px] uppercase tracking-wider mt-0.5" style={{ color: 'var(--color-text-secondary)' }}>
                       {isVi ? 'Đánh giá' : 'Rating'}
                     </p>
                   </div>
@@ -108,7 +108,7 @@ export default function ValuesSection() {
           {/* RIGHT: Values */}
           <div>
             <ScrollReveal direction="right">
-              <p className="text-xs tracking-[0.3em] uppercase font-bold mb-4" style={{ color: '#0f541e' }}>
+              <p className="text-xs tracking-[0.3em] uppercase font-bold mb-4" style={{ color: 'var(--color-brand)' }}>
                 {isVi ? 'Giá trị cốt lõi' : 'Our Core Values'}
               </p>
               <h2
@@ -116,8 +116,8 @@ export default function ValuesSection() {
                 style={{ fontSize: 'clamp(1.8rem, 3.5vw, 2.8rem)', color: '#111111' }}
               >
                 {isVi
-                  ? <span>Chúng tôi <span style={{ color: '#0f541e' }}>kiến tạo</span><br />vẻ đẹp xanh bền vững</span>
-                  : <span>We Craft <span style={{ color: '#0f541e' }}>Green Beauty</span><br />That Endures</span>
+                  ? <span>Chúng tôi <span style={{ color: 'var(--color-brand)' }}>kiến tạo</span><br />vẻ đẹp xanh bền vững</span>
+                  : <span>We Craft <span style={{ color: 'var(--color-brand)' }}>Green Beauty</span><br />That Endures</span>
                 }
               </h2>
             </ScrollReveal>
@@ -130,8 +130,8 @@ export default function ValuesSection() {
                     style={{ borderColor: '#e8e8e8', backgroundColor: 'white' }}
                     onMouseEnter={e => {
                       const el = e.currentTarget as HTMLElement;
-                      el.style.backgroundColor = '#c7dc49';
-                      el.style.borderColor = '#c7dc49';
+                      el.style.backgroundColor = 'var(--color-accent)';
+                      el.style.borderColor = 'var(--color-accent)';
                       el.querySelectorAll<HTMLElement>('[data-title]').forEach(x => x.style.color = 'white');
                       el.querySelectorAll<HTMLElement>('[data-desc]').forEach(x => x.style.color = 'rgba(255,255,255,0.8)');
                       el.querySelectorAll<HTMLElement>('[data-icon]').forEach(x => {
@@ -144,17 +144,17 @@ export default function ValuesSection() {
                       el.style.backgroundColor = 'white';
                       el.style.borderColor = '#e8e8e8';
                       el.querySelectorAll<HTMLElement>('[data-title]').forEach(x => x.style.color = '#111111');
-                      el.querySelectorAll<HTMLElement>('[data-desc]').forEach(x => x.style.color = '#545454');
+                      el.querySelectorAll<HTMLElement>('[data-desc]').forEach(x => x.style.color = 'var(--color-text-secondary)');
                       el.querySelectorAll<HTMLElement>('[data-icon]').forEach(x => {
                         x.style.backgroundColor = '#f5f9f0';
-                        x.style.color = '#141414';
+                        x.style.color = 'var(--color-text-primary)';
                       });
                     }}
                   >
                     <div
                       data-icon
                       className="w-12 h-12 flex items-center justify-center mb-4 transition-all duration-300"
-                      style={{ backgroundColor: '#f5f9f0', color: '#0f541e' }}
+                      style={{ backgroundColor: '#f5f9f0', color: 'var(--color-brand)' }}
                     >
                       {v.icon}
                     </div>
@@ -168,7 +168,7 @@ export default function ValuesSection() {
                     <p
                       data-desc
                       className="text-sm leading-relaxed transition-colors duration-300"
-                      style={{ color: '#545454' }}
+                      style={{ color: 'var(--color-text-secondary)' }}
                     >
                       {isVi ? v.descVi : v.descEn}
                     </p>
@@ -181,7 +181,7 @@ export default function ValuesSection() {
               <Link
                 href={`/${locale}/about`}
                 className="inline-flex items-center gap-3 px-7 py-3.5 text-white text-sm font-bold uppercase tracking-wider transition-all duration-200 hover:opacity-90"
-                style={{ backgroundColor: '#c7dc49', color: '#141414', borderRadius: '10px', }}
+                style={{ backgroundColor: 'var(--color-accent)', color: 'var(--color-text-primary)', borderRadius: '10px', }}
               >
                 {isVi ? 'Về chúng tôi' : 'About Lapla'}
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24">

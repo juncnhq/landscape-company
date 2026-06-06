@@ -10,56 +10,56 @@ const services = [
     titleEn: 'Garden Design',
     descVi: 'Kiến tạo không gian xanh hoàn hảo từ sân vườn đến nội thất xanh.',
     descEn: 'Crafting perfect green spaces for your home, indoors and out.',
-    image: '/images/hero/FUSION 1.webp',
+    image: 'https://res.cloudinary.com/dg9khx2s7/image/upload/v1780671447/dq8l14ajn2y7kxdku0nb.png',
   },
   {
     titleVi: 'Tuyển chọn cây xanh',
     titleEn: 'Plants & Trees',
     descVi: 'Tuyển chọn và cung cấp cây xanh, thảm cỏ chất lượng cao.',
     descEn: 'Selecting perfect plants and greenery for every project.',
-    image: '/images/hero/FUSION 2.jpg',
+    image: 'https://res.cloudinary.com/dg9khx2s7/image/upload/v1780671226/z2ljjartk4vgpbvanae2.png',
   },
   {
     titleVi: 'Cảnh quan cứng',
     titleEn: 'Hard Scaping',
     descVi: 'Thiết kế lối đi, sân đá, hồ nước, tiểu cảnh nghệ thuật.',
     descEn: 'Pathways, stone patios, water features and art installations.',
-    image: '/images/hero/FUSION 4.png',
+    image: 'https://res.cloudinary.com/dg9khx2s7/image/upload/v1780671255/hkzptty2mrrdqgcjnvbv.jpg',
   },
   {
     titleVi: 'Cảnh quan công cộng',
     titleEn: 'Public Garden',
     descVi: 'Cảnh quan cho công viên, khu đô thị và không gian công cộng.',
     descEn: 'Parks, urban developments and public green spaces.',
-    image: '/images/hero/hinh-3.jpg',
+    image: 'https://res.cloudinary.com/dg9khx2s7/image/upload/v1780671436/g1bzoz3cahba47gm9h6h.png',
   },
   {
     titleVi: 'Bảo dưỡng cảnh quan',
     titleEn: 'Maintenance',
     descVi: 'Dịch vụ bảo dưỡng định kỳ để không gian xanh luôn tươi đẹp.',
     descEn: 'Regular maintenance to keep green spaces vibrant year-round.',
-    image: '/images/hero/hinh-4.jpg',
+    image: 'https://res.cloudinary.com/dg9khx2s7/image/upload/v1780671439/nhmwwlfahgea7q8quyvr.jpg',
   },
   {
     titleVi: 'Sân Golf & Resort',
     titleEn: 'Golf & Resort',
     descVi: 'Thiết kế sân golf và cảnh quan resort 5 sao đẳng cấp quốc tế.',
     descEn: 'World-class golf course and luxury resort landscape design.',
-    image: '/images/hero/FUSION 1.webp',
+    image: 'https://res.cloudinary.com/dg9khx2s7/image/upload/v1780671447/dq8l14ajn2y7kxdku0nb.png',
   },
   {
     titleVi: 'Nội thất xanh',
     titleEn: 'Indoor Green',
     descVi: 'Giải pháp cây xanh trong nhà, văn phòng và không gian thương mại.',
     descEn: 'Indoor plant solutions for homes, offices and commercial spaces.',
-    image: '/images/hero/FUSION 2.jpg',
+    image: 'https://res.cloudinary.com/dg9khx2s7/image/upload/v1780671226/z2ljjartk4vgpbvanae2.png',
   },
   {
     titleVi: 'Hệ thống tưới tiêu',
     titleEn: 'Irrigation Systems',
     descVi: 'Thiết kế và lắp đặt hệ thống tưới tiêu thông minh, tiết kiệm nước.',
     descEn: 'Smart irrigation design and installation for efficient water use.',
-    image: '/images/hero/hinh-3.jpg',
+    image: 'https://res.cloudinary.com/dg9khx2s7/image/upload/v1780671436/g1bzoz3cahba47gm9h6h.png',
   },
 ];
 
@@ -68,7 +68,7 @@ export default function OurServicesSection() {
   const isVi = locale === 'vi';
 
   return (
-    <section className="leafix-section relative overflow-hidden" style={{ backgroundColor: '#f7f8ed' }}>
+    <section className="leafix-section relative overflow-hidden" style={{ backgroundColor: 'var(--color-surface-alt)' }}>
       {/* Decorative background text */}
       <div
         className="absolute top-0 right-0 font-display font-bold select-none pointer-events-none leading-none"
@@ -88,7 +88,7 @@ export default function OurServicesSection() {
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-14">
           <ScrollReveal>
-            <p className="text-xs tracking-[0.3em] uppercase font-bold mb-3" style={{ color: '#0f541e' }}>
+            <p className="text-xs tracking-[0.3em] uppercase font-bold mb-3" style={{ color: 'var(--color-brand)' }}>
               {isVi ? 'Giải pháp cảnh quan' : 'Our Solutions'}
             </p>
             <h2
@@ -105,7 +105,7 @@ export default function OurServicesSection() {
             <Link
               href={`/${locale}/services`}
               className="inline-flex items-center gap-2 text-sm font-bold uppercase tracking-wider transition-all duration-200 hover:gap-3"
-              style={{ color: '#0f541e' }}
+              style={{ color: 'var(--color-brand)' }}
             >
               {isVi ? 'Xem tất cả dịch vụ' : 'View All Services'}
               <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24">
@@ -150,23 +150,23 @@ export default function OurServicesSection() {
                 {/* Body */}
                 <div style={{ padding: '35px 30px' }}>
                   <h3
-                    className="font-display font-bold text-base mb-2 transition-colors duration-200 group-hover:text-[#0f541e]"
+                    className="font-display font-bold text-base mb-2 transition-colors duration-200 group-hover:text-[var(--color-brand)]"
                     style={{ color: '#111111' }}
                   >
                     {isVi ? service.titleVi : service.titleEn}
                   </h3>
-                  <p className="text-sm leading-relaxed mb-4" style={{ color: '#545454' }}>
+                  <p className="text-sm leading-relaxed mb-4" style={{ color: 'var(--color-text-secondary)' }}>
                     {isVi ? service.descVi : service.descEn}
                   </p>
 
                   {/* Arrow button */}
                   <div className="flex items-center justify-between">
-                    <span className="text-xs font-bold uppercase tracking-wider" style={{ color: '#0f541e' }}>
+                    <span className="text-xs font-bold uppercase tracking-wider" style={{ color: 'var(--color-brand)' }}>
                       {isVi ? 'Xem chi tiết' : 'View Details'}
                     </span>
                     <div
                       className="w-8 h-8 flex items-center justify-center text-white transition-all duration-200 group-hover:scale-110"
-                      style={{ backgroundColor: '#c7dc49', color: '#141414', borderRadius: '10px' }}
+                      style={{ backgroundColor: 'var(--color-accent)', color: 'var(--color-text-primary)', borderRadius: '10px' }}
                     >
                       <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0-7.5 7.5M21 12H3" />
@@ -181,14 +181,14 @@ export default function OurServicesSection() {
 
         {/* Bottom CTA text */}
         <ScrollReveal delay={2} className="mt-12 text-center">
-          <p className="text-sm" style={{ color: '#545454' }}>
+          <p className="text-sm" style={{ color: 'var(--color-text-secondary)' }}>
             {isVi
               ? 'Chúng tôi là công ty cảnh quan độc lập lớn nhất · '
               : 'We Are the Largest Independent Landscaping Company · '}
             <Link
               href={`/${locale}/services`}
               className="font-bold transition-colors duration-200"
-              style={{ color: '#0f541e' }}
+              style={{ color: 'var(--color-brand)' }}
             >
               {isVi ? 'Xem tất cả dịch vụ →' : 'View All Services →'}
             </Link>

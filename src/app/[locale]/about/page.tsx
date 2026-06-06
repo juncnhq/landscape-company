@@ -1,6 +1,7 @@
 import { setRequestLocale } from 'next-intl/server';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import PageHero from '@/components/PageHero';
 import AboutPageContent from '@/components/AboutPageContent';
 
 export default async function AboutPage({
@@ -10,9 +11,15 @@ export default async function AboutPage({
 }) {
   const { locale } = await params;
   setRequestLocale(locale);
+  const isVi = locale === 'vi';
   return (
     <main className="min-h-screen bg-white">
       <Navbar />
+      <PageHero
+        eyebrow={isVi ? 'Câu chuyện của chúng tôi' : 'Our Story'}
+        title={isVi ? 'Về Lapla Landscape' : 'About Us'}
+        breadcrumbs={[{ label: isVi ? 'Về chúng tôi' : 'About' }]}
+      />
       <AboutPageContent />
       <Footer />
     </main>

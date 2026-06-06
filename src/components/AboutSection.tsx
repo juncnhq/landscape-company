@@ -4,136 +4,169 @@ import Image from 'next/image';
 import Link from 'next/link';
 import ScrollReveal from './ScrollReveal';
 
+const leafIcon = (
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--color-brand)" strokeWidth={2.5}>
+    <path strokeLinecap="round" strokeLinejoin="round" d="M12 3C7 3 3 8 3 13c0 4.5 3.5 8 9 9 5.5-1 9-4.5 9-9 0-5-4-10-9-10z" />
+    <path strokeLinecap="round" strokeLinejoin="round" d="M12 3v18" />
+  </svg>
+);
+
 export default function AboutSection() {
   const locale = useLocale();
   const isVi = locale === 'vi';
 
+  const listItems = isVi ? [
+    'Đội ngũ cảnh quan chuyên nghiệp',
+    'Thực hành bền vững',
+    'Giải pháp ngoài trời tùy chỉnh',
+    'Dịch vụ đáng tin cậy',
+  ] : [
+    'Expert Landscaping Team',
+    'Sustainable Practices',
+    'Custom Outdoor Solutions',
+    'Trusted & Reliable Service',
+  ];
+
+  const stats = [
+    { value: '25k+', label: isVi ? 'Cây đã trồng' : 'Plants Grown' },
+    { value: '350+', label: isVi ? 'Vườn thiết kế' : 'Gardens Designed' },
+    { value: '100%', label: isVi ? 'Chất lượng cây' : 'Plant Quality' },
+  ];
+
   return (
     <section className="leafix-section overflow-hidden" style={{ backgroundColor: '#ffffff' }}>
       <div className="max-w-[1400px] mx-auto px-6 sm:px-10 lg:px-14">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-[5fr_7fr] gap-10 lg:gap-16 items-start">
 
-          {/* LEFT: Images + floating stats */}
+          {/* LEFT — tall image + stats card */}
           <ScrollReveal direction="left">
-            <div className="relative">
-              {/* Main large image */}
+            <div className="relative" style={{ height: '680px' }}>
+
+              {/* Main tall image */}
               <div
-                className="relative rounded overflow-hidden"
-                style={{ height: '520px' }}
+                className="absolute inset-0 overflow-hidden"
+                style={{ borderRadius: '20px' }}
               >
                 <Image
-                  src="/images/hero/hinh-3.jpg"
+                  src="https://res.cloudinary.com/dg9khx2s7/image/upload/v1780671436/g1bzoz3cahba47gm9h6h.png"
                   alt="Landscape garden"
                   fill
                   className="object-cover"
-                  sizes="(max-width: 1024px) 100vw, 50vw"
+                  sizes="(max-width: 1024px) 100vw, 45vw"
                 />
               </div>
 
-              {/* Small inset image — top right */}
+              {/* Stats card — absolute bottom-left, overlapping image */}
               <div
-                className="absolute -top-6 -right-6 w-44 h-36 rounded overflow-hidden hidden md:block"
-                style={{ boxShadow: '0 8px 30px rgba(0,0,0,0.15)', border: '4px solid white' }}
+                className="absolute"
+                style={{
+                  bottom: '40px',
+                  left: '-24px',
+                  backgroundColor: '#ffffff',
+                  borderRadius: '16px',
+                  padding: '28px 24px',
+                  boxShadow: '0 20px 60px rgba(0,0,0,0.14)',
+                  minWidth: '200px',
+                  zIndex: 10,
+                }}
               >
-                <Image
-                  src="/images/hero/FUSION 2.jpg"
-                  alt="Garden detail"
-                  fill
-                  className="object-cover"
-                  sizes="176px"
-                />
+                {stats.map((s, i) => (
+                  <div
+                    key={s.value}
+                    style={{
+                      paddingBottom: i < stats.length - 1 ? '20px' : 0,
+                      marginBottom: i < stats.length - 1 ? '20px' : 0,
+                      borderBottom: i < stats.length - 1 ? '1px solid #f0f0f0' : 'none',
+                    }}
+                  >
+                    <h3
+                      className="font-display font-bold leading-none"
+                      style={{ fontSize: '2rem', color: 'var(--color-brand)' }}
+                    >
+                      {s.value}
+                    </h3>
+                    <p className="text-sm mt-1" style={{ color: 'var(--color-text-secondary)' }}>{s.label}</p>
+                  </div>
+                ))}
               </div>
-
-              {/* Floating stats card */}
-              <div
-                className="absolute -bottom-6 -left-6 bg-white rounded px-6 py-5 hidden md:block"
-                style={{ boxShadow: '0 12px 40px rgba(0,0,0,0.12)', minWidth: '220px' }}
-              >
-                <div className="grid grid-cols-3 gap-4">
-                  {[
-                    { value: '25k+', label: isVi ? 'Cây trồng' : 'Plants' },
-                    { value: '350+', label: isVi ? 'Vườn' : 'Gardens' },
-                    { value: '100%', label: isVi ? 'Hài lòng' : 'Satisfied' },
-                  ].map((s) => (
-                    <div key={s.value} className="text-center">
-                      <p className="font-display font-bold text-lg leading-none" style={{ color: '#0f541e' }}>
-                        {s.value}
-                      </p>
-                      <p className="text-[10px] mt-1 uppercase tracking-wider" style={{ color: '#545454' }}>
-                        {s.label}
-                      </p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Decorative green square behind image */}
-              <div
-                className="absolute -bottom-4 -right-4 w-32 h-32 rounded -z-10 hidden md:block"
-                style={{ backgroundColor: '#c7dc49', opacity: 0.15 }}
-              />
             </div>
           </ScrollReveal>
 
-          {/* RIGHT: Text content */}
+          {/* RIGHT — small image + text */}
           <ScrollReveal direction="right" delay={2}>
-            <p className="text-xs tracking-[0.3em] uppercase font-bold mb-4" style={{ color: '#0f541e' }}>
-              {isVi ? 'Về chúng tôi' : 'About Us'}
-            </p>
-            <h2
-              className="font-display font-bold leading-tight mb-6"
-              style={{ fontSize: 'clamp(1.8rem, 3.5vw, 2.8rem)', color: '#111111' }}
-            >
-              {isVi
-                ? <>Kiến tạo không gian xanh<br /><span style={{ color: '#0f541e' }}>truyền cảm hứng sống</span></>
-                : <>Crafting Green Spaces<br />That <span style={{ color: '#0f541e' }}>Inspire Living</span></>
-              }
-            </h2>
-            <p className="leading-relaxed mb-8" style={{ color: '#545454', lineHeight: '28px' }}>
-              {isVi
-                ? 'Với hơn 17 năm kinh nghiệm, Lapla đã và đang kiến tạo những không gian xanh đẳng cấp cho hàng trăm công trình dân dụng và thương mại. Chúng tôi kết hợp thiết kế sáng tạo với kỹ thuật thi công chuyên nghiệp, mang đến những khu vườn bền đẹp vượt thời gian.'
-                : 'With over 17 years of experience, Lapla has been crafting premium green spaces for hundreds of residential and commercial projects. We combine creative design with professional construction, delivering timeless gardens that endure.'
-              }
-            </p>
+            <div>
+              {/* Small image top-right */}
+              <div
+                className="overflow-hidden mb-8 ml-auto hidden lg:block"
+                style={{
+                  width: '220px',
+                  height: '160px',
+                  borderRadius: '14px',
+                  boxShadow: '0 8px 30px rgba(0,0,0,0.12)',
+                }}
+              >
+                <Image
+                  src="https://res.cloudinary.com/dg9khx2s7/image/upload/v1780671226/z2ljjartk4vgpbvanae2.png"
+                  alt="Garden detail"
+                  width={220}
+                  height={160}
+                  className="object-cover w-full h-full"
+                />
+              </div>
 
-            {/* Feature list */}
-            <div className="space-y-4 mb-10">
-              {(isVi ? [
-                { title: 'Thiết kế cá nhân hóa', desc: 'Mỗi dự án được thiết kế riêng biệt, phù hợp với phong cách và nhu cầu của từng khách hàng.' },
-                { title: 'Đội ngũ chuyên gia', desc: 'Kiến trúc sư cảnh quan giàu kinh nghiệm, am hiểu đặc điểm khí hậu và thổ nhưỡng địa phương.' },
-                { title: 'Bảo dưỡng dài hạn', desc: 'Dịch vụ chăm sóc định kỳ giúp không gian xanh luôn tươi đẹp quanh năm.' },
-              ] : [
-                { title: 'Personalized Design', desc: 'Every project is uniquely designed to match each client\'s style and requirements.' },
-                { title: 'Expert Team', desc: 'Experienced landscape architects with deep knowledge of local climate and soil conditions.' },
-                { title: 'Long-term Maintenance', desc: 'Regular care services keep your green spaces vibrant and beautiful year-round.' },
-              ]).map((item) => (
-                <div key={item.title} className="flex gap-4">
-                  <div
-                    className="w-10 h-10 rounded shrink-0 flex items-center justify-center mt-0.5"
-                    style={{ backgroundColor: '#f5f9f0' }}
-                  >
-                    <svg className="w-5 h-5" style={{ color: '#0f541e' }} fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-                    </svg>
+              {/* Sub-title */}
+              <p className="text-xs tracking-[0.3em] uppercase font-bold mb-4" style={{ color: 'var(--color-brand)' }}>
+                {isVi ? 'Về chúng tôi' : 'Learn about us'}
+              </p>
+
+              {/* Heading */}
+              <h2
+                className="font-display font-bold leading-tight mb-6"
+                style={{ fontSize: 'clamp(1.8rem, 3vw, 2.6rem)', color: '#111111' }}
+              >
+                {isVi
+                  ? <>Kiến tạo không gian xanh<br />truyền cảm hứng sống</>
+                  : <>Crafting Green Spaces<br />That Inspire Living</>
+                }
+              </h2>
+
+              {/* Body text */}
+              <p className="mb-8" style={{ color: 'var(--color-text-secondary)', lineHeight: '28px', fontSize: '15px' }}>
+                {isVi
+                  ? 'Chúng tôi là công ty cảnh quan chuyên nghiệp, tận tâm biến đổi không gian ngoài trời thành những môi trường đẹp, tiện ích và bền vững.'
+                  : 'We are a professional gardening and landscaping company dedicated to transforming outdoor spaces into beautiful, functional, and sustainable environments.'
+                }
+              </p>
+
+              {/* 2-column feature list with leaf icons */}
+              <div
+                className="grid grid-cols-2 gap-x-6 gap-y-4 mb-10"
+              >
+                {listItems.map((item) => (
+                  <div key={item} className="flex items-start gap-2.5">
+                    <div className="shrink-0 mt-0.5">{leafIcon}</div>
+                    <span className="text-sm font-medium" style={{ color: '#333333' }}>{item}</span>
                   </div>
-                  <div>
-                    <p className="font-bold text-sm mb-1" style={{ color: '#111111' }}>{item.title}</p>
-                    <p className="text-sm leading-relaxed" style={{ color: '#545454' }}>{item.desc}</p>
-                  </div>
-                </div>
-              ))}
+                ))}
+              </div>
+
+              {/* CTA */}
+              <Link
+                href={`/${locale}/projects`}
+                className="inline-flex items-center gap-3 text-sm font-bold uppercase tracking-wider transition-all duration-200 hover:opacity-90"
+                style={{
+                  backgroundColor: 'var(--color-brand)',
+                  color: '#ffffff',
+                  padding: '15px 32px',
+                  borderRadius: '10px',
+                }}
+              >
+                {isVi ? 'Khám phá dự án' : 'Explore Project'}
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0-7.5 7.5M21 12H3" />
+                </svg>
+              </Link>
             </div>
-
-            <Link
-              href={`/${locale}/about`}
-              className="inline-flex items-center gap-3 px-7 py-3.5 text-white text-sm font-bold uppercase tracking-wider transition-all duration-200 hover:opacity-90"
-              style={{ backgroundColor: '#c7dc49', color: '#141414', borderRadius: '10px', }}
-            >
-              {isVi ? 'Tìm hiểu thêm' : 'Discover More'}
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0-7.5 7.5M21 12H3" />
-              </svg>
-            </Link>
           </ScrollReveal>
         </div>
       </div>

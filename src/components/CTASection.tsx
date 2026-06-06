@@ -25,24 +25,24 @@ export default function CTASection() {
       <div
         className="absolute inset-0 opacity-[0.04]"
         style={{
-          backgroundImage: 'radial-gradient(circle, #0f541e 1px, transparent 1px)',
+          backgroundImage: 'radial-gradient(circle, var(--color-brand) 1px, transparent 1px)',
           backgroundSize: '28px 28px',
         }}
       />
-      <div className="absolute -top-40 -left-40 w-[500px] h-[500px] rounded-full opacity-15 pointer-events-none" style={{ backgroundColor: '#c7dc49', filter: 'blur(140px)' }} />
+      <div className="absolute -top-40 -left-40 w-[500px] h-[500px] rounded-full opacity-15 pointer-events-none" style={{ backgroundColor: 'var(--color-accent)', filter: 'blur(140px)' }} />
 
       <div className="relative z-10 max-w-[1400px] mx-auto px-6 sm:px-10 lg:px-14">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-start">
 
           {/* LEFT */}
           <ScrollReveal direction="left">
-            <p className="text-xs tracking-[0.3em] uppercase font-bold mb-4" style={{ color: '#0f541e' }}>
+            <p className="text-xs tracking-[0.3em] uppercase font-bold mb-4" style={{ color: 'var(--color-brand)' }}>
               {isVi ? 'Liên hệ tư vấn' : 'Get A Free Estimate'}
             </p>
             <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold text-white leading-tight mb-5">
               {isVi
-                ? <>Yêu cầu báo giá<br /><span style={{ color: '#0f541e' }}>cảnh quan</span> miễn phí</>
-                : <>Request a Free<br /><span style={{ color: '#0f541e' }}>Landscaping</span> Estimate</>
+                ? <>Yêu cầu báo giá<br /><span style={{ color: 'var(--color-brand)' }}>cảnh quan</span> miễn phí</>
+                : <>Request a Free<br /><span style={{ color: 'var(--color-brand)' }}>Landscaping</span> Estimate</>
               }
             </h2>
             <p className="text-base leading-relaxed mb-10" style={{ color: 'rgba(255,255,255,0.65)', lineHeight: '26px' }}>
@@ -86,7 +86,7 @@ export default function CTASection() {
                 <div key={item.label} className="flex items-start gap-4">
                   <div
                     className="w-12 h-12 rounded flex items-center justify-center shrink-0"
-                    style={{ backgroundColor: 'rgba(130,180,64,0.15)', color: '#0f541e' }}
+                    style={{ backgroundColor: 'rgba(130,180,64,0.15)', color: 'var(--color-brand)' }}
                   >
                     {item.icon}
                   </div>
@@ -109,21 +109,21 @@ export default function CTASection() {
               <h3 className="font-display text-xl font-bold mb-1" style={{ color: '#111111' }}>
                 {isVi ? 'Đặt tư vấn miễn phí' : 'Book A Free Consultation'}
               </h3>
-              <p className="text-sm mb-6" style={{ color: '#545454' }}>
+              <p className="text-sm mb-6" style={{ color: 'var(--color-text-secondary)' }}>
                 {isVi ? 'Điền thông tin, chúng tôi sẽ liên hệ trong 24h' : "Fill in details, we'll contact you within 24h"}
               </p>
 
               {sent ? (
                 <div className="text-center py-10">
                   <div className="w-16 h-16 rounded-full mx-auto mb-4 flex items-center justify-center" style={{ backgroundColor: '#f5f9f0' }}>
-                    <svg className="w-8 h-8" style={{ color: '#0f541e' }} fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+                    <svg className="w-8 h-8" style={{ color: 'var(--color-brand)' }} fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
                     </svg>
                   </div>
                   <p className="font-bold text-lg" style={{ color: '#111111' }}>
                     {isVi ? 'Đã gửi thành công!' : 'Message sent!'}
                   </p>
-                  <p className="text-sm mt-1" style={{ color: '#545454' }}>
+                  <p className="text-sm mt-1" style={{ color: 'var(--color-text-secondary)' }}>
                     {isVi ? 'Chúng tôi sẽ liên hệ sớm nhất' : "We'll get back to you soon"}
                   </p>
                 </div>
@@ -131,7 +131,7 @@ export default function CTASection() {
                 <form onSubmit={handleSubmit} className="space-y-3">
                   <div className="grid grid-cols-2 gap-3">
                     <div>
-                      <label className="block text-xs font-semibold mb-1.5" style={{ color: '#545454' }}>
+                      <label className="block text-xs font-semibold mb-1.5" style={{ color: 'var(--color-text-secondary)' }}>
                         {isVi ? 'Họ *' : 'First Name *'}
                       </label>
                       <input
@@ -140,12 +140,12 @@ export default function CTASection() {
                         className="w-full px-3 py-2.5 text-sm border outline-none transition-colors duration-200"
                         style={{ borderColor: '#d0d0d0', color: '#111111' }}
                         placeholder={isVi ? 'Họ' : 'First name'}
-                        onFocus={e => (e.currentTarget.style.borderColor = '#c7dc49')}
+                        onFocus={e => (e.currentTarget.style.borderColor = 'var(--color-accent)')}
                         onBlur={e => (e.currentTarget.style.borderColor = '#d0d0d0')}
                       />
                     </div>
                     <div>
-                      <label className="block text-xs font-semibold mb-1.5" style={{ color: '#545454' }}>
+                      <label className="block text-xs font-semibold mb-1.5" style={{ color: 'var(--color-text-secondary)' }}>
                         {isVi ? 'Tên *' : 'Last Name *'}
                       </label>
                       <input
@@ -154,7 +154,7 @@ export default function CTASection() {
                         className="w-full px-3 py-2.5 text-sm border outline-none transition-colors duration-200"
                         style={{ borderColor: '#d0d0d0', color: '#111111' }}
                         placeholder={isVi ? 'Tên' : 'Last name'}
-                        onFocus={e => (e.currentTarget.style.borderColor = '#c7dc49')}
+                        onFocus={e => (e.currentTarget.style.borderColor = 'var(--color-accent)')}
                         onBlur={e => (e.currentTarget.style.borderColor = '#d0d0d0')}
                       />
                     </div>
@@ -162,7 +162,7 @@ export default function CTASection() {
 
                   <div className="grid grid-cols-2 gap-3">
                     <div>
-                      <label className="block text-xs font-semibold mb-1.5" style={{ color: '#545454' }}>
+                      <label className="block text-xs font-semibold mb-1.5" style={{ color: 'var(--color-text-secondary)' }}>
                         {isVi ? 'Email *' : 'Email *'}
                       </label>
                       <input
@@ -171,12 +171,12 @@ export default function CTASection() {
                         className="w-full px-3 py-2.5 text-sm border outline-none transition-colors duration-200"
                         style={{ borderColor: '#d0d0d0', color: '#111111' }}
                         placeholder="email@example.com"
-                        onFocus={e => (e.currentTarget.style.borderColor = '#c7dc49')}
+                        onFocus={e => (e.currentTarget.style.borderColor = 'var(--color-accent)')}
                         onBlur={e => (e.currentTarget.style.borderColor = '#d0d0d0')}
                       />
                     </div>
                     <div>
-                      <label className="block text-xs font-semibold mb-1.5" style={{ color: '#545454' }}>
+                      <label className="block text-xs font-semibold mb-1.5" style={{ color: 'var(--color-text-secondary)' }}>
                         {isVi ? 'Điện thoại *' : 'Phone No *'}
                       </label>
                       <input
@@ -185,14 +185,14 @@ export default function CTASection() {
                         className="w-full px-3 py-2.5 text-sm border outline-none transition-colors duration-200"
                         style={{ borderColor: '#d0d0d0', color: '#111111' }}
                         placeholder={isVi ? 'Số điện thoại' : 'Phone number'}
-                        onFocus={e => (e.currentTarget.style.borderColor = '#c7dc49')}
+                        onFocus={e => (e.currentTarget.style.borderColor = 'var(--color-accent)')}
                         onBlur={e => (e.currentTarget.style.borderColor = '#d0d0d0')}
                       />
                     </div>
                   </div>
 
                   <div>
-                    <label className="block text-xs font-semibold mb-1.5" style={{ color: '#545454' }}>
+                    <label className="block text-xs font-semibold mb-1.5" style={{ color: 'var(--color-text-secondary)' }}>
                       {isVi ? 'Công ty' : 'Company Name'}
                     </label>
                     <input
@@ -201,14 +201,14 @@ export default function CTASection() {
                       className="w-full px-3 py-2.5 text-sm border outline-none transition-colors duration-200"
                       style={{ borderColor: '#d0d0d0', color: '#111111' }}
                       placeholder={isVi ? 'Tên công ty (nếu có)' : 'Company name (optional)'}
-                      onFocus={e => (e.currentTarget.style.borderColor = '#c7dc49')}
+                      onFocus={e => (e.currentTarget.style.borderColor = 'var(--color-accent)')}
                       onBlur={e => (e.currentTarget.style.borderColor = '#d0d0d0')}
                     />
                   </div>
 
                   <div className="grid grid-cols-2 gap-3">
                     <div>
-                      <label className="block text-xs font-semibold mb-1.5" style={{ color: '#545454' }}>
+                      <label className="block text-xs font-semibold mb-1.5" style={{ color: 'var(--color-text-secondary)' }}>
                         {isVi ? 'Địa chỉ' : 'Current Address'}
                       </label>
                       <input
@@ -217,12 +217,12 @@ export default function CTASection() {
                         className="w-full px-3 py-2.5 text-sm border outline-none transition-colors duration-200"
                         style={{ borderColor: '#d0d0d0', color: '#111111' }}
                         placeholder={isVi ? 'Địa chỉ' : 'Your address'}
-                        onFocus={e => (e.currentTarget.style.borderColor = '#c7dc49')}
+                        onFocus={e => (e.currentTarget.style.borderColor = 'var(--color-accent)')}
                         onBlur={e => (e.currentTarget.style.borderColor = '#d0d0d0')}
                       />
                     </div>
                     <div>
-                      <label className="block text-xs font-semibold mb-1.5" style={{ color: '#545454' }}>
+                      <label className="block text-xs font-semibold mb-1.5" style={{ color: 'var(--color-text-secondary)' }}>
                         {isVi ? 'Dịch vụ' : 'Service Needed'}
                       </label>
                       <select
@@ -230,7 +230,7 @@ export default function CTASection() {
                         onChange={e => setForm(f => ({ ...f, service: e.target.value }))}
                         className="w-full px-3 py-2.5 text-sm border outline-none transition-colors duration-200 bg-white"
                         style={{ borderColor: '#d0d0d0', color: form.service ? '#111111' : '#999' }}
-                        onFocus={e => (e.currentTarget.style.borderColor = '#c7dc49')}
+                        onFocus={e => (e.currentTarget.style.borderColor = 'var(--color-accent)')}
                         onBlur={e => (e.currentTarget.style.borderColor = '#d0d0d0')}
                       >
                         <option value="">{isVi ? 'Chọn dịch vụ...' : 'Select service...'}</option>
@@ -245,7 +245,7 @@ export default function CTASection() {
                   </div>
 
                   <div>
-                    <label className="block text-xs font-semibold mb-1.5" style={{ color: '#545454' }}>
+                    <label className="block text-xs font-semibold mb-1.5" style={{ color: 'var(--color-text-secondary)' }}>
                       {isVi ? 'Nội dung' : 'Message'}
                     </label>
                     <textarea
@@ -254,7 +254,7 @@ export default function CTASection() {
                       className="w-full px-3 py-2.5 text-sm border outline-none transition-colors duration-200 resize-none"
                       style={{ borderColor: '#d0d0d0', color: '#111111' }}
                       placeholder={isVi ? 'Mô tả nhu cầu của bạn...' : 'Describe your project...'}
-                      onFocus={e => (e.currentTarget.style.borderColor = '#c7dc49')}
+                      onFocus={e => (e.currentTarget.style.borderColor = 'var(--color-accent)')}
                       onBlur={e => (e.currentTarget.style.borderColor = '#d0d0d0')}
                     />
                   </div>
@@ -262,7 +262,7 @@ export default function CTASection() {
                   <button
                     type="submit"
                     className="w-full py-3.5 text-white text-sm font-bold uppercase tracking-wider transition-all duration-200 hover:opacity-90"
-                    style={{ backgroundColor: '#c7dc49', color: '#141414', borderRadius: '10px', }}
+                    style={{ backgroundColor: 'var(--color-accent)', color: 'var(--color-text-primary)', borderRadius: '10px', }}
                   >
                     {isVi ? 'Gửi yêu cầu tư vấn' : 'Submit Request'}
                   </button>

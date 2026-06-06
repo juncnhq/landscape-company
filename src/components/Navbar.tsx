@@ -110,11 +110,11 @@ export default function Navbar() {
                     href={href(link.key)}
                     className="flex items-center gap-1 px-4 py-2 text-xs font-bold uppercase tracking-wider transition-colors duration-200 rounded-full"
                     style={{
-                      color: active ? "#c7dc49" : "rgba(255,255,255,0.92)",
+                      color: active ? "var(--color-accent)" : "rgba(255,255,255,0.92)",
                       backgroundColor: "transparent",
                     }}
                     onMouseEnter={e => {
-                      if (!active) (e.currentTarget as HTMLElement).style.color = "#c7dc49";
+                      if (!active) (e.currentTarget as HTMLElement).style.color = "var(--color-accent)";
                     }}
                     onMouseLeave={e => {
                       if (!active) (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.92)";
@@ -141,7 +141,7 @@ export default function Navbar() {
                 </p>
                 <a
                   href="tel:+84901234567"
-                  className="text-sm font-bold flex items-center gap-1.5 mt-0.5 transition-colors duration-200 hover:text-[#c7dc49]"
+                  className="text-sm font-bold flex items-center gap-1.5 mt-0.5 transition-colors duration-200 hover:text-[var(--color-accent)]"
                   style={{ color: "white" }}
                 >
                   <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
@@ -159,7 +159,7 @@ export default function Navbar() {
                   color: "white",
                 }}
                 onMouseEnter={e => {
-                  (e.currentTarget as HTMLElement).style.backgroundColor = "#c7dc49";
+                  (e.currentTarget as HTMLElement).style.backgroundColor = "var(--color-accent)";
                   (e.currentTarget as HTMLElement).style.color = "white";
                 }}
                 onMouseLeave={e => {
@@ -182,8 +182,8 @@ export default function Navbar() {
                   color: "rgba(255,255,255,0.85)",
                 }}
                 onMouseEnter={e => {
-                  (e.currentTarget as HTMLElement).style.borderColor = "#c7dc49";
-                  (e.currentTarget as HTMLElement).style.color = "#c7dc49";
+                  (e.currentTarget as HTMLElement).style.borderColor = "var(--color-accent)";
+                  (e.currentTarget as HTMLElement).style.color = "var(--color-accent)";
                 }}
                 onMouseLeave={e => {
                   (e.currentTarget as HTMLElement).style.borderColor = "rgba(255,255,255,0.3)";
@@ -201,8 +201,8 @@ export default function Navbar() {
                 href={`/${locale}#contact`}
                 className="inline-flex items-center gap-2 px-6 py-3 text-xs font-black uppercase tracking-widest transition-all duration-200 hover:opacity-90"
                 style={{
-                  backgroundColor: "#c7dc49",
-                  color: "#141414",
+                  backgroundColor: "var(--color-accent)",
+                  color: "var(--color-text-primary)",
                   borderRadius: "10px",
                 }}
               >
@@ -251,7 +251,7 @@ export default function Navbar() {
             {/* Header */}
             <div className="flex items-center justify-between px-5 h-[76px] border-b border-[#e8e8e8]">
               <Image src="/logo.png" alt="Lapla" width={100} height={34} className="h-10 w-auto object-contain" />
-              <button onClick={() => setMobileOpen(false)} className="w-10 h-10 flex items-center justify-center" style={{ color: "#545454" }}>
+              <button onClick={() => setMobileOpen(false)} className="w-10 h-10 flex items-center justify-center" style={{ color: "var(--color-text-secondary)" }}>
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
                 </svg>
@@ -267,13 +267,13 @@ export default function Navbar() {
                   onClick={() => setMobileOpen(false)}
                   className="flex items-center justify-between px-4 py-3.5 mb-1 text-sm font-bold uppercase tracking-wider transition-colors duration-200"
                   style={{
-                    color: isActive(link.key) ? "#c7dc49" : "#111111",
+                    color: isActive(link.key) ? "var(--color-accent)" : "#111111",
                     backgroundColor: isActive(link.key) ? "#f5f9f0" : "transparent",
                   }}
                 >
                   {locale === "vi" ? link.vi : link.en}
                   {isActive(link.key) && (
-                    <span className="w-2 h-2 rounded-full" style={{ backgroundColor: "#c7dc49" }} />
+                    <span className="w-2 h-2 rounded-full" style={{ backgroundColor: "var(--color-accent)" }} />
                   )}
                 </Link>
               ))}
@@ -282,7 +282,7 @@ export default function Navbar() {
             {/* Footer */}
             <div className="px-4 py-5 border-t border-[#e8e8e8] space-y-3">
               <a href="tel:+84901234567" className="flex items-center gap-3 text-sm font-semibold" style={{ color: "#111111" }}>
-                <div className="w-9 h-9 flex items-center justify-center" style={{ backgroundColor: "#c7dc49", color: "white" }}>
+                <div className="w-9 h-9 flex items-center justify-center" style={{ backgroundColor: "var(--color-accent)", color: "white" }}>
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" />
                   </svg>
@@ -297,9 +297,9 @@ export default function Navbar() {
                     onClick={() => setMobileOpen(false)}
                     className="flex-1 flex items-center justify-center gap-2 py-3 text-xs font-bold uppercase tracking-wider border transition-colors duration-200"
                     style={{
-                      backgroundColor: locale === lang ? "#c7dc49" : "white",
-                      color: locale === lang ? "white" : "#545454",
-                      borderColor: locale === lang ? "#c7dc49" : "#e0e0e0",
+                      backgroundColor: locale === lang ? "var(--color-accent)" : "white",
+                      color: locale === lang ? "white" : "var(--color-text-secondary)",
+                      borderColor: locale === lang ? "var(--color-accent)" : "#e0e0e0",
                     }}
                   >
                     <span className="rounded-sm overflow-hidden">
@@ -313,7 +313,7 @@ export default function Navbar() {
                 href={`/${locale}#contact`}
                 onClick={() => setMobileOpen(false)}
                 className="block w-full text-center py-3.5 text-xs font-black uppercase tracking-widest transition-opacity hover:opacity-90"
-                style={{ backgroundColor: "#c7dc49", color: "#141414", borderRadius: "10px" }}
+                style={{ backgroundColor: "var(--color-accent)", color: "var(--color-text-primary)", borderRadius: "10px" }}
               >
                 {locale === "vi" ? "Yêu cầu báo giá" : "Request A Quote"}
               </Link>

@@ -12,7 +12,7 @@ const testimonials = [
     authorEn: 'Steve Evans',
     roleVi: 'CEO, Tập đoàn Hưng Thịnh',
     roleEn: 'CEO, Helsy Company',
-    image: '/images/hero/hinh-3.jpg',
+    image: 'https://res.cloudinary.com/dg9khx2s7/image/upload/v1780671436/g1bzoz3cahba47gm9h6h.png',
     rating: 5,
   },
   {
@@ -22,7 +22,7 @@ const testimonials = [
     authorEn: 'Tran Thu Ha',
     roleVi: 'Giám đốc, Vingroup',
     roleEn: 'Director, Vingroup',
-    image: '/images/hero/FUSION 4.png',
+    image: 'https://res.cloudinary.com/dg9khx2s7/image/upload/v1780671255/hkzptty2mrrdqgcjnvbv.jpg',
     rating: 5,
   },
   {
@@ -32,14 +32,14 @@ const testimonials = [
     authorEn: 'Le Hoang Nam',
     roleVi: 'Chủ đầu tư, Fusion Resort',
     roleEn: 'Investor, Fusion Resort',
-    image: '/images/hero/hinh-4.jpg',
+    image: 'https://res.cloudinary.com/dg9khx2s7/image/upload/v1780671439/nhmwwlfahgea7q8quyvr.jpg',
     rating: 5,
   },
 ];
 
 const galleryImages = [
-  '/images/hero/FUSION 1.webp',
-  '/images/hero/FUSION 2.jpg',
+  'https://res.cloudinary.com/dg9khx2s7/image/upload/v1780671447/dq8l14ajn2y7kxdku0nb.png',
+  'https://res.cloudinary.com/dg9khx2s7/image/upload/v1780671226/z2ljjartk4vgpbvanae2.png',
 ];
 
 export default function TestimonialsSection() {
@@ -52,7 +52,7 @@ export default function TestimonialsSection() {
   const t = testimonials[current];
 
   return (
-    <section className="leafix-section overflow-hidden" style={{ backgroundColor: '#f8f7f3' }}>
+    <section className="leafix-section overflow-hidden" style={{ backgroundColor: 'var(--color-surface-raised)' }}>
       <div className="max-w-[1400px] mx-auto px-6 sm:px-10 lg:px-14">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
 
@@ -81,8 +81,8 @@ export default function TestimonialsSection() {
                     </svg>
                   ))}
                 </div>
-                <p className="font-display font-bold text-2xl" style={{ color: '#0f541e' }}>4.9 / 5.0</p>
-                <p className="text-xs mt-0.5 uppercase tracking-wider" style={{ color: '#545454' }}>
+                <p className="font-display font-bold text-2xl" style={{ color: 'var(--color-brand)' }}>4.9 / 5.0</p>
+                <p className="text-xs mt-0.5 uppercase tracking-wider" style={{ color: 'var(--color-text-secondary)' }}>
                   {isVi ? 'Từ 3k+ khách hàng' : 'From 3k+ Members'}
                 </p>
               </div>
@@ -91,7 +91,7 @@ export default function TestimonialsSection() {
 
           {/* RIGHT: Quote */}
           <ScrollReveal direction="right" delay={2}>
-            <p className="text-xs tracking-[0.3em] uppercase font-bold mb-4" style={{ color: '#0f541e' }}>
+            <p className="text-xs tracking-[0.3em] uppercase font-bold mb-4" style={{ color: 'var(--color-brand)' }}>
               {isVi ? 'Khách hàng nói gì' : 'Client Feedback'}
             </p>
             <h2
@@ -99,8 +99,8 @@ export default function TestimonialsSection() {
               style={{ fontSize: 'clamp(1.8rem, 3.5vw, 2.8rem)', color: '#111111' }}
             >
               {isVi
-                ? <>Những gì khách hàng<br /><span style={{ color: '#0f541e' }}>nói về chúng tôi</span></>
-                : <>What Our Clients Say<br /><span style={{ color: '#0f541e' }}>About Our Work</span></>
+                ? <>Những gì khách hàng<br /><span style={{ color: 'var(--color-brand)' }}>nói về chúng tôi</span></>
+                : <>What Our Clients Say<br /><span style={{ color: 'var(--color-brand)' }}>About Our Work</span></>
               }
             </h2>
 
@@ -109,7 +109,7 @@ export default function TestimonialsSection() {
               {/* Big quote mark */}
               <div
                 className="absolute -top-4 -left-2 font-serif font-black leading-none select-none"
-                style={{ fontSize: '6rem', color: '#0f541e', opacity: 0.12 }}
+                style={{ fontSize: '6rem', color: 'var(--color-brand)', opacity: 0.12 }}
                 aria-hidden
               >
                 "
@@ -118,7 +118,7 @@ export default function TestimonialsSection() {
               <div key={current} style={{ animation: 'fadeSlideUp 0.4s ease forwards' }}>
                 <p
                   className="text-base md:text-lg leading-relaxed font-light italic mb-8"
-                  style={{ color: '#545454', lineHeight: '30px' }}
+                  style={{ color: 'var(--color-text-secondary)', lineHeight: '30px' }}
                 >
                   &ldquo;{isVi ? t.quoteVi : t.quoteEn}&rdquo;
                 </p>
@@ -131,7 +131,7 @@ export default function TestimonialsSection() {
                     <p className="font-bold" style={{ color: '#111111' }}>
                       {isVi ? t.authorVi : t.authorEn}
                     </p>
-                    <p className="text-sm" style={{ color: '#0f541e' }}>
+                    <p className="text-sm" style={{ color: 'var(--color-brand)' }}>
                       {isVi ? t.roleVi : t.roleEn}
                     </p>
                   </div>
@@ -150,8 +150,8 @@ export default function TestimonialsSection() {
             <div className="flex items-center gap-4 mt-10">
               <button
                 onClick={prev}
-                className="w-11 h-11 flex items-center justify-center border transition-all duration-200 hover:bg-[#c7dc49] hover:border-[#c7dc49] hover:text-[#141414] group"
-                style={{ borderColor: '#d0d0d0', color: '#545454' }}
+                className="w-11 h-11 flex items-center justify-center border transition-all duration-200 hover:bg-[var(--color-accent)] hover:border-[var(--color-accent)] hover:text-[var(--color-text-primary)] group"
+                style={{ borderColor: '#d0d0d0', color: 'var(--color-text-secondary)' }}
               >
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
@@ -160,7 +160,7 @@ export default function TestimonialsSection() {
               <button
                 onClick={next}
                 className="w-11 h-11 flex items-center justify-center transition-all duration-200 hover:opacity-90"
-                style={{ backgroundColor: '#c7dc49', color: '#141414', borderRadius: '10px' }}
+                style={{ backgroundColor: 'var(--color-accent)', color: 'var(--color-text-primary)', borderRadius: '10px' }}
               >
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
@@ -177,7 +177,7 @@ export default function TestimonialsSection() {
                     style={{
                       width: i === current ? '28px' : '8px',
                       height: '4px',
-                      backgroundColor: i === current ? '#c7dc49' : '#d0d0d0',
+                      backgroundColor: i === current ? 'var(--color-accent)' : '#d0d0d0',
                     }}
                   />
                 ))}

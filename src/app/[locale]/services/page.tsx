@@ -1,6 +1,7 @@
 import { setRequestLocale } from 'next-intl/server';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import PageHero from '@/components/PageHero';
 import ServicesPageContent, { SERVICES } from '@/components/ServicesPageContent';
 import { prisma } from '@/lib/prisma';
 
@@ -13,6 +14,7 @@ export default async function ServicesPage({
 }) {
   const { locale } = await params;
   setRequestLocale(locale);
+  const isVi = locale === 'vi';
 
   let services;
   try {
@@ -22,23 +24,23 @@ export default async function ServicesPage({
     });
   } catch {
     services = SERVICES.map((s) => ({
-      id: s.id,
-      slug: s.id,
-      icon: s.icon,
-      titleVi: s.titleVi,
-      titleEn: s.titleEn,
-      subtitleVi: s.subtitleVi,
-      subtitleEn: s.subtitleEn,
-      descVi: s.descVi,
-      descEn: s.descEn,
-      bulletsVi: [...s.bulletsVi],
-      bulletsEn: [...s.bulletsEn],
+      id: s.id, slug: s.id, icon: s.icon,
+      titleVi: s.titleVi, titleEn: s.titleEn,
+      subtitleVi: s.subtitleVi, subtitleEn: s.subtitleEn,
+      descriptionVi: s.descriptionVi, descriptionEn: s.descriptionEn,
+      images: s.images, published: true, order: s.order ?? 0,
+      createdAt: new Date(), updatedAt: new Date(),
     }));
   }
 
   return (
     <main className="min-h-screen bg-white">
       <Navbar />
+      <PageHero
+        eyebrow={isVi ? 'Giải pháp cảnh quan' : 'What We Offer'}
+        title={isVi ? 'Dịch Vụ Của Chúng Tôi' : 'Our Services'}
+        breadcrumbs={[{ label: isVi ? 'Dịch vụ' : 'Services' }]}
+      />
       <ServicesPageContent services={services} />
       <Footer />
     </main>

@@ -27,14 +27,14 @@ export default async function HomePage({
     <main className="min-h-screen bg-white">
       <Navbar />
       <HeroSection />
+      <ProjectsSection />
+
       <AboutSection />
       <ValuesSection />
       <OurServicesSection />
       <BenefitsSection />
       <ProcessSection />
-      <ProjectsSection />
       <TeamSection />
-      <PricingSection />
       <TestimonialsSection />
       <VideoSection />
       <CTASection />

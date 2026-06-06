@@ -4,8 +4,8 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useRef } from 'react';
 
-const heroImage = '/images/hero/FUSION 1.webp';
-const cardThumbImage = '/images/hero/hinh-3.jpg';
+const heroImage = 'https://res.cloudinary.com/dg9khx2s7/image/upload/v1780671447/dq8l14ajn2y7kxdku0nb.png';
+const cardThumbImage = 'https://res.cloudinary.com/dg9khx2s7/image/upload/v1780671436/g1bzoz3cahba47gm9h6h.png';
 
 export default function HeroSection() {
   const locale = useLocale();
@@ -55,12 +55,12 @@ export default function HeroSection() {
       >
         <div style={{ maxWidth: '720px' }}>
 
-          {/* Eyebrow — Leafix uses #c7dc49 in hero */}
+          {/* Eyebrow — Leafix uses var(--color-accent) in hero */}
           <p
             className="hero-reveal text-sm font-semibold uppercase tracking-widest mb-4 flex items-center gap-2"
-            style={{ color: '#c7dc49', animationDelay: '0ms' }}
+            style={{ color: 'var(--color-accent)', animationDelay: '0ms' }}
           >
-            <span className="inline-block w-8 h-px" style={{ backgroundColor: '#c7dc49' }} />
+            <span className="inline-block w-8 h-px" style={{ backgroundColor: 'var(--color-accent)' }} />
             {isVi ? 'Dịch vụ cảnh quan hàng đầu' : 'Trusted Landscaping Professionals'}
           </p>
 
@@ -72,6 +72,7 @@ export default function HeroSection() {
               lineHeight: '1.14',
               letterSpacing: '-0.02em',
               animationDelay: '80ms',
+              color: '#ffffff',
             }}
           >
             {isVi ? (
@@ -106,8 +107,8 @@ export default function HeroSection() {
               href={`/${locale}/projects`}
               className="inline-flex items-center gap-2.5 text-sm font-semibold uppercase tracking-wide transition-all duration-200 hover:opacity-90"
               style={{
-                backgroundColor: '#c7dc49',
-                color: '#141414',
+                backgroundColor: 'var(--color-accent)',
+                color: 'var(--color-text-primary)',
                 height: '58px',
                 padding: '0 30px',
                 borderRadius: '10px',
@@ -122,7 +123,7 @@ export default function HeroSection() {
               href={`/${locale}#contact`}
               className="inline-flex items-center gap-2.5 text-sm font-semibold uppercase tracking-wide text-white transition-all duration-200 hover:opacity-90"
               style={{
-                backgroundColor: '#0f541e',
+                backgroundColor: 'var(--color-brand)',
                 height: '58px',
                 padding: '0 30px',
                 borderRadius: '10px',

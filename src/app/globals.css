@@ -2,23 +2,116 @@
 @plugin "@tailwindcss/typography";
 
 :root {
-  --background: #ffffff;
-  --foreground: #54595f;
+  /* ─── Color tokens ─────────────────────────────── */
+  --color-text-primary:    #141414;   /* headings, strong text */
+  --color-text-secondary:  #54595f;   /* body, descriptions */
+  --color-text-tertiary:   #ffffff;   /* text on dark bg */
+  --color-text-muted:      #888888;   /* placeholders, meta */
 
-  /* Leafix exact colors */
-  --color-primary: #c7dc49;       /* yellow-green CTA button */
-  --color-primary-dark: #0f541e;  /* dark green — eyebrow, accents */
-  --color-heading: #141414;
-  --color-body: #54595f;
-  --color-section-alt: #f7f8ed;   /* services section bg */
-  --color-section-warm: #f8f7f3;  /* testimonials section bg */
+  --color-brand:           #0f541e;   /* dark green — primary brand */
+  --color-brand-dark:      #0a3a14;   /* hover on dark green */
+  --color-accent:          #c7dc49;   /* yellow-green CTA */
+  --color-accent-dark:     #b0c83a;   /* hover on accent */
+
+  --color-surface-base:    #ffffff;   /* page background */
+  --color-surface-muted:   #c7dc49;   /* accent surface */
+  --color-surface-raised:  #f8f7f3;   /* testimonials bg */
+  --color-surface-alt:     #f7f8ed;   /* services bg */
+  --color-surface-warm:    #f5f2eb;   /* projects bg */
+  --color-surface-dark:    #0a1606;   /* hero, footer bg */
+  --color-surface-strong:  #c1d2ce;
+
+  --color-border:          rgba(0,0,0,0.08);
+  --color-border-dark:     rgba(255,255,255,0.15);
+
+  /* ─── Typography tokens ────────────────────────── */
+  --font-size-xs:   14px;
+  --font-size-sm:   15px;
+  --font-size-md:   16px;
+  --font-size-lg:   17px;
+  --font-size-xl:   18px;
+  --font-size-2xl:  20px;
+  --font-size-3xl:  22px;
+  --font-size-4xl:  24px;
+
+  --line-height-base:   28px;
+  --line-height-tight:  1.15;
+  --line-height-snug:   1.35;
+
+  --font-weight-base:   400;
+  --font-weight-medium: 500;
+  --font-weight-bold:   700;
+
+  /* ─── Spacing tokens ───────────────────────────── */
+  --space-1:   1px;
+  --space-2:   3px;
+  --space-3:   8px;
+  --space-4:   10px;
+  --space-5:   14px;
+  --space-6:   15px;
+  --space-7:   16px;
+  --space-8:   17px;
+
+  /* ─── Radius tokens ────────────────────────────── */
+  --radius-xs:  6px;
+  --radius-sm:  8px;
+  --radius-md:  10px;
+  --radius-lg:  50px;
+  --radius-xl:  100px;
+
+  /* ─── Motion tokens ────────────────────────────── */
+  --duration-instant: 150ms;
+  --duration-fast:    200ms;
+  --duration-normal:  400ms;
+  --duration-slow:    500ms;
+  --ease-default:     cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --ease-out:         cubic-bezier(0.22, 1, 0.36, 1);
+
+  /* ─── Shadow tokens ────────────────────────────── */
+  --shadow-sm:   0 2px 8px rgba(0,0,0,0.06);
+  --shadow-md:   0 4px 20px rgba(0,0,0,0.10);
+  --shadow-lg:   0 12px 40px rgba(0,0,0,0.14);
+  --shadow-xl:   0 20px 60px rgba(0,0,0,0.16);
+  --shadow-brand: 0 8px 24px rgba(15,84,30,0.20);
+
+  /* ─── Legacy aliases (keep for backward compat) ── */
+  --background:          var(--color-surface-base);
+  --foreground:          var(--color-text-secondary);
+  --color-primary:       var(--color-accent);
+  --color-primary-dark:  var(--color-brand);
+  --color-heading:       var(--color-text-primary);
+  --color-body:          var(--color-text-secondary);
+  --color-section-alt:   var(--color-surface-alt);
+  --color-section-warm:  var(--color-surface-raised);
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-public-sans), var(--font-be-vietnam), sans-serif;
+  --color-background:    var(--background);
+  --color-foreground:    var(--foreground);
+
+  /* Expose tokens to Tailwind utilities */
+  --color-brand:         var(--color-brand);
+  --color-brand-dark:    var(--color-brand-dark);
+  --color-accent:        var(--color-accent);
+  --color-accent-dark:   var(--color-accent-dark);
+  --color-surface-dark:  var(--color-surface-dark);
+  --color-surface-alt:   var(--color-surface-alt);
+  --color-surface-warm:  var(--color-surface-warm);
+  --color-surface-raised: var(--color-surface-raised);
+
+  --font-sans:    var(--font-public-sans), var(--font-be-vietnam), sans-serif;
   --font-display: var(--font-bricolage), var(--font-be-vietnam), sans-serif;
+
+  --radius-xs: var(--radius-xs);
+  --radius-sm: var(--radius-sm);
+  --radius-md: var(--radius-md);
+  --radius-lg: var(--radius-lg);
+  --radius-xl: var(--radius-xl);
+
+  --shadow-sm:    var(--shadow-sm);
+  --shadow-md:    var(--shadow-md);
+  --shadow-lg:    var(--shadow-lg);
+  --shadow-brand: var(--shadow-brand);
 }
 
 html {

@@ -9,7 +9,7 @@ const teamMembers = [
     nameEn: 'Andrew Nguyen',
     role: { vi: 'Chuyên gia Thiết kế Cảnh quan', en: 'Landscape Designer' },
     desc: { vi: 'Kết hợp thẩm mỹ và công năng để tạo ra không gian xanh bền vững.', en: 'Blends aesthetics with functionality for timeless outdoor spaces.' },
-    image: '/images/hero/FUSION 1.webp',
+    image: 'https://res.cloudinary.com/dg9khx2s7/image/upload/v1780671447/dq8l14ajn2y7kxdku0nb.png',
     socials: ['facebook', 'twitter', 'linkedin'],
   },
   {
@@ -17,7 +17,7 @@ const teamMembers = [
     nameEn: 'Betty Tran',
     role: { vi: 'Nhà thiết kế vườn', en: 'Garden Designer' },
     desc: { vi: 'Chuyên tạo ra những khu vườn đẹp và hài hòa với thiên nhiên.', en: 'Specializes in creating gardens that harmonize with nature.' },
-    image: '/images/hero/FUSION 2.jpg',
+    image: 'https://res.cloudinary.com/dg9khx2s7/image/upload/v1780671226/z2ljjartk4vgpbvanae2.png',
     socials: ['facebook', 'instagram', 'linkedin'],
   },
   {
@@ -25,7 +25,7 @@ const teamMembers = [
     nameEn: 'Kevin Le',
     role: { vi: 'Chuyên gia Cây trồng', en: 'Horticulture Specialist' },
     desc: { vi: 'Am hiểu sâu về cây trồng và các giải pháp xanh bền vững.', en: 'Deep knowledge in plants and sustainable green solutions.' },
-    image: '/images/hero/FUSION 4.png',
+    image: 'https://res.cloudinary.com/dg9khx2s7/image/upload/v1780671255/hkzptty2mrrdqgcjnvbv.jpg',
     socials: ['facebook', 'twitter', 'instagram'],
   },
   {
@@ -33,7 +33,7 @@ const teamMembers = [
     nameEn: 'Hannah Pham',
     role: { vi: 'Chuyên gia Bảo trì Vườn', en: 'Garden Maintenance Expert' },
     desc: { vi: 'Đảm bảo vườn luôn tươi tốt và đẹp mắt quanh năm.', en: 'Ensures your garden stays vibrant and beautiful year-round.' },
-    image: '/images/hero/hinh-3.jpg',
+    image: 'https://res.cloudinary.com/dg9khx2s7/image/upload/v1780671436/g1bzoz3cahba47gm9h6h.png',
     socials: ['facebook', 'linkedin', 'instagram'],
   },
 ];
@@ -63,7 +63,7 @@ export default function TeamSection() {
 
         {/* Header */}
         <div className="text-center mb-14">
-          <p className="text-xs font-black uppercase tracking-[0.25em] mb-3" style={{ color: '#0f541e' }}>
+          <p className="text-xs font-black uppercase tracking-[0.25em] mb-3" style={{ color: 'var(--color-brand)' }}>
             {isVi ? 'Đội ngũ chuyên gia' : 'OUR EXPERT TEAM'}
           </p>
           <h2 className="font-bold" style={{ fontSize: 'clamp(1.8rem, 3.5vw, 2.8rem)', color: '#0e2208', letterSpacing: '-0.02em' }}>
@@ -103,7 +103,7 @@ export default function TeamSection() {
                   <a
                     href="#"
                     className="inline-flex items-center gap-2 text-xs font-black uppercase tracking-widest transition-colors duration-200 hover:opacity-80"
-                    style={{ color: '#0f541e' }}
+                    style={{ color: 'var(--color-brand)' }}
                   >
                     {isVi ? 'Xem hồ sơ' : 'VIEW PROFILE'}
                     <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24">
@@ -130,13 +130,13 @@ export default function TeamSection() {
               <div
                 className="px-4 py-4 transition-colors duration-300"
                 style={{
-                  backgroundColor: hoveredIdx === idx ? '#c7dc49' : '#f5f9f0',
+                  backgroundColor: hoveredIdx === idx ? 'var(--color-accent)' : '#f5f9f0',
                   borderBottom: `3px solid ${hoveredIdx === idx ? '#6a9433' : '#e0edd0'}`,
                 }}
               >
                 <p
                   className="text-xs font-semibold uppercase tracking-wider mb-1 transition-colors duration-300"
-                  style={{ color: hoveredIdx === idx ? '#141414' : '#0f541e' }}
+                  style={{ color: hoveredIdx === idx ? 'var(--color-text-primary)' : 'var(--color-brand)' }}
                 >
                   {isVi ? member.role.vi : member.role.en}
                 </p>

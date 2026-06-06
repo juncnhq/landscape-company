@@ -52,7 +52,7 @@ export default function NewsDetailClient({ article }: { article: Article }) {
             transition={{ duration: 0.7 }}
           >
             <div className="flex items-center gap-3 mb-4">
-              <span className="text-[10px] font-bold tracking-widest uppercase text-white bg-green-600/80 backdrop-blur-sm px-3 py-1 rounded-full">
+              <span className="text-[10px] font-bold tracking-widest uppercase text-white bg-[var(--color-brand)]/80 backdrop-blur-sm px-3 py-1 rounded-full">
                 {category}
               </span>
               <span className="text-white/70 text-xs">{formatDate(article.date, locale)}</span>
@@ -65,7 +65,7 @@ export default function NewsDetailClient({ article }: { article: Article }) {
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 py-12 md:py-20">
+      <div className="max-w-[1400px] mx-auto px-6 sm:px-10 lg:px-14 py-16 md:py-24">
         <div className="grid lg:grid-cols-[1fr_320px] gap-12 lg:gap-20">
 
           {/* Article body */}
@@ -76,7 +76,8 @@ export default function NewsDetailClient({ article }: { article: Article }) {
           >
             <Link
               href={`/${locale}/news`}
-              className="inline-flex items-center gap-2 text-[10px] tracking-[0.25em] text-gray-400 uppercase hover:text-gray-700 transition-colors mb-10"
+              className="inline-flex items-center gap-2 text-xs tracking-widest uppercase font-semibold hover:opacity-70 transition-opacity mb-10"
+              style={{ color: 'var(--color-brand)' }}
             >
               <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 19l-7-7 7-7" />
@@ -85,7 +86,7 @@ export default function NewsDetailClient({ article }: { article: Article }) {
             </Link>
 
             {/* Summary */}
-            <p className="text-gray-600 text-lg md:text-xl leading-relaxed font-light border-l-4 border-green-500 pl-5 mb-10">
+            <p className="text-lg md:text-xl leading-relaxed font-medium border-l-4 pl-5 mb-10" style={{ color: 'var(--color-text-secondary)', borderColor: 'var(--color-accent)' }}>
               {summary}
             </p>
 
@@ -177,7 +178,7 @@ export default function NewsDetailClient({ article }: { article: Article }) {
                       />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-xs font-semibold text-gray-800 leading-snug line-clamp-2 group-hover:text-green-700 transition-colors">
+                      <p className="text-xs font-semibold text-gray-800 leading-snug line-clamp-2 group-hover:text-[var(--color-brand)] transition-colors">
                         {locale === 'vi' ? rel.titleVi : rel.titleEn}
                       </p>
                       <p className="text-[10px] text-gray-400 mt-1">{formatDate(rel.date, locale)}</p>

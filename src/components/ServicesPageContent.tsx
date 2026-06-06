@@ -1,422 +1,159 @@
 'use client';
 import { useTranslations, useLocale } from 'next-intl';
-import { motion, useInView } from 'framer-motion';
-import { useRef } from 'react';
 import Link from 'next/link';
-
-// ── Accent palette derived from index ────────────────────────────────────────
-const ACCENTS = [
-  { accent: '#328442', accentLight: '#f0fdf4', accentBorder: '#86efac' },
-  { accent: '#16a34a', accentLight: '#f0fdf4', accentBorder: '#86efac' },
-  { accent: '#328442', accentLight: '#f0fdf4', accentBorder: '#86efac' },
-  { accent: '#BE7B2B', accentLight: '#fdf8f0', accentBorder: '#f0c87a' },
-  { accent: '#BE7B2B', accentLight: '#fdf8f0', accentBorder: '#f0c87a' },
-  { accent: '#328442', accentLight: '#f0fdf4', accentBorder: '#86efac' },
-];
+import ScrollReveal from './ScrollReveal';
 
 type DbService = {
-  id: string;
-  slug: string;
-  icon: string;
-  titleVi: string;
-  titleEn: string;
-  subtitleVi: string;
-  subtitleEn: string;
-  descVi: string;
-  descEn: string;
-  bulletsVi: string[];
-  bulletsEn: string[];
+  id: string; slug: string; icon: string;
+  titleVi: string; titleEn: string;
+  subtitleVi: string; subtitleEn: string;
+  descVi?: string; descEn?: string;
+  descriptionVi?: string; descriptionEn?: string;
+  bulletsVi?: string[]; bulletsEn?: string[];
+  images?: string[]; published?: boolean; order?: number;
+  createdAt?: Date; updatedAt?: Date;
 };
 
-// ── Legacy hardcoded data (kept as fallback, no longer used by default) ───────
-export const SERVICES = [
+export const SERVICES: (DbService & { order: number })[] = [
   {
-    id: 'consulting',
-    icon: '📋',
-    accent: '#328442',         // brand green-500
-    accentLight: '#f0fdf4',
-    accentBorder: '#86efac',
-    titleVi: 'Tư Vấn & Quản Lý Cảnh Quan',
-    titleEn: 'Landscape Consulting & Management',
-    subtitleVi: 'Bao phủ toàn bộ vòng đời dự án',
-    subtitleEn: 'Full project lifecycle coverage',
-    descVi:
-      'Lapla cung cấp dịch vụ tư vấn và quản lý toàn diện cho mọi giai đoạn của dự án cảnh quan — từ ý tưởng ban đầu đến bàn giao và bảo dưỡng dài hạn.',
-    descEn:
-      'Lapla provides end-to-end consultancy and management across every phase of a landscape project — from initial concept through final handover and long-term maintenance.',
-    bulletsVi: [
-      'Thiết kế ý tưởng (Concept Design)',
-      'Thiết kế kỹ thuật (Technical Design)',
-      'Bản vẽ thi công (Construction Drawing)',
-      'Quản lý & giám sát công trường',
-      'Dịch vụ bảo hành',
-      'Bảo dưỡng định kỳ',
-    ],
-    bulletsEn: [
-      'Concept Design',
-      'Technical Design',
-      'Construction Drawing',
-      'Site Management & Supervision',
-      'Warranty Service',
-      'Ongoing Maintenance',
-    ],
+    id: 'consulting', icon: '📋', order: 1,
+    titleVi: 'Tư Vấn & Quản Lý Cảnh Quan', titleEn: 'Landscape Consulting & Management',
+    subtitleVi: 'Bao phủ toàn bộ vòng đời dự án', subtitleEn: 'Full project lifecycle coverage',
+    descVi: 'Lapla cung cấp dịch vụ tư vấn và quản lý toàn diện cho mọi giai đoạn của dự án cảnh quan — từ ý tưởng ban đầu đến bàn giao và bảo dưỡng dài hạn.',
+    descEn: 'Lapla provides end-to-end consultancy and management across every phase of a landscape project — from initial concept through final handover and long-term maintenance.',
+    bulletsVi: ['Thiết kế ý tưởng','Thiết kế kỹ thuật','Bản vẽ thi công','Quản lý & giám sát','Dịch vụ bảo hành','Bảo dưỡng định kỳ'],
+    bulletsEn: ['Concept Design','Technical Design','Construction Drawing','Site Management','Warranty Service','Periodic Maintenance'],
+    images: ['https://res.cloudinary.com/dg9khx2s7/image/upload/v1780671447/dq8l14ajn2y7kxdku0nb.png'],
   },
   {
-    id: 'construction',
-    icon: '🏗️',
-    accent: '#16a34a',
-    accentLight: '#f0fdf4',
-    accentBorder: '#86efac',
-    titleVi: 'Thiết Kế & Thi Công Cảnh Quan',
-    titleEn: 'Landscape Design & Construction',
-    subtitleVi: 'Hạ tầng, cảnh quan cứng & mềm',
-    subtitleEn: 'Infrastructure, hardscape & softscape',
-    descVi:
-      'Dịch vụ thiết kế và thi công cảnh quan toàn diện, bao gồm hạ tầng kỹ thuật, cảnh quan cứng, cảnh quan mềm, hệ thống chiếu sáng và tưới tiêu tự động.',
-    descEn:
-      'Comprehensive landscape design and construction covering technical infrastructure, hardscape, softscape, lighting systems, and automatic irrigation.',
-    bulletsVi: [
-      'Hạ tầng: thoát nước, điện ngầm, lớp nền',
-      'Cảnh quan cứng: lát đá, lối đi, tường chắn, tiểu cảnh khô, kết cấu đỡ',
-      'Cảnh quan mềm: cây, thảm cỏ, hoa, cây bụi',
-      'Hệ thống chiếu sáng cảnh quan',
-      'Hệ thống tưới tiêu tự động',
-    ],
-    bulletsEn: [
-      'Infrastructure: drainage, underground electric, base layers',
-      'Hardscape: stone paving, walkways, retaining walls, dry features, support structures',
-      'Softscape: trees, turf, flowers, shrubs',
-      'Landscape lighting systems',
-      'Automatic irrigation systems',
-    ],
+    id: 'design', icon: '🌿', order: 2,
+    titleVi: 'Thiết Kế & Thi Công Cảnh Quan', titleEn: 'Landscape Design & Construction',
+    subtitleVi: 'Từ bản vẽ đến hiện thực', subtitleEn: 'From blueprint to reality',
+    descVi: 'Đội ngũ kiến trúc sư và kỹ sư cảnh quan của Lapla chuyên thiết kế và thi công các không gian xanh đẳng cấp, phù hợp với mọi quy mô và phong cách.',
+    descEn: 'Our landscape architects and engineers specialize in designing and constructing premium green spaces suited to any scale and style.',
+    bulletsVi: ['Thiết kế sân vườn','Cảnh quan cứng (hardscape)','Hồ nước & thác nước','Hệ thống đèn cảnh quan','Cây xanh & thảm cỏ'],
+    bulletsEn: ['Garden Design','Hardscape','Water Features','Landscape Lighting','Plants & Turf'],
+    images: ['https://res.cloudinary.com/dg9khx2s7/image/upload/v1780671226/z2ljjartk4vgpbvanae2.png'],
   },
   {
-    id: 'golf',
-    icon: '⛳',
-    accent: '#328442',
-    accentLight: '#f0fdf4',
-    accentBorder: '#86efac',
-    titleVi: 'Cảnh Quan Sân Golf',
-    titleEn: 'Golf Course Landscape',
-    subtitleVi: 'Chuyên gia cỏ & tưới tiêu sân golf',
-    subtitleEn: 'Turf & irrigation specialists',
-    descVi:
-      'Lapla có chuyên môn sâu trong thiết kế, thi công và bảo dưỡng cảnh quan sân golf — từ lựa chọn loại cỏ đến hệ thống tưới tiêu Rainbird đạt tiêu chuẩn quốc tế.',
-    descEn:
-      'Lapla has deep expertise in golf course landscape design, construction, and maintenance — from turf selection to Rainbird-certified automatic irrigation systems.',
-    bulletsVi: [
-      'Lựa chọn loại cỏ: Paspalum, Bermuda, Zoysia',
-      'Thiết kế & lắp đặt tưới tiêu tự động (chứng nhận Rainbird)',
-      'Cảnh quan bunker và fairway',
-      'Bảo dưỡng quanh năm',
-    ],
-    bulletsEn: [
-      'Turf selection: Paspalum, Bermuda, Zoysia',
-      'Automatic irrigation design & installation (Rainbird certified)',
-      'Bunker and fairway landscaping',
-      'Year-round maintenance',
-    ],
-  },
-  {
-    id: 'artwork',
-    icon: '🎨',
-    accent: '#BE7B2B',         // brand secondary gold
-    accentLight: '#fdf8f0',
-    accentBorder: '#f0c87a',
-    titleVi: 'Thi Công Artwork & Iconic',
-    titleEn: 'Artwork & Iconic Construction',
-    subtitleVi: 'Kiến trúc nghệ thuật & công trình biểu tượng',
-    subtitleEn: 'Artistic architecture & landmark structures',
-    descVi:
-      'Thiết kế và thi công các công trình nghệ thuật độc đáo và biểu tượng mang tính nhận diện cao, được phát triển theo phương pháp tiếp cận tỷ lệ.',
-    descEn:
-      'Design and construction of unique artistic structures and landmark installations, developed using a scale-based design approach.',
-    bulletsVi: [
-      'Công trình biểu tượng và nghệ thuật theo yêu cầu',
-      'Phương pháp thiết kế theo tỷ lệ',
-      'Tích hợp vào tổng thể cảnh quan',
-      'Tham chiếu: Cầu Đất Farm Đà Lạt, Novaworld Hồ Tràm',
-    ],
-    bulletsEn: [
-      'Custom iconic structures and art installations',
-      'Scale-based design approach',
-      'Integration into the overall landscape concept',
-      'References: Cau Dat Farm Da Lat, Novaworld Ho Tram',
-    ],
-  },
-  {
-    id: 'labour',
-    icon: '👷',
-    accent: '#BE7B2B',         // brand secondary gold
-    accentLight: '#fdf8f0',
-    accentBorder: '#f0c87a',
-    titleVi: 'Cung Ứng Lao Động',
-    titleEn: 'Labour Supply',
-    subtitleVi: 'Nhân lực thi công & bảo dưỡng cảnh quan',
-    subtitleEn: 'Skilled landscape construction & maintenance workforce',
-    descVi:
-      'Cung cấp nhân lực có tay nghề cho các dự án thi công và bảo dưỡng cảnh quan — từ công nhân lành nghề đến giám sát công trường và kỹ thuật viên.',
-    descEn:
-      'Supply of skilled personnel for landscape construction and maintenance projects — from skilled workers to on-site supervisors and technical staff.',
-    bulletsVi: [
-      'Công nhân thi công cảnh quan lành nghề',
-      'Đội bảo dưỡng chuyên nghiệp',
-      'Giám sát công trường và kỹ thuật viên',
-    ],
-    bulletsEn: [
-      'Skilled landscape construction workers',
-      'Maintenance crews',
-      'On-site supervisors and technical staff',
-    ],
-  },
-  {
-    id: 'materials',
-    icon: '📦',
-    accent: '#328442',
-    accentLight: '#f0fdf4',
-    accentBorder: '#86efac',
-    titleVi: 'Cung Cấp Vật Tư Cảnh Quan',
-    titleEn: 'Landscape Materials Supply',
-    subtitleVi: 'Cây xanh, cỏ, thiết bị tưới tiêu & vật tư',
-    subtitleEn: 'Plants, turf, irrigation equipment & materials',
-    descVi:
-      'Cung cấp đầy đủ vật tư cảnh quan chất lượng cao — từ cây xanh, cỏ đến thiết bị tưới tiêu và các vật liệu khác, thông qua mạng lưới đối tác đáng tin cậy.',
-    descEn:
-      'Full supply of high-quality landscape materials — from trees and turf to irrigation equipment and other materials, through a trusted partner network.',
-    bulletsVi: [
-      'Cây xanh, cây bụi, thảm phủ mặt đất',
-      'Các loại cỏ và thảm cỏ',
-      'Thiết bị tưới tiêu (đối tác Rainbird, Lumos)',
-      'Các vật tư và thiết bị cảnh quan khác',
-    ],
-    bulletsEn: [
-      'Trees, shrubs, ground cover',
-      'Turf and grass varieties',
-      'Irrigation equipment (Rainbird, Lumos partners)',
-      'Other landscape materials and equipment',
-    ],
+    id: 'maintenance', icon: '🔧', order: 3,
+    titleVi: 'Bảo Dưỡng & Chăm Sóc', titleEn: 'Maintenance & Care',
+    subtitleVi: 'Giữ vẻ đẹp lâu dài', subtitleEn: 'Preserving beauty long-term',
+    descVi: 'Dịch vụ bảo dưỡng định kỳ giúp không gian xanh của bạn luôn tươi tốt và đẹp đẽ suốt năm, với đội ngũ chăm sóc tận tâm và chuyên nghiệp.',
+    descEn: 'Our regular maintenance service keeps your green spaces lush and beautiful year-round, with a dedicated and professional care team.',
+    bulletsVi: ['Cắt tỉa định kỳ','Bón phân & tưới tiêu','Kiểm soát sâu bệnh','Thay thế cây','Vệ sinh cảnh quan'],
+    bulletsEn: ['Regular Trimming','Fertilizing & Irrigation','Pest Control','Plant Replacement','Landscape Cleaning'],
+    images: ['https://res.cloudinary.com/dg9khx2s7/image/upload/v1780671439/nhmwwlfahgea7q8quyvr.jpg'],
   },
 ];
 
-// ── Service card ──────────────────────────────────────────────────────────────
-function ServiceCard({
-  service,
-  index,
-  locale,
-  ctaLabel,
-  contactHref,
-}: {
-  service: DbService;
-  index: number;
-  locale: string;
-  ctaLabel: string;
-  contactHref: string;
+function ServiceCard({ service, index, locale, contactHref }: {
+  service: DbService; index: number; locale: string; contactHref: string;
 }) {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: '-60px' });
   const isVi = locale === 'vi';
   const title = isVi ? service.titleVi : service.titleEn;
   const subtitle = isVi ? service.subtitleVi : service.subtitleEn;
-  const desc = isVi ? service.descVi : service.descEn;
-  const bullets = isVi ? service.bulletsVi : service.bulletsEn;
-  const { accent, accentLight, accentBorder } = ACCENTS[index % ACCENTS.length];
+  const desc = isVi ? (service.descVi || service.descriptionVi || '') : (service.descEn || service.descriptionEn || '');
+  const bullets = isVi ? (service.bulletsVi || []) : (service.bulletsEn || []);
+  const isEven = index % 2 === 0;
 
   return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y: 40 }}
-      animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.7, ease: 'easeOut' }}
-      className="relative rounded-2xl border border-gray-100 bg-white overflow-hidden shadow-sm hover:shadow-md transition-shadow"
-    >
-      {/* Coloured top bar */}
-      <div className="h-1 w-full" style={{ background: `linear-gradient(90deg, ${accent}, ${accentBorder})` }} />
-
-      <div className="p-6 md:p-10">
-        <div className="flex flex-col md:flex-row md:gap-12">
-
-          {/* ── Left: meta + description ── */}
-          <div className="flex-1 min-w-0 mb-8 md:mb-0">
-            <div className="flex items-start gap-4 mb-5">
-              {/* Ghost number */}
-              <span
-                className="text-6xl font-black leading-none select-none shrink-0 mt-1"
-                style={{ color: `${accent}18` }}
-              >
-                {String(index + 1).padStart(2, '0')}
-              </span>
-              {/* Icon + title block */}
-              <div>
-                <div
-                  className="inline-flex items-center justify-center w-10 h-10 rounded-xl text-xl mb-3"
-                  style={{ backgroundColor: accentLight, border: `1px solid ${accentBorder}` }}
-                >
-                  {service.icon}
-                </div>
-                <h2 className="text-xl md:text-2xl font-bold text-gray-900 leading-snug">
-                  {title}
-                </h2>
-                <p
-                  className="text-xs font-semibold tracking-widest uppercase mt-1"
-                  style={{ color: accent }}
-                >
-                  {subtitle}
-                </p>
-              </div>
+    <ScrollReveal delay={index % 2}>
+      <div
+        className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center"
+        style={{ paddingBottom: '60px', marginBottom: '60px', borderBottom: '1px solid rgba(0,0,0,0.06)' }}
+      >
+        {/* Number + content */}
+        <div className={isEven ? 'order-2 lg:order-1' : 'order-2'}>
+          <div className="flex items-center gap-4 mb-5">
+            <span className="font-display font-black text-6xl leading-none select-none" style={{ color: 'rgba(15,84,30,0.08)' }}>
+              {String(index + 1).padStart(2, '0')}
+            </span>
+            <div className="w-12 h-12 flex items-center justify-center text-2xl" style={{ backgroundColor: 'var(--color-surface-alt)', borderRadius: 'var(--radius-md)' }}>
+              {service.icon}
             </div>
-
-            <p className="text-gray-600 text-sm md:text-base leading-relaxed mb-6">
-              {desc}
-            </p>
-
-            <Link
-              href={contactHref}
-              className="inline-flex items-center gap-2 text-sm font-semibold rounded-full px-5 py-2.5 transition-colors"
-              style={{
-                backgroundColor: accentLight,
-                color: accent,
-                border: `1px solid ${accentBorder}`,
-              }}
-            >
-              {ctaLabel} →
-            </Link>
           </div>
+          <p className="text-xs font-bold uppercase tracking-[0.3em] mb-2" style={{ color: 'var(--color-brand)' }}>{subtitle}</p>
+          <h2 className="font-display font-bold mb-4 leading-tight" style={{ fontSize: 'clamp(1.5rem, 3vw, 2.2rem)', color: 'var(--color-text-primary)' }}>{title}</h2>
+          <p className="mb-6 leading-relaxed" style={{ color: 'var(--color-text-secondary)', fontSize: '15px' }}>{desc}</p>
 
-          {/* ── Right: bullet list ── */}
-          <div
-            className="md:w-72 lg:w-80 shrink-0 rounded-xl p-5 md:p-6"
-            style={{ backgroundColor: accentLight, border: `1px solid ${accentBorder}` }}
-          >
-            <p
-              className="text-[10px] font-bold tracking-widest uppercase mb-4"
-              style={{ color: accent }}
-            >
-              {isVi ? 'Phạm vi dịch vụ' : 'Scope of Work'}
-            </p>
-            <ul className="space-y-2.5">
-              {bullets.map((b) => (
-                <li key={b} className="flex items-start gap-2.5 text-sm text-gray-700">
-                  <svg
-                    className="mt-0.5 shrink-0 w-4 h-4"
-                    style={{ color: accent }}
-                    fill="none"
-                    viewBox="0 0 16 16"
-                  >
-                    <circle cx="8" cy="8" r="7" stroke="currentColor" strokeWidth="1.5" />
-                    <path d="M5 8l2 2 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+          {bullets.length > 0 && (
+            <ul className="grid grid-cols-2 gap-x-6 gap-y-2.5 mb-8">
+              {bullets.map(b => (
+                <li key={b} className="flex items-center gap-2 text-sm" style={{ color: 'var(--color-text-secondary)' }}>
+                  <svg className="w-4 h-4 shrink-0" fill="none" stroke="var(--color-brand)" strokeWidth={2.5} viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
                   </svg>
                   {b}
                 </li>
               ))}
             </ul>
-          </div>
+          )}
 
+          <Link
+            href={contactHref}
+            className="inline-flex items-center gap-2.5 text-sm font-bold uppercase tracking-wider transition-all duration-200 hover:opacity-90"
+            style={{ backgroundColor: 'var(--color-brand)', color: '#ffffff', padding: '13px 28px', borderRadius: 'var(--radius-md)' }}
+          >
+            {isVi ? 'Liên hệ tư vấn' : 'Get a Quote'}
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0-7.5 7.5M21 12H3" />
+            </svg>
+          </Link>
+        </div>
+
+        {/* Image */}
+        <div className={`${isEven ? 'order-1 lg:order-2' : 'order-1'} relative`} style={{ height: '420px', borderRadius: '20px', overflow: 'hidden' }}>
+          {(service.images?.[0]) ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src={service.images[0]} alt={title} className="w-full h-full object-cover" />
+          ) : (
+            <div className="w-full h-full flex items-center justify-center text-6xl" style={{ backgroundColor: 'var(--color-surface-alt)' }}>
+              {service.icon}
+            </div>
+          )}
         </div>
       </div>
-    </motion.div>
+    </ScrollReveal>
   );
 }
 
-// ── Page ──────────────────────────────────────────────────────────────────────
 export default function ServicesPageContent({ services }: { services: DbService[] }) {
   const t = useTranslations('servicesPage');
   const locale = useLocale();
-  const ctaRef = useRef(null);
-  const ctaInView = useInView(ctaRef, { once: true, margin: '-60px' });
+  const isVi = locale === 'vi';
+  const list = services.length > 0 ? services : SERVICES;
 
   return (
-    <>
-      {/* ════════════════════════ HERO ══ */}
-      <section className="relative bg-black pt-36 md:pt-48 pb-20 md:pb-28 overflow-hidden">
-        <div
-          className="absolute inset-0 opacity-[0.06]"
-          style={{
-            backgroundImage: 'radial-gradient(circle, #4ade80 1px, transparent 1px)',
-            backgroundSize: '32px 32px',
-          }}
-        />
-        <div className="absolute -top-32 left-1/2 -translate-x-1/2 w-[900px] h-[500px] bg-green-500/15 rounded-full blur-[140px] pointer-events-none" />
-        <div className="absolute bottom-0 right-1/4 w-[400px] h-[300px] bg-secondary-500/10 rounded-full blur-[100px] pointer-events-none" />
+    <section className="leafix-section" style={{ backgroundColor: 'var(--color-surface-base)' }}>
+      <div className="max-w-[1400px] mx-auto px-6 sm:px-10 lg:px-14">
+        {list.map((service, i) => (
+          <ServiceCard key={service.id} service={service} index={i} locale={locale} contactHref={`/${locale}#contact`} />
+        ))}
 
-        <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 36 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.9 }}
+        {/* Bottom CTA */}
+        <div className="mt-16 text-center p-12 rounded-3xl" style={{ backgroundColor: 'var(--color-surface-alt)' }}>
+          <p className="text-xs font-bold uppercase tracking-[0.3em] mb-3" style={{ color: 'var(--color-brand)' }}>
+            {isVi ? 'Bắt đầu dự án' : 'Start Your Project'}
+          </p>
+          <h3 className="font-display font-bold mb-4" style={{ fontSize: 'clamp(1.5rem, 3vw, 2rem)', color: 'var(--color-text-primary)' }}>
+            {t('finalCtaTitle')}
+          </h3>
+          <p className="mb-8" style={{ color: 'var(--color-text-secondary)', maxWidth: '480px', margin: '0 auto 2rem' }}>
+            {t('finalCtaSubtitle')}
+          </p>
+          <Link
+            href={`/${locale}#contact`}
+            className="inline-flex items-center gap-2.5 text-sm font-bold uppercase tracking-wider transition-all duration-200 hover:opacity-90"
+            style={{ backgroundColor: 'var(--color-brand)', color: '#ffffff', padding: '15px 36px', borderRadius: 'var(--radius-xl)' }}
           >
-            <p className="text-green-400 text-xs sm:text-sm font-semibold tracking-widest uppercase mb-6">
-              {t('heroEyebrow')}
-            </p>
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white leading-tight mb-6">
-              {t('heroTitle')}
-            </h1>
-            <p className="text-gray-400 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
-              {t('heroSubtitle')}
-            </p>
-          </motion.div>
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1.1, duration: 0.7 }}
-            className="mt-16 flex justify-center"
-          >
-            <div className="w-px h-16 bg-gradient-to-b from-green-500/70 to-transparent" />
-          </motion.div>
+            {t('finalCtaButton')}
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0-7.5 7.5M21 12H3" />
+            </svg>
+          </Link>
         </div>
-      </section>
-
-      {/* ════════════════════ SERVICES LIST ══ */}
-      <section className="py-12 md:py-20 bg-[#f7faf7]">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col gap-6 md:gap-8">
-          {services.map((service, i) => (
-            <ServiceCard
-              key={service.id}
-              service={service}
-              index={i}
-              locale={locale}
-              ctaLabel={t('contactCta')}
-              contactHref={`/${locale}/contact`}
-            />
-          ))}
-        </div>
-      </section>
-
-      {/* ════════════════════════ CTA ══ */}
-      <section
-        ref={ctaRef}
-        className="relative py-20 md:py-32 bg-[#07130a] overflow-hidden"
-      >
-        <div
-          className="absolute inset-0 opacity-[0.07]"
-          style={{
-            backgroundImage: 'radial-gradient(circle, #4ade80 1px, transparent 1px)',
-            backgroundSize: '28px 28px',
-          }}
-        />
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[300px] bg-green-500/12 rounded-full blur-[120px] pointer-events-none" />
-        <div className="absolute bottom-0 right-0 w-[400px] h-[200px] bg-secondary-500/10 rounded-full blur-[80px] pointer-events-none" />
-
-        <div className="relative max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={ctaInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.8 }}
-          >
-            <h2 className="text-3xl md:text-5xl font-bold text-white mb-5 leading-tight">
-              {t('finalCtaTitle')}
-            </h2>
-            <p className="text-green-300/70 text-base md:text-lg mb-10 leading-relaxed max-w-xl mx-auto">
-              {t('finalCtaSubtitle')}
-            </p>
-            <Link
-              href={`/${locale}/contact`}
-              className="inline-flex items-center gap-2 bg-green-500 text-white font-bold px-8 py-4 rounded-full text-sm tracking-wide hover:bg-green-400 transition-colors shadow-xl"
-            >
-              {t('finalCtaButton')} →
-            </Link>
-          </motion.div>
-        </div>
-      </section>
-    </>
+      </div>
+    </section>
   );
 }

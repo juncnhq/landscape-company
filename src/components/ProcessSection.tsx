@@ -49,7 +49,7 @@ export default function ProcessSection() {
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-14">
           <ScrollReveal>
-            <p className="text-xs tracking-[0.3em] uppercase font-bold mb-3" style={{ color: '#0f541e' }}>
+            <p className="text-xs tracking-[0.3em] uppercase font-bold mb-3" style={{ color: 'var(--color-brand)' }}>
               {isVi ? 'Quy trình' : 'How It Works'}
             </p>
             <h2
@@ -57,8 +57,8 @@ export default function ProcessSection() {
               style={{ fontSize: 'clamp(1.8rem, 4vw, 3rem)', color: '#111111' }}
             >
               {isVi
-                ? <span>Quy trình mang khu vườn<br /><span style={{ color: '#0f541e' }}>của bạn vào thực tế</span></span>
-                : <span>How We Bring Your<br /><span style={{ color: '#0f541e' }}>Garden to Life</span></span>
+                ? <span>Quy trình mang khu vườn<br /><span style={{ color: 'var(--color-brand)' }}>của bạn vào thực tế</span></span>
+                : <span>How We Bring Your<br /><span style={{ color: 'var(--color-brand)' }}>Garden to Life</span></span>
               }
             </h2>
           </ScrollReveal>
@@ -66,7 +66,7 @@ export default function ProcessSection() {
             <Link
               href={`/${locale}#contact`}
               className="inline-flex items-center gap-2 text-sm font-bold uppercase tracking-wider transition-all duration-200"
-              style={{ color: '#0f541e' }}
+              style={{ color: 'var(--color-brand)' }}
             >
               {isVi ? 'Bắt đầu dự án' : 'Start Your Project'}
               <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24">
@@ -95,13 +95,13 @@ export default function ProcessSection() {
                 {/* Icon */}
                 <div
                   className="w-14 h-14 flex items-center justify-center mb-6 transition-all duration-300"
-                  style={{ backgroundColor: '#f5f9f0', color: '#0f541e' }}
+                  style={{ backgroundColor: '#f5f9f0', color: 'var(--color-brand)' }}
                   dangerouslySetInnerHTML={{ __html: step.icon }}
                 />
 
                 <p
                   className="text-[10px] uppercase tracking-[0.25em] font-bold mb-2 transition-colors duration-300"
-                  style={{ color: '#0f541e' }}
+                  style={{ color: 'var(--color-brand)' }}
                 >
                   {isVi ? `Bước ${step.num}` : `Step ${step.num}`}
                 </p>
@@ -115,14 +115,14 @@ export default function ProcessSection() {
 
                 <p
                   className="text-sm leading-relaxed flex-1 transition-colors duration-300"
-                  style={{ color: '#545454' }}
+                  style={{ color: 'var(--color-text-secondary)' }}
                 >
                   {isVi ? step.descVi : step.descEn}
                 </p>
 
                 <div
                   className="mt-6 w-9 h-9 flex items-center justify-center border transition-all duration-300"
-                  style={{ borderColor: '#e0e0e0', color: '#545454' }}
+                  style={{ borderColor: '#e0e0e0', color: 'var(--color-text-secondary)' }}
                 >
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0-7.5 7.5M21 12H3" />
@@ -147,7 +147,7 @@ export default function ProcessSection() {
             <Link
               href={`/${locale}#contact`}
               className="shrink-0 inline-flex items-center gap-2 px-6 py-2.5 text-white text-xs font-bold uppercase tracking-wider transition-all duration-200 hover:opacity-90"
-              style={{ backgroundColor: '#c7dc49', color: '#141414', borderRadius: '10px', }}
+              style={{ backgroundColor: 'var(--color-accent)', color: 'var(--color-text-primary)', borderRadius: '10px', }}
             >
               {isVi ? 'Nhận tư vấn miễn phí' : 'Get Free Consultation'}
               <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24">
@@ -159,7 +159,7 @@ export default function ProcessSection() {
 
         {/* Hover styles */}
         <style>{`
-          .process-step:hover { background-color: #c7dc49; }
+          .process-step:hover { background-color: var(--color-accent); }
           .process-step:hover h3 { color: white !important; }
           .process-step:hover p { color: rgba(255,255,255,0.75) !important; }
           .process-step:hover [style*="f5f9f0"] { background-color: rgba(255,255,255,0.2) !important; color: white !important; }

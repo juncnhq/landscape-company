@@ -15,7 +15,7 @@ export default function VideoSection() {
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12">
           <ScrollReveal>
-            <p className="text-xs tracking-[0.3em] uppercase font-bold mb-3" style={{ color: '#0f541e' }}>
+            <p className="text-xs tracking-[0.3em] uppercase font-bold mb-3" style={{ color: 'var(--color-brand)' }}>
               Showreel
             </p>
             <h2
@@ -23,13 +23,13 @@ export default function VideoSection() {
               style={{ fontSize: 'clamp(1.8rem, 4vw, 3rem)', color: '#111111' }}
             >
               {isVi
-                ? <span>Hành trình<br />kiến tạo <span style={{ color: '#0f541e' }}>cảnh quan</span></span>
-                : <span>The Art of<br /><span style={{ color: '#0f541e' }}>Landscape</span> Making</span>
+                ? <span>Hành trình<br />kiến tạo <span style={{ color: 'var(--color-brand)' }}>cảnh quan</span></span>
+                : <span>The Art of<br /><span style={{ color: 'var(--color-brand)' }}>Landscape</span> Making</span>
               }
             </h2>
           </ScrollReveal>
           <ScrollReveal delay={2}>
-            <p className="text-sm max-w-xs leading-relaxed" style={{ color: '#545454' }}>
+            <p className="text-sm max-w-xs leading-relaxed" style={{ color: 'var(--color-text-secondary)' }}>
               {isVi
                 ? 'Xem video giới thiệu về hành trình và các dự án tiêu biểu của Lapla.'
                 : 'Watch our showreel to experience the journey and featured projects of Lapla.'}
@@ -71,7 +71,7 @@ export default function VideoSection() {
                         className="relative w-20 h-20 md:w-24 md:h-24 rounded-full bg-white flex items-center justify-center transition-transform duration-200 group-hover:scale-110"
                         style={{ boxShadow: '0 0 0 8px rgba(255,255,255,0.15)' }}
                       >
-                        <svg className="w-8 h-8 translate-x-0.5" style={{ color: '#0f541e' }} fill="currentColor" viewBox="0 0 24 24">
+                        <svg className="w-8 h-8 translate-x-0.5" style={{ color: 'var(--color-brand)' }} fill="currentColor" viewBox="0 0 24 24">
                           <path d="M8 5v14l11-7z" />
                         </svg>
                       </div>
@@ -88,7 +88,7 @@ export default function VideoSection() {
                     </div>
                     <span
                       className="shrink-0 ml-4 px-3 py-1.5 text-white text-[10px] font-bold tracking-widest uppercase"
-                      style={{ backgroundColor: '#c7dc49' }}
+                      style={{ backgroundColor: 'var(--color-accent)' }}
                     >
                       Showreel
                     </span>
@@ -116,8 +116,8 @@ export default function VideoSection() {
               { value: '5★', vi: 'Đánh giá khách hàng', en: 'Client rating' },
             ].map((s) => (
               <div key={s.value} className="flex items-center gap-4">
-                <span className="font-display font-bold text-3xl md:text-4xl" style={{ color: '#0f541e' }}>{s.value}</span>
-                <span className="text-[11px] uppercase tracking-wider leading-tight max-w-[80px]" style={{ color: '#545454' }}>
+                <span className="font-display font-bold text-3xl md:text-4xl" style={{ color: 'var(--color-brand)' }}>{s.value}</span>
+                <span className="text-[11px] uppercase tracking-wider leading-tight max-w-[80px]" style={{ color: 'var(--color-text-secondary)' }}>
                   {isVi ? s.vi : s.en}
                 </span>
               </div>
