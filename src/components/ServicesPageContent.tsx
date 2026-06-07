@@ -16,7 +16,7 @@ type DbService = {
 
 export const SERVICES: (DbService & { order: number })[] = [
   {
-    id: 'consulting', icon: '📋', order: 1,
+    id: 'consulting', slug: 'consulting', icon: '📋', order: 1,
     titleVi: 'Tư Vấn & Quản Lý Cảnh Quan', titleEn: 'Landscape Consulting & Management',
     subtitleVi: 'Bao phủ toàn bộ vòng đời dự án', subtitleEn: 'Full project lifecycle coverage',
     descVi: 'Lapla cung cấp dịch vụ tư vấn và quản lý toàn diện cho mọi giai đoạn của dự án cảnh quan — từ ý tưởng ban đầu đến bàn giao và bảo dưỡng dài hạn.',
@@ -26,7 +26,7 @@ export const SERVICES: (DbService & { order: number })[] = [
     images: ['https://res.cloudinary.com/dg9khx2s7/image/upload/v1780671447/dq8l14ajn2y7kxdku0nb.png'],
   },
   {
-    id: 'design', icon: '🌿', order: 2,
+    id: 'design', slug: 'design', icon: '🌿', order: 2,
     titleVi: 'Thiết Kế & Thi Công Cảnh Quan', titleEn: 'Landscape Design & Construction',
     subtitleVi: 'Từ bản vẽ đến hiện thực', subtitleEn: 'From blueprint to reality',
     descVi: 'Đội ngũ kiến trúc sư và kỹ sư cảnh quan của Lapla chuyên thiết kế và thi công các không gian xanh đẳng cấp, phù hợp với mọi quy mô và phong cách.',
@@ -36,7 +36,7 @@ export const SERVICES: (DbService & { order: number })[] = [
     images: ['https://res.cloudinary.com/dg9khx2s7/image/upload/v1780671226/z2ljjartk4vgpbvanae2.png'],
   },
   {
-    id: 'maintenance', icon: '🔧', order: 3,
+    id: 'maintenance', slug: 'maintenance', icon: '🔧', order: 3,
     titleVi: 'Bảo Dưỡng & Chăm Sóc', titleEn: 'Maintenance & Care',
     subtitleVi: 'Giữ vẻ đẹp lâu dài', subtitleEn: 'Preserving beauty long-term',
     descVi: 'Dịch vụ bảo dưỡng định kỳ giúp không gian xanh của bạn luôn tươi tốt và đẹp đẽ suốt năm, với đội ngũ chăm sóc tận tâm và chuyên nghiệp.',
