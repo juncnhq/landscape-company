@@ -19,6 +19,9 @@ export default async function ProjectsPage({
       <PageHero
         eyebrow={isVi ? 'Danh mục công trình' : 'Our Portfolio'}
         title={isVi ? 'Dự Án Cảnh Quan' : 'Landscape Projects'}
+        description={isVi
+          ? 'Hơn 200 công trình cảnh quan tiêu biểu trên khắp Việt Nam — từ biệt thự, khu đô thị đến sân golf và resort.'
+          : 'Over 200 signature landscape projects across Vietnam — villas, urban developments, golf courses and resorts.'}
         breadcrumbs={[{ label: isVi ? 'Dự án' : 'Projects' }]}
       />
       <ProjectsGrid />

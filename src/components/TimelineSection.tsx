@@ -96,7 +96,9 @@ export default function TimelineSection() {
                     </div>
 
                     {/* Ghost year */}
-                    <div className="text-5xl md:text-7xl font-black text-gray-900/[0.05] select-none leading-none mb-2 group-hover:text-gray-900/[0.08] transition-colors">
+                    <div className="text-5xl md:text-7xl font-black select-none leading-none mb-2 transition-colors"
+                      style={{ color: 'rgba(15,84,30,0.35)' }}
+                    >
                       {item.year}
                     </div>
 

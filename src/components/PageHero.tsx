@@ -10,75 +10,135 @@ interface Crumb {
 interface PageHeroProps {
   eyebrow: string;
   title: string;
+  description?: string;
   breadcrumbs?: Crumb[];
+  bgImage?: string;
 }
 
-const BG_IMAGE = 'https://res.cloudinary.com/dg9khx2s7/image/upload/v1780671218/wymbkpzgdmlov1gnysd3.jpg';
+const DEFAULT_BG = 'https://res.cloudinary.com/dg9khx2s7/image/upload/v1780671218/wymbkpzgdmlov1gnysd3.jpg';
 
-export default function PageHero({ eyebrow, title, breadcrumbs }: PageHeroProps) {
+export default function PageHero({ eyebrow, title, description, breadcrumbs, bgImage }: PageHeroProps) {
   const locale = useLocale();
+  const bg = bgImage ?? DEFAULT_BG;
 
   return (
     <section
       style={{
         position: 'relative',
-        paddingTop: '160px',
-        paddingBottom: '60px',
-        backgroundImage: `url(${BG_IMAGE})`,
+        paddingTop: '190px',
+        paddingBottom: '72px',
+        backgroundImage: `url(${bg})`,
         backgroundSize: 'cover',
-        backgroundPosition: 'center',
+        backgroundPosition: 'center 30%',
         overflow: 'hidden',
       }}
     >
-      {/* Dark overlay */}
+      {/* Strong uniform dark overlay */}
       <div style={{
         position: 'absolute', inset: 0,
-        background: 'linear-gradient(to right, rgba(5,18,3,0.88) 40%, rgba(5,18,3,0.55))',
+        backgroundColor: 'rgba(4,14,2,0.82)',
       }} />
 
-      {/* Green accent line at bottom */}
+      {/* Subtle left-to-right gradient on top for depth */}
+      <div style={{
+        position: 'absolute', inset: 0,
+        background: 'linear-gradient(105deg, rgba(15,84,30,0.30) 0%, transparent 60%)',
+      }} />
+
+      {/* Bottom fade — smooth transition into page content */}
+      <div style={{
+        position: 'absolute', bottom: 0, left: 0, right: 0,
+        height: '80px',
+        background: 'linear-gradient(to bottom, transparent, rgba(4,14,2,0.55))',
+      }} />
+
+      {/* Decorative dots top-right */}
+      <div
+        aria-hidden
+        style={{
+          position: 'absolute', top: '100px', right: '80px',
+          width: '180px', height: '120px',
+          backgroundImage: 'radial-gradient(circle, rgba(199,220,73,0.18) 1.5px, transparent 1.5px)',
+          backgroundSize: '18px 18px',
+          opacity: 0.7,
+        }}
+      />
+
+      {/* Accent line at bottom */}
       <div style={{
         position: 'absolute', bottom: 0, left: 0, right: 0,
         height: '3px',
-        background: 'linear-gradient(to right, var(--color-brand), transparent)',
+        background: 'linear-gradient(to right, var(--color-accent), var(--color-brand) 40%, transparent 80%)',
       }} />
 
       <div className="max-w-[1400px] mx-auto px-6 sm:px-10 lg:px-14 relative z-10">
+
         {/* Eyebrow */}
-        <p className="text-xs font-bold uppercase tracking-[0.25em] mb-3 flex items-center gap-2"
-          style={{ color: 'var(--color-accent)' }}>
-          <span className="inline-block w-6 h-px" style={{ backgroundColor: 'var(--color-accent)' }} />
+        <p
+          className="text-xs font-bold uppercase tracking-[0.28em] mb-4 flex items-center gap-2.5"
+          style={{ color: 'var(--color-accent)' }}
+        >
+          <span className="inline-block w-8 h-px shrink-0" style={{ backgroundColor: 'var(--color-accent)' }} />
           {eyebrow}
         </p>
 
-        {/* Title */}
+        {/* Title — inline color required: globals.css h1 rule overrides Tailwind text-white */}
         <h1
-          className="font-display font-bold text-white mb-5"
-          style={{ fontSize: 'clamp(2rem, 4vw, 3.2rem)', lineHeight: 1.1, letterSpacing: '-0.02em' }}
+          className="font-display font-bold mb-4"
+          style={{
+            color: '#ffffff',
+            fontSize: 'clamp(2.2rem, 5vw, 3.8rem)',
+            lineHeight: 1.08,
+            letterSpacing: '-0.025em',
+            textShadow: '0 2px 24px rgba(0,0,0,0.55)',
+            maxWidth: '760px',
+          }}
         >
           {title}
         </h1>
 
+        {/* Optional description */}
+        {description && (
+          <p
+            className="mb-6 max-w-[560px]"
+            style={{
+              color: 'rgba(255,255,255,0.70)',
+              fontSize: '15px',
+              lineHeight: '26px',
+            }}
+          >
+            {description}
+          </p>
+        )}
+
         {/* Breadcrumb */}
         {breadcrumbs && (
-          <div className="flex items-center gap-2">
-            <Link href={`/${locale}`}
-              className="text-xs uppercase tracking-widest font-medium transition-opacity hover:opacity-80"
-              style={{ color: 'rgba(255,255,255,0.5)' }}>
-              Home
+          <div className="flex items-center gap-1.5 mt-5">
+            <Link
+              href={`/${locale}`}
+              className="text-[11px] uppercase tracking-widest font-semibold transition-opacity hover:opacity-80"
+              style={{ color: 'rgba(255,255,255,0.45)' }}
+            >
+              {locale === 'vi' ? 'Trang chủ' : 'Home'}
             </Link>
             {breadcrumbs.map((crumb, i) => (
-              <span key={i} className="flex items-center gap-2">
-                <span style={{ color: 'rgba(255,255,255,0.3)' }}>/</span>
+              <span key={i} className="flex items-center gap-1.5">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.25)" strokeWidth={2.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 18l6-6-6-6" />
+                </svg>
                 {crumb.href ? (
-                  <Link href={crumb.href}
-                    className="text-xs uppercase tracking-widest font-medium transition-opacity hover:opacity-80"
-                    style={{ color: i === breadcrumbs.length - 1 ? 'var(--color-accent)' : 'rgba(255,255,255,0.5)' }}>
+                  <Link
+                    href={crumb.href}
+                    className="text-[11px] uppercase tracking-widest font-semibold transition-opacity hover:opacity-80"
+                    style={{ color: i === breadcrumbs.length - 1 ? 'var(--color-accent)' : 'rgba(255,255,255,0.45)' }}
+                  >
                     {crumb.label}
                   </Link>
                 ) : (
-                  <span className="text-xs uppercase tracking-widest font-medium"
-                    style={{ color: 'var(--color-accent)' }}>
+                  <span
+                    className="text-[11px] uppercase tracking-widest font-semibold"
+                    style={{ color: 'var(--color-accent)' }}
+                  >
                     {crumb.label}
                   </span>
                 )}

@@ -151,28 +151,6 @@ export default function Navbar() {
                 </a>
               </div>
 
-              {/* Search icon */}
-              <button
-                className="w-10 h-10 rounded-full flex items-center justify-center transition-all duration-200"
-                style={{
-                  backgroundColor: "rgba(255,255,255,0.15)",
-                  color: "white",
-                }}
-                onMouseEnter={e => {
-                  (e.currentTarget as HTMLElement).style.backgroundColor = "var(--color-accent)";
-                  (e.currentTarget as HTMLElement).style.color = "white";
-                }}
-                onMouseLeave={e => {
-                  (e.currentTarget as HTMLElement).style.backgroundColor = "rgba(255,255,255,0.15)";
-                  (e.currentTarget as HTMLElement).style.color = "white";
-                }}
-                aria-label="Search"
-              >
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
-                </svg>
-              </button>
-
               {/* Language switcher */}
               <Link
                 href={switchPath}

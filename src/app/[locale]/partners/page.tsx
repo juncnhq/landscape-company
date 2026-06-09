@@ -18,6 +18,9 @@ export default async function PartnersPage({
       <PageHero
         eyebrow={isVi ? 'Hệ sinh thái đối tác' : 'Our Network'}
         title={isVi ? 'Đối Tác & Khách Hàng' : 'Partners & Clients'}
+        description={isVi
+          ? 'Lapla đồng hành cùng các chủ đầu tư, nhà thầu và thương hiệu hàng đầu trong lĩnh vực bất động sản và cảnh quan.'
+          : 'Lapla partners with leading developers, contractors and brands in real estate and landscaping.'}
         breadcrumbs={[{ label: isVi ? 'Đối tác' : 'Partners' }]}
       />
       <PartnersSection />

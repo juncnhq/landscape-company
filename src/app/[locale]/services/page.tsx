@@ -39,6 +39,9 @@ export default async function ServicesPage({
       <PageHero
         eyebrow={isVi ? 'Giải pháp cảnh quan' : 'What We Offer'}
         title={isVi ? 'Dịch Vụ Của Chúng Tôi' : 'Our Services'}
+        description={isVi
+          ? 'Từ thiết kế sân vườn đến cảnh quan resort 5 sao — chúng tôi mang đến giải pháp xanh toàn diện cho mọi không gian.'
+          : 'From garden design to 5-star resort landscaping — comprehensive green solutions for every space.'}
         breadcrumbs={[{ label: isVi ? 'Dịch vụ' : 'Services' }]}
       />
       <ServicesPageContent services={services} />

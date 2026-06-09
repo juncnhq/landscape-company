@@ -18,6 +18,9 @@ export default async function NewsPage({
       <PageHero
         eyebrow={isVi ? 'Cập nhật mới nhất' : 'Latest Updates'}
         title={isVi ? 'Tin Tức & Bài Viết' : 'News & Articles'}
+        description={isVi
+          ? 'Cập nhật xu hướng cảnh quan, chia sẻ kiến thức chuyên môn và câu chuyện từ các dự án của Lapla.'
+          : 'Landscape trends, expert insights and stories from Lapla projects.'}
         breadcrumbs={[{ label: isVi ? 'Tin tức' : 'News' }]}
       />
       <NewsGrid />

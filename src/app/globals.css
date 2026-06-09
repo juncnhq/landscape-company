@@ -133,8 +133,8 @@ h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-bricolage), var(--font-be-vietnam), "Bricolage Grotesque", sans-serif;
   font-weight: 600;
   line-height: 1.2;
-  color: var(--color-heading);
   letter-spacing: -0.02em;
+  /* No default color — each component sets color explicitly via inline style or Tailwind */
 }
 
 /* Leafix section padding (120px like original) */
