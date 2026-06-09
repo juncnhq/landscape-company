@@ -90,7 +90,10 @@ export default function ProjectsSection() {
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
-          backgroundImage: 'none',
+          backgroundImage: 'url(/images/shapes/project-bg-shape.png)',
+          backgroundSize: '80% 80%',
+          backgroundPosition: 'center center',
+          backgroundRepeat: 'no-repeat',
           borderRadius: '40px',
           boxShadow: '0 20px 60px rgba(0,0,0,0.10), 0 4px 20px rgba(130,180,64,0.08)',
           zIndex: 0,

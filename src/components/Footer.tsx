@@ -55,7 +55,7 @@ export default function Footer() {
   };
 
   return (
-    <footer className="relative overflow-hidden" style={{ backgroundColor: '#0e2208' }}>
+    <footer className="relative overflow-hidden" style={{ backgroundColor: '#0e2208', backgroundImage: 'url(/images/shapes/footer-bg-img.jpg)', backgroundSize: 'cover', backgroundPosition: 'center top', backgroundRepeat: 'no-repeat' }}>
       {/* Dark overlay to ensure text readability */}
       <div className="absolute inset-0 pointer-events-none" style={{ backgroundColor: 'rgba(5,18,3,0.82)' }} />
       {/* Background leaf pattern */}

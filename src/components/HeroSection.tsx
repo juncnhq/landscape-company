@@ -28,7 +28,7 @@ export default function HeroSection() {
     <section
       ref={heroRef}
       className="relative overflow-hidden"
-      style={{ marginTop: '-82px' }}
+      style={{ marginTop: '-82px', minHeight: '100vh' }}
     >
       {/* Background */}
       <div className="hero-bg absolute inset-0 scale-110" style={{ willChange: 'transform' }}>
@@ -144,7 +144,7 @@ export default function HeroSection() {
         className="hero-reveal hidden lg:flex items-center gap-5"
         style={{
           position: 'absolute',
-          bottom: '60px',
+          bottom: '140px',
           right: '56px',
           animationDelay: '320ms',
           backgroundColor: 'rgba(255,255,255,0.1)',
