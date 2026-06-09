@@ -1,17 +1,10 @@
 import { setRequestLocale } from 'next-intl/server';
 import Navbar from '@/components/Navbar';
 import HeroSection from '@/components/HeroSection';
-import AboutSection from '@/components/AboutSection';
-import ValuesSection from '@/components/ValuesSection';
-import OurServicesSection from '@/components/OurServicesSection';
-import ServicesFeatureSection from '@/components/ServicesFeatureSection';
-import BenefitsSection from '@/components/BenefitsSection';
-import ProcessSection from '@/components/ProcessSection';
 import ProjectsSection from '@/components/ProjectsSection';
-import TeamSection from '@/components/TeamSection';
-import PricingSection from '@/components/PricingSection';
-import TestimonialsSection from '@/components/TestimonialsSection';
-import VideoSection from '@/components/VideoSection';
+import AboutSection from '@/components/AboutSection';
+import OurServicesSection from '@/components/OurServicesSection';
+import BenefitsSection from '@/components/BenefitsSection';
 import CTASection from '@/components/CTASection';
 import MemberCompaniesSection from '@/components/MemberCompaniesSection';
 import PartnersSection from '@/components/PartnersSection';
@@ -29,16 +22,9 @@ export default async function HomePage({
       <Navbar />
       <HeroSection />
       <ProjectsSection />
-
       <AboutSection />
-      <ValuesSection />
       <OurServicesSection />
-      <ServicesFeatureSection />
       <BenefitsSection />
-      <ProcessSection />
-      <TeamSection />
-      <TestimonialsSection />
-      <VideoSection />
       <CTASection />
       <MemberCompaniesSection />
       <PartnersSection />
