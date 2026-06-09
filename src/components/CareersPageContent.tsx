@@ -139,7 +139,7 @@ export default function CareersPageContent() {
             <p className="text-green-600 text-xs font-semibold tracking-widest uppercase mb-3">
               {t('cultureEyebrow')}
             </p>
-            <h2 className="text-3xl md:text-5xl font-bold text-gray-900 mb-4">{t('cultureTitle')}</h2>
+            <h2 className="text-3xl md:text-5xl font-bold text-[var(--color-text-primary)] mb-4">{t('cultureTitle')}</h2>
             <p className="text-gray-500 text-base md:text-lg max-w-xl mx-auto">{t('cultureSubtitle')}</p>
           </motion.div>
 
@@ -157,7 +157,7 @@ export default function CareersPageContent() {
                 <div className="w-12 h-12 rounded-xl bg-green-50 border border-green-200 flex items-center justify-center text-2xl mb-5 group-hover:scale-110 transition-transform duration-300">
                   {icon}
                 </div>
-                <h3 className="font-bold text-gray-900 text-lg mb-2">{t(`${tKey}Title`)}</h3>
+                <h3 className="font-bold text-[var(--color-text-primary)] text-lg mb-2">{t(`${tKey}Title`)}</h3>
                 <p className="text-gray-500 text-sm leading-relaxed">{t(`${tKey}Text`)}</p>
               </motion.div>
             ))}
@@ -260,7 +260,7 @@ export default function CareersPageContent() {
             <p className="text-green-600 text-xs font-semibold tracking-widest uppercase mb-3">
               {t('applyEyebrow')}
             </p>
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">{t('applyTitle')}</h2>
+            <h2 className="text-3xl md:text-4xl font-bold text-[var(--color-text-primary)] mb-4">{t('applyTitle')}</h2>
             <p className="text-gray-500 text-base md:text-lg max-w-xl mx-auto">{t('applySubtitle')}</p>
           </motion.div>
 
@@ -282,7 +282,7 @@ export default function CareersPageContent() {
       </section>
 
       {/* ══════════════════════════════════ CONTACT ══ */}
-      <section ref={contactRef} className="py-16 md:py-24 bg-[#f7faf7]">
+      <section ref={contactRef} className="py-16 md:py-24 bg-[var(--color-surface-base)]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 28 }}
@@ -293,7 +293,7 @@ export default function CareersPageContent() {
             <p className="text-green-600 text-xs font-semibold tracking-widest uppercase mb-3">
               {t('contactEyebrow')}
             </p>
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900">{t('contactTitle')}</h2>
+            <h2 className="text-3xl md:text-4xl font-bold text-[var(--color-text-primary)]">{t('contactTitle')}</h2>
           </motion.div>
 
           <div className="grid md:grid-cols-2 gap-8 items-start">

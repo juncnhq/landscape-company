@@ -119,7 +119,7 @@ export default function Footer() {
 
           {/* Col 1: CTA + phone + email */}
           <div>
-            <p className="text-xs tracking-[0.25em] uppercase font-bold mb-3" style={{ color: 'var(--color-brand)' }}>
+            <p className="text-xs tracking-[0.3em] uppercase font-bold mb-3" style={{ color: 'var(--color-brand)' }}>
               {isVi ? 'Liên hệ ngay' : 'Get In Touch'}
             </p>
             <h3 className="font-display font-bold text-xl text-white leading-snug mb-5">

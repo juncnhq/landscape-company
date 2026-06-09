@@ -42,7 +42,7 @@ export default function TeamSection() {
           <div>
             <div className="flex items-center gap-2 mb-3">
               <div className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: 'var(--color-brand)' }} />
-              <p className="text-xs font-bold uppercase tracking-[0.25em]" style={{ color: 'var(--color-brand)' }}>
+              <p className="text-xs font-bold uppercase tracking-[0.3em]" style={{ color: 'var(--color-brand)' }}>
                 {isVi ? 'Đội ngũ của chúng tôi' : 'Our Team'}
               </p>
             </div>

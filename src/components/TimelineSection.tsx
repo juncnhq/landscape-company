@@ -1,14 +1,28 @@
 "use client";
 import { useLocale } from "next-intl";
 import { motion, useInView } from "framer-motion";
-import { useRef } from "react";
-import { timelineItems } from "@/lib/data";
+import { useRef, useState, useEffect } from "react";
+
+type TimelineItem = {
+  id: string; year: string;
+  titleVi: string; titleEn: string;
+  descVi: string; descEn: string;
+  order: number;
+};
 
 export default function TimelineSection() {
   const locale = useLocale();
   const isVi = locale === "vi";
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-80px" });
+  const [timelineItems, setTimelineItems] = useState<TimelineItem[]>([]);
+
+  useEffect(() => {
+    fetch('/api/timeline')
+      .then(r => r.ok ? r.json() : [])
+      .then((data: TimelineItem[]) => setTimelineItems(data))
+      .catch(() => {});
+  }, []);
 
   return (
     <section ref={ref} className="relative py-20 md:py-32 overflow-hidden bg-white">
@@ -23,14 +37,14 @@ export default function TimelineSection() {
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.7 }}
           >
-            <p className="text-[10px] tracking-[0.35em] uppercase font-semibold text-[#328442] mb-4">
+            <p className="text-[10px] tracking-[0.3em] uppercase font-semibold text-[var(--color-brand)] mb-4">
               {isVi ? "Lịch sử" : "History"}
             </p>
-            <h2 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 leading-[1.1]">
+            <h2 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-[var(--color-text-primary)] leading-[1.1]">
               {isVi ? (
-                <>Hành trình<br /><span className="text-[#328442]">17 năm</span> phát triển</>
+                <>Hành trình<br /><span className="text-[var(--color-brand)]">17 năm</span> phát triển</>
               ) : (
-                <>Our <span className="text-[#328442]">17 year</span><br />journey</>
+                <>Our <span className="text-[var(--color-brand)]">17 year</span><br />journey</>
               )}
             </h2>
           </motion.div>
@@ -50,7 +64,7 @@ export default function TimelineSection() {
         {/* Timeline */}
         <div className="relative">
           {/* Vertical spine desktop */}
-          <div className="hidden md:block absolute left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-gray-100 via-[#328442]/30 to-gray-100 -translate-x-px" />
+          <div className="hidden md:block absolute left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-gray-100 via-[var(--color-brand)]/30 to-gray-100 -translate-x-px" />
 
           <div className="flex flex-col gap-12 md:gap-16">
             {timelineItems.map((item, i) => {
@@ -65,7 +79,7 @@ export default function TimelineSection() {
                 >
                   {/* Mobile marker */}
                   <div className="md:hidden shrink-0 mt-2 mr-5">
-                    <div className="w-3 h-3 rounded-full bg-[#328442] ring-4 ring-[#328442]/15" />
+                    <div className="w-3 h-3 rounded-full bg-[var(--color-brand)] ring-4 ring-[var(--color-brand)]/15" />
                   </div>
 
                   {/* Desktop center dot */}
@@ -74,7 +88,7 @@ export default function TimelineSection() {
                       initial={{ scale: 0 }}
                       animate={inView ? { scale: 1 } : {}}
                       transition={{ duration: 0.4, delay: 0.06 * i + 0.25 }}
-                      className="w-4 h-4 rounded-full bg-[#328442] ring-[6px] ring-[#328442]/10"
+                      className="w-4 h-4 rounded-full bg-[var(--color-brand)] ring-[6px] ring-[var(--color-brand)]/10"
                     />
                   </div>
 
@@ -89,10 +103,10 @@ export default function TimelineSection() {
                     }`}
                   >
                     <div className={`inline-flex items-center gap-2 mb-3 ${isLeft ? "md:flex-row-reverse md:ml-auto" : ""}`}>
-                      <span className="text-[10px] tracking-[0.3em] text-[#328442] uppercase font-semibold">
+                      <span className="text-[10px] tracking-[0.3em] text-[var(--color-brand)] uppercase font-semibold">
                         {String(i + 1).padStart(2, "0")}
                       </span>
-                      <span className="w-6 h-px bg-[#328442]/30" />
+                      <span className="w-6 h-px bg-[var(--color-brand)]/30" />
                     </div>
 
                     {/* Ghost year */}
@@ -104,12 +118,12 @@ export default function TimelineSection() {
 
                     {/* Year badge */}
                     <div className={`flex items-center gap-2 mb-2 ${isLeft ? "md:justify-end" : ""}`}>
-                      <span className="inline-block px-3 py-1 rounded-full bg-[#328442]/10 text-[#328442] text-xs font-bold tracking-wider border border-[#328442]/15">
+                      <span className="inline-block px-3 py-1 rounded-full bg-[var(--color-brand)]/10 text-[var(--color-brand)] text-xs font-bold tracking-wider border border-[var(--color-brand)]/15">
                         {item.year}
                       </span>
                     </div>
 
-                    <h3 className="font-bold text-gray-900 text-lg md:text-xl leading-snug mb-2 group-hover:text-[#328442] transition-colors">
+                    <h3 className="font-bold text-[var(--color-text-primary)] text-lg md:text-xl leading-snug mb-2 group-hover:text-[var(--color-brand)] transition-colors">
                       {isVi ? item.title : item.titleEn}
                     </h3>
                     <p className="text-gray-400 text-sm leading-relaxed">

@@ -201,7 +201,7 @@ export default function AboutPageContent() {
                     <Image src={IMG5} alt="CEO" fill className="object-cover" sizes="48px" />
                   </div>
                   <div>
-                    <p className="font-bold text-sm" style={{ color: '#111' }}>Nguyễn Văn Hoàng</p>
+                    <p className="font-bold text-sm" style={{ color: 'var(--color-text-primary)' }}>Nguyễn Văn Hoàng</p>
                     <p className="text-xs" style={{ color: 'var(--color-text-secondary)' }}>
                       {isVi ? 'CEO & Sáng lập' : 'CEO & founder'}
                     </p>
@@ -225,7 +225,7 @@ export default function AboutPageContent() {
                     <p className="text-[10px] font-semibold uppercase tracking-wider" style={{ color: 'var(--color-text-secondary)' }}>
                       {isVi ? 'Gọi bất cứ lúc nào' : 'Call Us Any Time'}
                     </p>
-                    <a href="tel:+84901234567" className="text-sm font-bold" style={{ color: '#111' }}>
+                    <a href="tel:+84901234567" className="text-sm font-bold" style={{ color: 'var(--color-text-primary)' }}>
                       (+84) 90 123 4567
                     </a>
                   </div>
@@ -241,7 +241,7 @@ export default function AboutPageContent() {
       ════════════════════════════════════ */}
       <section ref={statsRef as React.RefObject<HTMLDivElement>} className="py-16 md:py-20" style={{ backgroundColor: '#fff' }}>
         <div className="max-w-[1400px] mx-auto px-6 sm:px-10 lg:px-14">
-          <p className="text-center font-semibold mb-12" style={{ fontSize: '1.1rem', color: '#111' }}>
+          <p className="text-center font-semibold mb-12" style={{ fontSize: '1.1rem', color: 'var(--color-text-primary)' }}>
             {isVi ? 'Thành tích của chúng tôi nói lên tất cả' : 'Our Experience Speaks for Itself'}
           </p>
           <div className="grid grid-cols-2 md:grid-cols-4">
@@ -251,8 +251,8 @@ export default function AboutPageContent() {
                 className="flex flex-col px-8 py-4"
                 style={{ borderLeft: i > 0 ? '1px solid rgba(0,0,0,0.1)' : 'none' }}
               >
-                <p className="font-display font-black tabular-nums mb-1 leading-none" style={{ fontSize: 'clamp(2.2rem, 5vw, 3.5rem)', color: '#111' }}>
-                  {counts[i]}<span style={{ color: '#111' }}>{stat.suffix}</span>
+                <p className="font-display font-black tabular-nums mb-1 leading-none" style={{ fontSize: 'clamp(2.2rem, 5vw, 3.5rem)', color: 'var(--color-text-primary)' }}>
+                  {counts[i]}<span style={{ color: 'var(--color-text-primary)' }}>{stat.suffix}</span>
                 </p>
                 <p className="text-sm mb-4" style={{ color: 'var(--color-text-secondary)' }}>
                   {isVi ? stat.vi : stat.en}
@@ -390,7 +390,7 @@ export default function AboutPageContent() {
                   }}>
                     {PROCESS_ICONS[i]}
                   </div>
-                  <p className="text-sm font-bold leading-snug" style={{ color: '#111' }}>
+                  <p className="text-sm font-bold leading-snug" style={{ color: 'var(--color-text-primary)' }}>
                     {isVi ? step.vi : step.en}
                   </p>
                 </div>
@@ -452,7 +452,7 @@ export default function AboutPageContent() {
                 <Link
                   href={`/${locale}/services`}
                   className="inline-flex items-center gap-2.5 text-xs font-black uppercase tracking-widest transition-all hover:opacity-90"
-                  style={{ backgroundColor: 'var(--color-accent)', color: '#111', padding: '14px 28px', borderRadius: 8 }}
+                  style={{ backgroundColor: 'var(--color-accent)', color: 'var(--color-text-primary)', padding: '14px 28px', borderRadius: 8 }}
                 >
                   {isVi ? 'Xem tất cả dịch vụ' : 'View All Services'}
                   <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24">

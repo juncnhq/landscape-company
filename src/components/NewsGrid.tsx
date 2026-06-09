@@ -1,8 +1,9 @@
 'use client';
 import { useLocale } from 'next-intl';
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { newsArticles } from '@/lib/data';
+
 import ScrollReveal from './ScrollReveal';
 
 function formatDate(dateStr: string, locale: string) {
@@ -11,10 +12,28 @@ function formatDate(dateStr: string, locale: string) {
   });
 }
 
+type Article = {
+  id: string; slug: string;
+  titleVi: string; titleEn: string;
+  summaryVi: string; summaryEn: string;
+  image: string; categoryVi: string; categoryEn: string;
+  date: string; readTime: number; published: boolean;
+};
+
 export default function NewsGrid() {
   const locale = useLocale();
   const isVi = locale === 'vi';
-  const [featured, ...rest] = newsArticles;
+  const [articles, setArticles] = useState<Article[]>([]);
+
+  useEffect(() => {
+    fetch('/api/news')
+      .then(r => r.ok ? r.json() : [])
+      .then((data: Article[]) => setArticles(data.filter(a => a.published)))
+      .catch(() => {});
+  }, []);
+
+  if (!articles.length) return null;
+  const [featured, ...rest] = articles;
 
   return (
     <div className="leafix-section" style={{ backgroundColor: 'var(--color-surface-base)' }}>

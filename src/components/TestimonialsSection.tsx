@@ -1,52 +1,43 @@
 'use client';
 import { useLocale } from 'next-intl';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
 
 const testimonials = [
   {
     quoteVi: 'Họ cải tạo bãi cỏ của chúng tôi thật tuyệt vời. Lớp cỏ nhân tạo trông tươi mới, đều và rất chuyên nghiệp. Đội ngũ làm việc tận tâm và luôn cập nhật tiến độ cho chúng tôi. Chúng tôi rất hài lòng với kết quả cuối cùng.',
-    quoteEn: 'They improved our lawn beautifully. The turfing looks fresh, even, and very professionally done. The team worked with care and kept us updated throughout the process. We\'re really happy with the final result.',
-    authorVi: 'Nguyễn Minh Tuấn',
-    authorEn: 'Leslie Alexander',
-    roleVi: 'Giám đốc dự án cấp cao',
-    roleEn: 'Senior Project Manager',
+    quoteEn: "They improved our lawn beautifully. The turfing looks fresh, even, and very professionally done. The team worked with care and kept us updated throughout. We're really happy with the final result.",
+    authorVi: 'Nguyễn Minh Tuấn', authorEn: 'Leslie Alexander',
+    roleVi: 'Giám đốc dự án cấp cao', roleEn: 'Senior Project Manager',
     image: 'https://res.cloudinary.com/dg9khx2s7/image/upload/v1780671436/g1bzoz3cahba47gm9h6h.png',
     rating: 5,
   },
   {
     quoteVi: 'Họ cải tạo bãi cỏ của chúng tôi thật tuyệt vời. Lớp cỏ nhân tạo trông tươi mới, đều và rất chuyên nghiệp. Đội ngũ làm việc tận tâm và luôn cập nhật tiến độ cho chúng tôi. Chúng tôi rất hài lòng với kết quả cuối cùng.',
-    quoteEn: 'They improved our lawn beautifully. The turfing looks fresh, even, and very professionally done. The team worked with care and kept us updated throughout the process. We\'re really happy with the final result.',
-    authorVi: 'Trần Thu Hà',
-    authorEn: 'Jenny Wilson',
-    roleVi: 'Giám đốc dự án cấp cao',
-    roleEn: 'Senior Project Manager',
+    quoteEn: "They improved our lawn beautifully. The turfing looks fresh, even, and very professionally done. The team worked with care and kept us updated throughout. We're really happy with the final result.",
+    authorVi: 'Trần Thu Hà', authorEn: 'Jenny Wilson',
+    roleVi: 'Giám đốc dự án cấp cao', roleEn: 'Senior Project Manager',
     image: 'https://res.cloudinary.com/dg9khx2s7/image/upload/v1780671255/hkzptty2mrrdqgcjnvbv.jpg',
     rating: 5,
   },
   {
     quoteVi: 'Họ cải tạo bãi cỏ của chúng tôi thật tuyệt vời. Lớp cỏ nhân tạo trông tươi mới, đều và rất chuyên nghiệp. Đội ngũ làm việc tận tâm và luôn cập nhật tiến độ cho chúng tôi. Chúng tôi rất hài lòng với kết quả cuối cùng.',
-    quoteEn: 'They improved our lawn beautifully. The turfing looks fresh, even, and very professionally done. The team worked with care and kept us updated throughout the process. We\'re really happy with the final result.',
-    authorVi: 'Lê Hoàng Nam',
-    authorEn: 'Guy Hawkins',
-    roleVi: 'Giám đốc dự án cấp cao',
-    roleEn: 'Senior Project Manager',
+    quoteEn: "They improved our lawn beautifully. The turfing looks fresh, even, and very professionally done. The team worked with care and kept us updated throughout. We're really happy with the final result.",
+    authorVi: 'Lê Hoàng Nam', authorEn: 'Guy Hawkins',
+    roleVi: 'Giám đốc dự án cấp cao', roleEn: 'Senior Project Manager',
     image: 'https://res.cloudinary.com/dg9khx2s7/image/upload/v1780671439/nhmwwlfahgea7q8quyvr.jpg',
     rating: 5,
   },
   {
     quoteVi: 'Họ cải tạo bãi cỏ của chúng tôi thật tuyệt vời. Lớp cỏ nhân tạo trông tươi mới, đều và rất chuyên nghiệp. Đội ngũ làm việc tận tâm và luôn cập nhật tiến độ cho chúng tôi. Chúng tôi rất hài lòng với kết quả cuối cùng.',
-    quoteEn: 'They improved our lawn beautifully. The turfing looks fresh, even, and very professionally done. The team worked with care and kept us updated throughout the process. We\'re really happy with the final result.',
-    authorVi: 'Vũ Thanh Tùng',
-    authorEn: 'Emily Carter',
-    roleVi: 'Giám đốc dự án cấp cao',
-    roleEn: 'Senior Project Manager',
+    quoteEn: "They improved our lawn beautifully. The turfing looks fresh, even, and very professionally done. The team worked with care and kept us updated throughout. We're really happy with the final result.",
+    authorVi: 'Vũ Thanh Tùng', authorEn: 'Emily Carter',
+    roleVi: 'Giám đốc dự án cấp cao', roleEn: 'Senior Project Manager',
     image: 'https://res.cloudinary.com/dg9khx2s7/image/upload/v1780671447/dq8l14ajn2y7kxdku0nb.png',
     rating: 5,
   },
 ];
 
-/* Quote mark SVG */
 function QuoteMark() {
   return (
     <svg width="40" height="32" viewBox="0 0 40 32" fill="none" opacity="0.15">
@@ -59,56 +50,55 @@ export default function TestimonialsSection() {
   const locale = useLocale();
   const isVi = locale === 'vi';
   const [current, setCurrent] = useState(0);
+  const [cols, setCols] = useState(3); // responsive columns
 
-  const prev = () => setCurrent((c) => Math.max(0, c - 1));
-  const next = () => setCurrent((c) => Math.min(testimonials.length - 1, c + 1));
+  useEffect(() => {
+    const update = () => {
+      setCols(window.innerWidth < 640 ? 1 : window.innerWidth < 1024 ? 2 : 3);
+    };
+    update();
+    window.addEventListener('resize', update);
+    return () => window.removeEventListener('resize', update);
+  }, []);
 
-  /* visible window: show up to 3 cards, current card is index 1 if possible */
-  const getVisibleCards = () => {
-    const visible = [];
-    for (let i = 0; i < testimonials.length; i++) {
-      visible.push({ idx: i, t: testimonials[i] });
-    }
-    return visible;
-  };
+  // clamp current when cols change
+  useEffect(() => {
+    setCurrent(c => Math.min(c, testimonials.length - cols));
+  }, [cols]);
+
+  const maxIndex = Math.max(0, testimonials.length - cols);
+  const gap = 20;
+  const cardWidth = `calc((100% - ${gap * (cols - 1)}px) / ${cols})`;
+  const offset = `calc(-${current} * (${cardWidth} + ${gap}px))`;
 
   return (
     <section className="leafix-section" style={{ backgroundColor: '#fff' }}>
       <div className="max-w-[1400px] mx-auto px-6 sm:px-10 lg:px-14">
 
-        {/* Header — centered */}
+        {/* Header */}
         <div className="text-center mb-10">
           <p className="text-xs font-bold uppercase tracking-[0.3em] mb-3" style={{ color: 'var(--color-brand)' }}>
             {isVi ? 'Khách hàng nói gì' : 'Testimonial'}
           </p>
-          <h2 className="font-display font-bold" style={{ fontSize: 'clamp(1.8rem, 3.5vw, 2.8rem)', color: '#0e1a0f' }}>
+          <h2 className="font-display font-bold" style={{ fontSize: 'clamp(1.6rem, 3.5vw, 2.8rem)', color: '#0e1a0f' }}>
             {isVi
               ? <>Đánh giá chân thành về các<br />dự án cải tạo vườn</>
               : <>Sincere Evaluations of Garden<br />Renovation Initiatives</>}
           </h2>
         </div>
 
-        {/* Slider container */}
-        <div className="relative overflow-hidden">
+        {/* Slider */}
+        <div className="overflow-hidden">
           <div
-            className="flex gap-5 transition-transform duration-500 ease-in-out"
-            style={{ transform: `translateX(calc(-${current} * (calc(100% / 3 + 20px / 3))))` }}
+            className="flex transition-transform duration-500 ease-in-out"
+            style={{ gap: gap, transform: `translateX(${offset})` }}
           >
-            {getVisibleCards().map(({ idx, t }) => (
-              <div
-                key={idx}
-                className="shrink-0"
-                style={{ width: 'calc((100% - 40px) / 3)' }}
-              >
+            {testimonials.map((t, idx) => (
+              <div key={idx} className="shrink-0" style={{ width: cardWidth }}>
                 <div
-                  className="h-full flex flex-col p-7"
-                  style={{
-                    border: '1px solid rgba(0,0,0,0.09)',
-                    borderRadius: 16,
-                    backgroundColor: '#fff',
-                  }}
+                  className="h-full flex flex-col p-6 sm:p-7"
+                  style={{ border: '1px solid rgba(0,0,0,0.09)', borderRadius: 16, backgroundColor: '#fff' }}
                 >
-                  {/* Top: stars + quote mark */}
                   <div className="flex items-start justify-between mb-5">
                     <div className="flex gap-1">
                       {[...Array(t.rating)].map((_, i) => (
@@ -119,27 +109,16 @@ export default function TestimonialsSection() {
                     </div>
                     <QuoteMark />
                   </div>
-
-                  {/* Quote text */}
                   <p className="flex-1 leading-relaxed mb-6" style={{ color: '#444', fontSize: '0.9rem', lineHeight: '26px' }}>
                     &ldquo;{isVi ? t.quoteVi : t.quoteEn}&rdquo;
                   </p>
-
-                  {/* Author */}
-                  <div className="flex items-center gap-3 p-4" style={{
-                    backgroundColor: 'var(--color-surface-alt)',
-                    borderRadius: 10,
-                  }}>
+                  <div className="flex items-center gap-3 p-4" style={{ backgroundColor: 'var(--color-surface-alt)', borderRadius: 10 }}>
                     <div className="relative shrink-0 overflow-hidden" style={{ width: 44, height: 44, borderRadius: '50%' }}>
                       <Image src={t.image} alt={isVi ? t.authorVi : t.authorEn} fill className="object-cover" sizes="44px" />
                     </div>
                     <div>
-                      <p className="font-bold text-sm" style={{ color: '#111' }}>
-                        {isVi ? t.authorVi : t.authorEn}
-                      </p>
-                      <p className="text-xs" style={{ color: 'var(--color-text-secondary)' }}>
-                        {isVi ? t.roleVi : t.roleEn}
-                      </p>
+                      <p className="font-bold text-sm" style={{ color: 'var(--color-text-primary)' }}>{isVi ? t.authorVi : t.authorEn}</p>
+                      <p className="text-xs" style={{ color: 'var(--color-text-secondary)' }}>{isVi ? t.roleVi : t.roleEn}</p>
                     </div>
                   </div>
                 </div>
@@ -148,36 +127,30 @@ export default function TestimonialsSection() {
           </div>
         </div>
 
-        {/* Prev / Progress bar / Next */}
-        <div className="flex items-center gap-6 mt-10">
+        {/* Nav */}
+        <div className="flex items-center gap-6 mt-8">
           <button
-            onClick={prev}
+            onClick={() => setCurrent(c => Math.max(0, c - 1))}
             disabled={current === 0}
-            className="flex items-center gap-2 text-sm font-bold transition-all duration-200 disabled:opacity-30"
-            style={{ color: '#111' }}
+            className="flex items-center gap-2 text-sm font-bold transition-all disabled:opacity-30"
+            style={{ color: 'var(--color-text-primary)' }}
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
             </svg>
             {isVi ? 'Trước' : 'Prev'}
           </button>
-
-          {/* Progress bar */}
           <div className="flex-1 h-0.5 overflow-hidden" style={{ backgroundColor: 'rgba(0,0,0,0.1)' }}>
             <div
               className="h-full transition-all duration-500"
-              style={{
-                backgroundColor: 'var(--color-brand)',
-                width: `${((current + 1) / testimonials.length) * 100}%`,
-              }}
+              style={{ backgroundColor: 'var(--color-brand)', width: `${((current + 1) / (maxIndex + 1)) * 100}%` }}
             />
           </div>
-
           <button
-            onClick={next}
-            disabled={current >= testimonials.length - 1}
-            className="flex items-center gap-2 text-sm font-bold transition-all duration-200 disabled:opacity-30"
-            style={{ color: '#111' }}
+            onClick={() => setCurrent(c => Math.min(maxIndex, c + 1))}
+            disabled={current >= maxIndex}
+            className="flex items-center gap-2 text-sm font-bold transition-all disabled:opacity-30"
+            style={{ color: 'var(--color-text-primary)' }}
           >
             {isVi ? 'Tiếp' : 'Next'}
             <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24">

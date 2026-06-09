@@ -44,7 +44,7 @@ const CoverPage = forwardRef<HTMLDivElement, BasePageProps>((_, ref) => {
       <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 text-center px-10">
         <div className="w-8 h-px bg-[#BE7B2B]" />
         <p
-          className="text-[#BE7B2B] text-[10px] tracking-[0.4em] uppercase"
+          className="text-[#BE7B2B] text-[10px] tracking-[0.3em] uppercase"
           style={{ fontFamily: 'Geist, sans-serif' }}
         >
           Lapla Landscape
@@ -95,7 +95,7 @@ const ImagePage = forwardRef<HTMLDivElement, ImagePageProps>(
               {String(pageIndex).padStart(2, '0')}
             </span>
             <span className="text-stone-600 text-[10px]">·</span>
-            <span className="text-stone-300/70 text-[10px] tracking-[0.25em] uppercase">
+            <span className="text-stone-300/70 text-[10px] tracking-[0.3em] uppercase">
               {project.category}
             </span>
           </div>
@@ -118,7 +118,7 @@ const ImagePage = forwardRef<HTMLDivElement, ImagePageProps>(
           {/* text info */}
           <div className="flex flex-col justify-between px-4 py-4 flex-1 overflow-hidden">
             {/* top: category tag */}
-            <span className="inline-block text-[#48a85a] text-[9px] tracking-[0.3em] uppercase border border-[#48a85a]/30 px-2 py-0.5 self-start">
+            <span className="inline-block text-[var(--color-brand)] text-[9px] tracking-[0.3em] uppercase border border-[var(--color-brand)]/30 px-2 py-0.5 self-start">
               {project.category}
             </span>
 
@@ -171,7 +171,7 @@ const BackCoverPage = forwardRef<HTMLDivElement, BasePageProps>((_, ref) => (
     >
       LAPLA
     </span>
-    <span className="text-stone-500 text-[11px] tracking-[0.25em]">
+    <span className="text-stone-500 text-[11px] tracking-[0.3em]">
       lapla.vn
     </span>
     <div className="w-8 h-px bg-[#BE7B2B]" />
@@ -431,7 +431,7 @@ export default function ProjectFlipbook() {
             <button
               onClick={goPrev}
               aria-label="Trang trước"
-              className="w-10 h-10 rounded-full border border-stone-700 text-stone-400 hover:border-[#328442] hover:text-[#48a85a] transition-all duration-200 flex items-center justify-center text-xl leading-none"
+              className="w-10 h-10 rounded-full border border-stone-700 text-stone-400 hover:border-[var(--color-brand)] hover:text-[var(--color-brand)] transition-all duration-200 flex items-center justify-center text-xl leading-none"
             >
               ‹
             </button>
@@ -441,7 +441,7 @@ export default function ProjectFlipbook() {
                 <span
                   key={i}
                   className={`block h-1 rounded-full transition-all duration-300 ${
-                    i === activeSpread ? 'w-5 bg-[#328442]' : 'w-1.5 bg-stone-700'
+                    i === activeSpread ? 'w-5 bg-[var(--color-brand)]' : 'w-1.5 bg-stone-700'
                   }`}
                 />
               ))}
@@ -450,7 +450,7 @@ export default function ProjectFlipbook() {
             <button
               onClick={goNext}
               aria-label="Trang sau"
-              className="w-10 h-10 rounded-full border border-stone-700 text-stone-400 hover:border-[#328442] hover:text-[#48a85a] transition-all duration-200 flex items-center justify-center text-xl leading-none"
+              className="w-10 h-10 rounded-full border border-stone-700 text-stone-400 hover:border-[var(--color-brand)] hover:text-[var(--color-brand)] transition-all duration-200 flex items-center justify-center text-xl leading-none"
             >
               ›
             </button>
@@ -486,7 +486,7 @@ export default function ProjectFlipbook() {
                   <span className="text-[#BE7B2B] font-mono text-[10px]">
                     {String(i + 1).padStart(2, '0')}
                   </span>
-                  <span className="text-[#48a85a] text-[10px] tracking-widest uppercase">
+                  <span className="text-[var(--color-brand)] text-[10px] tracking-widest uppercase">
                     {project.category}
                   </span>
                 </div>

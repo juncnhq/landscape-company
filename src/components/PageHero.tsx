@@ -75,7 +75,7 @@ export default function PageHero({ eyebrow, title, description, breadcrumbs, bgI
 
         {/* Eyebrow */}
         <p
-          className="text-xs font-bold uppercase tracking-[0.28em] mb-4 flex items-center gap-2.5"
+          className="text-xs font-bold uppercase tracking-[0.3em] mb-4 flex items-center gap-2.5"
           style={{ color: 'var(--color-accent)' }}
         >
           <span className="inline-block w-8 h-px shrink-0" style={{ backgroundColor: 'var(--color-accent)' }} />

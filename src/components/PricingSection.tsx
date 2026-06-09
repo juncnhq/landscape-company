@@ -127,7 +127,7 @@ export default function PricingSection() {
 
         {/* Header */}
         <div className="text-center mb-10">
-          <p className="text-xs font-black uppercase tracking-[0.25em] mb-3" style={{ color: 'var(--color-brand)' }}>
+          <p className="text-xs font-black uppercase tracking-[0.3em] mb-3" style={{ color: 'var(--color-brand)' }}>
             {isVi ? 'Bảng giá dịch vụ' : 'OUR PRICING'}
           </p>
           <h2 className="font-bold mb-6" style={{ fontSize: 'clamp(1.8rem, 3.5vw, 2.8rem)', color: '#0e2208', letterSpacing: '-0.02em' }}>

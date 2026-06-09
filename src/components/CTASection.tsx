@@ -33,7 +33,7 @@ export default function CTASection() {
           }}
         />
         <ScrollReveal className="relative z-10">
-          <p className="text-xs font-bold uppercase tracking-[0.32em] mb-5" style={{ color: 'var(--color-brand)' }}>
+          <p className="text-xs font-bold uppercase tracking-[0.3em] mb-5" style={{ color: 'var(--color-brand)' }}>
             {isVi ? 'Bắt đầu hành trình' : 'Start Your Journey'}
           </p>
           <h2

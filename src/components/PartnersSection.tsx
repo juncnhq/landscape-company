@@ -1,10 +1,18 @@
 'use client';
 import { useLocale } from 'next-intl';
 import { motion, useInView, AnimatePresence } from 'framer-motion';
-import { useRef, useState } from 'react';
-import { partners } from '@/lib/data';
+import { useRef, useState, useEffect } from 'react';
 
-type Partner = typeof partners[number];
+type Partner = {
+  id: string; name: string; logo: string; images: string[];
+  sectorVi: string; sectorEn: string;
+  descVi: string; descEn: string;
+  founded: number; hq: string;
+  statLabelVi: string; statLabelEn: string; statValue: string;
+  projectsVi: string[]; projectsEn: string[];
+  highlightVi: string; highlightEn: string;
+  published: boolean;
+};
 
 /* ── Modal ── */
 function PartnerModal({ partner, onClose, isVi }: { partner: Partner; onClose: () => void; isVi: boolean }) {
@@ -31,7 +39,7 @@ function PartnerModal({ partner, onClose, isVi }: { partner: Partner; onClose: (
           <button onClick={onClose} className="absolute top-5 right-5 w-9 h-9 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 transition-colors text-white" aria-label="Đóng">
             <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
           </button>
-          <span className="inline-block text-[10px] font-bold tracking-widest uppercase text-[#48a85a] bg-[#328442]/20 px-3 py-1 rounded-full border border-[#328442]/30 mb-3">
+          <span className="inline-block text-[10px] font-bold tracking-widest uppercase text-[var(--color-brand)] bg-[var(--color-brand)]/20 px-3 py-1 rounded-full border border-[var(--color-brand)]/30 mb-3">
             {isVi ? partner.sector : partner.sectorEn}
           </span>
           <h3 className="text-2xl font-bold text-white mt-1">{partner.name}</h3>
@@ -41,13 +49,13 @@ function PartnerModal({ partner, onClose, isVi }: { partner: Partner; onClose: (
         </div>
 
         <div className="px-7 py-6 space-y-5 max-h-[60vh] overflow-y-auto">
-          <div className="flex items-center gap-4 bg-[#f7faf7] rounded-2xl p-4">
+          <div className="flex items-center gap-4 bg-[var(--color-surface-base)] rounded-2xl p-4">
             <div className="flex-1">
-              <p className="text-[10px] text-[#328442] font-semibold uppercase tracking-wider">{statLabel}</p>
-              <p className="text-xl font-bold text-gray-900 mt-0.5">{partner.statValue}</p>
+              <p className="text-[10px] text-[var(--color-brand)] font-semibold uppercase tracking-wider">{statLabel}</p>
+              <p className="text-xl font-bold text-[var(--color-text-primary)] mt-0.5">{partner.statValue}</p>
             </div>
-            <div className="w-10 h-10 rounded-full bg-[#328442]/10 flex items-center justify-center">
-              <svg className="w-5 h-5 text-[#328442]" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" /></svg>
+            <div className="w-10 h-10 rounded-full bg-[var(--color-brand)]/10 flex items-center justify-center">
+              <svg className="w-5 h-5 text-[var(--color-brand)]" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" /></svg>
             </div>
           </div>
           <div>
@@ -60,7 +68,7 @@ function PartnerModal({ partner, onClose, isVi }: { partner: Partner; onClose: (
               <ul className="space-y-2">
                 {projects.map((p, i) => (
                   <li key={i} className="flex items-start gap-2 text-sm text-gray-600">
-                    <span className="mt-2 w-1.5 h-1.5 rounded-full bg-[#328442] flex-shrink-0" />{p}
+                    <span className="mt-2 w-1.5 h-1.5 rounded-full bg-[var(--color-brand)] flex-shrink-0" />{p}
                   </li>
                 ))}
               </ul>
@@ -74,7 +82,7 @@ function PartnerModal({ partner, onClose, isVi }: { partner: Partner; onClose: (
           )}
         </div>
         <div className="px-7 py-4 border-t border-gray-100 flex items-center gap-2 bg-gray-50/50">
-          <div className="w-2 h-2 rounded-full bg-[#328442]" />
+          <div className="w-2 h-2 rounded-full bg-[var(--color-brand)]" />
           <span className="text-xs text-gray-400">{isVi ? 'Đối tác chiến lược của Lapla' : 'Strategic partner of Lapla'}</span>
         </div>
       </motion.div>
@@ -109,9 +117,9 @@ function MarqueeRow({
           <button
             key={`${partner.name}-${i}`}
             onClick={() => onSelect(partner)}
-            className="group shrink-0 flex items-center gap-3 px-5 py-3 rounded-full border border-gray-200 bg-white hover:bg-[#328442] hover:border-[#328442] transition-all duration-300 cursor-pointer shadow-sm"
+            className="group shrink-0 flex items-center gap-3 px-5 py-3 rounded-full border border-gray-200 bg-white hover:bg-[var(--color-brand)] hover:border-[var(--color-brand)] transition-all duration-300 cursor-pointer shadow-sm"
           >
-            <span className="w-1.5 h-1.5 rounded-full bg-[#328442] group-hover:bg-white shrink-0 transition-colors" />
+            <span className="w-1.5 h-1.5 rounded-full bg-[var(--color-brand)] group-hover:bg-white shrink-0 transition-colors" />
             <span className="text-gray-700 group-hover:text-white font-medium text-sm whitespace-nowrap transition-colors">
               {partner.name}
             </span>
@@ -132,13 +140,21 @@ export default function PartnersSection() {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: '-100px' });
   const [selected, setSelected] = useState<Partner | null>(null);
+  const [partners, setPartners] = useState<Partner[]>([]);
+
+  useEffect(() => {
+    fetch('/api/partners')
+      .then(r => r.ok ? r.json() : [])
+      .then((data: Partner[]) => setPartners(data.filter(p => p.published)))
+      .catch(() => {});
+  }, []);
 
   const row1 = partners.slice(0, Math.ceil(partners.length / 2));
   const row2 = partners.slice(Math.ceil(partners.length / 2));
 
   return (
     <>
-      <section ref={ref} className="py-20 md:py-32 bg-[#f7faf7] overflow-hidden relative">
+      <section ref={ref} className="py-20 md:py-32 bg-[var(--color-surface-base)] overflow-hidden relative">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_0%,rgba(50,132,66,0.06)_0%,transparent_70%)] pointer-events-none" />
 
         {/* Header */}
@@ -149,14 +165,14 @@ export default function PartnersSection() {
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.7 }}
             >
-              <p className="text-[10px] tracking-[0.35em] uppercase font-semibold text-[#328442] mb-3">
+              <p className="text-[10px] tracking-[0.3em] uppercase font-semibold text-[var(--color-brand)] mb-3">
                 {isVi ? 'Đối tác' : 'Trust'}
               </p>
-              <h2 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 leading-[1.1]">
+              <h2 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-[var(--color-text-primary)] leading-[1.1]">
                 {isVi ? (
-                  <>Đối tác <span className="text-[#328442]">chiến lược</span><br />của Lapla</>
+                  <>Đối tác <span className="text-[var(--color-brand)]">chiến lược</span><br />của Lapla</>
                 ) : (
-                  <>Our <span className="text-[#328442]">strategic</span><br />partners</>
+                  <>Our <span className="text-[var(--color-brand)]">strategic</span><br />partners</>
                 )}
               </h2>
             </motion.div>
@@ -168,7 +184,7 @@ export default function PartnersSection() {
               className="flex flex-col items-start md:items-end gap-3"
             >
               <div className="flex items-center gap-2">
-                <span className="text-3xl font-bold text-gray-900">{partners.length}+</span>
+                <span className="text-3xl font-bold text-[var(--color-text-primary)]">{partners.length}+</span>
                 <span className="text-gray-400 text-sm leading-tight max-w-[80px]">
                   {isVi ? 'Đối tác tin tưởng' : 'Trusted partners'}
                 </span>

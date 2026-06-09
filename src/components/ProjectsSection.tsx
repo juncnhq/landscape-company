@@ -117,7 +117,7 @@ export default function ProjectsSection() {
                     {/* Category badge */}
                     <div
                       className="absolute top-3 left-3 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider"
-                      style={{ backgroundColor: 'var(--color-accent)', color: '#111', borderRadius: '6px' }}
+                      style={{ backgroundColor: 'var(--color-accent)', color: 'var(--color-text-primary)', borderRadius: '6px' }}
                     >
                       {p.category}
                     </div>

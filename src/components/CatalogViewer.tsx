@@ -44,7 +44,7 @@ export default function CatalogViewer({ locale }: Props) {
   if (loading) return (
     <div className="w-full h-full flex flex-col items-center justify-center gap-4 bg-[#07130a]">
       <div className="w-8 h-8 border-2 border-green-600 border-t-transparent rounded-full animate-spin" />
-      <p className="text-[10px] tracking-[0.25em] text-gray-500 uppercase">Loading catalog…</p>
+      <p className="text-[10px] tracking-[0.3em] text-gray-500 uppercase">Loading catalog…</p>
     </div>
   );
 
@@ -142,15 +142,15 @@ function CoverPage({ isVi, locale, total }: { isVi: boolean; locale: string; tot
         {/* Top: logo + year */}
         <div className="flex items-start justify-between">
           <div>
-            <p className="text-[10px] font-bold tracking-[0.4em] text-[#c7dc49] uppercase mb-1">LAPLA</p>
-            <p className="text-[9px] tracking-[0.25em] text-white/40 uppercase">Lawn &amp; Landscaping</p>
+            <p className="text-[10px] font-bold tracking-[0.3em] text-[#c7dc49] uppercase mb-1">LAPLA</p>
+            <p className="text-[9px] tracking-[0.3em] text-white/40 uppercase">Lawn &amp; Landscaping</p>
           </div>
           <p className="text-[9px] tracking-[0.2em] text-white/30 uppercase">2025</p>
         </div>
 
         {/* Center: title */}
         <div>
-          <p className="text-[9px] font-bold tracking-[0.4em] text-[#c7dc49] uppercase mb-4">
+          <p className="text-[9px] font-bold tracking-[0.3em] text-[#c7dc49] uppercase mb-4">
             {isVi ? 'Danh mục dự án' : 'Project Catalog'}
           </p>
           <h1 className="font-display font-black leading-none text-white mb-6" style={{ fontSize: 'clamp(2.4rem, 6vw, 5rem)', letterSpacing: '-0.02em' }}>
@@ -196,7 +196,7 @@ function ProjectPage({ p, isVi, locale, pageNum, total }: { p: Project; isVi: bo
         <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(7,19,10,0.85) 0%, transparent 50%)' }} />
         {/* Category badge */}
         <div className="absolute top-5 left-5">
-          <span className="text-[9px] font-bold uppercase tracking-widest px-3 py-1.5" style={{ backgroundColor: '#c7dc49', color: '#111', borderRadius: 6 }}>
+          <span className="text-[9px] font-bold uppercase tracking-widest px-3 py-1.5" style={{ backgroundColor: '#c7dc49', color: 'var(--color-text-primary)', borderRadius: 6 }}>
             {p.category}
           </span>
         </div>
@@ -210,7 +210,7 @@ function ProjectPage({ p, isVi, locale, pageNum, total }: { p: Project; isVi: bo
       <div className="flex flex-col bg-[#0c1e0f] p-7 md:p-9 overflow-y-auto">
         {/* Project title */}
         <div className="mb-6">
-          <p className="text-[9px] font-bold tracking-[0.35em] text-[#c7dc49] uppercase mb-2">{p.category}</p>
+          <p className="text-[9px] font-bold tracking-[0.3em] text-[#c7dc49] uppercase mb-2">{p.category}</p>
           <h2 className="font-display font-black leading-tight text-white mb-1" style={{ fontSize: 'clamp(1.3rem, 3vw, 2rem)' }}>
             {isVi ? p.title : p.titleEn}
           </h2>
@@ -274,7 +274,7 @@ function BackCoverPage({ isVi, locale }: { isVi: boolean; locale: string }) {
         <div className="absolute inset-0" style={{ backgroundColor: 'rgba(7,19,10,0.88)' }} />
       </div>
       <div className="relative z-10 text-center px-10">
-        <p className="text-[9px] font-bold tracking-[0.5em] text-[#c7dc49] uppercase mb-6">LAPLA</p>
+        <p className="text-[9px] font-bold tracking-[0.3em] text-[#c7dc49] uppercase mb-6">LAPLA</p>
         <h2 className="font-display font-black text-white mb-4" style={{ fontSize: 'clamp(1.8rem, 5vw, 3.5rem)' }}>
           {isVi ? 'Hãy cùng tạo nên\nmột tác phẩm xanh' : 'Let\'s Create\nSomething Green'}
         </h2>
@@ -286,7 +286,7 @@ function BackCoverPage({ isVi, locale }: { isVi: boolean; locale: string }) {
         <Link
           href={`/${locale}#contact`}
           className="inline-flex items-center gap-2 text-xs font-black uppercase tracking-widest transition-all hover:opacity-90 px-7 py-3.5"
-          style={{ backgroundColor: '#c7dc49', color: '#111', borderRadius: 8 }}
+          style={{ backgroundColor: '#c7dc49', color: 'var(--color-text-primary)', borderRadius: 8 }}
         >
           {isVi ? 'Yêu cầu báo giá' : 'Request A Quote'}
           <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24">

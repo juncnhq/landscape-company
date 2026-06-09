@@ -54,7 +54,7 @@ export default function ImageLightbox({ images, index, alt, onClose, onPrev, onN
         </button>
 
         {/* Counter */}
-        <div className="absolute top-5 left-1/2 -translate-x-1/2 text-white/50 text-[11px] tracking-[0.25em] uppercase">
+        <div className="absolute top-5 left-1/2 -translate-x-1/2 text-white/50 text-[11px] tracking-[0.3em] uppercase">
           {String(index + 1).padStart(2, '0')} / {String(images.length).padStart(2, '0')}
         </div>
 

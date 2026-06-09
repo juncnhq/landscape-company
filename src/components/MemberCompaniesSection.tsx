@@ -1,11 +1,14 @@
 'use client';
 import { useLocale } from 'next-intl';
 import { AnimatePresence } from 'framer-motion';
-import { useState } from 'react';
-import { memberCompanies } from '@/lib/data';
+import { useState, useEffect } from 'react';
 import ScrollReveal from './ScrollReveal';
 
-type Member = typeof memberCompanies[number];
+type Member = {
+  id: string; abbr: string; name: string; tagline: string;
+  descVi: string; descEn: string; accent: string;
+  images: string[]; published: boolean;
+};
 
 /* ── Modal ── */
 function MemberModal({ member, onClose, isVi }: { member: Member; onClose: () => void; isVi: boolean }) {
@@ -63,7 +66,17 @@ export default function MemberCompaniesSection() {
   const locale = useLocale();
   const isVi = locale === 'vi';
   const [selected, setSelected] = useState<Member | null>(null);
+  const [memberCompanies, setMemberCompanies] = useState<Member[]>([]);
+
+  useEffect(() => {
+    fetch('/api/member-companies')
+      .then(r => r.ok ? r.json() : [])
+      .then((data: Member[]) => setMemberCompanies(data.filter(m => m.published)))
+      .catch(() => {});
+  }, []);
+
   const [featured, ...rest] = memberCompanies;
+  if (!featured) return null;
 
   return (
     <>

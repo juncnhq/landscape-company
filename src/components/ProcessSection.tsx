@@ -100,7 +100,7 @@ export default function ProcessSection() {
                 />
 
                 <p
-                  className="text-[10px] uppercase tracking-[0.25em] font-bold mb-2 transition-colors duration-300"
+                  className="text-[10px] uppercase tracking-[0.3em] font-bold mb-2 transition-colors duration-300"
                   style={{ color: 'var(--color-brand)' }}
                 >
                   {isVi ? `Bước ${step.num}` : `Step ${step.num}`}

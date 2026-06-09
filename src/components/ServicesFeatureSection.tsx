@@ -116,7 +116,7 @@ export default function ServicesFeatureSection() {
                     {f.icon}
                   </div>
                   <div>
-                    <p className="font-bold text-sm mb-0.5" style={{ color: '#111' }}>
+                    <p className="font-bold text-sm mb-0.5" style={{ color: 'var(--color-text-primary)' }}>
                       {isVi ? f.vi.title : f.en.title}
                     </p>
                     <p className="text-sm leading-relaxed" style={{ color: 'var(--color-text-secondary)' }}>
