@@ -4,6 +4,7 @@ import HeroSection from '@/components/HeroSection';
 import AboutSection from '@/components/AboutSection';
 import ValuesSection from '@/components/ValuesSection';
 import OurServicesSection from '@/components/OurServicesSection';
+import ServicesFeatureSection from '@/components/ServicesFeatureSection';
 import BenefitsSection from '@/components/BenefitsSection';
 import ProcessSection from '@/components/ProcessSection';
 import ProjectsSection from '@/components/ProjectsSection';
@@ -32,6 +33,7 @@ export default async function HomePage({
       <AboutSection />
       <ValuesSection />
       <OurServicesSection />
+      <ServicesFeatureSection />
       <BenefitsSection />
       <ProcessSection />
       <TeamSection />

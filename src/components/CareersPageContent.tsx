@@ -64,6 +64,7 @@ const POSITIONS = [
 ];
 
 const GOOGLE_FORM = 'https://forms.gle/PnYikWTgC9A1DwFy6';
+const GOOGLE_FORM_EMBED = 'https://docs.google.com/forms/d/e/1FAIpQLSfxCAwQDWr4Sp8fsIsc-wfNIdg7hEX7LfulWl7Qchr1QlhOpw/viewform?embedded=true';
 const MAPS_EMBED =
   'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3835.836369!2d108.2441229!3d15.9959172!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x314211621b2b61a1%3A0x3eccf87e6b972b36!2zQ8O0bmcgdHkgVE5ISCBIb2EgdsOgIEjGoW4gVGjhur8gTuG7rWE!5e0!3m2!1sen!2svn!4v1710000000000!5m2!1sen!2svn';
 
@@ -270,10 +271,10 @@ export default function CareersPageContent() {
             className="rounded-2xl overflow-hidden border border-gray-100 shadow-sm"
           >
             <iframe
-              src={GOOGLE_FORM}
+              src={GOOGLE_FORM_EMBED}
               title="Lapla Careers Application Form"
               className="w-full"
-              style={{ height: '820px', border: 'none' }}
+              style={{ height: '900px', border: 'none' }}
               loading="lazy"
             />
           </motion.div>

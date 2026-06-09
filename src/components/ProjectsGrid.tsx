@@ -10,7 +10,14 @@ type Project = {
   category: string; location: string; image: string; year: string;
 };
 
-const categories = ['All', 'Golf', 'Resort', 'Urban', 'Construction', 'Artwork'];
+const categories: { key: string; labelVi: string; labelEn: string }[] = [
+  { key: 'All',          labelVi: 'Tất cả',      labelEn: 'All' },
+  { key: 'Golf',         labelVi: 'Sân Golf',    labelEn: 'Golf' },
+  { key: 'Resort',       labelVi: 'Resort',      labelEn: 'Resort' },
+  { key: 'Urban',        labelVi: 'Đô thị',      labelEn: 'Urban' },
+  { key: 'Construction', labelVi: 'Xây dựng',    labelEn: 'Construction' },
+  { key: 'Artwork',      labelVi: 'Nghệ thuật',  labelEn: 'And More' },
+];
 
 export default function ProjectsGrid() {
   const locale = useLocale();
@@ -22,7 +29,7 @@ export default function ProjectsGrid() {
   useEffect(() => {
     const params = new URLSearchParams();
     params.set('published', 'true');
-    if (active !== 'All') params.set('category', active);
+    if (active !== 'All') params.set('category', active); // always the English key
     fetch(`/api/projects?${params}`)
       .then(r => r.ok ? r.json() : Promise.reject(r.status))
       .then(data => { setProjects(data); setLoading(false); })
@@ -36,17 +43,17 @@ export default function ProjectsGrid() {
         <div className="flex flex-wrap gap-2 mb-12">
           {categories.map(cat => (
             <button
-              key={cat}
-              onClick={() => { setActive(cat); setLoading(true); }}
+              key={cat.key}
+              onClick={() => { setActive(cat.key); setLoading(true); }}
               className="px-5 py-2.5 text-xs font-bold uppercase tracking-widest transition-all duration-200"
               style={{
-                backgroundColor: active === cat ? 'var(--color-brand)' : 'transparent',
-                color: active === cat ? '#ffffff' : 'var(--color-text-secondary)',
-                border: `1px solid ${active === cat ? 'var(--color-brand)' : 'rgba(0,0,0,0.12)'}`,
+                backgroundColor: active === cat.key ? 'var(--color-brand)' : 'transparent',
+                color: active === cat.key ? '#ffffff' : 'var(--color-text-secondary)',
+                border: `1px solid ${active === cat.key ? 'var(--color-brand)' : 'rgba(0,0,0,0.12)'}`,
                 borderRadius: 'var(--radius-md)',
               }}
             >
-              {cat}
+              {isVi ? cat.labelVi : cat.labelEn}
             </button>
           ))}
         </div>

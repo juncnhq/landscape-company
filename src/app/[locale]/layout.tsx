@@ -5,6 +5,7 @@ import { getMessages, setRequestLocale } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { routing } from '@/i18n/routing';
 import BackToTop from '@/components/BackToTop';
+import SmoothScroll from '@/components/SmoothScroll';
 import '../globals.css';
 
 /* Bricolage Grotesque — heading font (same as Leafix) */
@@ -57,8 +58,10 @@ export default async function LocaleLayout({
     <html lang={locale}>
       <body className={`${bricolage.variable} ${publicSans.variable} ${beVietnamPro.variable}`}>
         <NextIntlClientProvider messages={messages}>
-          {children}
-          <BackToTop />
+          <SmoothScroll>
+            {children}
+            <BackToTop />
+          </SmoothScroll>
         </NextIntlClientProvider>
       </body>
     </html>

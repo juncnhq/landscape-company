@@ -45,6 +45,36 @@ export const SERVICES: (DbService & { order: number })[] = [
     bulletsEn: ['Regular Trimming','Fertilizing & Irrigation','Pest Control','Plant Replacement','Landscape Cleaning'],
     images: ['https://res.cloudinary.com/dg9khx2s7/image/upload/v1780671439/nhmwwlfahgea7q8quyvr.jpg'],
   },
+  {
+    id: 'golf-resort', slug: 'golf-resort', icon: '⛳', order: 4,
+    titleVi: 'Cảnh Quan Sân Golf & Resort', titleEn: 'Golf Course & Resort Landscaping',
+    subtitleVi: 'Đẳng cấp quốc tế', subtitleEn: 'International standard',
+    descVi: 'Lapla có kinh nghiệm phong phú trong thiết kế và thi công cảnh quan cho các sân golf và resort 5 sao hàng đầu Việt Nam — kết hợp giữa thẩm mỹ cao cấp và tính bền vững sinh thái.',
+    descEn: 'Lapla has extensive experience designing and constructing landscapes for Vietnam\'s leading golf courses and 5-star resorts — combining premium aesthetics with ecological sustainability.',
+    bulletsVi: ['Cảnh quan fairway & rough','Hồ nước & tiểu cảnh','Khu vực clubhouse','Khu nghỉ dưỡng bungalow','Đường dạo & cây bóng mát','Hệ thống tưới tự động'],
+    bulletsEn: ['Fairway & Rough Landscaping','Water Features & Ponds','Clubhouse Surroundings','Bungalow Resort Areas','Walkways & Shade Trees','Automated Irrigation Systems'],
+    images: ['https://res.cloudinary.com/dg9khx2s7/image/upload/v1780671447/dq8l14ajn2y7kxdku0nb.png'],
+  },
+  {
+    id: 'urban', slug: 'urban', icon: '🏙️', order: 5,
+    titleVi: 'Cảnh Quan Đô Thị & Công Cộng', titleEn: 'Urban & Public Landscaping',
+    subtitleVi: 'Kiến tạo không gian sống cộng đồng', subtitleEn: 'Building community living spaces',
+    descVi: 'Chúng tôi cung cấp giải pháp cảnh quan cho các khu đô thị, khu dân cư, công viên và không gian công cộng — giúp nâng cao chất lượng sống và tạo bản sắc cho cộng đồng.',
+    descEn: 'We deliver landscaping solutions for urban developments, residential complexes, parks and public spaces — improving quality of life and creating community identity.',
+    bulletsVi: ['Công viên & vườn hoa','Đường phố & dải phân cách','Sân chơi trẻ em','Quảng trường đô thị','Mảng xanh khu dân cư','Tường cây & vườn đứng'],
+    bulletsEn: ['Parks & Gardens','Streets & Medians','Children\'s Play Areas','Urban Plazas','Residential Green Zones','Green Walls & Vertical Gardens'],
+    images: ['https://res.cloudinary.com/dg9khx2s7/image/upload/v1780671436/g1bzoz3cahba47gm9h6h.png'],
+  },
+  {
+    id: 'indoor', slug: 'indoor', icon: '🪴', order: 6,
+    titleVi: 'Cây Xanh Nội Thất & Tường Cây', titleEn: 'Interior Plants & Green Walls',
+    subtitleVi: 'Không gian xanh trong nhà', subtitleEn: 'Bringing nature indoors',
+    descVi: 'Giải pháp cây xanh nội thất cho văn phòng, khách sạn, trung tâm thương mại và nhà ở cao cấp — từ chậu cây trang trí đến hệ thống tường cây sinh thái độc đáo.',
+    descEn: 'Interior plant solutions for offices, hotels, shopping centers and premium residences — from decorative planters to unique eco-system green wall installations.',
+    bulletsVi: ['Thiết kế tường cây sinh thái','Cây cảnh văn phòng & khách sạn','Hệ thống tưới tự động nội thất','Bảo dưỡng cây nội thất','Vườn ban công & sân thượng','Tiểu cảnh & hòn non bộ'],
+    bulletsEn: ['Eco Green Wall Design','Office & Hotel Plants','Indoor Auto-Irrigation','Interior Plant Maintenance','Balcony & Rooftop Gardens','Miniature Landscapes & Bonsai'],
+    images: ['https://res.cloudinary.com/dg9khx2s7/image/upload/v1780671226/z2ljjartk4vgpbvanae2.png'],
+  },
 ];
 
 function ServiceCard({ service, index, locale, contactHref }: {

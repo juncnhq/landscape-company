@@ -2,197 +2,191 @@
 import { useLocale } from 'next-intl';
 import { useState } from 'react';
 import Image from 'next/image';
-import ScrollReveal from './ScrollReveal';
 
 const testimonials = [
   {
-    quoteVi: 'Sự tận tâm của Lapla trong việc hiện thực hóa tầm nhìn của chúng tôi thật đặc biệt. Họ biến khu vườn bình thường thành một ốc đảo yên tĩnh tuyệt vời. Sự chú ý đến từng chi tiết và phương pháp bền vững thực sự gây ấn tượng.',
-    quoteEn: "Lapla's dedication to bringing our vision to life was exceptional. They transformed our space into a stunning haven of tranquility. Their attention to detail and sustainable practices impressed us greatly.",
+    quoteVi: 'Họ cải tạo bãi cỏ của chúng tôi thật tuyệt vời. Lớp cỏ nhân tạo trông tươi mới, đều và rất chuyên nghiệp. Đội ngũ làm việc tận tâm và luôn cập nhật tiến độ cho chúng tôi. Chúng tôi rất hài lòng với kết quả cuối cùng.',
+    quoteEn: 'They improved our lawn beautifully. The turfing looks fresh, even, and very professionally done. The team worked with care and kept us updated throughout the process. We\'re really happy with the final result.',
     authorVi: 'Nguyễn Minh Tuấn',
-    authorEn: 'Steve Evans',
-    roleVi: 'CEO, Tập đoàn Hưng Thịnh',
-    roleEn: 'CEO, Helsy Company',
+    authorEn: 'Leslie Alexander',
+    roleVi: 'Giám đốc dự án cấp cao',
+    roleEn: 'Senior Project Manager',
     image: 'https://res.cloudinary.com/dg9khx2s7/image/upload/v1780671436/g1bzoz3cahba47gm9h6h.png',
     rating: 5,
   },
   {
-    quoteVi: 'Chúng tôi rất hài lòng với kết quả cuối cùng. Đội ngũ Lapla làm việc chuyên nghiệp, đúng tiến độ và luôn lắng nghe ý kiến trong suốt quá trình thi công.',
-    quoteEn: 'We are very satisfied with the final result. The Lapla team worked professionally, on schedule and always listened to our feedback throughout the construction process.',
+    quoteVi: 'Họ cải tạo bãi cỏ của chúng tôi thật tuyệt vời. Lớp cỏ nhân tạo trông tươi mới, đều và rất chuyên nghiệp. Đội ngũ làm việc tận tâm và luôn cập nhật tiến độ cho chúng tôi. Chúng tôi rất hài lòng với kết quả cuối cùng.',
+    quoteEn: 'They improved our lawn beautifully. The turfing looks fresh, even, and very professionally done. The team worked with care and kept us updated throughout the process. We\'re really happy with the final result.',
     authorVi: 'Trần Thu Hà',
-    authorEn: 'Tran Thu Ha',
-    roleVi: 'Giám đốc, Vingroup',
-    roleEn: 'Director, Vingroup',
+    authorEn: 'Jenny Wilson',
+    roleVi: 'Giám đốc dự án cấp cao',
+    roleEn: 'Senior Project Manager',
     image: 'https://res.cloudinary.com/dg9khx2s7/image/upload/v1780671255/hkzptty2mrrdqgcjnvbv.jpg',
     rating: 5,
   },
   {
-    quoteVi: 'Khu vườn mà Lapla thiết kế cho khu nghỉ dưỡng đã trở thành điểm nhấn được khách hàng yêu thích nhất. Chuyên nghiệp từ thiết kế đến thi công và bàn giao.',
-    quoteEn: 'The garden Lapla designed for our resort has become the most beloved highlight for guests. Professional from design through construction to handover.',
+    quoteVi: 'Họ cải tạo bãi cỏ của chúng tôi thật tuyệt vời. Lớp cỏ nhân tạo trông tươi mới, đều và rất chuyên nghiệp. Đội ngũ làm việc tận tâm và luôn cập nhật tiến độ cho chúng tôi. Chúng tôi rất hài lòng với kết quả cuối cùng.',
+    quoteEn: 'They improved our lawn beautifully. The turfing looks fresh, even, and very professionally done. The team worked with care and kept us updated throughout the process. We\'re really happy with the final result.',
     authorVi: 'Lê Hoàng Nam',
-    authorEn: 'Le Hoang Nam',
-    roleVi: 'Chủ đầu tư, Fusion Resort',
-    roleEn: 'Investor, Fusion Resort',
+    authorEn: 'Guy Hawkins',
+    roleVi: 'Giám đốc dự án cấp cao',
+    roleEn: 'Senior Project Manager',
     image: 'https://res.cloudinary.com/dg9khx2s7/image/upload/v1780671439/nhmwwlfahgea7q8quyvr.jpg',
+    rating: 5,
+  },
+  {
+    quoteVi: 'Họ cải tạo bãi cỏ của chúng tôi thật tuyệt vời. Lớp cỏ nhân tạo trông tươi mới, đều và rất chuyên nghiệp. Đội ngũ làm việc tận tâm và luôn cập nhật tiến độ cho chúng tôi. Chúng tôi rất hài lòng với kết quả cuối cùng.',
+    quoteEn: 'They improved our lawn beautifully. The turfing looks fresh, even, and very professionally done. The team worked with care and kept us updated throughout the process. We\'re really happy with the final result.',
+    authorVi: 'Vũ Thanh Tùng',
+    authorEn: 'Emily Carter',
+    roleVi: 'Giám đốc dự án cấp cao',
+    roleEn: 'Senior Project Manager',
+    image: 'https://res.cloudinary.com/dg9khx2s7/image/upload/v1780671447/dq8l14ajn2y7kxdku0nb.png',
     rating: 5,
   },
 ];
 
-const galleryImages = [
-  'https://res.cloudinary.com/dg9khx2s7/image/upload/v1780671447/dq8l14ajn2y7kxdku0nb.png',
-  'https://res.cloudinary.com/dg9khx2s7/image/upload/v1780671226/z2ljjartk4vgpbvanae2.png',
-];
+/* Quote mark SVG */
+function QuoteMark() {
+  return (
+    <svg width="40" height="32" viewBox="0 0 40 32" fill="none" opacity="0.15">
+      <path d="M0 32V18.667C0 8.533 5.867 2.667 17.6 0L19.2 2.667C13.333 4.8 10.4 9.067 10.4 13.333h6.933V32H0Zm22.4 0V18.667C22.4 8.533 28.267 2.667 40 0L41.6 2.667C35.733 4.8 32.8 9.067 32.8 13.333H39.733V32H22.4Z" fill="var(--color-brand)"/>
+    </svg>
+  );
+}
 
 export default function TestimonialsSection() {
   const locale = useLocale();
   const isVi = locale === 'vi';
   const [current, setCurrent] = useState(0);
 
-  const prev = () => setCurrent((c) => (c - 1 + testimonials.length) % testimonials.length);
-  const next = () => setCurrent((c) => (c + 1) % testimonials.length);
-  const t = testimonials[current];
+  const prev = () => setCurrent((c) => Math.max(0, c - 1));
+  const next = () => setCurrent((c) => Math.min(testimonials.length - 1, c + 1));
+
+  /* visible window: show up to 3 cards, current card is index 1 if possible */
+  const getVisibleCards = () => {
+    const visible = [];
+    for (let i = 0; i < testimonials.length; i++) {
+      visible.push({ idx: i, t: testimonials[i] });
+    }
+    return visible;
+  };
 
   return (
-    <section className="leafix-section overflow-hidden" style={{ backgroundColor: 'var(--color-surface-raised)' }}>
+    <section className="leafix-section" style={{ backgroundColor: '#fff' }}>
       <div className="max-w-[1400px] mx-auto px-6 sm:px-10 lg:px-14">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
 
-          {/* LEFT: Images + rating */}
-          <ScrollReveal direction="left">
-            <div className="relative">
-              {/* Two stacked images */}
-              <div className="grid grid-cols-2 gap-3">
-                <div className="relative rounded overflow-hidden" style={{ height: '360px' }}>
-                  <Image src={galleryImages[0]} alt="Garden" fill className="object-cover" sizes="25vw" />
-                </div>
-                <div className="relative rounded overflow-hidden mt-10" style={{ height: '360px' }}>
-                  <Image src={galleryImages[1]} alt="Garden" fill className="object-cover" sizes="25vw" />
-                </div>
-              </div>
-
-              {/* Rating card */}
-              <div
-                className="absolute -bottom-6 left-6 bg-white rounded px-6 py-5"
-                style={{ boxShadow: '0 12px 40px rgba(0,0,0,0.12)' }}
-              >
-                <div className="flex items-center gap-1 mb-1">
-                  {[...Array(5)].map((_, i) => (
-                    <svg key={i} className="w-4 h-4" style={{ color: '#f59e0b' }} fill="currentColor" viewBox="0 0 20 20">
-                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                    </svg>
-                  ))}
-                </div>
-                <p className="font-display font-bold text-2xl" style={{ color: 'var(--color-brand)' }}>4.9 / 5.0</p>
-                <p className="text-xs mt-0.5 uppercase tracking-wider" style={{ color: 'var(--color-text-secondary)' }}>
-                  {isVi ? 'Từ 3k+ khách hàng' : 'From 3k+ Members'}
-                </p>
-              </div>
-            </div>
-          </ScrollReveal>
-
-          {/* RIGHT: Quote */}
-          <ScrollReveal direction="right" delay={2}>
-            <p className="text-xs tracking-[0.3em] uppercase font-bold mb-4" style={{ color: 'var(--color-brand)' }}>
-              {isVi ? 'Khách hàng nói gì' : 'Client Feedback'}
-            </p>
-            <h2
-              className="font-display font-bold leading-tight mb-8"
-              style={{ fontSize: 'clamp(1.8rem, 3.5vw, 2.8rem)', color: '#111111' }}
-            >
-              {isVi
-                ? <>Những gì khách hàng<br /><span style={{ color: 'var(--color-brand)' }}>nói về chúng tôi</span></>
-                : <>What Our Clients Say<br /><span style={{ color: 'var(--color-brand)' }}>About Our Work</span></>
-              }
-            </h2>
-
-            {/* Quote block */}
-            <div className="relative">
-              {/* Big quote mark */}
-              <div
-                className="absolute -top-4 -left-2 font-serif font-black leading-none select-none"
-                style={{ fontSize: '6rem', color: 'var(--color-brand)', opacity: 0.12 }}
-                aria-hidden
-              >
-                "
-              </div>
-
-              <div key={current} style={{ animation: 'fadeSlideUp 0.4s ease forwards' }}>
-                <p
-                  className="text-base md:text-lg leading-relaxed italic mb-8"
-                  style={{ color: 'var(--color-text-secondary)', lineHeight: '30px' }}
-                >
-                  &ldquo;{isVi ? t.quoteVi : t.quoteEn}&rdquo;
-                </p>
-
-                <div className="flex items-center gap-4">
-                  <div className="relative w-14 h-14 rounded-full overflow-hidden shrink-0">
-                    <Image src={t.image} alt={isVi ? t.authorVi : t.authorEn} fill className="object-cover" sizes="56px" />
-                  </div>
-                  <div>
-                    <p className="font-bold" style={{ color: '#111111' }}>
-                      {isVi ? t.authorVi : t.authorEn}
-                    </p>
-                    <p className="text-sm" style={{ color: 'var(--color-brand)' }}>
-                      {isVi ? t.roleVi : t.roleEn}
-                    </p>
-                  </div>
-                  <div className="flex items-center gap-1 ml-auto">
-                    {[...Array(t.rating)].map((_, i) => (
-                      <svg key={i} className="w-4 h-4" style={{ color: '#f59e0b' }} fill="currentColor" viewBox="0 0 20 20">
-                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                      </svg>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Navigation */}
-            <div className="flex items-center gap-4 mt-10">
-              <button
-                onClick={prev}
-                className="w-11 h-11 flex items-center justify-center border transition-all duration-200 hover:bg-[var(--color-accent)] hover:border-[var(--color-accent)] hover:text-[var(--color-text-primary)] group"
-                style={{ borderColor: '#d0d0d0', color: 'var(--color-text-secondary)' }}
-              >
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
-                </svg>
-              </button>
-              <button
-                onClick={next}
-                className="w-11 h-11 flex items-center justify-center transition-all duration-200 hover:opacity-90"
-                style={{ backgroundColor: 'var(--color-accent)', color: 'var(--color-text-primary)', borderRadius: '10px' }}
-              >
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-                </svg>
-              </button>
-
-              {/* Dots */}
-              <div className="flex gap-2 ml-2">
-                {testimonials.map((_, i) => (
-                  <button
-                    key={i}
-                    onClick={() => setCurrent(i)}
-                    className="transition-all duration-300"
-                    style={{
-                      width: i === current ? '28px' : '8px',
-                      height: '4px',
-                      backgroundColor: i === current ? 'var(--color-accent)' : '#d0d0d0',
-                    }}
-                  />
-                ))}
-              </div>
-            </div>
-          </ScrollReveal>
+        {/* Header — centered */}
+        <div className="text-center mb-10">
+          <p className="text-xs font-bold uppercase tracking-[0.3em] mb-3" style={{ color: 'var(--color-brand)' }}>
+            {isVi ? 'Khách hàng nói gì' : 'Testimonial'}
+          </p>
+          <h2 className="font-display font-bold" style={{ fontSize: 'clamp(1.8rem, 3.5vw, 2.8rem)', color: '#0e1a0f' }}>
+            {isVi
+              ? <>Đánh giá chân thành về các<br />dự án cải tạo vườn</>
+              : <>Sincere Evaluations of Garden<br />Renovation Initiatives</>}
+          </h2>
         </div>
-      </div>
 
-      <style>{`
-        @keyframes fadeSlideUp {
-          from { opacity: 0; transform: translateY(12px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-      `}</style>
+        {/* Slider container */}
+        <div className="relative overflow-hidden">
+          <div
+            className="flex gap-5 transition-transform duration-500 ease-in-out"
+            style={{ transform: `translateX(calc(-${current} * (calc(100% / 3 + 20px / 3))))` }}
+          >
+            {getVisibleCards().map(({ idx, t }) => (
+              <div
+                key={idx}
+                className="shrink-0"
+                style={{ width: 'calc((100% - 40px) / 3)' }}
+              >
+                <div
+                  className="h-full flex flex-col p-7"
+                  style={{
+                    border: '1px solid rgba(0,0,0,0.09)',
+                    borderRadius: 16,
+                    backgroundColor: '#fff',
+                  }}
+                >
+                  {/* Top: stars + quote mark */}
+                  <div className="flex items-start justify-between mb-5">
+                    <div className="flex gap-1">
+                      {[...Array(t.rating)].map((_, i) => (
+                        <svg key={i} width="18" height="18" viewBox="0 0 24 24" fill="#f59e0b">
+                          <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                        </svg>
+                      ))}
+                    </div>
+                    <QuoteMark />
+                  </div>
+
+                  {/* Quote text */}
+                  <p className="flex-1 leading-relaxed mb-6" style={{ color: '#444', fontSize: '0.9rem', lineHeight: '26px' }}>
+                    &ldquo;{isVi ? t.quoteVi : t.quoteEn}&rdquo;
+                  </p>
+
+                  {/* Author */}
+                  <div className="flex items-center gap-3 p-4" style={{
+                    backgroundColor: 'var(--color-surface-alt)',
+                    borderRadius: 10,
+                  }}>
+                    <div className="relative shrink-0 overflow-hidden" style={{ width: 44, height: 44, borderRadius: '50%' }}>
+                      <Image src={t.image} alt={isVi ? t.authorVi : t.authorEn} fill className="object-cover" sizes="44px" />
+                    </div>
+                    <div>
+                      <p className="font-bold text-sm" style={{ color: '#111' }}>
+                        {isVi ? t.authorVi : t.authorEn}
+                      </p>
+                      <p className="text-xs" style={{ color: 'var(--color-text-secondary)' }}>
+                        {isVi ? t.roleVi : t.roleEn}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Prev / Progress bar / Next */}
+        <div className="flex items-center gap-6 mt-10">
+          <button
+            onClick={prev}
+            disabled={current === 0}
+            className="flex items-center gap-2 text-sm font-bold transition-all duration-200 disabled:opacity-30"
+            style={{ color: '#111' }}
+          >
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+            </svg>
+            {isVi ? 'Trước' : 'Prev'}
+          </button>
+
+          {/* Progress bar */}
+          <div className="flex-1 h-0.5 overflow-hidden" style={{ backgroundColor: 'rgba(0,0,0,0.1)' }}>
+            <div
+              className="h-full transition-all duration-500"
+              style={{
+                backgroundColor: 'var(--color-brand)',
+                width: `${((current + 1) / testimonials.length) * 100}%`,
+              }}
+            />
+          </div>
+
+          <button
+            onClick={next}
+            disabled={current >= testimonials.length - 1}
+            className="flex items-center gap-2 text-sm font-bold transition-all duration-200 disabled:opacity-30"
+            style={{ color: '#111' }}
+          >
+            {isVi ? 'Tiếp' : 'Next'}
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+            </svg>
+          </button>
+        </div>
+
+      </div>
     </section>
   );
 }
