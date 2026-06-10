@@ -112,7 +112,7 @@ export default function CareersPageContent() {
             <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold text-white leading-tight mb-6">
               {t('heroTitle')}
             </h1>
-            <p className="text-gray-400 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
+            <p className="text-[var(--color-text-muted)] text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
               {t('heroSubtitle')}
             </p>
           </motion.div>
@@ -140,7 +140,7 @@ export default function CareersPageContent() {
               {t('cultureEyebrow')}
             </p>
             <h2 className="text-3xl md:text-5xl font-bold text-[var(--color-text-primary)] mb-4">{t('cultureTitle')}</h2>
-            <p className="text-gray-500 text-base md:text-lg max-w-xl mx-auto">{t('cultureSubtitle')}</p>
+            <p className="text-[var(--color-text-secondary)] text-base md:text-lg max-w-xl mx-auto">{t('cultureSubtitle')}</p>
           </motion.div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -158,7 +158,7 @@ export default function CareersPageContent() {
                   {icon}
                 </div>
                 <h3 className="font-bold text-[var(--color-text-primary)] text-lg mb-2">{t(`${tKey}Title`)}</h3>
-                <p className="text-gray-500 text-sm leading-relaxed">{t(`${tKey}Text`)}</p>
+                <p className="text-[var(--color-text-secondary)] text-sm leading-relaxed">{t(`${tKey}Text`)}</p>
               </motion.div>
             ))}
           </div>
@@ -261,7 +261,7 @@ export default function CareersPageContent() {
               {t('applyEyebrow')}
             </p>
             <h2 className="text-3xl md:text-4xl font-bold text-[var(--color-text-primary)] mb-4">{t('applyTitle')}</h2>
-            <p className="text-gray-500 text-base md:text-lg max-w-xl mx-auto">{t('applySubtitle')}</p>
+            <p className="text-[var(--color-text-secondary)] text-base md:text-lg max-w-xl mx-auto">{t('applySubtitle')}</p>
           </motion.div>
 
           <motion.div
@@ -329,18 +329,18 @@ export default function CareersPageContent() {
                 <div key={label} className="flex gap-4 items-start">
                   <span className="text-xl shrink-0 mt-0.5">{icon}</span>
                   <div>
-                    <p className="text-[10px] tracking-widest uppercase text-gray-400 font-semibold mb-0.5">
+                    <p className="text-[10px] tracking-widest uppercase text-[var(--color-text-muted)] font-semibold mb-0.5">
                       {label}
                     </p>
                     {href ? (
                       <a
                         href={href}
-                        className="text-gray-800 text-sm hover:text-green-600 transition-colors"
+                        className="text-[var(--color-text-primary)] text-sm hover:text-green-600 transition-colors"
                       >
                         {value}
                       </a>
                     ) : (
-                      <p className="text-gray-800 text-sm leading-relaxed">{value}</p>
+                      <p className="text-[var(--color-text-primary)] text-sm leading-relaxed">{value}</p>
                     )}
                   </div>
                 </div>

@@ -20,7 +20,7 @@ export default function VideoSection() {
             </p>
             <h2
               className="font-display font-bold leading-tight"
-              style={{ fontSize: 'clamp(1.8rem, 4vw, 3rem)', color: '#111111' }}
+              style={{ fontSize: 'clamp(1.8rem, 4vw, 3rem)', color: 'var(--color-text-primary)' }}
             >
               {isVi
                 ? <span>Hành trình<br />kiến tạo <span style={{ color: 'var(--color-brand)' }}>cảnh quan</span></span>

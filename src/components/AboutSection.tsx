@@ -3,6 +3,7 @@ import { useLocale } from 'next-intl';
 import Image from 'next/image';
 import Link from 'next/link';
 import ScrollReveal from './ScrollReveal';
+import AnimatedHeading from './AnimatedHeading';
 
 const STATS = [
   { value: '200+', labelVi: 'Dự án hoàn thành',    labelEn: 'Projects Completed' },
@@ -22,8 +23,16 @@ export default function AboutSection() {
     : ['Expert Landscaping Team', 'Custom Outdoor Solutions', 'Sustainable Practices', 'Trusted & Reliable Service'];
 
   return (
-    <section className="leafix-section overflow-hidden" style={{ backgroundColor: '#ffffff' }}>
-      <div className="max-w-[1400px] mx-auto px-6 sm:px-10 lg:px-14">
+    <section className="leafix-section relative" style={{ backgroundColor: '#ffffff' }}>
+      {/* Decorative potted plants — top-right, peeks out like Leafix */}
+      <img
+        src="https://res.cloudinary.com/dg9khx2s7/image/upload/v1781085045/shapes/about-shape-01.png"
+        alt=""
+        aria-hidden="true"
+        className="absolute pointer-events-none select-none"
+        style={{ top: '-10px', right: '-8px', width: '160px', opacity: 0.85, animation: 'float-bob-y 4s ease-in-out infinite', zIndex: 20 }}
+      />
+      <div className="max-w-[1400px] mx-auto px-6 sm:px-10 lg:px-14 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
 
           {/* ── LEFT: image collage ── */}
@@ -84,7 +93,7 @@ export default function AboutSection() {
                   >
                     <p
                       className="font-display font-black leading-none"
-                      style={{ fontSize: '1.75rem', color: '#111111' }}
+                      style={{ fontSize: '1.75rem', color: 'var(--color-text-primary)' }}
                     >
                       {s.value}
                     </p>
@@ -122,14 +131,12 @@ export default function AboutSection() {
                   {isVi ? 'Về chúng tôi' : 'Learn About Us'}
                 </p>
 
-                <h2
+                <AnimatedHeading
                   className="font-display font-bold leading-tight mb-4"
-                  style={{ fontSize: 'clamp(1.6rem, 2.8vw, 2.4rem)', color: '#111111' }}
+                  style={{ fontSize: 'clamp(1.6rem, 2.8vw, 2.4rem)', color: 'var(--color-text-primary)' }}
                 >
-                  {isVi
-                    ? <>Kiến tạo không gian xanh<br />truyền cảm hứng sống</>
-                    : <>Crafting Green Spaces That<br />Inspire Living</>}
-                </h2>
+                  {isVi ? 'Kiến tạo không gian xanh truyền cảm hứng sống' : 'Crafting Green Spaces That Inspire Living'}
+                </AnimatedHeading>
 
                 <p className="mb-6 leading-relaxed text-sm" style={{ color: 'var(--color-text-secondary)', lineHeight: '26px' }}>
                   {isVi
@@ -141,11 +148,8 @@ export default function AboutSection() {
                 <div className="grid grid-cols-2 gap-x-6 gap-y-3 mb-8">
                   {features.map(item => (
                     <div key={item} className="flex items-center gap-2.5">
-                      {/* Leaf icon */}
-                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-                        <path d="M12 2C6.5 2 3 7 3 12c0 4.5 3.5 8 9 8 1.5-3 1.5-6 0-9 2.5 1.5 5 4 5 8 2-1.5 4-4 4-7 0-5.5-4-10-9-10z" fill="var(--color-brand)" opacity="0.9"/>
-                      </svg>
-                      <span className="text-sm font-semibold" style={{ color: '#222222' }}>{item}</span>
+                      <img src="https://res.cloudinary.com/dg9khx2s7/image/upload/v1781085048/shapes/leaf-icon.png" alt="" aria-hidden="true" width="20" height="20" style={{ objectFit: 'contain' }} />
+                      <span className="text-sm font-semibold" style={{ color: 'var(--color-text-secondary)' }}>{item}</span>
                     </div>
                   ))}
                 </div>
@@ -156,7 +160,7 @@ export default function AboutSection() {
                   className="inline-flex items-center gap-2.5 text-sm font-black uppercase tracking-widest transition-all duration-200 hover:opacity-90"
                   style={{
                     backgroundColor: 'var(--color-accent)',
-                    color: '#111111',
+                    color: 'var(--color-text-primary)',
                     padding: '14px 32px',
                     borderRadius: '8px',
                   }}

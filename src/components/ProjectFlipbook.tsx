@@ -45,13 +45,13 @@ const CoverPage = forwardRef<HTMLDivElement, BasePageProps>((_, ref) => {
         <div className="w-8 h-px bg-[#BE7B2B]" />
         <p
           className="text-[#BE7B2B] text-[10px] tracking-[0.3em] uppercase"
-          style={{ fontFamily: 'Geist, sans-serif' }}
+          style={{ fontFamily: 'var(--font-public-sans), sans-serif' }}
         >
           Lapla Landscape
         </p>
         <h2
           className="text-white text-[1.75rem] leading-tight font-light"
-          style={{ fontFamily: 'Playfair Display, Georgia, serif' }}
+          style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}
         >
           Dự Án
           <br />
@@ -126,7 +126,7 @@ const ImagePage = forwardRef<HTMLDivElement, ImagePageProps>(
             <div>
               <h3
                 className="text-white text-[0.9rem] font-light leading-snug mb-2 line-clamp-3"
-                style={{ fontFamily: 'Playfair Display, Georgia, serif' }}
+                style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}
               >
                 {project.title}
               </h3>
@@ -167,7 +167,7 @@ const BackCoverPage = forwardRef<HTMLDivElement, BasePageProps>((_, ref) => (
     <div className="w-8 h-px bg-[#BE7B2B]" />
     <span
       className="text-white text-2xl font-light tracking-[0.3em]"
-      style={{ fontFamily: 'Playfair Display, Georgia, serif' }}
+      style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}
     >
       LAPLA
     </span>

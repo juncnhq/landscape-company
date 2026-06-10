@@ -38,7 +38,7 @@ export default function CTASection() {
           </p>
           <h2
             className="font-display font-bold mb-5 mx-auto"
-            style={{ fontSize: 'clamp(2.2rem, 5vw, 4rem)', color: '#111111', lineHeight: 1.1, maxWidth: '780px' }}
+            style={{ fontSize: 'clamp(2.2rem, 5vw, 4rem)', color: 'var(--color-text-primary)', lineHeight: 1.1, maxWidth: '780px' }}
           >
             {isVi
               ? 'Hãy Cùng Tạo Ra Điều Gì Đó Xanh'
@@ -89,8 +89,8 @@ export default function CTASection() {
               </p>
               <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold text-white leading-tight mb-5">
                 {isVi
-                  ? <>Yêu cầu báo giá<br /><span style={{ color: '#c7dc49' }}>cảnh quan</span> miễn phí</>
-                  : <>Request a Free<br /><span style={{ color: '#c7dc49' }}>Landscaping</span> Estimate</>
+                  ? <>Yêu cầu báo giá<br /><span style={{ color: 'var(--color-accent)' }}>cảnh quan</span> miễn phí</>
+                  : <>Request a Free<br /><span style={{ color: 'var(--color-accent)' }}>Landscaping</span> Estimate</>
                 }
               </h2>
               <p className="text-base leading-relaxed mb-10" style={{ color: 'rgba(255,255,255,0.82)', lineHeight: '26px' }}>
@@ -134,7 +134,7 @@ export default function CTASection() {
                   <div key={item.label} className="flex items-start gap-4">
                     <div
                       className="w-12 h-12 rounded flex items-center justify-center shrink-0"
-                      style={{ backgroundColor: 'rgba(130,180,64,0.15)', color: '#c7dc49' }}
+                      style={{ backgroundColor: 'rgba(130,180,64,0.15)', color: 'var(--color-accent)' }}
                     >
                       {item.icon}
                     </div>
@@ -154,7 +154,7 @@ export default function CTASection() {
             {/* RIGHT: Form */}
             <ScrollReveal direction="right" delay={2}>
               <div id="contact-form" className="bg-white rounded p-6 md:p-8" style={{ boxShadow: '0 24px 60px rgba(0,0,0,0.35)' }}>
-              <h3 className="font-display text-xl font-bold mb-1" style={{ color: '#111111' }}>
+              <h3 className="font-display text-xl font-bold mb-1" style={{ color: 'var(--color-text-primary)' }}>
                 {isVi ? 'Đặt tư vấn miễn phí' : 'Book A Free Consultation'}
               </h3>
               <p className="text-sm mb-6" style={{ color: 'var(--color-text-secondary)' }}>
@@ -168,7 +168,7 @@ export default function CTASection() {
                       <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
                     </svg>
                   </div>
-                  <p className="font-bold text-lg" style={{ color: '#111111' }}>
+                  <p className="font-bold text-lg" style={{ color: 'var(--color-text-primary)' }}>
                     {isVi ? 'Đã gửi thành công!' : 'Message sent!'}
                   </p>
                   <p className="text-sm mt-1" style={{ color: 'var(--color-text-secondary)' }}>
@@ -186,7 +186,7 @@ export default function CTASection() {
                         type="text" required value={form.firstName}
                         onChange={e => setForm(f => ({ ...f, firstName: e.target.value }))}
                         className="w-full px-3 py-2.5 text-sm border outline-none transition-colors duration-200"
-                        style={{ borderColor: '#d0d0d0', color: '#111111' }}
+                        style={{ borderColor: '#d0d0d0', color: 'var(--color-text-primary)' }}
                         placeholder={isVi ? 'Họ' : 'First name'}
                         onFocus={e => (e.currentTarget.style.borderColor = 'var(--color-accent)')}
                         onBlur={e => (e.currentTarget.style.borderColor = '#d0d0d0')}
@@ -200,7 +200,7 @@ export default function CTASection() {
                         type="text" required value={form.lastName}
                         onChange={e => setForm(f => ({ ...f, lastName: e.target.value }))}
                         className="w-full px-3 py-2.5 text-sm border outline-none transition-colors duration-200"
-                        style={{ borderColor: '#d0d0d0', color: '#111111' }}
+                        style={{ borderColor: '#d0d0d0', color: 'var(--color-text-primary)' }}
                         placeholder={isVi ? 'Tên' : 'Last name'}
                         onFocus={e => (e.currentTarget.style.borderColor = 'var(--color-accent)')}
                         onBlur={e => (e.currentTarget.style.borderColor = '#d0d0d0')}
@@ -217,7 +217,7 @@ export default function CTASection() {
                         type="email" required value={form.email}
                         onChange={e => setForm(f => ({ ...f, email: e.target.value }))}
                         className="w-full px-3 py-2.5 text-sm border outline-none transition-colors duration-200"
-                        style={{ borderColor: '#d0d0d0', color: '#111111' }}
+                        style={{ borderColor: '#d0d0d0', color: 'var(--color-text-primary)' }}
                         placeholder="email@example.com"
                         onFocus={e => (e.currentTarget.style.borderColor = 'var(--color-accent)')}
                         onBlur={e => (e.currentTarget.style.borderColor = '#d0d0d0')}
@@ -231,7 +231,7 @@ export default function CTASection() {
                         type="tel" required value={form.phone}
                         onChange={e => setForm(f => ({ ...f, phone: e.target.value }))}
                         className="w-full px-3 py-2.5 text-sm border outline-none transition-colors duration-200"
-                        style={{ borderColor: '#d0d0d0', color: '#111111' }}
+                        style={{ borderColor: '#d0d0d0', color: 'var(--color-text-primary)' }}
                         placeholder={isVi ? 'Số điện thoại' : 'Phone number'}
                         onFocus={e => (e.currentTarget.style.borderColor = 'var(--color-accent)')}
                         onBlur={e => (e.currentTarget.style.borderColor = '#d0d0d0')}
@@ -247,7 +247,7 @@ export default function CTASection() {
                       type="text" value={form.company}
                       onChange={e => setForm(f => ({ ...f, company: e.target.value }))}
                       className="w-full px-3 py-2.5 text-sm border outline-none transition-colors duration-200"
-                      style={{ borderColor: '#d0d0d0', color: '#111111' }}
+                      style={{ borderColor: '#d0d0d0', color: 'var(--color-text-primary)' }}
                       placeholder={isVi ? 'Tên công ty (nếu có)' : 'Company name (optional)'}
                       onFocus={e => (e.currentTarget.style.borderColor = 'var(--color-accent)')}
                       onBlur={e => (e.currentTarget.style.borderColor = '#d0d0d0')}
@@ -263,7 +263,7 @@ export default function CTASection() {
                         type="text" value={form.address}
                         onChange={e => setForm(f => ({ ...f, address: e.target.value }))}
                         className="w-full px-3 py-2.5 text-sm border outline-none transition-colors duration-200"
-                        style={{ borderColor: '#d0d0d0', color: '#111111' }}
+                        style={{ borderColor: '#d0d0d0', color: 'var(--color-text-primary)' }}
                         placeholder={isVi ? 'Địa chỉ' : 'Your address'}
                         onFocus={e => (e.currentTarget.style.borderColor = 'var(--color-accent)')}
                         onBlur={e => (e.currentTarget.style.borderColor = '#d0d0d0')}
@@ -277,7 +277,7 @@ export default function CTASection() {
                         value={form.service}
                         onChange={e => setForm(f => ({ ...f, service: e.target.value }))}
                         className="w-full px-3 py-2.5 text-sm border outline-none transition-colors duration-200 bg-white"
-                        style={{ borderColor: '#d0d0d0', color: form.service ? '#111111' : '#999' }}
+                        style={{ borderColor: '#d0d0d0', color: form.service ? 'var(--color-text-primary)' : '#999' }}
                         onFocus={e => (e.currentTarget.style.borderColor = 'var(--color-accent)')}
                         onBlur={e => (e.currentTarget.style.borderColor = '#d0d0d0')}
                       >
@@ -300,7 +300,7 @@ export default function CTASection() {
                       rows={3} value={form.message}
                       onChange={e => setForm(f => ({ ...f, message: e.target.value }))}
                       className="w-full px-3 py-2.5 text-sm border outline-none transition-colors duration-200 resize-none"
-                      style={{ borderColor: '#d0d0d0', color: '#111111' }}
+                      style={{ borderColor: '#d0d0d0', color: 'var(--color-text-primary)' }}
                       placeholder={isVi ? 'Mô tả nhu cầu của bạn...' : 'Describe your project...'}
                       onFocus={e => (e.currentTarget.style.borderColor = 'var(--color-accent)')}
                       onBlur={e => (e.currentTarget.style.borderColor = '#d0d0d0')}

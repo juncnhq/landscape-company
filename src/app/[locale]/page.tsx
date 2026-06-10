@@ -3,13 +3,11 @@ import Navbar from '@/components/Navbar';
 import HeroSection from '@/components/HeroSection';
 import ProjectsSection from '@/components/ProjectsSection';
 import AboutSection from '@/components/AboutSection';
-import OurServicesSection from '@/components/OurServicesSection';
+import ServicesFeatureSection from '@/components/ServicesFeatureSection';
 import BenefitsSection from '@/components/BenefitsSection';
-import CTASection from '@/components/CTASection';
 import MemberCompaniesSection from '@/components/MemberCompaniesSection';
 import PartnersSection from '@/components/PartnersSection';
 import Footer from '@/components/Footer';
-import ServicesFeatureSection from '@/components/ServicesFeatureSection';
 
 export default async function HomePage({
   params,
@@ -24,7 +22,7 @@ export default async function HomePage({
       <HeroSection />
       <ProjectsSection />
       <AboutSection />
-      <ServicesFeatureSection/>
+      <ServicesFeatureSection />
       <BenefitsSection />
       <MemberCompaniesSection />
       <PartnersSection />

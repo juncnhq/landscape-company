@@ -161,6 +161,18 @@ h1, h2, h3, h4, h5, h6 {
   transform: translateY(0);
 }
 
+/* Floating bob animations for decorative shapes */
+@keyframes float-bob-y {
+  0%   { transform: translateY(0px); }
+  50%  { transform: translateY(-18px); }
+  100% { transform: translateY(0px); }
+}
+@keyframes float-bob-x {
+  0%   { transform: translateX(0px); }
+  50%  { transform: translateX(-28px); }
+  100% { transform: translateX(0px); }
+}
+
 /* Hero reveal animation */
 @keyframes heroReveal {
   from { opacity: 0; transform: translateY(28px); }

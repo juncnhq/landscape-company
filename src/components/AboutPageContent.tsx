@@ -377,7 +377,7 @@ export default function AboutPageContent() {
                 className="font-display font-bold leading-tight mb-5"
                 style={{
                   fontSize: "clamp(1.8rem, 3.2vw, 2.8rem)",
-                  color: "#0e1a0f",
+                  color: 'var(--color-text-primary)',
                 }}
               >
                 {isVi ? (
@@ -421,7 +421,7 @@ export default function AboutPageContent() {
                     />
                     <span
                       className="text-sm font-semibold"
-                      style={{ color: "#222" }}
+                      style={{ color: 'var(--color-text-secondary)' }}
                     >
                       {f}
                     </span>
@@ -632,7 +632,7 @@ export default function AboutPageContent() {
                 className="font-display font-bold mb-3 leading-tight"
                 style={{
                   fontSize: "clamp(1.7rem, 3vw, 2.5rem)",
-                  color: "#0e1a0f",
+                  color: 'var(--color-text-primary)',
                 }}
               >
                 {isVi ? (
@@ -747,7 +747,7 @@ export default function AboutPageContent() {
             </p>
             <h2
               className="font-display font-bold"
-              style={{ fontSize: "clamp(1.8rem, 4vw, 3rem)", color: "#0e1a0f" }}
+              style={{ fontSize: "clamp(1.8rem, 4vw, 3rem)", color: 'var(--color-text-primary)' }}
             >
               {isVi
                 ? "Thiết kế cảnh quan chuyên nghiệp & tận tâm"
@@ -963,7 +963,7 @@ export default function AboutPageContent() {
             className="font-display font-bold mb-5 mx-auto"
             style={{
               fontSize: "clamp(2.2rem, 5vw, 4rem)",
-              color: "#111111",
+              color: 'var(--color-text-primary)',
               lineHeight: 1.1,
               maxWidth: "780px",
             }}

@@ -4,6 +4,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import ScrollReveal from './ScrollReveal';
+import AnimatedHeading from './AnimatedHeading';
 
 type Project = {
   id: string; slug: string;
@@ -25,7 +26,17 @@ export default function ProjectsSection() {
   }, []);
 
   return (
-    <section className="leafix-section relative overflow-hidden" style={{ backgroundColor: 'var(--color-surface-alt)' }}>
+    <section className="leafix-section relative" style={{ backgroundColor: 'var(--color-surface-alt)' }}>
+      {/* Botanical watermark bg */}
+      <div className="absolute inset-0 pointer-events-none select-none" style={{ backgroundImage: 'url(/images/shapes/project-bg-shape.png)', backgroundRepeat: 'no-repeat', backgroundPosition: 'center bottom', backgroundSize: 'contain', opacity: 0.18 }} />
+      {/* Monstera leaf — bottom-right, like Leafix */}
+      <img
+        src="https://res.cloudinary.com/dg9khx2s7/image/upload/v1781085047/shapes/team-shape-01.png"
+        alt=""
+        aria-hidden="true"
+        className="absolute pointer-events-none select-none"
+        style={{ bottom: '-20px', right: '-10px', width: '180px', opacity: 0.8, animation: 'float-bob-y 4.5s ease-in-out infinite 0.5s', zIndex: 20 }}
+      />
       {/* Decorative background text */}
       <div
         className="absolute top-0 right-0 font-display font-bold select-none pointer-events-none leading-none"
@@ -48,15 +59,12 @@ export default function ProjectsSection() {
             <p className="text-xs tracking-[0.3em] uppercase font-bold mb-3" style={{ color: 'var(--color-brand)' }}>
               {isVi ? 'Dự án của chúng tôi' : 'Our Projects'}
             </p>
-            <h2
+            <AnimatedHeading
               className="font-display font-bold leading-tight"
-              style={{ fontSize: 'clamp(1.8rem, 4vw, 3rem)', color: '#111111' }}
+              style={{ fontSize: 'clamp(1.8rem, 4vw, 3rem)', color: 'var(--color-text-primary)' }}
             >
-              {isVi
-                ? <>Xem cách chúng tôi biến đổi<br />không gian thành tác phẩm xanh</>
-                : <>See how we transform spaces<br />into living works of art</>
-              }
-            </h2>
+              {isVi ? 'Xem cách chúng tôi biến đổi không gian thành tác phẩm xanh' : 'See how we transform spaces into living works of art'}
+            </AnimatedHeading>
           </ScrollReveal>
           <ScrollReveal delay={2}>
             <Link
@@ -114,20 +122,30 @@ export default function ProjectsSection() {
                       className="absolute inset-0 transition-opacity duration-300 opacity-0 group-hover:opacity-100"
                       style={{ backgroundColor: 'rgba(130,180,64,0.3)' }}
                     />
-                    {/* Category badge */}
-                    <div
-                      className="absolute top-3 left-3 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider"
-                      style={{ backgroundColor: 'var(--color-accent)', color: 'var(--color-text-primary)', borderRadius: '6px' }}
-                    >
+                    {/* Category pill */}
+                    <div className="absolute top-3 left-3 flex items-center gap-1.5 px-2.5 py-1 text-[10px] font-bold uppercase tracking-widest rounded-full" style={{ backgroundColor: 'rgba(15,84,30,0.82)', color: '#fff', backdropFilter: 'blur(4px)' }}>
+                      <svg width="10" height="10" viewBox="0 0 24 24" fill="none">
+                        <path d="M12 3C7 3 3 8 3 13c0 4 3 7 9 7 1-2.5 1-5.5 0-8 2 1.5 4 4 4 7 2-1.5 4-4 4-7C20 7 16.5 3 12 3z" fill="currentColor"/>
+                      </svg>
                       {p.category}
+                    </div>
+                    {/* Leaf corner accent — bottom right */}
+                    <div className="absolute bottom-2.5 right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                      <svg width="28" height="28" viewBox="0 0 40 40" fill="none">
+                        <path d="M36 4C18 4 4 18 4 36c0-4 2-10 6-14 1 5 3 10 6 14C14 28 18 16 28 12c-4 4-6 10-6 16 6-2 12-8 14-24z" fill="white" opacity="0.9"/>
+                      </svg>
                     </div>
                   </div>
 
                   {/* Body */}
-                  <div style={{ padding: '24px 24px 20px' }}>
+                  <div className="relative overflow-hidden" style={{ padding: '20px 24px 20px' }}>
+                    {/* Watermark leaf — top right of body */}
+                    <svg className="absolute top-0 right-0 pointer-events-none select-none" width="72" height="72" viewBox="0 0 80 80" fill="none" aria-hidden="true">
+                      <path d="M72 8C36 8 8 36 8 72c0-8 4-20 12-28 2 10 6 20 12 28C28 56 36 32 56 24c-8 8-12 20-12 32 12-4 24-16 28-48z" fill="var(--color-brand)" opacity="0.055"/>
+                    </svg>
                     <h3
                       className="font-display font-bold text-base mb-1.5 transition-colors duration-200 group-hover:text-[var(--color-brand)] leading-snug"
-                      style={{ color: '#111111' }}
+                      style={{ color: 'var(--color-text-primary)' }}
                     >
                       {isVi ? p.title : p.titleEn}
                     </h3>

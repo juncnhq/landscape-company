@@ -94,12 +94,12 @@ export default function NewsDetailClient({ article }: { article: Article }) {
             {Array.isArray(content) ? (
               <div className="space-y-6">
                 {(content as string[]).map((para, i) => (
-                  <p key={i} className="text-gray-700 text-base leading-relaxed">{para}</p>
+                  <p key={i} className="text-base leading-relaxed" style={{ color: "var(--color-text-secondary)" }}>{para}</p>
                 ))}
               </div>
             ) : (
               <div
-                className="prose prose-gray max-w-none prose-img:rounded-xl prose-headings:text-gray-900 prose-a:text-green-700"
+                className="prose prose-neutral max-w-none prose-img:rounded-xl prose-headings:text-[var(--color-text-primary)] prose-a:text-green-700"
                 dangerouslySetInnerHTML={{ __html: content as string }}
               />
             )}

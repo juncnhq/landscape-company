@@ -1,6 +1,7 @@
 'use client';
 import { useLocale } from 'next-intl';
 import { motion, useInView, AnimatePresence } from 'framer-motion';
+import ScrollReveal from './ScrollReveal';
 import { useRef, useState, useEffect } from 'react';
 
 type Partner = {
@@ -59,15 +60,15 @@ function PartnerModal({ partner, onClose, isVi }: { partner: Partner; onClose: (
             </div>
           </div>
           <div>
-            <p className="text-[10px] font-bold uppercase tracking-wider text-gray-400 mb-2">{isVi ? 'Giới thiệu' : 'About'}</p>
-            <p className="text-gray-600 text-sm leading-relaxed">{isVi ? partner.descVi : partner.descEn}</p>
+            <p className="text-[10px] font-bold uppercase tracking-wider text-[var(--color-text-muted)] mb-2">{isVi ? 'Giới thiệu' : 'About'}</p>
+            <p className="text-sm leading-relaxed" style={{ color: "var(--color-text-secondary)" }}>{isVi ? partner.descVi : partner.descEn}</p>
           </div>
           {projects && projects.length > 0 && (
             <div>
-              <p className="text-[10px] font-bold uppercase tracking-wider text-gray-400 mb-3">{isVi ? 'Dự án hợp tác với Lapla' : 'Projects with Lapla'}</p>
+              <p className="text-[10px] font-bold uppercase tracking-wider text-[var(--color-text-muted)] mb-3">{isVi ? 'Dự án hợp tác với Lapla' : 'Projects with Lapla'}</p>
               <ul className="space-y-2">
                 {projects.map((p, i) => (
-                  <li key={i} className="flex items-start gap-2 text-sm text-gray-600">
+                  <li key={i} className="flex items-start gap-2 text-sm" style={{ color: "var(--color-text-secondary)" }}>
                     <span className="mt-2 w-1.5 h-1.5 rounded-full bg-[var(--color-brand)] flex-shrink-0" />{p}
                   </li>
                 ))}
@@ -83,7 +84,7 @@ function PartnerModal({ partner, onClose, isVi }: { partner: Partner; onClose: (
         </div>
         <div className="px-7 py-4 border-t border-gray-100 flex items-center gap-2 bg-gray-50/50">
           <div className="w-2 h-2 rounded-full bg-[var(--color-brand)]" />
-          <span className="text-xs text-gray-400">{isVi ? 'Đối tác chiến lược của Lapla' : 'Strategic partner of Lapla'}</span>
+          <span className="text-xs text-[var(--color-text-muted)]">{isVi ? 'Đối tác chiến lược của Lapla' : 'Strategic partner of Lapla'}</span>
         </div>
       </motion.div>
     </motion.div>
@@ -120,10 +121,10 @@ function MarqueeRow({
             className="group shrink-0 flex items-center gap-3 px-5 py-3 rounded-full border border-gray-200 bg-white hover:bg-[var(--color-brand)] hover:border-[var(--color-brand)] transition-all duration-300 cursor-pointer shadow-sm"
           >
             <span className="w-1.5 h-1.5 rounded-full bg-[var(--color-brand)] group-hover:bg-white shrink-0 transition-colors" />
-            <span className="text-gray-700 group-hover:text-white font-medium text-sm whitespace-nowrap transition-colors">
+            <span className="text-[var(--color-text-primary)] group-hover:text-white font-medium text-sm whitespace-nowrap transition-colors">
               {partner.name}
             </span>
-            <span className="text-gray-300 text-[10px] tracking-widest uppercase group-hover:text-white/60 transition-colors whitespace-nowrap">
+            <span className="text-[var(--color-text-muted)] text-[10px] tracking-widest uppercase group-hover:text-white/60 transition-colors whitespace-nowrap">
               {partner.sectorVi}
             </span>
           </button>
@@ -154,8 +155,20 @@ export default function PartnersSection() {
 
   return (
     <>
-      <section ref={ref} className="py-20 md:py-32 bg-[var(--color-surface-base)] overflow-hidden relative">
+      <section ref={ref} className="py-20 md:py-32 bg-[var(--color-surface-base)] relative">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_0%,rgba(50,132,66,0.06)_0%,transparent_70%)] pointer-events-none" />
+        {/* SVG repeating ring-dot botanical pattern */}
+        <div className="absolute inset-0 pointer-events-none select-none" style={{
+          backgroundImage: `url("data:image/svg+xml,%3Csvg width='140' height='140' viewBox='0 0 140 140' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='70' cy='70' r='28' stroke='%230f541e' stroke-width='0.7' fill='none' opacity='0.07'/%3E%3Ccircle cx='70' cy='70' r='14' stroke='%230f541e' stroke-width='0.5' fill='none' opacity='0.05'/%3E%3Cpath d='M70 42 C65 52 60 60 60 70 C60 80 65 86 70 86 C75 86 80 80 80 70 C80 60 75 52 70 42Z' fill='%230f541e' opacity='0.06'/%3E%3Ccircle cx='70' cy='90' r='2.5' fill='%230f541e' opacity='0.08'/%3E%3C/svg%3E")`,
+          backgroundSize: '140px 140px',
+        }} />
+        {/* Floating monstera leaf — top-left */}
+        <img
+          src="https://res.cloudinary.com/dg9khx2s7/image/upload/v1781085047/shapes/team-shape-01.png"
+          alt="" aria-hidden="true"
+          className="absolute pointer-events-none select-none"
+          style={{ top: '-15px', left: '-10px', width: '180px', opacity: 0.45, animation: 'float-bob-y 4.5s ease-in-out infinite 0.3s', zIndex: 20 }}
+        />
 
         {/* Header */}
         <div className="max-w-[1400px] mx-auto px-6 sm:px-10 lg:px-14 mb-12 md:mb-16">
@@ -168,7 +181,7 @@ export default function PartnersSection() {
               <p className="text-[10px] tracking-[0.3em] uppercase font-semibold text-[var(--color-brand)] mb-3">
                 {isVi ? 'Đối tác' : 'Trust'}
               </p>
-              <h2 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-[var(--color-text-primary)] leading-[1.1]">
+              <h2 className="font-display font-bold leading-tight" style={{ fontSize: "clamp(1.8rem, 4vw, 3rem)", color: "var(--color-text-primary)" }}>
                 {isVi ? (
                   <>Đối tác <span className="text-[var(--color-brand)]">chiến lược</span><br />của Lapla</>
                 ) : (
@@ -185,11 +198,11 @@ export default function PartnersSection() {
             >
               <div className="flex items-center gap-2">
                 <span className="text-3xl font-bold text-[var(--color-text-primary)]">{partners.length}+</span>
-                <span className="text-gray-400 text-sm leading-tight max-w-[80px]">
+                <span className="text-[var(--color-text-muted)] text-sm leading-tight max-w-[80px]">
                   {isVi ? 'Đối tác tin tưởng' : 'Trusted partners'}
                 </span>
               </div>
-              <p className="text-gray-400 text-xs">
+              <p className="text-[var(--color-text-muted)] text-xs">
                 {isVi ? '* Nhấn vào tên để xem chi tiết' : '* Click a name to view details'}
               </p>
             </motion.div>

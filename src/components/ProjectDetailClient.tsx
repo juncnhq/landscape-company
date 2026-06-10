@@ -50,7 +50,7 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
         </Link>
         <h1
           className="font-display font-bold"
-          style={{ fontSize: 'clamp(1.8rem, 4vw, 3rem)', color: '#111111', lineHeight: 1.15 }}
+          style={{ fontSize: 'clamp(1.8rem, 4vw, 3rem)', color: 'var(--color-text-primary)', lineHeight: 1.15 }}
         >
           {title}
         </h1>

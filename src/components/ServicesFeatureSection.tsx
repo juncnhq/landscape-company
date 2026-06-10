@@ -3,6 +3,7 @@ import { useLocale } from 'next-intl';
 import Image from 'next/image';
 import Link from 'next/link';
 import ScrollReveal from './ScrollReveal';
+import AnimatedHeading from './AnimatedHeading';
 
 const FEATURES = [
   {
@@ -50,9 +51,17 @@ export default function ServicesFeatureSection() {
   const isVi = locale === 'vi';
 
   return (
-    <section className="leafix-section overflow-hidden relative" style={{ backgroundColor: '#fff' }}>
+    <section className="leafix-section relative" style={{ backgroundColor: '#fff' }}>
       <div className="absolute inset-0 pointer-events-none select-none" style={{ backgroundImage: 'url(/images/shapes/service-bg-shape.png)', backgroundRepeat: 'no-repeat', backgroundPosition: 'center center', backgroundSize: 'cover', opacity: 0.3 }} />
-      <div className="max-w-[1400px] mx-auto px-6 sm:px-10 lg:px-14">
+      {/* Decorative branch — top-left, like Leafix */}
+      <img
+        src="https://res.cloudinary.com/dg9khx2s7/image/upload/v1781085049/shapes/work-shape-01.png"
+        alt=""
+        aria-hidden="true"
+        className="absolute pointer-events-none select-none"
+        style={{ top: '-20px', left: '-10px', width: '200px', opacity: 0.9, animation: 'float-bob-y 5s ease-in-out infinite', zIndex: 20 }}
+      />
+      <div className="max-w-[1400px] mx-auto px-6 sm:px-10 lg:px-14 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
 
           {/* LEFT: image + phone card */}
@@ -86,11 +95,9 @@ export default function ServicesFeatureSection() {
             <p className="text-xs font-bold uppercase tracking-[0.3em] mb-3" style={{ color: 'var(--color-brand)' }}>
               {isVi ? 'Dịch vụ của chúng tôi' : 'Our Services'}
             </p>
-            <h2 className="font-display font-bold mb-6 leading-tight" style={{ fontSize: 'clamp(1.8rem, 3.5vw, 2.8rem)', color: '#0e1a0f' }}>
-              {isVi
-                ? <>Tạo dựng không gian đẹp<br />bằng tâm huyết & chuyên môn</>
-                : <>Growing Beautiful Spaces with<br />Care &amp; Expertise</>}
-            </h2>
+            <AnimatedHeading className="font-display font-bold mb-6 leading-tight" style={{ fontSize: 'clamp(1.8rem, 3.5vw, 2.8rem)', color: 'var(--color-text-primary)' }}>
+              {isVi ? 'Tạo dựng không gian đẹp bằng tâm huyết & chuyên môn' : 'Growing Beautiful Spaces with Care & Expertise'}
+            </AnimatedHeading>
 
             <Link
               href={`/${locale}#contact`}

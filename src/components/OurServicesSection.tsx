@@ -94,7 +94,7 @@ export default function OurServicesSection() {
             </p>
             <h2
               className="font-display font-bold leading-tight"
-              style={{ fontSize: 'clamp(1.8rem, 4vw, 3rem)', color: '#111111' }}
+              style={{ fontSize: 'clamp(1.8rem, 4vw, 3rem)', color: 'var(--color-text-primary)' }}
             >
               {isVi
                 ? <>Giải pháp cho cảnh quan<br />dân dụng và thương mại</>
@@ -152,7 +152,7 @@ export default function OurServicesSection() {
                 <div style={{ padding: '35px 30px' }}>
                   <h3
                     className="font-display font-bold text-base mb-2 transition-colors duration-200 group-hover:text-[var(--color-brand)]"
-                    style={{ color: '#111111' }}
+                    style={{ color: 'var(--color-text-primary)' }}
                   >
                     {isVi ? service.titleVi : service.titleEn}
                   </h3>

@@ -40,7 +40,7 @@ export default function TimelineSection() {
             <p className="text-[10px] tracking-[0.3em] uppercase font-semibold text-[var(--color-brand)] mb-4">
               {isVi ? "Lịch sử" : "History"}
             </p>
-            <h2 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-[var(--color-text-primary)] leading-[1.1]">
+            <h2 className="font-display font-bold leading-tight" style={{ fontSize: "clamp(1.8rem, 4vw, 3rem)", color: "var(--color-text-primary)" }}>
               {isVi ? (
                 <>Hành trình<br /><span className="text-[var(--color-brand)]">17 năm</span> phát triển</>
               ) : (

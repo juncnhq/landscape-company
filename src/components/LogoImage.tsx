@@ -84,7 +84,7 @@ export default function LogoImage({ name, abbr, size = 'md', className = '' }: L
   // Fallback: styled text/abbr
   return (
     <div className={`flex items-center justify-center ${s.wrapper} ${className}`}>
-      <span className={`font-black tracking-wide text-gray-600 group-hover:text-[var(--color-brand)] transition-colors ${s.text}`}>
+      <span className={`font-black tracking-wide text-[var(--color-text-secondary)] group-hover:text-[var(--color-brand)] transition-colors ${s.text}`}>
         {displayText}
       </span>
     </div>

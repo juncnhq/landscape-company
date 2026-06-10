@@ -113,7 +113,7 @@ export default function ValuesSection() {
               </p>
               <h2
                 className="font-display font-bold leading-tight mb-8"
-                style={{ fontSize: 'clamp(1.8rem, 3.5vw, 2.8rem)', color: '#111111' }}
+                style={{ fontSize: 'clamp(1.8rem, 3.5vw, 2.8rem)', color: 'var(--color-text-primary)' }}
               >
                 {isVi
                   ? <span>Chúng tôi <span style={{ color: 'var(--color-brand)' }}>kiến tạo</span><br />vẻ đẹp xanh bền vững</span>
@@ -161,7 +161,7 @@ export default function ValuesSection() {
                     <h3
                       data-title
                       className="font-bold text-base mb-2 transition-colors duration-300"
-                      style={{ color: '#111111' }}
+                      style={{ color: 'var(--color-text-primary)' }}
                     >
                       {isVi ? v.titleVi : v.titleEn}
                     </h3>

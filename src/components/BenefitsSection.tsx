@@ -3,6 +3,7 @@ import { useLocale } from 'next-intl';
 import Image from 'next/image';
 import Link from 'next/link';
 import ScrollReveal from './ScrollReveal';
+import AnimatedHeading from './AnimatedHeading';
 
 const CARDS = [
   {
@@ -61,7 +62,7 @@ export default function BenefitsSection() {
 
   return (
     <section
-      className="leafix-section overflow-hidden relative"
+      className="leafix-section relative" 
       style={{ backgroundColor: 'var(--color-surface-alt)' }}
     >
       {/* Faint botanical bg pattern */}
@@ -82,14 +83,12 @@ export default function BenefitsSection() {
           <p className="text-xs font-bold uppercase tracking-[0.3em] mb-4" style={{ color: 'var(--color-brand)' }}>
             {isVi ? 'Lợi ích' : 'Our Benefits'}
           </p>
-          <h2
+          <AnimatedHeading
             className="font-display font-bold mx-auto"
-            style={{ fontSize: 'clamp(1.8rem, 4vw, 3rem)', color: '#111111', maxWidth: '640px', lineHeight: 1.15 }}
+            style={{ fontSize: 'clamp(1.8rem, 4vw, 3rem)', color: 'var(--color-text-primary)', maxWidth: '640px', lineHeight: 1.15 }}
           >
-            {isVi
-              ? <>Giải pháp cho cảnh quan<br />dân dụng và thương mại</>
-              : <>Solutions for Residential and<br />Commercial Landscaping</>}
-          </h2>
+            {isVi ? 'Giải pháp cho cảnh quan dân dụng và thương mại' : 'Solutions for Residential and Commercial Landscaping'}
+          </AnimatedHeading>
         </ScrollReveal>
 
         {/* 4-col cards */}
@@ -116,7 +115,7 @@ export default function BenefitsSection() {
                 <div className="flex items-start justify-between gap-3 p-6 pb-4">
                   <h3
                     className="font-display font-bold leading-snug"
-                    style={{ fontSize: '1.05rem', color: '#111111', maxWidth: '75%' }}
+                    style={{ fontSize: '1.05rem', color: 'var(--color-text-primary)', maxWidth: '75%' }}
                   >
                     {isVi ? card.titleVi : card.titleEn}
                   </h3>
@@ -164,7 +163,7 @@ export default function BenefitsSection() {
                   <Link
                     href={`/${locale}/services`}
                     className="text-xs font-black uppercase tracking-widest transition-colors duration-200 group-hover:text-[var(--color-brand)]"
-                    style={{ color: '#111111' }}
+                    style={{ color: 'var(--color-text-primary)' }}
                   >
                     {isVi ? 'Xem chi tiết' : 'View Details'}
                   </Link>

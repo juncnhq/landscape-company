@@ -3,70 +3,81 @@ import { useEffect, useRef, ReactNode } from 'react';
 
 interface ScrollRevealProps {
   children: ReactNode;
-  delay?: number; // 0–5
+  delay?: number;        // ms — e.g. 0, 100, 200, 300
   className?: string;
   direction?: 'up' | 'left' | 'right' | 'fade';
-  duration?: number; // ms
+  duration?: number;     // ms, default 850
+  distance?: number;     // px translateY/X, default 48
+  once?: boolean;        // animate only first time (default true)
 }
 
 /**
- * Leafix-style scroll reveal — replaces WOW.js / AOS.
- * Wraps children in a div that fades+slides in when it enters the viewport.
+ * Leafix-style scroll reveal — WOW.js + animate.css equivalent.
+ * Uses Intersection Observer. Easing matches animate.css easeOutCubic.
  */
 export default function ScrollReveal({
   children,
   delay = 0,
   className = '',
   direction = 'up',
-  duration = 700,
+  duration = 850,
+  distance = 48,
+  once = true,
 }: ScrollRevealProps) {
   const ref = useRef<HTMLDivElement>(null);
-
-  const getInitialTransform = () => {
-    switch (direction) {
-      case 'left':  return 'translateX(-40px)';
-      case 'right': return 'translateX(40px)';
-      case 'fade':  return 'none';
-      default:      return 'translateY(36px)';
-    }
-  };
 
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
 
-    // Respect prefers-reduced-motion
-    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-    if (reduced) {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       el.style.opacity = '1';
       el.style.transform = 'none';
       return;
     }
 
-    // Set initial state
+    const getTransform = () => {
+      switch (direction) {
+        case 'left':  return `translateX(-${distance}px)`;
+        case 'right': return `translateX(${distance}px)`;
+        case 'fade':  return 'none';
+        default:      return `translateY(${distance}px)`;
+      }
+    };
+
+    // easeOutCubic — same as animate.css
+    const easing = 'cubic-bezier(0.215, 0.61, 0.355, 1)';
+
     el.style.opacity = '0';
-    el.style.transform = getInitialTransform();
-    el.style.transition = `opacity ${duration}ms cubic-bezier(0.25, 0.46, 0.45, 0.94) ${delay * 100}ms, transform ${duration}ms cubic-bezier(0.25, 0.46, 0.45, 0.94) ${delay * 100}ms`;
+    el.style.transform = getTransform();
+    el.style.transition = `opacity ${duration}ms ${easing} ${delay}ms, transform ${duration}ms ${easing} ${delay}ms`;
+    el.style.willChange = 'opacity, transform';
 
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
           el.style.opacity = '1';
           el.style.transform = 'none';
-          observer.unobserve(el);
+          if (once) {
+            observer.unobserve(el);
+            // Clean up will-change after animation
+            setTimeout(() => { el.style.willChange = 'auto'; }, duration + delay + 50);
+          }
+        } else if (!once) {
+          el.style.opacity = '0';
+          el.style.transform = getTransform();
         }
       },
-      { threshold: 0.12, rootMargin: '0px 0px -60px 0px' }
+      { threshold: 0.1, rootMargin: '0px 0px -50px 0px' }
     );
 
     observer.observe(el);
     return () => observer.disconnect();
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [delay, direction, duration]);
+  }, []);
 
   return (
-    <div ref={ref} className={className} style={{ willChange: 'opacity, transform' }}>
+    <div ref={ref} className={className}>
       {children}
     </div>
   );

@@ -149,30 +149,29 @@ export default function HeroSection() {
               : "Trusted Landscaping Professionals"}
           </p>
 
-          {/* Heading */}
+          {/* Heading — word-by-word reveal */}
           <h1
-            className="hero-reveal font-bold mb-6"
+            className="font-bold mb-6"
             style={{
               color: "#ffffff",
               fontSize: "clamp(2.5rem, 5.5vw, 4.6rem)",
               lineHeight: "1.14",
               letterSpacing: "-0.02em",
-              animationDelay: "80ms",
             }}
           >
-            {isVi ? (
-              <>
-                Tạo Ra Những Không Gian
-                <br />
-                Xanh Tuyệt Đẹp, Tự Nhiên
-              </>
-            ) : (
-              <>
-                Creating Beautiful Outdoor
-                <br />
-                Spaces, Naturally
-              </>
-            )}
+            {(isVi
+              ? ['Tạo Ra Những', 'Không Gian', 'Xanh Tuyệt Đẹp,', 'Tự Nhiên']
+              : ['Creating', 'Beautiful Outdoor', 'Spaces,', 'Naturally']
+            ).map((chunk, i) => (
+              <span
+                key={i}
+                className="inline-block hero-word"
+                style={{ animationDelay: `${120 + i * 180}ms` }}
+              >
+                {chunk}
+                {i < 3 ? ' ' : ''}
+              </span>
+            ))}
           </h1>
 
           {/* Description */}
@@ -182,7 +181,7 @@ export default function HeroSection() {
               color: "rgba(255,255,255,0.78)",
               fontSize: "16px",
               lineHeight: "28px",
-              animationDelay: "160ms",
+              animationDelay: "900ms",
               maxWidth: "560px",
             }}
           >
@@ -194,7 +193,7 @@ export default function HeroSection() {
           {/* CTA Buttons */}
           <div
             className="hero-reveal flex flex-wrap items-center gap-4 mb-10"
-            style={{ animationDelay: "240ms" }}
+            style={{ animationDelay: "1100ms" }}
           >
             <Link
               href={`/${locale}/projects`}
@@ -233,7 +232,7 @@ export default function HeroSection() {
           bottom: "48px",
           left: "56px",
           zIndex: 10,
-          animationDelay: "320ms",
+          animationDelay: "1000ms",
         }}
       >
         {heroSlides.map((slide, i) => (
@@ -285,7 +284,7 @@ export default function HeroSection() {
           position: "absolute",
           bottom: "140px",
           right: "56px",
-          animationDelay: "400ms",
+          animationDelay: "1200ms",
           backgroundColor: "rgba(255,255,255,0.1)",
           backdropFilter: "blur(8.5px)",
           WebkitBackdropFilter: "blur(8.5px)",
@@ -326,6 +325,29 @@ export default function HeroSection() {
           />
         </div>
       </div>
+      <style>{`
+        @keyframes heroReveal {
+          from { opacity: 0; transform: translateY(28px); }
+          to   { opacity: 1; transform: translateY(0); }
+        }
+        .hero-reveal {
+          opacity: 0;
+          animation: heroReveal 0.85s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+        }
+        @keyframes heroWord {
+          from { opacity: 0; transform: translateX(-24px) skewX(-4deg); }
+          to   { opacity: 1; transform: translateX(0) skewX(0deg); }
+        }
+        .hero-word {
+          opacity: 0;
+          animation: heroWord 1s cubic-bezier(0.215, 0.61, 0.355, 1) forwards;
+        }
+        @keyframes float-bob-x {
+          0%   { transform: translateX(0px); }
+          50%  { transform: translateX(-28px); }
+          100% { transform: translateX(0px); }
+        }
+      `}</style>
     </section>
   );
 }

@@ -54,7 +54,7 @@ export default function ProcessSection() {
             </p>
             <h2
               className="font-display font-bold leading-tight"
-              style={{ fontSize: 'clamp(1.8rem, 4vw, 3rem)', color: '#111111' }}
+              style={{ fontSize: 'clamp(1.8rem, 4vw, 3rem)', color: 'var(--color-text-primary)' }}
             >
               {isVi
                 ? <span>Quy trình mang khu vườn<br /><span style={{ color: 'var(--color-brand)' }}>của bạn vào thực tế</span></span>
@@ -108,7 +108,7 @@ export default function ProcessSection() {
 
                 <h3
                   className="font-display font-bold text-lg mb-3 leading-snug transition-colors duration-300"
-                  style={{ color: '#111111' }}
+                  style={{ color: 'var(--color-text-primary)' }}
                 >
                   {isVi ? step.titleVi : step.titleEn}
                 </h3>

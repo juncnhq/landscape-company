@@ -46,7 +46,7 @@ export default function TeamSection() {
                 {isVi ? 'Đội ngũ của chúng tôi' : 'Our Team'}
               </p>
             </div>
-            <h2 className="font-display font-bold leading-tight" style={{ fontSize: 'clamp(1.8rem, 3.5vw, 2.8rem)', color: '#0e1a0f' }}>
+            <h2 className="font-display font-bold leading-tight" style={{ fontSize: 'clamp(1.8rem, 3.5vw, 2.8rem)', color: 'var(--color-text-primary)' }}>
               {isVi
                 ? <>Gặp gỡ chuyên gia<br />cây xanh & cảnh quan</>
                 : <>Meet Our Expert Tree and<br />Garden Specialists</>}
@@ -86,7 +86,7 @@ export default function TeamSection() {
               <p className="text-xs font-medium mb-1" style={{ color: 'var(--color-text-secondary)' }}>
                 {isVi ? member.role.vi : member.role.en}
               </p>
-              <p className="font-display font-bold text-base" style={{ color: '#0e1a0f' }}>
+              <p className="font-display font-bold text-base" style={{ color: 'var(--color-text-primary)' }}>
                 {isVi ? member.name : member.nameEn}
               </p>
             </div>

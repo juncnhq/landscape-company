@@ -75,7 +75,7 @@ export default function LoiIchSection() {
           </p>
           <h2
             className="font-display font-bold mx-auto"
-            style={{ fontSize: 'clamp(1.8rem, 4vw, 3rem)', color: '#111111', maxWidth: '560px', lineHeight: 1.15 }}
+            style={{ fontSize: 'clamp(1.8rem, 4vw, 3rem)', color: 'var(--color-text-primary)', maxWidth: '560px', lineHeight: 1.15 }}
           >
             {isVi
               ? <>Tại sao chọn cảnh quan<br />chuyên nghiệp từ Lapla?</>
@@ -122,7 +122,7 @@ export default function LoiIchSection() {
                 <div className="-mt-6">
                   <h3
                     className="font-display font-bold mb-3 leading-snug"
-                    style={{ fontSize: '1.05rem', color: '#111111' }}
+                    style={{ fontSize: '1.05rem', color: 'var(--color-text-primary)' }}
                   >
                     {isVi ? b.titleVi : b.titleEn}
                   </h3>
