@@ -92,8 +92,8 @@ export default function MemberCompaniesSection() {
         <img
           src="https://res.cloudinary.com/dg9khx2s7/image/upload/v1781085049/shapes/work-shape-01.png"
           alt="" aria-hidden="true"
-          className="absolute pointer-events-none select-none"
-          style={{ bottom: '-15px', right: '-10px', width: '220px', opacity: 0.55, animation: 'float-bob-y 5.5s ease-in-out infinite 1s', zIndex: 20 }}
+          className="absolute pointer-events-none select-none hidden md:block"
+          style={{ bottom: '30px', right: '0px', width: '200px', opacity: 0.5, animation: 'float-bob-y 5.5s ease-in-out infinite 1s', zIndex: 20 }}
         />
         <div className="max-w-[1400px] mx-auto px-6 sm:px-10 lg:px-14 relative z-10">
 

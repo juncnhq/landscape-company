@@ -29,8 +29,8 @@ export default function AboutSection() {
         src="https://res.cloudinary.com/dg9khx2s7/image/upload/v1781085045/shapes/about-shape-01.png"
         alt=""
         aria-hidden="true"
-        className="absolute pointer-events-none select-none"
-        style={{ top: '-10px', right: '-8px', width: '160px', opacity: 0.85, animation: 'float-bob-y 4s ease-in-out infinite', zIndex: 20 }}
+        className="absolute pointer-events-none select-none hidden md:block"
+        style={{ top: '30px', right: '0px', width: '150px', opacity: 0.8, animation: 'float-bob-y 4s ease-in-out infinite', zIndex: 20 }}
       />
       <div className="max-w-[1400px] mx-auto px-6 sm:px-10 lg:px-14 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
@@ -56,14 +56,14 @@ export default function AboutSection() {
 
               {/* Main portrait image */}
               <div
-                className="relative overflow-hidden"
+                className="group relative overflow-hidden"
                 style={{ borderRadius: '20px', zIndex: 1, height: '620px' }}
               >
                 <Image
                   src={IMG_MAIN}
                   alt={isVi ? 'Cảnh quan Lapla' : 'Lapla landscaping'}
                   fill
-                  className="object-cover"
+                  className="object-cover transition-transform duration-700 group-hover:scale-[1.04]"
                   sizes="(max-width: 1024px) 100vw, 45vw"
                 />
               </div>
@@ -113,14 +113,14 @@ export default function AboutSection() {
 
               {/* Small landscape image — top of right col */}
               <div
-                className="relative overflow-hidden w-full"
+                className="group relative overflow-hidden w-full"
                 style={{ height: '220px', borderRadius: '20px' }}
               >
                 <Image
                   src={IMG_SMALL}
                   alt={isVi ? 'Thi công cảnh quan' : 'Landscape construction'}
                   fill
-                  className="object-cover"
+                  className="object-cover transition-transform duration-700 group-hover:scale-[1.06]"
                   sizes="(max-width: 1024px) 100vw, 45vw"
                 />
               </div>
@@ -148,7 +148,7 @@ export default function AboutSection() {
                 <div className="grid grid-cols-2 gap-x-6 gap-y-3 mb-8">
                   {features.map(item => (
                     <div key={item} className="flex items-center gap-2.5">
-                      <img src="https://res.cloudinary.com/dg9khx2s7/image/upload/v1781085048/shapes/leaf-icon.png" alt="" aria-hidden="true" width="20" height="20" style={{ objectFit: 'contain' }} />
+                      <img src="https://res.cloudinary.com/dg9khx2s7/image/upload/v1781085048/shapes/leaf-icon.png" alt="" aria-hidden="true" style={{ width: '20px', height: '20px', objectFit: 'contain', flexShrink: 0 }} />
                       <span className="text-sm font-semibold" style={{ color: 'var(--color-text-secondary)' }}>{item}</span>
                     </div>
                   ))}
@@ -157,7 +157,7 @@ export default function AboutSection() {
                 {/* CTA button */}
                 <Link
                   href={`/${locale}/projects`}
-                  className="inline-flex items-center gap-2.5 text-sm font-black uppercase tracking-widest transition-all duration-200 hover:opacity-90"
+                  className="inline-flex items-center gap-2.5 text-sm font-black uppercase tracking-widest transition-all duration-300 hover:scale-[1.05] hover:shadow-[0_10px_32px_rgba(199,220,73,0.4)]"
                   style={{
                     backgroundColor: 'var(--color-accent)',
                     color: 'var(--color-text-primary)',

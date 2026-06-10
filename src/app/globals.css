@@ -114,7 +114,8 @@
   --shadow-brand: var(--shadow-brand);
 }
 
-html {
+html, body {
+  overflow-x: hidden;
   scroll-behavior: smooth;
 }
 
@@ -184,10 +185,27 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 a, button {
-  transition-property: color, background-color, border-color, opacity, transform, box-shadow;
-  transition-duration: 200ms;
-  transition-timing-function: ease;
+  transition-property: color, background-color, border-color, opacity, transform, box-shadow, gap;
+  transition-duration: 250ms;
+  transition-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
+
+/* ── Navbar link hover underline ── */
+.nav-link {
+  position: relative;
+}
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: var(--color-accent);
+  border-radius: 2px;
+  transition: width 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.nav-link:hover::after { width: 100%; }
 
 ::selection {
   background-color: #c7dc49;

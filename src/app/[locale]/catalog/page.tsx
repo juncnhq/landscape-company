@@ -11,7 +11,7 @@ export default async function CatalogPage({
   setRequestLocale(locale);
 
   return (
-    <div className="flex flex-col bg-[#07130a]" style={{ height: '100dvh' }}>
+    <div className="flex flex-col bg-[#07130a] overflow-hidden" style={{ height: '100dvh' }}>
       {/* Top bar */}
       <header className="flex items-center justify-between px-6 shrink-0 border-b border-white/8 bg-[#07130a] z-10" style={{ height: 48 }}>
         <Link

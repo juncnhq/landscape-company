@@ -34,8 +34,8 @@ export default function ProjectsSection() {
         src="https://res.cloudinary.com/dg9khx2s7/image/upload/v1781085047/shapes/team-shape-01.png"
         alt=""
         aria-hidden="true"
-        className="absolute pointer-events-none select-none"
-        style={{ bottom: '-20px', right: '-10px', width: '180px', opacity: 0.8, animation: 'float-bob-y 4.5s ease-in-out infinite 0.5s', zIndex: 20 }}
+        className="absolute pointer-events-none select-none hidden md:block"
+        style={{ bottom: '30px', right: '0px', width: '160px', opacity: 0.75, animation: 'float-bob-y 4.5s ease-in-out infinite 0.5s', zIndex: 20 }}
       />
       {/* Decorative background text */}
       <div
@@ -45,7 +45,7 @@ export default function ProjectsSection() {
           color: 'rgba(130,180,64,0.06)',
           lineHeight: 1,
           top: '-2rem',
-          right: '-2rem',
+          right: '0',
         }}
       >
         PROJECT
@@ -69,7 +69,7 @@ export default function ProjectsSection() {
           <ScrollReveal delay={2}>
             <Link
               href={`/${locale}/projects`}
-              className="inline-flex items-center gap-2 text-sm font-bold uppercase tracking-wider transition-all duration-200 hover:gap-3"
+              className="inline-flex items-center gap-2 text-sm font-bold uppercase tracking-wider transition-all duration-300 hover:gap-4 hover:text-[var(--color-brand)]"
               style={{ color: 'var(--color-brand)' }}
             >
               {isVi ? 'Xem tất cả dự án' : 'View All Projects'}

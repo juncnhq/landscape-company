@@ -197,7 +197,7 @@ export default function HeroSection() {
           >
             <Link
               href={`/${locale}/projects`}
-              className="inline-flex items-center gap-2.5 text-sm font-semibold uppercase tracking-wide transition-all duration-200 hover:opacity-90"
+              className="inline-flex items-center gap-2.5 text-sm font-semibold uppercase tracking-wide transition-all duration-300 hover:scale-[1.05] hover:shadow-[0_10px_32px_rgba(199,220,73,0.45)]"
               style={{
                 backgroundColor: "var(--color-accent)",
                 color: "var(--color-text-primary)",

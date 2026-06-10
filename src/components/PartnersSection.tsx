@@ -166,8 +166,8 @@ export default function PartnersSection() {
         <img
           src="https://res.cloudinary.com/dg9khx2s7/image/upload/v1781085047/shapes/team-shape-01.png"
           alt="" aria-hidden="true"
-          className="absolute pointer-events-none select-none"
-          style={{ top: '-15px', left: '-10px', width: '180px', opacity: 0.45, animation: 'float-bob-y 4.5s ease-in-out infinite 0.3s', zIndex: 20 }}
+          className="absolute pointer-events-none select-none hidden md:block"
+          style={{ top: '30px', left: '0px', width: '160px', opacity: 0.4, animation: 'float-bob-y 4.5s ease-in-out infinite 0.3s', zIndex: 20 }}
         />
 
         {/* Header */}

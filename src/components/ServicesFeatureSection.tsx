@@ -58,8 +58,8 @@ export default function ServicesFeatureSection() {
         src="https://res.cloudinary.com/dg9khx2s7/image/upload/v1781085049/shapes/work-shape-01.png"
         alt=""
         aria-hidden="true"
-        className="absolute pointer-events-none select-none"
-        style={{ top: '-20px', left: '-10px', width: '200px', opacity: 0.9, animation: 'float-bob-y 5s ease-in-out infinite', zIndex: 20 }}
+        className="absolute pointer-events-none select-none hidden md:block"
+        style={{ top: '30px', left: '0px', width: '180px', opacity: 0.85, animation: 'float-bob-y 5s ease-in-out infinite', zIndex: 20 }}
       />
       <div className="max-w-[1400px] mx-auto px-6 sm:px-10 lg:px-14 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
@@ -67,12 +67,12 @@ export default function ServicesFeatureSection() {
           {/* LEFT: image + phone card */}
           <ScrollReveal direction="left">
             <div className="relative" style={{ height: '520px' }}>
-              <div className="relative overflow-hidden w-full h-full" style={{ borderRadius: 20 }}>
-                <Image src={IMG} alt={isVi ? 'Cảnh quan Lapla' : 'Lapla landscaping'} fill className="object-cover" sizes="50vw" />
+              <div className="group relative overflow-hidden w-full h-full" style={{ borderRadius: 20 }}>
+                <Image src={IMG} alt={isVi ? 'Cảnh quan Lapla' : 'Lapla landscaping'} fill className="object-cover transition-transform duration-700 group-hover:scale-[1.06]" sizes="50vw" />
               </div>
               {/* Phone card overlay */}
               <div
-                className="absolute bottom-6 left-6 flex flex-col gap-1"
+                className="absolute bottom-6 left-6 flex flex-col gap-1 transition-all duration-300 hover:scale-[1.04] hover:shadow-[0_8px_24px_rgba(15,84,30,0.4)]"
                 style={{
                   backgroundColor: 'var(--color-brand)',
                   borderRadius: 12,
@@ -101,7 +101,7 @@ export default function ServicesFeatureSection() {
 
             <Link
               href={`/${locale}#contact`}
-              className="inline-flex items-center gap-2.5 text-xs font-black uppercase tracking-widest mb-8 transition-all hover:opacity-90"
+              className="inline-flex items-center gap-2.5 text-xs font-black uppercase tracking-widest mb-8 transition-all duration-300 hover:scale-[1.05] hover:shadow-[0_10px_28px_rgba(15,84,30,0.35)]"
               style={{
                 backgroundColor: 'var(--color-brand)', color: '#fff',
                 padding: '14px 28px', borderRadius: 999,
@@ -116,9 +116,9 @@ export default function ServicesFeatureSection() {
             {/* Feature list */}
             <div className="space-y-5">
               {FEATURES.map((f, i) => (
-                <div key={i} className="flex items-start gap-4">
+                <div key={i} className="group flex items-start gap-4 p-3 -mx-3 rounded-xl transition-colors duration-200 hover:bg-[rgba(15,84,30,0.04)]">
                   <div
-                    className="shrink-0 w-10 h-10 flex items-center justify-center"
+                    className="shrink-0 w-10 h-10 flex items-center justify-center transition-colors duration-300 group-hover:bg-[var(--color-brand)] group-hover:text-white"
                     style={{ backgroundColor: 'rgba(15,84,30,0.08)', borderRadius: 10, color: 'var(--color-brand)' }}
                   >
                     {f.icon}
