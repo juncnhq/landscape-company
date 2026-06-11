@@ -199,7 +199,7 @@ export default function GalleryManager() {
           onDragLeave={() => setIsDragging(false)}
           onDrop={handleDrop}
           onClick={() => !uploading && inputRef.current?.click()}
-          className={`relative w-full rounded-2xl border-2 border-dashed flex flex-col items-center justify-center py-10 cursor-pointer transition-all
+          className={`relative w-full rounded-lg border-2 border-dashed flex flex-col items-center justify-center py-10 cursor-pointer transition-all
             ${isDragging ? 'border-[#328442] bg-green-50 scale-[1.01]' : uploading ? 'border-[#328442] bg-green-50/50' : 'border-gray-200 bg-white hover:border-[#328442] hover:bg-green-50/30'}`}
         >
           {uploading ? (
@@ -215,7 +215,7 @@ export default function GalleryManager() {
             </div>
           ) : (
             <>
-              <div className="w-14 h-14 rounded-2xl bg-green-50 border border-green-100 flex items-center justify-center mb-3">
+              <div className="w-14 h-14 rounded-lg bg-green-50 border border-green-100 flex items-center justify-center mb-3">
                 <svg className="w-7 h-7 text-[#328442]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" />
                 </svg>
@@ -252,7 +252,7 @@ export default function GalleryManager() {
         {loading ? (
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
             {Array.from({ length: 15 }).map((_, i) => (
-              <div key={i} className="aspect-square rounded-xl bg-white animate-pulse" />
+              <div key={i} className="aspect-square rounded-lg bg-white animate-pulse" />
             ))}
           </div>
         ) : filtered.length === 0 ? (
@@ -262,7 +262,7 @@ export default function GalleryManager() {
             {filtered.map((img, i) => {
               const mediaId = img.source === 'media' ? mediaItems.find(m => m.url === img.url)?.id : undefined
               return (
-                <div key={i} className="group relative aspect-square rounded-xl overflow-hidden bg-gray-100 shadow-sm hover:shadow-md transition-shadow">
+                <div key={i} className="group relative aspect-square rounded-md overflow-hidden bg-gray-100 shadow-sm hover:shadow-md transition-shadow">
                   <img
                     src={img.url}
                     alt={img.label}
@@ -377,7 +377,7 @@ export default function GalleryManager() {
       {/* Delete confirm */}
       {deleteConfirm && (
         <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center px-4">
-          <div className="bg-white rounded-xl p-6 max-w-sm w-full shadow-2xl">
+          <div className="bg-white rounded-lg p-6 max-w-sm w-full shadow-2xl">
             <h3 className="text-base font-semibold text-gray-900 mb-2">Xóa ảnh</h3>
             <p className="text-sm text-gray-500 mb-5">Ảnh sẽ bị xóa khỏi thư viện (không xóa trên Cloudinary).</p>
             <div className="flex justify-end gap-3">

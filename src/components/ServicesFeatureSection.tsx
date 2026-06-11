@@ -92,7 +92,7 @@ export default function ServicesFeatureSection() {
 
           {/* RIGHT: text + features */}
           <ScrollReveal direction="right" delay={2}>
-            <p className="text-xs font-bold uppercase tracking-[0.3em] mb-3" style={{ color: 'var(--color-brand)' }}>
+            <p className="text-lg font-bold uppercase tracking-[0.3em] mb-3" style={{ color: 'var(--color-brand)' }}>
               {isVi ? 'Dịch vụ của chúng tôi' : 'Our Services'}
             </p>
             <AnimatedHeading className="font-display font-bold mb-6 leading-tight" style={{ fontSize: 'clamp(1.8rem, 3.5vw, 2.8rem)', color: 'var(--color-text-primary)' }}>

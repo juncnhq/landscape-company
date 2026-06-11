@@ -2,8 +2,10 @@ import { setRequestLocale } from 'next-intl/server';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import PageHero from '@/components/PageHero';
-import ServicesPageContent, { SERVICES } from '@/components/ServicesPageContent';
+import ServicesPageContent from '@/components/ServicesPageContent';
+import { SERVICES } from '@/lib/services-data';
 import { prisma } from '@/lib/prisma';
+import { getSiteSetting } from '@/lib/getSiteSetting';
 
 export const dynamic = 'force-dynamic';
 
@@ -33,6 +35,8 @@ export default async function ServicesPage({
     }));
   }
 
+  const bgImage = await getSiteSetting('hero_services') ?? undefined;
+
   return (
     <main className="min-h-screen bg-white">
       <Navbar />
@@ -43,6 +47,7 @@ export default async function ServicesPage({
           ? 'Từ thiết kế sân vườn đến cảnh quan resort 5 sao — chúng tôi mang đến giải pháp xanh toàn diện cho mọi không gian.'
           : 'From garden design to 5-star resort landscaping — comprehensive green solutions for every space.'}
         breadcrumbs={[{ label: isVi ? 'Dịch vụ' : 'Services' }]}
+        bgImage={bgImage}
       />
       <ServicesPageContent services={services} />
       <Footer />

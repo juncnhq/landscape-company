@@ -88,45 +88,6 @@ export default function CareersPageContent() {
 
   return (
     <>
-      {/* ══════════════════════════════════════════════ HERO ══ */}
-      <section className="relative bg-black pt-36 md:pt-48 pb-24 md:pb-32 overflow-hidden">
-        <div
-          className="absolute inset-0 opacity-[0.07]"
-          style={{
-            backgroundImage: 'radial-gradient(circle, #4ade80 1px, transparent 1px)',
-            backgroundSize: '32px 32px',
-          }}
-        />
-        <div className="absolute -top-32 left-1/2 -translate-x-1/2 w-[900px] h-[500px] bg-green-500/15 rounded-full blur-[140px] pointer-events-none" />
-        <div className="absolute bottom-0 right-0 w-[400px] h-[250px] bg-secondary-500/10 rounded-full blur-[100px] pointer-events-none" />
-
-        <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 36 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.9 }}
-          >
-            <p className="text-green-400 text-xs sm:text-sm font-semibold tracking-widest uppercase mb-6">
-              {t('heroEyebrow')}
-            </p>
-            <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold text-white leading-tight mb-6">
-              {t('heroTitle')}
-            </h1>
-            <p className="text-[var(--color-text-muted)] text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
-              {t('heroSubtitle')}
-            </p>
-          </motion.div>
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1.1, duration: 0.7 }}
-            className="mt-14 flex justify-center"
-          >
-            <div className="w-px h-14 bg-gradient-to-b from-green-500/70 to-transparent" />
-          </motion.div>
-        </div>
-      </section>
-
       {/* ══════════════════════════════════════ CULTURE ══ */}
       <section ref={cultureRef} className="py-16 md:py-24 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

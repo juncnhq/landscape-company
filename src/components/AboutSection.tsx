@@ -127,7 +127,7 @@ export default function AboutSection() {
 
               {/* Text content */}
               <div>
-                <p className="text-xs tracking-[0.3em] uppercase font-bold mb-3" style={{ color: 'var(--color-brand)' }}>
+                <p className="text-sm tracking-[0.3em] uppercase font-bold mb-3" style={{ color: 'var(--color-brand)' }}>
                   {isVi ? 'Về chúng tôi' : 'Learn About Us'}
                 </p>
 

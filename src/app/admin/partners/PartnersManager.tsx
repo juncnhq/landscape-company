@@ -1,8 +1,8 @@
 'use client'
 
 import { useState, useEffect, useCallback } from 'react'
-import CloudinaryGalleryUpload from '@/components/admin/CloudinaryGalleryUpload'
-import CloudinaryUpload from '@/components/admin/CloudinaryUpload'
+import GalleryInput from '@/components/admin/GalleryInput'
+import ImageInput from '@/components/admin/ImageInput'
 
 type Partner = {
   id: string
@@ -122,11 +122,11 @@ export default function PartnersManager() {
 
       <div className="px-6 py-6">
         {loading ? (
-          <div className="space-y-3">{Array.from({ length: 4 }).map((_, i) => <div key={i} className="h-16 rounded-xl bg-white animate-pulse" />)}</div>
+          <div className="space-y-3">{Array.from({ length: 4 }).map((_, i) => <div key={i} className="h-16 rounded-lg bg-white animate-pulse" />)}</div>
         ) : (
           <div className="space-y-2">
             {partners.map((partner, i) => (
-              <div key={partner.id} className="bg-white rounded-xl border border-gray-100 px-5 py-4 flex items-center gap-4 shadow-sm hover:shadow-md transition-shadow">
+              <div key={partner.id} className="bg-white rounded-lg border border-gray-100 px-5 py-4 flex items-center gap-4 shadow-sm hover:shadow-md transition-shadow">
                 <span className="text-xs text-gray-300 font-mono w-5 text-center shrink-0">{String(i + 1).padStart(2, '0')}</span>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2">
@@ -170,7 +170,7 @@ export default function PartnersManager() {
 
       {editing && (
         <div className="fixed inset-0 bg-black/50 z-50 flex items-start justify-center pt-8 px-4 overflow-y-auto">
-          <div className="bg-white rounded-2xl w-full max-w-2xl shadow-2xl mb-10">
+          <div className="bg-white rounded-lg w-full max-w-2xl shadow-2xl mb-10">
             <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100">
               <h2 className="text-base font-semibold text-gray-900">{isCreating ? 'Thêm đối tác mới' : 'Chỉnh sửa đối tác'}</h2>
               <button onClick={closeModal} className="p-1 rounded-md hover:bg-gray-100 text-gray-400">
@@ -209,12 +209,12 @@ export default function PartnersManager() {
               </div>
               <Field label="Điểm nổi bật (VI)" value={editing.highlightVi || ''} onChange={v => setEditing({ ...editing, highlightVi: v })} type="textarea" />
               <Field label="Điểm nổi bật (EN)" value={editing.highlightEn || ''} onChange={v => setEditing({ ...editing, highlightEn: v })} type="textarea" />
-              <CloudinaryUpload
+              <ImageInput
                 label="Logo đối tác"
                 value={editing.logo || ''}
                 onChange={v => setEditing({ ...editing, logo: v })}
               />
-              <CloudinaryGalleryUpload
+              <GalleryInput
                 label="Ảnh gallery"
                 value={partnerImages}
                 onChange={setPartnerImages}
@@ -239,7 +239,7 @@ export default function PartnersManager() {
 
       {deleteConfirm && (
         <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center px-4">
-          <div className="bg-white rounded-xl p-6 max-w-sm w-full shadow-2xl">
+          <div className="bg-white rounded-lg p-6 max-w-sm w-full shadow-2xl">
             <h3 className="text-base font-semibold text-gray-900 mb-2">Xác nhận xóa</h3>
             <p className="text-sm text-gray-500 mb-5">Bạn có chắc muốn xóa đối tác này?</p>
             <div className="flex justify-end gap-3">

@@ -368,7 +368,7 @@ export default function AboutPageContent() {
             {/* RIGHT: text */}
             <ScrollReveal direction="right" delay={2}>
               <p
-                className="text-xs font-bold uppercase tracking-[0.3em] mb-3"
+                className="text-lg font-bold uppercase tracking-[0.3em] mb-3"
                 style={{ color: "var(--color-brand)" }}
               >
                 {isVi ? "Về chúng tôi" : "About Us"}
@@ -623,7 +623,7 @@ export default function AboutPageContent() {
             {/* LEFT */}
             <ScrollReveal direction="left">
               <p
-                className="text-xs font-bold uppercase tracking-[0.3em] mb-3"
+                className="text-lg font-bold uppercase tracking-[0.3em] mb-3"
                 style={{ color: "var(--color-brand)" }}
               >
                 {isVi ? "Thêm về chúng tôi" : "More About"}
@@ -740,7 +740,7 @@ export default function AboutPageContent() {
           {/* Centered header */}
           <ScrollReveal className="text-center mb-10">
             <p
-              className="text-xs font-bold uppercase tracking-[0.3em] mb-3"
+              className="text-lg font-bold uppercase tracking-[0.3em] mb-3"
               style={{ color: "var(--color-brand)" }}
             >
               {isVi ? "Giải pháp công ty" : "Our Company Solution"}

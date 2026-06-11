@@ -3,6 +3,7 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import PageHero from '@/components/PageHero';
 import AboutPageContent from '@/components/AboutPageContent';
+import { getSiteSetting } from '@/lib/getSiteSetting';
 
 export default async function AboutPage({
   params,
@@ -12,6 +13,8 @@ export default async function AboutPage({
   const { locale } = await params;
   setRequestLocale(locale);
   const isVi = locale === 'vi';
+  const bgImage = await getSiteSetting('hero_about') ?? undefined;
+
   return (
     <main className="min-h-screen bg-white">
       <Navbar />
@@ -22,6 +25,7 @@ export default async function AboutPage({
           ? '17 năm kiến tạo không gian xanh — Lapla là đơn vị cảnh quan hàng đầu Việt Nam với hệ sinh thái chuyên biệt từ thiết kế đến vận hành.'
           : '17 years crafting green spaces — Lapla is Vietnam\'s leading landscape firm with a specialized ecosystem from design to operations.'}
         breadcrumbs={[{ label: isVi ? 'Về chúng tôi' : 'About' }]}
+        bgImage={bgImage}
       />
       <AboutPageContent />
       <Footer />

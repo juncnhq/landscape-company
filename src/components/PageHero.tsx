@@ -36,7 +36,7 @@ export default function PageHero({ eyebrow, title, description, breadcrumbs, bgI
       {/* Strong uniform dark overlay */}
       <div style={{
         position: 'absolute', inset: 0,
-        backgroundColor: 'rgba(4,14,2,0.82)',
+        backgroundColor: 'rgba(4,14,2,0.42)',
       }} />
 
       {/* Subtle left-to-right gradient on top for depth */}

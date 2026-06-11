@@ -3,6 +3,7 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import PageHero from '@/components/PageHero';
 import NewsGrid from '@/components/NewsGrid';
+import { getSiteSetting } from '@/lib/getSiteSetting';
 
 export default async function NewsPage({
   params,
@@ -12,6 +13,7 @@ export default async function NewsPage({
   const { locale } = await params;
   setRequestLocale(locale);
   const isVi = locale === 'vi';
+  const bgImage = await getSiteSetting('hero_news') ?? undefined;
   return (
     <main className="min-h-screen bg-white">
       <Navbar />
@@ -22,6 +24,7 @@ export default async function NewsPage({
           ? 'Cập nhật xu hướng cảnh quan, chia sẻ kiến thức chuyên môn và câu chuyện từ các dự án của Lapla.'
           : 'Landscape trends, expert insights and stories from Lapla projects.'}
         breadcrumbs={[{ label: isVi ? 'Tin tức' : 'News' }]}
+        bgImage={bgImage}
       />
       <NewsGrid />
       <Footer />

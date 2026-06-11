@@ -280,7 +280,7 @@ export default function AdminDashboard() {
       {/* Edit/Create Modal */}
       {editingProject && (
         <div className="fixed inset-0 bg-black/50 z-50 flex items-start justify-center pt-10 px-4 overflow-y-auto">
-          <div className="bg-white rounded-2xl w-full max-w-2xl shadow-2xl mb-10">
+          <div className="bg-white rounded-xl w-full max-w-2xl shadow-2xl mb-10">
             <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100">
               <h2 className="text-lg font-semibold text-gray-900">
                 {isCreating ? 'Thêm dự án mới' : 'Chỉnh sửa dự án'}

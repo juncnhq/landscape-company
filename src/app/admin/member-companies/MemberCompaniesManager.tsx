@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect, useCallback } from 'react'
-import CloudinaryGalleryUpload from '@/components/admin/CloudinaryGalleryUpload'
+import GalleryInput from '@/components/admin/GalleryInput'
 
 type MemberCompany = {
   id: string
@@ -87,11 +87,11 @@ export default function MemberCompaniesManager() {
 
       <div className="px-6 py-6">
         {loading ? (
-          <div className="space-y-3">{Array.from({ length: 4 }).map((_, i) => <div key={i} className="h-16 rounded-xl bg-white animate-pulse" />)}</div>
+          <div className="space-y-3">{Array.from({ length: 4 }).map((_, i) => <div key={i} className="h-16 rounded-lg bg-white animate-pulse" />)}</div>
         ) : (
           <div className="space-y-2">
             {companies.map((company, i) => (
-              <div key={company.id} className="bg-white rounded-xl border border-gray-100 px-5 py-4 flex items-center gap-4 shadow-sm hover:shadow-md transition-shadow">
+              <div key={company.id} className="bg-white rounded-lg border border-gray-100 px-5 py-4 flex items-center gap-4 shadow-sm hover:shadow-md transition-shadow">
                 <span className="text-xs text-gray-300 font-mono w-5 text-center shrink-0">{String(i + 1).padStart(2, '0')}</span>
                 <div
                   className="w-10 h-10 rounded-lg flex items-center justify-center text-white text-xs font-bold shrink-0"
@@ -130,7 +130,7 @@ export default function MemberCompaniesManager() {
 
       {editing && (
         <div className="fixed inset-0 bg-black/50 z-50 flex items-start justify-center pt-8 px-4 overflow-y-auto">
-          <div className="bg-white rounded-2xl w-full max-w-lg shadow-2xl mb-10">
+          <div className="bg-white rounded-lg w-full max-w-lg shadow-2xl mb-10">
             <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100">
               <h2 className="text-base font-semibold text-gray-900">{isCreating ? 'Thêm thành viên' : 'Chỉnh sửa thành viên'}</h2>
               <button onClick={closeModal} className="p-1 rounded-md hover:bg-gray-100 text-gray-400">
@@ -155,7 +155,7 @@ export default function MemberCompaniesManager() {
                 <Field label="Mô tả (VI)" value={editing.descVi || ''} onChange={v => setEditing({ ...editing, descVi: v })} />
                 <Field label="Mô tả (EN)" value={editing.descEn || ''} onChange={v => setEditing({ ...editing, descEn: v })} />
               </div>
-              <CloudinaryGalleryUpload
+              <GalleryInput
                 label="Ảnh gallery"
                 value={companyImages}
                 onChange={setCompanyImages}
@@ -180,7 +180,7 @@ export default function MemberCompaniesManager() {
 
       {deleteConfirm && (
         <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center px-4">
-          <div className="bg-white rounded-xl p-6 max-w-sm w-full shadow-2xl">
+          <div className="bg-white rounded-lg p-6 max-w-sm w-full shadow-2xl">
             <h3 className="text-base font-semibold text-gray-900 mb-2">Xác nhận xóa</h3>
             <p className="text-sm text-gray-500 mb-5">Bạn có chắc muốn xóa thành viên này?</p>
             <div className="flex justify-end gap-3">

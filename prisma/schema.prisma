@@ -130,6 +130,20 @@ model Media {
   @@map("media")
 }
 
+model HeroSlide {
+  id        String   @id @default(cuid())
+  order     Int      @default(0)
+  image     String
+  labelVi   String
+  labelEn   String
+  published Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("hero_slide")
+  @@index([published])
+}
+
 model MemberCompany {
   id           String   @id @default(cuid())
   order        Int      @default(0)
@@ -146,4 +160,12 @@ model MemberCompany {
 
   @@map("member_company")
   @@index([published])
+}
+
+model SiteSetting {
+  key       String   @id
+  value     String
+  updatedAt DateTime @updatedAt
+
+  @@map("site_setting")
 }

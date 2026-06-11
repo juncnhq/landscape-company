@@ -155,7 +155,7 @@ export default function TimelineManager() {
                   onDragEnter={() => onDragEnter(index)}
                   onDragEnd={onDragEnd}
                   onDragOver={e => e.preventDefault()}
-                  className="bg-white rounded-xl border border-gray-100 px-5 py-4 flex items-start gap-4 shadow-sm hover:shadow-md transition-shadow cursor-grab active:cursor-grabbing active:opacity-60 select-none"
+                  className="bg-white rounded-lg border border-gray-100 px-5 py-4 flex items-start gap-4 shadow-sm hover:shadow-md transition-shadow cursor-grab active:cursor-grabbing active:opacity-60 select-none"
                 >
                   {/* Drag handle */}
                   <div className="shrink-0 mt-1 text-gray-300 hover:text-gray-400">
@@ -195,7 +195,7 @@ export default function TimelineManager() {
 
       {editing && (
         <div className="fixed inset-0 bg-black/50 z-50 flex items-start justify-center pt-8 px-4 overflow-y-auto">
-          <div className="bg-white rounded-2xl w-full max-w-lg shadow-2xl mb-10">
+          <div className="bg-white rounded-lg w-full max-w-lg shadow-2xl mb-10">
             <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100">
               <h2 className="text-base font-semibold text-gray-900">{isCreating ? 'Thêm mốc thời gian' : 'Chỉnh sửa mốc'}</h2>
               <button onClick={closeModal} className="p-1 rounded-md hover:bg-gray-100 text-gray-400">
@@ -226,7 +226,7 @@ export default function TimelineManager() {
 
       {deleteConfirm && (
         <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center px-4">
-          <div className="bg-white rounded-xl p-6 max-w-sm w-full shadow-2xl">
+          <div className="bg-white rounded-lg p-6 max-w-sm w-full shadow-2xl">
             <h3 className="text-base font-semibold text-gray-900 mb-2">Xác nhận xóa</h3>
             <p className="text-sm text-gray-500 mb-5">Bạn có chắc muốn xóa mốc thời gian này?</p>
             <div className="flex justify-end gap-3">

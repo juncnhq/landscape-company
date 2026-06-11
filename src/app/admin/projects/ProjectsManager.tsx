@@ -1,8 +1,8 @@
 'use client'
 
 import { useState, useEffect, useCallback } from 'react'
-import CloudinaryUpload from '@/components/admin/CloudinaryUpload'
-import CloudinaryGalleryUpload from '@/components/admin/CloudinaryGalleryUpload'
+import ImageInput from '@/components/admin/ImageInput'
+import GalleryInput from '@/components/admin/GalleryInput'
 
 type Project = {
   id: string
@@ -175,7 +175,7 @@ export default function ProjectsManager() {
         {loading ? (
           <div className="text-center py-20 text-gray-400">Đang tải...</div>
         ) : (
-          <div className="bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm">
+          <div className="bg-white rounded-lg border border-gray-200 overflow-hidden shadow-sm">
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
                 <thead>
@@ -280,7 +280,7 @@ export default function ProjectsManager() {
       {/* Edit/Create Modal */}
       {editingProject && (
         <div className="fixed inset-0 bg-black/50 z-50 flex items-start justify-center pt-10 px-4 overflow-y-auto">
-          <div className="bg-white rounded-2xl w-full max-w-2xl shadow-2xl mb-10">
+          <div className="bg-white rounded-lg w-full max-w-2xl shadow-2xl mb-10">
             <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100">
               <h2 className="text-lg font-semibold text-gray-900">
                 {isCreating ? 'Thêm dự án mới' : 'Chỉnh sửa dự án'}
@@ -311,19 +311,19 @@ export default function ProjectsManager() {
                 <Field label="Diện tích" value={editingProject.area || ''} onChange={(v) => setEditingProject({ ...editingProject, area: v })} />
                 <Field label="Thời gian" value={editingProject.duration || ''} onChange={(v) => setEditingProject({ ...editingProject, duration: v })} />
               </div>
-              <CloudinaryUpload
+              <ImageInput
                 label="Ảnh đại diện"
                 value={editingProject.image || ''}
                 onChange={(v) => setEditingProject({ ...editingProject, image: v })}
               />
-              <CloudinaryUpload
+              <ImageInput
                 label="Ảnh vẽ tay (Sketch)"
                 value={editingProject.sketchImage || ''}
                 onChange={(v) => setEditingProject({ ...editingProject, sketchImage: v })}
               />
               <Field label="Mô tả (VI)" value={editingProject.description || ''} onChange={(v) => setEditingProject({ ...editingProject, description: v })} type="textarea" />
               <Field label="Mô tả (EN)" value={editingProject.descriptionEn || ''} onChange={(v) => setEditingProject({ ...editingProject, descriptionEn: v })} type="textarea" />
-              <CloudinaryGalleryUpload
+              <GalleryInput
                 label="Ảnh gallery"
                 value={galleryImages}
                 onChange={setGalleryImages}
@@ -364,7 +364,7 @@ export default function ProjectsManager() {
       {/* Delete Confirm Modal */}
       {deleteConfirm && (
         <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center px-4">
-          <div className="bg-white rounded-xl p-6 max-w-sm w-full shadow-2xl">
+          <div className="bg-white rounded-lg p-6 max-w-sm w-full shadow-2xl">
             <h3 className="text-lg font-semibold text-gray-900 mb-2">Xác nhận xóa</h3>
             <p className="text-sm text-gray-500 mb-5">
               Bạn có chắc chắn muốn xóa dự án này? Hành động này không thể hoàn tác.

@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect, useCallback } from 'react'
-import CloudinaryUpload from '@/components/admin/CloudinaryUpload'
+import ImageInput from '@/components/admin/ImageInput'
 import RichTextEditor from '@/components/admin/RichTextEditor'
 
 type NewsArticle = {
@@ -144,11 +144,11 @@ export default function NewsManager() {
         </div>
 
         {loading ? (
-          <div className="space-y-3">{Array.from({ length: 4 }).map((_, i) => <div key={i} className="h-20 rounded-xl bg-white animate-pulse" />)}</div>
+          <div className="space-y-3">{Array.from({ length: 4 }).map((_, i) => <div key={i} className="h-20 rounded-lg bg-white animate-pulse" />)}</div>
         ) : (
           <div className="space-y-2">
             {articles.filter(a => typeFilter === 'all' || a.newsType === typeFilter).map((article) => (
-              <div key={article.id} className="bg-white rounded-xl border border-gray-100 px-5 py-4 flex items-center gap-4 shadow-sm hover:shadow-md transition-shadow">
+              <div key={article.id} className="bg-white rounded-lg border border-gray-100 px-5 py-4 flex items-center gap-4 shadow-sm hover:shadow-md transition-shadow">
                 {article.image && (
                   <img src={article.image} alt="" className="w-16 h-12 object-cover rounded-lg shrink-0" />
                 )}
@@ -197,7 +197,7 @@ export default function NewsManager() {
 
       {editing && (
         <div className="fixed inset-0 bg-black/50 z-50 flex items-start justify-center pt-8 px-4 overflow-y-auto">
-          <div className="bg-white rounded-2xl w-full max-w-2xl shadow-2xl mb-10">
+          <div className="bg-white rounded-lg w-full max-w-2xl shadow-2xl mb-10">
             <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100">
               <h2 className="text-base font-semibold text-gray-900">{isCreating ? 'Thêm bài viết mới' : 'Chỉnh sửa bài viết'}</h2>
               <button onClick={closeModal} className="p-1 rounded-md hover:bg-gray-100 text-gray-400">
@@ -206,7 +206,7 @@ export default function NewsManager() {
             </div>
             <div className="px-6 py-5 space-y-4 max-h-[72vh] overflow-y-auto">
               <Field label="Slug" value={editing.slug || ''} onChange={v => setEditing({ ...editing, slug: v })} />
-              <CloudinaryUpload
+              <ImageInput
                 label="Ảnh đại diện"
                 value={editing.image || ''}
                 onChange={v => setEditing({ ...editing, image: v })}
@@ -269,7 +269,7 @@ export default function NewsManager() {
 
       {deleteConfirm && (
         <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center px-4">
-          <div className="bg-white rounded-xl p-6 max-w-sm w-full shadow-2xl">
+          <div className="bg-white rounded-lg p-6 max-w-sm w-full shadow-2xl">
             <h3 className="text-base font-semibold text-gray-900 mb-2">Xác nhận xóa</h3>
             <p className="text-sm text-gray-500 mb-5">Bạn có chắc muốn xóa bài viết này?</p>
             <div className="flex justify-end gap-3">

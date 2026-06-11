@@ -2,7 +2,6 @@
 import { useLocale } from 'next-intl';
 import Link from 'next/link';
 import Image from 'next/image';
-import { useState } from 'react';
 
 const socialLinks = [
   {
@@ -46,13 +45,6 @@ const socialLinks = [
 export default function Footer() {
   const locale = useLocale();
   const isVi = locale === 'vi';
-  const [email, setEmail] = useState('');
-  const [subscribed, setSubscribed] = useState(false);
-
-  const handleSubscribe = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (email) { setSubscribed(true); setEmail(''); }
-  };
 
   return (
     <footer
@@ -71,7 +63,7 @@ export default function Footer() {
       <div className="relative z-10">
         {/* ── Top bar: logo + hours + socials ── */}
         <div
-          className="max-w-[1400px] mx-auto px-6 sm:px-10 lg:px-14 py-6 flex flex-col md:flex-row items-center gap-5 justify-between"
+          className="max-w-[1400px] mx-auto px-6 sm:px-10 lg:px-14 py-4 sm:py-6 flex flex-row flex-wrap items-center gap-3 justify-between"
           style={{ borderBottom: '1px solid rgba(255,255,255,0.12)' }}
         >
           {/* Logo */}
@@ -79,14 +71,14 @@ export default function Footer() {
             <Image
               src="/logo.png"
               alt="Lapla Landscape"
-              width={120}
-              height={40}
-              className="h-10 w-auto object-contain"
+              width={100}
+              height={34}
+              className="h-8 sm:h-10 w-auto object-contain"
             />
           </Link>
 
-          {/* Business hours */}
-          <p className="text-sm text-center text-white">
+          {/* Business hours — hidden on smallest screens */}
+          <p className="hidden sm:block text-sm text-center text-white">
             <span className="font-bold" style={{ color: 'var(--color-accent)' }}>
               {isVi ? 'Thứ 2 – Thứ 6:' : 'Mon – Fri:'}
             </span>
@@ -99,7 +91,7 @@ export default function Footer() {
           </p>
 
           {/* Social icons — circles */}
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1.5 sm:gap-2">
             {socialLinks.map((s) => (
               <a
                 key={s.label}
@@ -107,7 +99,7 @@ export default function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={s.label}
-                className="w-9 h-9 rounded-full flex items-center justify-center border border-white text-white transition-all duration-200 hover:bg-[var(--color-accent)] hover:border-[var(--color-accent)] hover:text-[#07130a]"
+                className="w-8 h-8 sm:w-9 sm:h-9 rounded-full flex items-center justify-center border border-white text-white transition-all duration-200 hover:bg-[var(--color-accent)] hover:border-[var(--color-accent)] hover:text-[#07130a]"
               >
                 {s.icon}
               </a>
@@ -115,11 +107,11 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* ── Main 4-column grid ── */}
-        <div className="max-w-[1400px] mx-auto px-6 sm:px-10 lg:px-14 py-14 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
+        {/* ── Main 3-column grid ── */}
+        <div className="max-w-[1400px] mx-auto px-6 sm:px-10 lg:px-14 py-8 sm:py-14 grid grid-cols-2 sm:grid-cols-3 gap-6 sm:gap-10">
 
-          {/* Col 1: CTA + contact */}
-          <div>
+          {/* Col 1: CTA + contact — full width on mobile */}
+          <div className="col-span-2 sm:col-span-1">
             <h3 className="font-display font-bold text-white leading-snug mb-5" style={{ fontSize: 'clamp(1.1rem,2vw,1.35rem)' }}>
               {isVi
                 ? 'Sẵn sàng tạo nên\nkhông gian xanh?'
@@ -127,7 +119,7 @@ export default function Footer() {
             </h3>
             <Link
               href={`/${locale}#contact`}
-              className="inline-flex items-center gap-2 px-6 py-3 text-xs font-black uppercase tracking-wider mb-7 transition-all duration-300 hover:scale-[1.04] hover:shadow-[0_8px_24px_rgba(199,220,73,0.4)]"
+              className="inline-flex items-center gap-2 px-6 py-3 text-xs font-black uppercase tracking-wider mb-5 sm:mb-7 transition-all duration-300 hover:scale-[1.04] hover:shadow-[0_8px_24px_rgba(199,220,73,0.4)]"
               style={{ backgroundColor: 'var(--color-accent)', color: '#07130a', borderRadius: 999 }}
             >
               {isVi ? 'Yêu cầu báo giá' : 'Request A Quote'}
@@ -217,45 +209,6 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Col 4: Newsletter */}
-          <div>
-            <h4 className="font-bold text-white mb-3 text-xs tracking-[0.25em] uppercase">
-              {isVi ? 'Đăng ký nhận tin' : 'Subscribe'}
-            </h4>
-            <p className="text-sm text-white mb-5 leading-relaxed">
-              {isVi
-                ? 'Nhận thông tin mới nhất về cảnh quan và ưu đãi độc quyền từ Lapla.'
-                : 'Join our mailing list to receive professional landscaping tips and exclusive offers.'}
-            </p>
-            {subscribed ? (
-              <p className="text-sm font-semibold" style={{ color: 'var(--color-accent)' }}>
-                {isVi ? '✓ Cảm ơn bạn đã đăng ký!' : '✓ Thank you for subscribing!'}
-              </p>
-            ) : (
-              <form onSubmit={handleSubscribe}>
-                <div className="flex items-center border border-white rounded-sm overflow-hidden" style={{ backgroundColor: 'rgba(255,255,255,0.1)' }}>
-                  <input
-                    type="email"
-                    required
-                    value={email}
-                    onChange={e => setEmail(e.target.value)}
-                    placeholder={isVi ? 'Email của bạn' : 'Enter Your Email'}
-                    className="flex-1 px-4 py-3 text-sm bg-transparent text-white placeholder-white/60 outline-none"
-                  />
-                  <button
-                    type="submit"
-                    className="px-4 py-3 flex items-center justify-center transition-all duration-200 hover:opacity-80 shrink-0"
-                    style={{ backgroundColor: 'var(--color-accent)' }}
-                    aria-label="Subscribe"
-                  >
-                    <svg className="w-4 h-4" style={{ color: '#07130a' }} fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5" />
-                    </svg>
-                  </button>
-                </div>
-              </form>
-            )}
-          </div>
         </div>
 
         {/* ── Bottom bar ── */}

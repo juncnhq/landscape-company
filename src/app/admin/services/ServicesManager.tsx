@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect, useCallback } from 'react'
-import CloudinaryGalleryUpload from '@/components/admin/CloudinaryGalleryUpload'
+import GalleryInput from '@/components/admin/GalleryInput'
 
 type Service = {
   id: string
@@ -134,7 +134,7 @@ export default function ServicesManager() {
         {loading ? (
           <div className="space-y-3">
             {Array.from({ length: 4 }).map((_, i) => (
-              <div key={i} className="h-20 rounded-xl bg-white animate-pulse" />
+              <div key={i} className="h-20 rounded-lg bg-white animate-pulse" />
             ))}
           </div>
         ) : (
@@ -142,7 +142,7 @@ export default function ServicesManager() {
             {services.map((service, i) => (
               <div
                 key={service.id}
-                className="bg-white rounded-xl border border-gray-100 px-5 py-4 flex items-center gap-4 shadow-sm hover:shadow-md transition-shadow"
+                className="bg-white rounded-lg border border-gray-100 px-5 py-4 flex items-center gap-4 shadow-sm hover:shadow-md transition-shadow"
               >
                 {/* Order + icon */}
                 <div className="flex items-center gap-3 shrink-0">
@@ -218,7 +218,7 @@ export default function ServicesManager() {
       {/* Edit / Create Modal */}
       {editing && (
         <div className="fixed inset-0 bg-black/50 z-50 flex items-start justify-center pt-8 px-4 overflow-y-auto">
-          <div className="bg-white rounded-2xl w-full max-w-2xl shadow-2xl mb-10">
+          <div className="bg-white rounded-lg w-full max-w-2xl shadow-2xl mb-10">
             <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100">
               <h2 className="text-base font-semibold text-gray-900">
                 {isCreating ? 'Thêm dịch vụ mới' : 'Chỉnh sửa dịch vụ'}
@@ -280,7 +280,7 @@ export default function ServicesManager() {
                   />
                 </div>
               </div>
-              <CloudinaryGalleryUpload
+              <GalleryInput
                 label="Ảnh gallery"
                 value={serviceImages}
                 onChange={setServiceImages}
@@ -309,7 +309,7 @@ export default function ServicesManager() {
       {/* Delete confirm */}
       {deleteConfirm && (
         <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center px-4">
-          <div className="bg-white rounded-xl p-6 max-w-sm w-full shadow-2xl">
+          <div className="bg-white rounded-lg p-6 max-w-sm w-full shadow-2xl">
             <h3 className="text-base font-semibold text-gray-900 mb-2">Xác nhận xóa</h3>
             <p className="text-sm text-gray-500 mb-5">Bạn có chắc muốn xóa dịch vụ này?</p>
             <div className="flex justify-end gap-3">

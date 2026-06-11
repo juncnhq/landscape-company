@@ -49,7 +49,7 @@ export default function ProcessSection() {
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-14">
           <ScrollReveal>
-            <p className="text-xs tracking-[0.3em] uppercase font-bold mb-3" style={{ color: 'var(--color-brand)' }}>
+            <p className="text-sm tracking-[0.3em] uppercase font-bold mb-3" style={{ color: 'var(--color-brand)' }}>
               {isVi ? 'Quy trình' : 'How It Works'}
             </p>
             <h2

@@ -4,38 +4,54 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState, useCallback } from "react";
 
-const heroSlides = [
+const FALLBACK_SLIDES = [
   {
-    image:
-      "https://res.cloudinary.com/dg9khx2s7/image/upload/v1780671447/dq8l14ajn2y7kxdku0nb.png",
+    image: "https://res.cloudinary.com/dg9khx2s7/image/upload/v1780671447/dq8l14ajn2y7kxdku0nb.png",
     labelVi: "Thiết kế cảnh quan",
     labelEn: "Landscape Design",
   },
   {
-    image:
-      "https://res.cloudinary.com/dg9khx2s7/image/upload/v1780671255/hkzptty2mrrdqgcjnvbv.jpg",
+    image: "https://res.cloudinary.com/dg9khx2s7/image/upload/v1780671255/hkzptty2mrrdqgcjnvbv.jpg",
     labelVi: "Thi công chuyên nghiệp",
     labelEn: "Professional Build",
   },
   {
-    image:
-      "https://res.cloudinary.com/dg9khx2s7/image/upload/v1780671436/g1bzoz3cahba47gm9h6h.png",
+    image: "https://res.cloudinary.com/dg9khx2s7/image/upload/v1780671436/g1bzoz3cahba47gm9h6h.png",
     labelVi: "Không gian xanh",
     labelEn: "Green Spaces",
   },
 ];
 
-const cardThumbImage =
-  "https://res.cloudinary.com/dg9khx2s7/image/upload/v1780671436/g1bzoz3cahba47gm9h6h.png";
 const SLIDE_DURATION = 5500;
 
 export default function HeroSection() {
   const locale = useLocale();
   const isVi = locale === "vi";
   const heroRef = useRef<HTMLDivElement>(null);
+  const [heroSlides, setHeroSlides] = useState<typeof FALLBACK_SLIDES | null>(null);
   const [current, setCurrent] = useState(0);
   const [prev, setPrev] = useState<number | null>(null);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  // Fetch slides from DB, fallback to hardcoded if unavailable
+  useEffect(() => {
+    fetch('/api/hero-slides')
+      .then(r => r.ok ? r.json() : null)
+      .then(data => {
+        if (Array.isArray(data) && data.length > 0) {
+          setHeroSlides(data)
+        } else {
+          setHeroSlides(FALLBACK_SLIDES)
+        }
+      })
+      .catch(() => setHeroSlides(FALLBACK_SLIDES))
+  }, [])
+
+  // While loading, render nothing — avoids fallback→DB flicker
+  const slides = heroSlides ?? []
+  const loaded = heroSlides !== null
+
+  const cardThumbImage = slides[slides.length - 1]?.image ?? '';
 
   const goTo = useCallback((idx: number) => {
     setCurrent((c) => {
@@ -48,12 +64,12 @@ export default function HeroSection() {
     if (timerRef.current) clearInterval(timerRef.current);
     timerRef.current = setInterval(() => {
       setCurrent((c) => {
-        const next = (c + 1) % heroSlides.length;
+        const next = (c + 1) % slides.length;
         setPrev(c);
         return next;
       });
     }, SLIDE_DURATION);
-  }, []);
+  }, [slides.length]);
 
   useEffect(() => {
     startTimer();
@@ -89,10 +105,10 @@ export default function HeroSection() {
       className="relative overflow-hidden"
       style={{ marginTop: "-82px", minHeight: "100vh" }}
     >
-      {/* Slide images */}
-      {heroSlides.map((slide, i) => (
+      {/* Slide images — only render after fetch resolves, no fallback flash */}
+      {loaded && slides.map((slide, i) => (
         <div
-          key={i}
+          key={slide.image}
           className="absolute inset-0 hero-bg-img"
           style={{
             transform: "scale(1.1)",
@@ -124,7 +140,7 @@ export default function HeroSection() {
         className="absolute inset-0"
         style={{
           background:
-            "linear-gradient(to right, rgba(10,22,6,0.92) 0%, rgba(10,22,6,0.75) 55%, rgba(10,22,6,0.35) 100%)",
+            "linear-gradient(to right, rgba(10,22,6,0.50) 0%, rgba(10,22,6,0.50) 20%, rgba(10,22,6,0.25) 100%)",
           zIndex: 2,
         }}
       />
@@ -153,7 +169,6 @@ export default function HeroSection() {
           <h1
             className="font-bold mb-6"
             style={{
-              color: "#ffffff",
               fontSize: "clamp(2.5rem, 5.5vw, 4.6rem)",
               lineHeight: "1.14",
               letterSpacing: "-0.02em",
@@ -166,7 +181,13 @@ export default function HeroSection() {
               <span
                 key={i}
                 className="inline-block hero-word"
-                style={{ animationDelay: `${120 + i * 180}ms` }}
+                style={{
+                  animationDelay: `${120 + i * 180}ms`,
+                  background: "linear-gradient(160deg, #ffffff 30%, #c7dc49 100%)",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                  backgroundClip: "text",
+                }}
               >
                 {chunk}
                 {i < 3 ? ' ' : ''}
@@ -235,7 +256,7 @@ export default function HeroSection() {
           animationDelay: "1000ms",
         }}
       >
-        {heroSlides.map((slide, i) => (
+        {slides.map((slide, i) => (
           <button
             key={i}
             onClick={() => {
@@ -273,7 +294,7 @@ export default function HeroSection() {
           className="ml-2 text-[11px] font-bold"
           style={{ color: "rgba(255,255,255,0.35)" }}
         >
-          0{current + 1} / 0{heroSlides.length}
+          0{current + 1} / 0{slides.length}
         </span>
       </div>
 
@@ -307,23 +328,25 @@ export default function HeroSection() {
             ? "Lapla đã trở thành công ty cảnh quan hàng đầu, cung cấp các giải pháp sáng tạo cho mọi không gian xanh."
             : "Lapla has blossomed into a leading landscaping company dedicated to providing innovative solutions for every green space."}
         </p>
-        <div
-          className="relative shrink-0"
-          style={{
-            width: "164px",
-            height: "116px",
-            borderRadius: "6px",
-            overflow: "hidden",
-          }}
-        >
-          <Image
-            src={cardThumbImage}
-            alt="Garden"
-            fill
-            className="object-cover"
-            sizes="164px"
-          />
-        </div>
+        {cardThumbImage && (
+          <div
+            className="relative shrink-0"
+            style={{
+              width: "164px",
+              height: "116px",
+              borderRadius: "6px",
+              overflow: "hidden",
+            }}
+          >
+            <Image
+              src={cardThumbImage}
+              alt="Garden"
+              fill
+              className="object-cover"
+              sizes="164px"
+            />
+          </div>
+        )}
       </div>
       <style>{`
         @keyframes heroReveal {
