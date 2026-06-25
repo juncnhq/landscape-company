@@ -32,7 +32,6 @@ export default async function HomePage({
       <AboutSection />
       <OurServicesSection />
       <ProcessSection />
-      <CTASection />
       <MemberCompaniesSection />
       <PartnersSection />
       <Footer />
