@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Bricolage_Grotesque, Public_Sans, Be_Vietnam_Pro } from 'next/font/google';
+import { Be_Vietnam_Pro } from 'next/font/google';
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages, setRequestLocale } from 'next-intl/server';
 import { notFound } from 'next/navigation';
@@ -8,25 +8,14 @@ import BackToTop from '@/components/BackToTop';
 import SmoothScroll from '@/components/SmoothScroll';
 import '../globals.css';
 
-const bricolage = Bricolage_Grotesque({
-  subsets: ['latin', 'latin-ext', 'vietnamese'],
-  weight: ['400', '500', '600', '700', '800'],
-  variable: '--font-bricolage',
-  display: 'swap',
-});
-
-const publicSans = Public_Sans({
-  subsets: ['latin', 'latin-ext', 'vietnamese'],
-  weight: ['300', '400', '500', '600', '700'],
-  variable: '--font-public-sans',
-  display: 'swap',
-});
-
-// Now that Bricolage + Public Sans both ship the Vietnamese subset, this is
-// only a deep fallback — keep a minimal set of weights to stay lightweight.
+// Single font family for the whole site (vi + en). Be Vietnam Pro fully supports
+// Vietnamese + Latin, so we no longer load Bricolage / Public Sans (they were only
+// ever shown on /en yet downloaded on every page). Ship every weight the UI uses:
+// 300 (font-light), 400, 500 (font-medium), 600 (font-semibold), 700 (font-bold),
+// 800 (hero), 900 (font-black). Do not trim.
 const beVietnamPro = Be_Vietnam_Pro({
   subsets: ['latin', 'vietnamese'],
-  weight: ['400', '600', '700'],
+  weight: ['300', '400', '500', '600', '700', '800', '900'],
   variable: '--font-be-vietnam',
   display: 'swap',
 });
@@ -55,7 +44,7 @@ export default async function LocaleLayout({
   const messages = await getMessages({ locale });
   return (
     <html lang={locale}>
-      <body className={`site-body ${bricolage.variable} ${publicSans.variable} ${beVietnamPro.variable}`}>
+      <body className={`site-body ${beVietnamPro.variable}`}>
         <NextIntlClientProvider messages={messages}>
           <SmoothScroll>
             {children}

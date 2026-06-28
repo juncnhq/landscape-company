@@ -51,7 +51,7 @@ export default function ProjectsSection() {
         PROJECT
       </div>
 
-      <div className="relative z-10 max-w-[1920px] mx-auto px-6 sm:px-10 lg:px-14 xl:px-16 2xl:px-24">
+      <div className="relative z-10 max-w-[2240px] mx-auto px-6 sm:px-10 lg:px-14 xl:px-16 2xl:px-24">
 
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-14">

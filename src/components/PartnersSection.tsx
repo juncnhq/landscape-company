@@ -173,7 +173,7 @@ export default function PartnersSection() {
         />
 
         {/* Header */}
-        <div className="max-w-[1920px] mx-auto px-6 sm:px-10 lg:px-14 xl:px-16 2xl:px-24 mb-12 md:mb-16">
+        <div className="max-w-[2240px] mx-auto px-6 sm:px-10 lg:px-14 xl:px-16 2xl:px-24 mb-12 md:mb-16">
           <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
             <motion.div
               initial={{ opacity: 0, y: 24 }}

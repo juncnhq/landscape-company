@@ -134,8 +134,8 @@ export default function HeroSection({ initialSlides }: { initialSlides?: Slide[]
 
       {/* Content */}
       <div
-        className="relative w-full max-w-[1920px] mx-auto px-6 sm:px-10 lg:px-14 xl:px-16 2xl:px-24"
-        style={{ paddingTop: "320px", paddingBottom: "100px", zIndex: 10 }}
+        className="relative w-full max-w-[2240px] mx-auto px-6 sm:px-10 lg:px-14 xl:px-16 2xl:px-24"
+        style={{ paddingTop: "clamp(112px, 20vh, 300px)", paddingBottom: "clamp(64px, 10vh, 110px)", zIndex: 10 }}
       >
         <div style={{ maxWidth: "860px" }}>
           {/* Eyebrow */}
@@ -156,10 +156,11 @@ export default function HeroSection({ initialSlides }: { initialSlides?: Slide[]
           <h1
             className="font-display mb-6"
             style={{
-              fontSize: "clamp(2.5rem, 5.5vw, 6.5rem)",
+              fontSize: "clamp(2.15rem, 5.5vw, 6.5rem)",
               lineHeight: "1.14",
               letterSpacing: "-0.02em",
               fontWeight: 800,
+              filter: "drop-shadow(0 2px 14px rgba(10,22,6,0.45))",
             }}
           >
             {(isVi
@@ -171,7 +172,13 @@ export default function HeroSection({ initialSlides }: { initialSlides?: Slide[]
                 className="inline-block hero-word"
                 style={{
                   animationDelay: `${120 + i * 180}ms`,
-                  color: "#ffffff", // fallback nếu trình duyệt không hỗ trợ background-clip
+                  // Gradient trắng → lime; fallback trắng nếu không hỗ trợ background-clip
+                  color: "#ffffff",
+                  backgroundImage:
+                    "linear-gradient(180deg, #ffffff 0%, #ffffff 52%, #e6ef9f 82%, #c7dc49 108%)",
+                  WebkitBackgroundClip: "text",
+                  backgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
                 }}
               >
                 {chunk}
@@ -228,6 +235,35 @@ export default function HeroSection({ initialSlides }: { initialSlides?: Slide[]
               </svg>
             </Link>
 
+            <Link
+              href={`/${locale}/contact`}
+              className="inline-flex items-center gap-2.5 text-sm font-semibold uppercase tracking-wide transition-all duration-300 hover:scale-[1.05]"
+              style={{
+                backgroundColor: "rgba(255,255,255,0.12)",
+                backdropFilter: "blur(8px)",
+                WebkitBackdropFilter: "blur(8px)",
+                border: "1px solid rgba(255,255,255,0.35)",
+                color: "#ffffff",
+                height: "58px",
+                padding: "0 30px",
+                borderRadius: "10px",
+              }}
+            >
+              {isVi ? "Yêu cầu báo giá" : "Request a Quote"}
+              <svg
+                className="w-4 h-4"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth={2.5}
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M13.5 4.5L21 12m0 0-7.5 7.5M21 12H3"
+                />
+              </svg>
+            </Link>
           </div>
         </div>
       </div>

@@ -44,13 +44,18 @@
 
 | Vai trò | Font | Token |
 |---|---|---|
-| Headings (h1–h6) | **Bricolage Grotesque**, fallback Be Vietnam Pro | `--font-display` / `var(--font-bricolage)` |
-| Body | **Public Sans**, fallback Be Vietnam Pro | `--font-sans` / `var(--font-public-sans)` |
+| **Toàn site (vi + en), body + heading** | **Be Vietnam Pro** | `--font-sans` / `--font-display` / `var(--font-be-vietnam)` |
 
-- Be Vietnam Pro là fallback bắt buộc để dấu tiếng Việt render đúng khi glyph thiếu.
-- Body: `16px / 28px`, weight 400. Headings: weight 700, `line-height: 1.2`, `letter-spacing: -0.02em` (set sẵn trong globals.css).
-- Eyebrow label (trên heading section): uppercase, `text-xs`, `font-bold`, `tracking-widest`, màu `--color-brand` (nền sáng) hoặc `--color-accent` (nền tối).
-- Font size scale: `--font-size-xs` 14px → `--font-size-4xl` 24px (xem globals.css). Heading lớn dùng Tailwind responsive (`text-4xl md:text-6xl`...).
+> ✅ **Site dùng 1 font duy nhất: Be Vietnam Pro** (hỗ trợ đầy đủ tiếng Việt + Latin). Đã **gỡ Bricolage + Public Sans** (trước đây chỉ hiển thị trên `/en` nhưng vẫn bị tải ở mọi trang → lãng phí). Không còn override `html[lang="vi"]`.
+
+- **Be Vietnam Pro phải nạp đủ weight `300–900`** — UI dùng từ `font-light` (300) → `font-black` (900), cộng hero (800). **Không trim.**
+- Body: `16px / 28px`, weight 400. Headings: weight 700, `line-height: 1.2`, `letter-spacing: -0.01em` (vừa phải cho chữ có dấu).
+- **Heading H2 mọi section dùng 1 thang chung:** `clamp(1.95rem, 3.5vw, 3.75rem)` (≈31→60px). Chỉ Hero `<h1>` mới to hơn (`clamp(2.5rem, 5.5vw, 6.5rem)`).
+- Eyebrow label: uppercase, `text-xs`, `font-bold`, `tracking-widest`, màu `--color-brand` (nền sáng) / `--color-accent` (nền tối).
+- Token cỡ chữ (modular ~1.2): `--font-size-xs` 12px → `--font-size-4xl` 36px (xem globals.css).
+
+### Icon
+- **Không dùng emoji làm icon** — luôn dùng **SVG** (Heroicons outline, `viewBox 0 0 24 24`). Vd `OurServicesSection` dùng mảng `SERVICE_ICONS`. (Field `icon` dạng emoji trong DB chỉ là dữ liệu cũ, không render.)
 
 ---
 

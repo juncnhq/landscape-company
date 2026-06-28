@@ -97,7 +97,7 @@ export default function MemberCompaniesSection() {
           className="absolute pointer-events-none select-none hidden md:block"
           style={{ bottom: '30px', right: '0px', width: '180px', opacity: 0.4, animation: 'float-bob-y 5.5s ease-in-out infinite 1s', zIndex: 0 }}
         />
-        <div className="max-w-[1920px] mx-auto px-6 sm:px-10 lg:px-14 xl:px-16 2xl:px-24 relative z-10">
+        <div className="max-w-[2240px] mx-auto px-6 sm:px-10 lg:px-14 xl:px-16 2xl:px-24 relative z-10">
 
           {/* Header */}
           <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-14">

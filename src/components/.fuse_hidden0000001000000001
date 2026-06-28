@@ -32,7 +32,7 @@ export default function AboutSection() {
         className="absolute pointer-events-none select-none hidden md:block"
         style={{ top: '30px', right: '0px', width: '150px', opacity: 0.8, animation: 'float-bob-y 4s ease-in-out infinite', zIndex: 20 }}
       />
-      <div className="max-w-[2240px] mx-auto px-6 sm:px-10 lg:px-14 xl:px-16 2xl:px-24 relative z-10">
+      <div className="max-w-[1920px] mx-auto px-6 sm:px-10 lg:px-14 xl:px-16 2xl:px-24 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
 
           {/* ── LEFT: image collage ── */}
@@ -126,7 +126,7 @@ export default function AboutSection() {
               </div>
 
               {/* Text content */}
-              <div className="max-w-[640px]">
+              <div>
                 <p className="text-sm tracking-[0.3em] uppercase font-bold mb-3" style={{ color: 'var(--color-brand)' }}>
                   {isVi ? 'Về chúng tôi' : 'Learn About Us'}
                 </p>

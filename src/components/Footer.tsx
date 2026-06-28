@@ -63,7 +63,7 @@ export default function Footer() {
       <div className="relative z-10">
         {/* ── Top bar: logo + hours + socials ── */}
         <div
-          className="max-w-[1920px] mx-auto px-6 sm:px-10 lg:px-14 xl:px-16 2xl:px-24 py-4 sm:py-6 flex flex-row flex-wrap items-center gap-3 justify-between"
+          className="max-w-[2240px] mx-auto px-6 sm:px-10 lg:px-14 xl:px-16 2xl:px-24 py-4 sm:py-6 flex flex-row flex-wrap items-center gap-3 justify-between"
           style={{ borderBottom: '1px solid rgba(255,255,255,0.12)' }}
         >
           {/* Logo */}
@@ -83,7 +83,7 @@ export default function Footer() {
               {isVi ? 'Thứ 2 – Thứ 6:' : 'Mon – Fri:'}
             </span>
             {' '}8.00 am – 6.00pm
-fo            {'  ·  '}
+            {'  ·  '}
             <span className="font-bold" style={{ color: 'var(--color-accent)' }}>
               {isVi ? 'Thứ 7:' : 'Saturday:'}
             </span>
@@ -107,19 +107,23 @@ fo            {'  ·  '}
           </div>
         </div>
 
-        {/* ── Main 3-column grid ── */}
-        <div className="max-w-[1920px] mx-auto px-6 sm:px-10 lg:px-14 xl:px-16 2xl:px-24 py-8 sm:py-14 grid grid-cols-2 sm:grid-cols-3 gap-6 sm:gap-10">
-
-          {/* Col 1: CTA + contact — full width on mobile */}
-          <div className="col-span-2 sm:col-span-1">
-            <h3 className="font-display font-bold text-white leading-snug mb-5" style={{ fontSize: 'clamp(1.1rem,2vw,1.35rem)' }}>
+        {/* ── Prominent CTA band (matches template) ── */}
+        <div
+          className="max-w-[2240px] mx-auto px-6 sm:px-10 lg:px-14 xl:px-16 2xl:px-24 py-8 sm:py-12 flex flex-col md:flex-row md:items-center md:justify-between gap-6"
+          style={{ borderBottom: '1px solid rgba(255,255,255,0.12)' }}
+        >
+          <div className="flex flex-col sm:flex-row sm:items-center gap-5 sm:gap-8">
+            <h2
+              className="font-display font-bold text-white leading-[1.1]"
+              style={{ fontSize: 'clamp(1.6rem, 3vw, 2.6rem)' }}
+            >
               {isVi
                 ? 'Sẵn sàng tạo nên\nkhông gian xanh?'
                 : 'Ready to Transform\nYour Outdoor Space?'}
-            </h3>
+            </h2>
             <Link
               href={`/${locale}/contact`}
-              className="inline-flex items-center gap-2 px-6 py-3 text-xs font-black uppercase tracking-wider mb-5 sm:mb-7 transition-all duration-300 hover:scale-[1.04] hover:shadow-[0_8px_24px_rgba(199,220,73,0.4)]"
+              className="inline-flex items-center gap-2 px-7 py-3.5 text-xs font-black uppercase tracking-wider shrink-0 transition-all duration-300 hover:scale-[1.04] hover:shadow-[0_8px_24px_rgba(199,220,73,0.4)]"
               style={{ backgroundColor: 'var(--color-accent)', color: '#07130a', borderRadius: 999 }}
             >
               {isVi ? 'Yêu cầu báo giá' : 'Request A Quote'}
@@ -127,6 +131,35 @@ fo            {'  ·  '}
                 <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0-7.5 7.5M21 12H3" />
               </svg>
             </Link>
+          </div>
+
+          {/* Call Us */}
+          <a href="tel:+842363695166" className="flex items-center gap-3 group shrink-0">
+            <div className="w-12 h-12 rounded-full flex items-center justify-center shrink-0 border border-white/40 text-white transition-colors duration-200 group-hover:bg-[var(--color-accent)] group-hover:border-[var(--color-accent)] group-hover:text-[#07130a]">
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" />
+              </svg>
+            </div>
+            <span className="flex flex-col">
+              <span className="text-xs uppercase tracking-wider text-white/70">{isVi ? 'Gọi cho chúng tôi' : 'Call Us'}</span>
+              <span className="text-base font-bold text-white group-hover:text-[var(--color-accent)] transition-colors">0236 3695 166</span>
+            </span>
+          </a>
+        </div>
+
+        {/* ── Main 3-column grid ── */}
+        <div className="max-w-[2240px] mx-auto px-6 sm:px-10 lg:px-14 xl:px-16 2xl:px-24 py-8 sm:py-14 grid grid-cols-2 sm:grid-cols-3 gap-6 sm:gap-10">
+
+          {/* Col 1: brand intro + contact — full width on mobile */}
+          <div className="col-span-2 sm:col-span-1">
+            <h4 className="font-bold text-white mb-6 text-xs tracking-[0.25em] uppercase">
+              {isVi ? 'Liên hệ' : 'Contact'}
+            </h4>
+            <p className="text-sm text-white/75 leading-relaxed mb-5 max-w-xs">
+              {isVi
+                ? 'Lapla — đơn vị thiết kế & thi công cảnh quan cao cấp, kiến tạo không gian xanh bền vững.'
+                : 'Lapla — premium landscape design & build, crafting sustainable green spaces.'}
+            </p>
 
             <div className="space-y-3">
               <a href="tel:+842363695166" className="flex items-center gap-3 text-sm group">
@@ -213,7 +246,7 @@ fo            {'  ·  '}
 
         {/* ── Bottom bar ── */}
         <div
-          className="max-w-[1920px] mx-auto px-6 sm:px-10 lg:px-14 xl:px-16 2xl:px-24 py-5 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-white"
+          className="max-w-[2240px] mx-auto px-6 sm:px-10 lg:px-14 xl:px-16 2xl:px-24 py-5 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-white"
           style={{ borderTop: '1px solid rgba(255,255,255,0.15)' }}
         >
           <p>© {isVi ? `Bản quyền ${new Date().getFullYear()} by` : `All Copyright ${new Date().getFullYear()} by`} <span className="font-semibold" style={{ color: 'var(--color-accent)' }}>Lapla</span></p>

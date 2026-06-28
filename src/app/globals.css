@@ -99,8 +99,8 @@
   --color-surface-warm:  var(--color-surface-warm);
   --color-surface-raised: var(--color-surface-raised);
 
-  --font-sans:    var(--font-public-sans), var(--font-be-vietnam), sans-serif;
-  --font-display: var(--font-bricolage), var(--font-be-vietnam), sans-serif;
+  --font-sans:    var(--font-be-vietnam), sans-serif;
+  --font-display: var(--font-be-vietnam), sans-serif;
 
   --radius-xs: var(--radius-xs);
   --radius-sm: var(--radius-sm);
@@ -119,10 +119,11 @@ html, body {
   scroll-behavior: smooth;
 }
 
+/* ─── Single font family site-wide: Be Vietnam Pro (vi + en) ───────────── */
 body {
   background: var(--background);
   color: var(--color-body);
-  font-family: var(--font-public-sans), var(--font-be-vietnam), "Public Sans", sans-serif;
+  font-family: var(--font-be-vietnam), "Be Vietnam Pro", sans-serif;
   font-size: 16px;
   line-height: 28px;
   font-weight: 400;
@@ -131,32 +132,12 @@ body {
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-bricolage), var(--font-be-vietnam), "Bricolage Grotesque", sans-serif;
+  font-family: var(--font-be-vietnam), "Be Vietnam Pro", sans-serif;
   font-weight: 700;
   line-height: 1.2;
-  letter-spacing: -0.02em;
-  /* No default color — each component sets color explicitly via inline style or Tailwind */
-}
-
-/* ─── Tiếng Việt: dùng Be Vietnam Pro cho toàn bộ site ─────────────────── */
-html[lang="vi"] {
-  --font-sans:    var(--font-be-vietnam), sans-serif;
-  --font-display: var(--font-be-vietnam), sans-serif;
-}
-
-html[lang="vi"] body {
-  font-family: var(--font-be-vietnam), "Be Vietnam Pro", sans-serif;
-}
-
-html[lang="vi"] h1,
-html[lang="vi"] h2,
-html[lang="vi"] h3,
-html[lang="vi"] h4,
-html[lang="vi"] h5,
-html[lang="vi"] h6 {
-  font-family: var(--font-be-vietnam), "Be Vietnam Pro", sans-serif;
-  /* Be Vietnam Pro có dấu — nới letter-spacing để không bị chật */
+  /* Be Vietnam Pro có dấu tiếng Việt — letter-spacing vừa phải để không bị chật */
   letter-spacing: -0.01em;
+  /* No default color — each component sets color explicitly via inline style or Tailwind */
 }
 
 /* ─── Màn hình lớn (≥1800px / 24" trở lên): tăng cỡ chữ <16px thêm 2px ── */
@@ -166,6 +147,12 @@ html[lang="vi"] h6 {
   .site-body {
     --text-xs: 0.875rem; /* 12px → 14px */
     --text-sm: 1rem;     /* 14px → 16px */
+  }
+
+  /* Base body scales up so nội dung không bị nhỏ trên màn lớn / 4K */
+  .site-body {
+    font-size: 17px;
+    line-height: 30px;
   }
 
   /* Tailwind arbitrary-value text sizes (text-[Npx]) bypass --text-* vars

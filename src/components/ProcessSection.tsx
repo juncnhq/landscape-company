@@ -47,7 +47,7 @@ export default function ProcessSection() {
 
   return (
     <section className="leafix-section overflow-hidden" style={{ backgroundColor: '#ffffff' }}>
-      <div className="max-w-[1920px] lg:max-w-[72%] mx-auto px-6 sm:px-10 lg:px-14 xl:px-16 2xl:px-24">
+      <div className="max-w-[2240px] lg:max-w-[72%] mx-auto px-6 sm:px-10 lg:px-14 xl:px-16 2xl:px-24">
 
         {/* Header — centered */}
         <ScrollReveal>
