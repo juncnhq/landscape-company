@@ -44,7 +44,7 @@ const CoverPage = forwardRef<HTMLDivElement, BasePageProps>((_, ref) => {
       <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 text-center px-10">
         <div className="w-8 h-px bg-[#BE7B2B]" />
         <p
-          className="text-[#BE7B2B] text-[10px] tracking-[0.3em] uppercase"
+          className="text-[#BE7B2B] text-xs tracking-[0.3em] uppercase"
           style={{ fontFamily: 'var(--font-sans), sans-serif' }}
         >
           Lapla Landscape
@@ -58,7 +58,7 @@ const CoverPage = forwardRef<HTMLDivElement, BasePageProps>((_, ref) => {
           Tiêu Biểu
         </h2>
         <div className="w-8 h-px bg-[#BE7B2B]" />
-        <p className="text-stone-500 text-[10px] tracking-[0.3em]">{range}</p>
+        <p className="text-stone-500 text-xs tracking-[0.3em]">{range}</p>
       </div>
     </div>
   )
@@ -91,11 +91,11 @@ const ImagePage = forwardRef<HTMLDivElement, ImagePageProps>(
 
           {/* page index badge */}
           <div className="absolute top-4 left-4 flex items-center gap-1.5">
-            <span className="text-[#BE7B2B] font-mono text-[10px] tabular-nums">
+            <span className="text-[#BE7B2B] font-mono text-xs tabular-nums">
               {String(pageIndex).padStart(2, '0')}
             </span>
-            <span className="text-stone-600 text-[10px]">·</span>
-            <span className="text-stone-300/70 text-[10px] tracking-[0.3em] uppercase">
+            <span className="text-stone-600 text-xs">·</span>
+            <span className="text-stone-300/70 text-xs tracking-[0.3em] uppercase">
               {project.category}
             </span>
           </div>
@@ -118,7 +118,7 @@ const ImagePage = forwardRef<HTMLDivElement, ImagePageProps>(
           {/* text info */}
           <div className="flex flex-col justify-between px-4 py-4 flex-1 overflow-hidden">
             {/* top: category tag */}
-            <span className="inline-block text-[var(--color-brand)] text-[9px] tracking-[0.3em] uppercase border border-[var(--color-brand)]/30 px-2 py-0.5 self-start">
+            <span className="inline-block text-[var(--color-brand)] text-xs tracking-[0.3em] uppercase border border-[var(--color-brand)]/30 px-2 py-0.5 self-start">
               {project.category}
             </span>
 
@@ -130,18 +130,18 @@ const ImagePage = forwardRef<HTMLDivElement, ImagePageProps>(
               >
                 {project.title}
               </h3>
-              <p className="text-stone-500 text-[10px] leading-relaxed line-clamp-3">
+              <p className="text-stone-500 text-xs leading-relaxed line-clamp-3">
                 {project.description}
               </p>
             </div>
 
             {/* bottom: location + year + client */}
             <div className="space-y-1 border-t border-stone-800/60 pt-3">
-              <div className="flex items-center gap-1.5 text-stone-400 text-[10px]">
+              <div className="flex items-center gap-1.5 text-stone-400 text-xs">
                 <span className="text-stone-600">↗</span>
                 {project.location}
               </div>
-              <div className="flex items-center justify-between text-[10px]">
+              <div className="flex items-center justify-between text-xs">
                 <span className="text-stone-600">{project.year}</span>
                 <span className="text-stone-700 truncate max-w-[100px] text-right">
                   {project.client}
@@ -171,7 +171,7 @@ const BackCoverPage = forwardRef<HTMLDivElement, BasePageProps>((_, ref) => (
     >
       LAPLA
     </span>
-    <span className="text-stone-500 text-[11px] tracking-[0.3em]">
+    <span className="text-stone-500 text-xs tracking-[0.3em]">
       lapla.com.vn
     </span>
     <div className="w-8 h-px bg-[#BE7B2B]" />
@@ -313,7 +313,7 @@ export default function ProjectFlipbook() {
       {/* Floating back button — top left */}
       <Link
         href={`/${locale}/projects`}
-        className="absolute top-6 left-6 z-20 group inline-flex items-center gap-2 text-stone-500 hover:text-white text-[11px] tracking-[0.2em] uppercase transition-colors duration-200"
+        className="absolute top-6 left-6 z-20 group inline-flex items-center gap-2 text-stone-500 hover:text-white text-xs tracking-[0.2em] uppercase transition-colors duration-200"
       >
         <svg
           className="w-3.5 h-3.5 transition-transform duration-200 group-hover:-translate-x-0.5"
@@ -341,7 +341,7 @@ export default function ProjectFlipbook() {
         {/* Zoom level */}
         <button
           onClick={() => setZoom(1)}
-          className="min-w-[2.75rem] h-8 text-[11px] tabular-nums text-stone-500 hover:text-white transition-colors"
+          className="min-w-[2.75rem] h-8 text-xs tabular-nums text-stone-500 hover:text-white transition-colors"
           aria-label="Đặt lại zoom"
         >
           {Math.round(zoom * 100)}%
@@ -456,7 +456,7 @@ export default function ProjectFlipbook() {
             </button>
           </div>
 
-          <p className="text-stone-700 text-[11px] tracking-[0.15em]">
+          <p className="text-stone-700 text-xs tracking-[0.15em]">
             Kéo góc trang hoặc nhấn mũi tên để lật
           </p>
         </div>
@@ -483,17 +483,17 @@ export default function ProjectFlipbook() {
               <div className="absolute inset-0 bg-gradient-to-t from-stone-950/92 via-stone-950/20 to-transparent" />
               <div className="absolute bottom-0 left-0 right-0 p-5">
                 <div className="flex items-center gap-2 mb-2">
-                  <span className="text-[#BE7B2B] font-mono text-[10px]">
+                  <span className="text-[#BE7B2B] font-mono text-xs">
                     {String(i + 1).padStart(2, '0')}
                   </span>
-                  <span className="text-[var(--color-brand)] text-[10px] tracking-widest uppercase">
+                  <span className="text-[var(--color-brand)] text-xs tracking-widest uppercase">
                     {project.category}
                   </span>
                 </div>
                 <h3 className="text-white text-sm font-light leading-snug mb-2 line-clamp-2">
                   {project.title}
                 </h3>
-                <div className="flex items-center gap-2 text-stone-400 text-[10px]">
+                <div className="flex items-center gap-2 text-stone-400 text-xs">
                   <span>{project.location}</span>
                   <span>· {project.year}</span>
                 </div>

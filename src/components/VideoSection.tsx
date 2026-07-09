@@ -10,7 +10,7 @@ export default function VideoSection() {
 
   return (
     <section className="leafix-section relative overflow-hidden" style={{ backgroundColor: '#ffffff' }}>
-      <div className="max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-14">
+      <div className="max-w-[1440px] lg:max-w-[80%] mx-auto px-6 sm:px-10 lg:px-14">
 
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12">
@@ -87,7 +87,7 @@ export default function VideoSection() {
                       </p>
                     </div>
                     <span
-                      className="shrink-0 ml-4 px-3 py-1.5 text-white text-[10px] font-bold tracking-widest uppercase"
+                      className="shrink-0 ml-4 px-3 py-1.5 text-white text-xs font-bold tracking-widest uppercase"
                       style={{ backgroundColor: 'var(--color-accent)' }}
                     >
                       Showreel
@@ -117,7 +117,7 @@ export default function VideoSection() {
             ].map((s) => (
               <div key={s.value} className="flex items-center gap-4">
                 <span className="font-display font-bold text-3xl md:text-4xl" style={{ color: 'var(--color-brand)' }}>{s.value}</span>
-                <span className="text-[11px] uppercase tracking-wider leading-tight max-w-[80px]" style={{ color: 'var(--color-text-secondary)' }}>
+                <span className="text-xs uppercase tracking-wider leading-tight max-w-[80px]" style={{ color: 'var(--color-text-secondary)' }}>
                   {isVi ? s.vi : s.en}
                 </span>
               </div>

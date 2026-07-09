@@ -24,7 +24,7 @@ function MemberModal({ member, onClose, isVi }: { member: Member; onClose: () =>
         onClick={e => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="px-8 pt-8 pb-6" style={{ background: 'linear-gradient(135deg, #0f541e 0%, #1a7a30 60%, #2d9e4a 100%)' }}>
+        <div className="px-8 pt-8 pb-6" style={{ background: 'linear-gradient(135deg, #16813d 0%, #1a7a30 60%, #2d9e4a 100%)' }}>
           <button
             onClick={onClose}
             className="absolute top-5 right-5 w-9 h-9 flex items-center justify-center text-white transition-opacity hover:opacity-70"
@@ -35,7 +35,7 @@ function MemberModal({ member, onClose, isVi }: { member: Member; onClose: () =>
               <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
             </svg>
           </button>
-          <span className="inline-block text-[10px] font-bold tracking-widest uppercase px-3 py-1 mb-4" style={{ color: 'var(--color-accent)', backgroundColor: 'rgba(199,220,73,0.15)', borderRadius: 'var(--radius-xl)', border: '1px solid rgba(199,220,73,0.3)' }}>
+          <span className="inline-block text-xs font-bold tracking-widest uppercase px-3 py-1 mb-4" style={{ color: 'var(--color-accent)', backgroundColor: 'rgba(199,220,73,0.15)', borderRadius: 'var(--radius-xl)', border: '1px solid rgba(199,220,73,0.3)' }}>
             {member.tagline}
           </span>
           <div className="flex items-center gap-4">
@@ -50,7 +50,7 @@ function MemberModal({ member, onClose, isVi }: { member: Member; onClose: () =>
         </div>
         {/* Body */}
         <div className="px-8 py-6">
-          <p className="text-[10px] font-bold uppercase tracking-widest mb-2" style={{ color: 'var(--color-text-secondary)' }}>{isVi ? 'Giới thiệu' : 'About'}</p>
+          <p className="text-xs font-bold uppercase tracking-widest mb-2" style={{ color: 'var(--color-text-secondary)' }}>{isVi ? 'Giới thiệu' : 'About'}</p>
           <p className="text-sm leading-relaxed" style={{ color: 'var(--color-text-secondary)' }}>{isVi ? member.descVi : member.descEn}</p>
         </div>
         <div className="px-8 py-4 flex items-center gap-2" style={{ borderTop: '1px solid rgba(0,0,0,0.06)', backgroundColor: '#fafafa' }}>
@@ -86,7 +86,7 @@ export default function MemberCompaniesSection() {
       <section className="leafix-section relative overflow-hidden" style={{ backgroundColor: 'var(--color-surface-alt)' }}>
         {/* SVG botanical repeating pattern */}
         <div className="absolute inset-0 pointer-events-none select-none" style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg width='180' height='180' viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M90 15 C70 50 50 70 50 100 C50 130 68 148 90 148 C112 148 130 130 130 100 C130 70 110 50 90 15Z' stroke='%230f541e' stroke-width='0.8' fill='none' opacity='0.09'/%3E%3Cline x1='90' y1='148' x2='90' y2='168' stroke='%230f541e' stroke-width='0.8' opacity='0.09'/%3E%3Ccircle cx='30' cy='30' r='3' fill='%230f541e' opacity='0.07'/%3E%3Ccircle cx='150' cy='150' r='3' fill='%230f541e' opacity='0.07'/%3E%3Ccircle cx='150' cy='30' r='2' fill='%230f541e' opacity='0.05'/%3E%3Ccircle cx='30' cy='150' r='2' fill='%230f541e' opacity='0.05'/%3E%3C/svg%3E")`,
+          backgroundImage: `url("data:image/svg+xml,%3Csvg width='180' height='180' viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M90 15 C70 50 50 70 50 100 C50 130 68 148 90 148 C112 148 130 130 130 100 C130 70 110 50 90 15Z' stroke='%2316813d' stroke-width='0.8' fill='none' opacity='0.09'/%3E%3Cline x1='90' y1='148' x2='90' y2='168' stroke='%2316813d' stroke-width='0.8' opacity='0.09'/%3E%3Ccircle cx='30' cy='30' r='3' fill='%2316813d' opacity='0.07'/%3E%3Ccircle cx='150' cy='150' r='3' fill='%2316813d' opacity='0.07'/%3E%3Ccircle cx='150' cy='30' r='2' fill='%2316813d' opacity='0.05'/%3E%3Ccircle cx='30' cy='150' r='2' fill='%2316813d' opacity='0.05'/%3E%3C/svg%3E")`,
           backgroundSize: '180px 180px',
           opacity: 1,
         }} />
@@ -117,7 +117,7 @@ export default function MemberCompaniesSection() {
                 <p className="text-sm leading-relaxed mb-3" style={{ color: 'var(--color-text-secondary)' }}>
                   {isVi ? 'Hệ sinh thái toàn diện gồm các công ty thành viên chuyên biệt, cùng phát triển bền vững.' : 'A comprehensive ecosystem of specialized member companies, growing together sustainably.'}
                 </p>
-                <span className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider px-3.5 py-1.5 rounded-full" style={{ color: 'var(--color-brand)', backgroundColor: 'rgba(15,84,30,0.07)', border: '1px solid rgba(15,84,30,0.12)' }}>
+                <span className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider px-3.5 py-1.5 rounded-full" style={{ color: 'var(--color-brand)', backgroundColor: 'rgba(22,129,61,0.07)', border: '1px solid rgba(22,129,61,0.12)' }}>
                   <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: 'var(--color-brand)' }} />
                   {total} {isVi ? 'công ty thành viên' : 'member companies'}
                 </span>
@@ -132,14 +132,14 @@ export default function MemberCompaniesSection() {
               <button
                 onClick={() => setSelected(featured)}
                 aria-label={featured.name}
-                className="group w-full h-full relative overflow-hidden text-left cursor-pointer flex flex-col justify-between transition-all duration-300 will-change-transform hover:-translate-y-1 hover:shadow-[0_28px_64px_rgba(15,84,30,0.30)]"
+                className="group w-full h-full relative overflow-hidden text-left cursor-pointer flex flex-col justify-between transition-all duration-300 will-change-transform hover:-translate-y-1 hover:shadow-[0_28px_64px_rgba(22,129,61,0.30)]"
                 style={{
-                  background: 'linear-gradient(145deg, #0f541e 0%, var(--color-brand) 55%, #48a85a 100%)',
+                  background: 'linear-gradient(145deg, #1d9448 0%, var(--color-brand) 55%, #55b268 100%)',
                   borderRadius: '16px',
                   padding: '18px',
                   minHeight: '200px',
                   border: 'none',
-                  boxShadow: '0 10px 30px rgba(15,84,30,0.18)',
+                  boxShadow: '0 10px 30px rgba(22,129,61,0.18)',
                 }}
               >
                 {/* SVG leaf watermark bg */}
@@ -153,7 +153,7 @@ export default function MemberCompaniesSection() {
                 {/* Top section */}
                 <div className="relative z-10">
                   <div className="flex items-start justify-between mb-4">
-                    <span className="inline-flex items-center gap-1.5 text-[10px] font-black tracking-[0.2em] uppercase px-2.5 py-1" style={{ color: 'var(--color-accent)', backgroundColor: 'rgba(199,220,73,0.15)', borderRadius: '999px', border: '1px solid rgba(199,220,73,0.35)' }}>
+                    <span className="inline-flex items-center gap-1.5 text-xs font-black tracking-[0.2em] uppercase px-2.5 py-1" style={{ color: 'var(--color-accent)', backgroundColor: 'rgba(199,220,73,0.15)', borderRadius: '999px', border: '1px solid rgba(199,220,73,0.35)' }}>
                       <svg width="8" height="8" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C7.5 2 3 7 3 13c0 3.5 2.5 6.5 9 6.5 0.5-2.5 0.5-5 0-7 2 1.5 3.5 4 3.5 7 2-1.5 3.5-4 3.5-6.5C19 6.5 16 2 12 2z"/></svg>
                       {featured.tagline}
                     </span>
@@ -171,7 +171,7 @@ export default function MemberCompaniesSection() {
                 {/* Bottom section */}
                 <div className="relative z-10 mt-3">
                   <div className="w-8 h-px mb-2" style={{ backgroundColor: 'rgba(255,255,255,0.25)' }} />
-                  <p className="text-[11px] leading-relaxed mb-3" style={{ color: 'rgba(255,255,255,0.72)', maxWidth: '280px' }}>{isVi ? featured.descVi : featured.descEn}</p>
+                  <p className="text-xs leading-relaxed mb-3" style={{ color: 'rgba(255,255,255,0.72)', maxWidth: '280px' }}>{isVi ? featured.descVi : featured.descEn}</p>
                   <span className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-white/90 group-hover:text-white transition-colors">
                     {isVi ? 'Xem chi tiết' : 'Learn more'}
                     <svg className="w-3.5 h-3.5 transition-transform duration-200 group-hover:translate-x-1" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0-7.5 7.5M21 12H3" /></svg>
@@ -186,7 +186,7 @@ export default function MemberCompaniesSection() {
                 <button
                   onClick={() => setSelected(company)}
                   aria-label={company.name}
-                  className="group w-full h-full relative overflow-hidden text-left cursor-pointer flex flex-col rounded-[20px] bg-white border border-black/[0.07] shadow-[0_2px_12px_rgba(0,0,0,0.05)] transition-all duration-300 hover:-translate-y-1.5 hover:border-[var(--color-brand)]/30 hover:shadow-[0_16px_40px_rgba(15,84,30,0.14)]"
+                  className="group w-full h-full relative overflow-hidden text-left cursor-pointer flex flex-col rounded-[20px] bg-white border border-black/[0.07] shadow-[0_2px_12px_rgba(0,0,0,0.05)] transition-all duration-300 hover:-translate-y-1.5 hover:border-[var(--color-brand)]/30 hover:shadow-[0_16px_40px_rgba(22,129,61,0.14)]"
                 >
                   {/* Gradient bar top — hover bằng CSS group-hover */}
                   <div
@@ -197,24 +197,24 @@ export default function MemberCompaniesSection() {
                   <div className="p-3 flex flex-col gap-2 flex-1">
                     {/* Header row */}
                     <div className="flex items-start justify-between">
-                      <div className="w-8 h-8 flex items-center justify-center transition-colors duration-300 group-hover:bg-[var(--color-brand)]" style={{ background: 'rgba(15,84,30,0.06)', borderRadius: '8px', border: '1px solid rgba(15,84,30,0.1)' }}>
-                        <span className="font-black text-[10px] transition-colors duration-300 group-hover:text-white" style={{ color: 'var(--color-brand)', letterSpacing: '0.04em' }}>{company.abbr}</span>
+                      <div className="w-8 h-8 flex items-center justify-center transition-colors duration-300 group-hover:bg-[var(--color-brand)]" style={{ background: 'rgba(22,129,61,0.06)', borderRadius: '8px', border: '1px solid rgba(22,129,61,0.1)' }}>
+                        <span className="font-black text-xs transition-colors duration-300 group-hover:text-white" style={{ color: 'var(--color-brand)', letterSpacing: '0.04em' }}>{company.abbr}</span>
                       </div>
-                      <span className="font-display font-black text-[18px] leading-none select-none" style={{ color: 'rgba(15,84,30,0.12)' }}>
+                      <span className="font-display font-black text-lg leading-none select-none" style={{ color: 'rgba(22,129,61,0.12)' }}>
                         {String(i + 2).padStart(2, '0')}
                       </span>
                     </div>
 
                     {/* Content */}
                     <div className="flex-1">
-                      <p className="text-[9px] font-bold tracking-[0.18em] uppercase mb-1" style={{ color: 'rgba(15,84,30,0.5)' }}>{company.tagline}</p>
+                      <p className="text-xs font-bold tracking-[0.18em] uppercase mb-1" style={{ color: 'rgba(22,129,61,0.5)' }}>{company.tagline}</p>
                       <h3 className="font-display font-bold text-xs leading-snug mb-1 transition-colors duration-200 group-hover:text-[var(--color-brand)]" style={{ color: 'var(--color-text-primary)' }}>{company.name}</h3>
-                      <p className="text-[11px] leading-relaxed line-clamp-2" style={{ color: 'var(--color-text-secondary)' }}>{isVi ? company.descVi : company.descEn}</p>
+                      <p className="text-xs leading-relaxed line-clamp-2" style={{ color: 'var(--color-text-secondary)' }}>{isVi ? company.descVi : company.descEn}</p>
                     </div>
 
                     {/* Footer */}
                     <div className="flex items-center justify-between pt-1.5" style={{ borderTop: '1px solid rgba(0,0,0,0.06)' }}>
-                      <span className="text-[9px] font-bold uppercase tracking-wider" style={{ color: 'var(--color-brand)' }}>{isVi ? 'Xem thêm' : 'Details'}</span>
+                      <span className="text-xs font-bold uppercase tracking-wider" style={{ color: 'var(--color-brand)' }}>{isVi ? 'Xem thêm' : 'Details'}</span>
                       <div className="w-6 h-6 flex items-center justify-center transition-all duration-300 group-hover:bg-[var(--color-brand)]" style={{ backgroundColor: 'var(--color-surface-alt)', borderRadius: '6px' }}>
                         <svg className="w-2.5 h-2.5 transition-colors duration-300 group-hover:text-white" style={{ color: 'var(--color-brand)' }} fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M7 17L17 7M17 7H7M17 7v10" /></svg>
                       </div>

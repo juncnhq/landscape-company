@@ -57,7 +57,7 @@ export default function ValuesSection() {
 
   return (
     <section className="leafix-section overflow-hidden" style={{ backgroundColor: '#f5f9f0' }}>
-      <div className="max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-14">
+      <div className="max-w-[1440px] lg:max-w-[80%] mx-auto px-6 sm:px-10 lg:px-14">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
 
           {/* LEFT: Image */}
@@ -82,21 +82,21 @@ export default function ValuesSection() {
                 <div className="flex items-center gap-5">
                   <div className="text-center">
                     <p className="font-display font-bold text-2xl" style={{ color: 'var(--color-brand)' }}>17+</p>
-                    <p className="text-[10px] uppercase tracking-wider mt-0.5" style={{ color: 'var(--color-text-secondary)' }}>
+                    <p className="text-xs uppercase tracking-wider mt-0.5" style={{ color: 'var(--color-text-secondary)' }}>
                       {isVi ? 'Năm KN' : 'Years'}
                     </p>
                   </div>
                   <div className="w-px h-10" style={{ backgroundColor: '#e8e8e8' }} />
                   <div className="text-center">
                     <p className="font-display font-bold text-2xl" style={{ color: 'var(--color-brand)' }}>200+</p>
-                    <p className="text-[10px] uppercase tracking-wider mt-0.5" style={{ color: 'var(--color-text-secondary)' }}>
+                    <p className="text-xs uppercase tracking-wider mt-0.5" style={{ color: 'var(--color-text-secondary)' }}>
                       {isVi ? 'Dự án' : 'Projects'}
                     </p>
                   </div>
                   <div className="w-px h-10" style={{ backgroundColor: '#e8e8e8' }} />
                   <div className="text-center">
                     <p className="font-display font-bold text-2xl" style={{ color: 'var(--color-brand)' }}>5★</p>
-                    <p className="text-[10px] uppercase tracking-wider mt-0.5" style={{ color: 'var(--color-text-secondary)' }}>
+                    <p className="text-xs uppercase tracking-wider mt-0.5" style={{ color: 'var(--color-text-secondary)' }}>
                       {isVi ? 'Đánh giá' : 'Rating'}
                     </p>
                   </div>

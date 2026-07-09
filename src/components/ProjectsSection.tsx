@@ -26,7 +26,7 @@ export default function ProjectsSection() {
   }, []);
 
   return (
-    <section className="leafix-section relative" style={{ backgroundColor: 'var(--color-surface-alt)' }}>
+    <section className="leafix-section relative overflow-hidden" style={{ backgroundColor: 'var(--color-surface-alt)' }}>
       {/* Botanical watermark bg */}
       <div className="absolute inset-0 pointer-events-none select-none" style={{ backgroundImage: 'url(/images/shapes/project-bg-shape.png)', backgroundRepeat: 'no-repeat', backgroundPosition: 'center bottom', backgroundSize: 'contain', opacity: 0.18 }} />
       {/* Monstera leaf — bottom-right, like Leafix */}
@@ -117,7 +117,7 @@ export default function ProjectsSection() {
                   />
 
                   {/* Category pill — top-left */}
-                  <div className="absolute top-4 left-4 inline-flex items-center gap-1.5 px-3 py-1.5 text-[10px] font-bold uppercase tracking-widest rounded-full" style={{ backgroundColor: 'var(--color-accent)', color: 'var(--color-text-primary)' }}>
+                  <div className="absolute top-4 left-4 inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold uppercase tracking-widest rounded-full" style={{ backgroundColor: 'var(--color-accent)', color: 'var(--color-text-primary)' }}>
                     <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor">
                       <path d="M12 3C7 3 3 8 3 13c0 4 3 7 9 7 1-2.5 1-5.5 0-8 2 1.5 4 4 4 7 2-1.5 4-4 4-7C20 7 16.5 3 12 3z"/>
                     </svg>
@@ -133,7 +133,7 @@ export default function ProjectsSection() {
 
                   {/* Bottom content overlaid on image */}
                   <div className="absolute inset-x-0 bottom-0 p-5">
-                    <p className="text-[11px] font-semibold uppercase tracking-wider mb-1.5" style={{ color: 'var(--color-accent)' }}>
+                    <p className="text-xs font-semibold uppercase tracking-wider mb-1.5" style={{ color: 'var(--color-accent)' }}>
                       {p.location} · {p.year}
                     </p>
                     <h3 className="font-display font-bold text-white leading-snug" style={{ fontSize: '1.05rem' }}>

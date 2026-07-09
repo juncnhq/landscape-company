@@ -41,7 +41,7 @@ export default function NewsGrid() {
   if (!articles.length) {
     return (
       <div className="leafix-section" style={{ backgroundColor: 'var(--color-surface-base)' }}>
-        <div className="max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-14 text-center py-10">
+        <div className="max-w-[1440px] lg:max-w-[80%] mx-auto px-6 sm:px-10 lg:px-14 text-center py-10">
           <div className="w-16 h-16 rounded-full mx-auto mb-5 flex items-center justify-center" style={{ backgroundColor: 'var(--color-surface-alt)' }}>
             <svg className="w-7 h-7" style={{ color: 'var(--color-brand)' }} fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
@@ -62,7 +62,7 @@ export default function NewsGrid() {
 
   return (
     <div className="leafix-section" style={{ backgroundColor: 'var(--color-surface-base)' }}>
-      <div className="max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-14">
+      <div className="max-w-[1440px] lg:max-w-[80%] mx-auto px-6 sm:px-10 lg:px-14">
 
         {/* Featured */}
         <ScrollReveal className="mb-10">
@@ -76,7 +76,7 @@ export default function NewsGrid() {
             </div>
             <div className="flex flex-col justify-center p-8 md:p-12 bg-white">
               <div className="flex items-center gap-3 mb-4">
-                <span className="text-[10px] font-bold tracking-widest uppercase px-3 py-1" style={{ backgroundColor: 'var(--color-brand)', color: '#fff', borderRadius: 'var(--radius-xl)' }}>
+                <span className="text-xs font-bold tracking-widest uppercase px-3 py-1" style={{ backgroundColor: 'var(--color-brand)', color: '#fff', borderRadius: 'var(--radius-xl)' }}>
                   {isVi ? featured.categoryVi : featured.categoryEn}
                 </span>
                 <span className="text-xs" style={{ color: 'var(--color-text-secondary)' }}>{formatDate(featured.date, locale)}</span>
@@ -113,10 +113,10 @@ export default function NewsGrid() {
                 </div>
                 <div className="flex flex-col flex-1 p-6">
                   <div className="flex items-center gap-2 mb-3">
-                    <span className="text-[9px] font-bold tracking-widest uppercase px-2.5 py-1" style={{ color: 'var(--color-brand)', border: '1px solid var(--color-brand)', borderRadius: 'var(--radius-xl)' }}>
+                    <span className="text-xs font-bold tracking-widest uppercase px-2.5 py-1" style={{ color: 'var(--color-brand)', border: '1px solid var(--color-brand)', borderRadius: 'var(--radius-xl)' }}>
                       {isVi ? article.categoryVi : article.categoryEn}
                     </span>
-                    <span className="text-[10px]" style={{ color: 'var(--color-text-secondary)' }}>{formatDate(article.date, locale)}</span>
+                    <span className="text-xs" style={{ color: 'var(--color-text-secondary)' }}>{formatDate(article.date, locale)}</span>
                   </div>
                   <h3 className="font-display font-bold text-sm leading-snug mb-2 flex-1 transition-colors duration-200 group-hover:text-[var(--color-brand)]" style={{ color: 'var(--color-text-primary)' }}>
                     {isVi ? article.titleVi : article.titleEn}

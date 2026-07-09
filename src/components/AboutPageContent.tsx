@@ -208,7 +208,7 @@ export default function AboutPageContent() {
         className="leafix-section overflow-hidden"
         style={{ backgroundColor: "#fff" }}
       >
-        <div className="max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-14">
+        <div className="max-w-[1440px] lg:max-w-[80%] mx-auto px-6 sm:px-10 lg:px-14">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-14 lg:gap-20 items-center">
             {/* LEFT: collage */}
             <ScrollReveal direction="left">
@@ -407,7 +407,7 @@ export default function AboutPageContent() {
               </p>
 
               {/* Feature 2-col */}
-              <div className="grid grid-cols-2 gap-x-8 gap-y-3 mb-8">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-3 mb-8">
                 {features.map((f) => (
                   <div key={f} className="flex items-center gap-2.5">
                     <Image
@@ -495,7 +495,7 @@ export default function AboutPageContent() {
                     />
                     <div
                       className="absolute inset-0 flex items-center justify-center"
-                      style={{ backgroundColor: "rgba(15,84,30,0.5)" }}
+                      style={{ backgroundColor: "rgba(22,129,61,0.5)" }}
                     >
                       <svg
                         width="18"
@@ -515,7 +515,7 @@ export default function AboutPageContent() {
                   </div>
                   <div>
                     <p
-                      className="text-[10px] font-semibold uppercase tracking-wider"
+                      className="text-xs font-semibold uppercase tracking-wider"
                       style={{ color: "var(--color-text-secondary)" }}
                     >
                       {isVi ? "Gọi bất cứ lúc nào" : "Call Us Any Time"}
@@ -543,7 +543,7 @@ export default function AboutPageContent() {
         className="py-16 md:py-20"
         style={{ backgroundColor: "#fff" }}
       >
-        <div className="max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-14">
+        <div className="max-w-[1440px] lg:max-w-[80%] mx-auto px-6 sm:px-10 lg:px-14">
           <p
             className="text-center font-semibold mb-12"
             style={{ fontSize: "1.1rem", color: "var(--color-text-primary)" }}
@@ -617,7 +617,7 @@ export default function AboutPageContent() {
         className="leafix-section overflow-hidden"
         style={{ backgroundColor: "#f5f2ec" }}
       >
-        <div className="max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-14">
+        <div className="max-w-[1440px] lg:max-w-[80%] mx-auto px-6 sm:px-10 lg:px-14">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-start">
             {/* LEFT */}
             <ScrollReveal direction="left">
@@ -735,7 +735,7 @@ export default function AboutPageContent() {
         className="leafix-section overflow-hidden"
         style={{ backgroundColor: "#fff" }}
       >
-        <div className="max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-14">
+        <div className="max-w-[1440px] lg:max-w-[80%] mx-auto px-6 sm:px-10 lg:px-14">
           {/* Centered header */}
           <ScrollReveal className="text-center mb-10">
             <p
@@ -784,13 +784,13 @@ export default function AboutPageContent() {
                   style={{
                     backgroundColor: "var(--color-surface-alt)",
                     borderRadius: 14,
-                    border: "1px solid rgba(15,84,30,0.08)",
+                    border: "1px solid rgba(22,129,61,0.08)",
                   }}
                 >
                   <div
                     className="shrink-0 w-11 h-11 flex items-center justify-center"
                     style={{
-                      backgroundColor: "rgba(15,84,30,0.1)",
+                      backgroundColor: "rgba(22,129,61,0.1)",
                       borderRadius: 10,
                       color: "var(--color-brand)",
                     }}
@@ -817,7 +817,7 @@ export default function AboutPageContent() {
         className="relative overflow-hidden"
         style={{ backgroundColor: "var(--color-brand)", minHeight: "520px" }}
       >
-        <div className="max-w-[1440px] mx-auto">
+        <div className="max-w-[1440px] lg:max-w-[80%] mx-auto">
           <div
             className="grid grid-cols-1 lg:grid-cols-2 items-center"
             style={{ minHeight: "520px" }}
@@ -947,7 +947,7 @@ export default function AboutPageContent() {
           className="absolute inset-0 pointer-events-none opacity-30"
           style={{
             backgroundImage:
-              "radial-gradient(circle, rgba(15,84,30,0.12) 1px, transparent 1px)",
+              "radial-gradient(circle, rgba(22,129,61,0.12) 1px, transparent 1px)",
             backgroundSize: "22px 22px",
           }}
         />

@@ -8,16 +8,16 @@
   --color-text-tertiary:   #ffffff;   /* text on dark bg */
   --color-text-muted:      #6b7280;   /* placeholders, meta */
 
-  --color-brand:           #0f541e;   /* dark green — primary brand */
-  --color-brand-dark:      #0a3a14;   /* hover on dark green */
+  --color-brand:           #16813d;   /* fresh green — primary brand */
+  --color-brand-dark:      #0f6330;   /* hover on brand green */
   --color-accent:          #c7dc49;   /* yellow-green CTA */
   --color-accent-dark:     #b0c83a;   /* hover on accent */
 
   --color-surface-base:    #ffffff;   /* page background */
   --color-surface-muted:   #c7dc49;   /* accent surface */
-  --color-surface-raised:  #f8f7f3;   /* testimonials bg */
-  --color-surface-alt:     #f7f8ed;   /* services bg */
-  --color-surface-warm:    #f5f2eb;   /* projects bg */
+  --color-surface-raised:  #fbfbf9;   /* testimonials bg — near-white */
+  --color-surface-alt:     #f8fbf3;   /* services bg — light green-tinted white */
+  --color-surface-warm:    #faf9f5;   /* projects bg — near-white warm */
   --color-surface-dark:    #0a1606;   /* hero, footer bg */
   --color-surface-strong:  #c1d2ce;
 
@@ -72,7 +72,7 @@
   --shadow-md:   0 4px 20px rgba(0,0,0,0.10);
   --shadow-lg:   0 12px 40px rgba(0,0,0,0.14);
   --shadow-xl:   0 20px 60px rgba(0,0,0,0.16);
-  --shadow-brand: 0 8px 24px rgba(15,84,30,0.20);
+  --shadow-brand: 0 8px 24px rgba(22,129,61,0.20);
 
   /* ─── Legacy aliases (keep for backward compat) ── */
   --background:          var(--color-surface-base);
@@ -154,13 +154,6 @@ h1, h2, h3, h4, h5, h6 {
     font-size: 17px;
     line-height: 30px;
   }
-
-  /* Tailwind arbitrary-value text sizes (text-[Npx]) bypass --text-* vars
-     entirely — override them directly so labels/badges scale up too. */
-  .site-body .text-\[9px\]      { font-size: 11px; }
-  .site-body .text-\[10px\]     { font-size: 12px; }
-  .site-body .text-\[11px\]     { font-size: 13px; }
-  .site-body .sm\:text-\[10px\] { font-size: 12px; }
 }
 
 /* Leafix section padding (120px like original) */
@@ -239,5 +232,5 @@ a, button {
 
 ::-webkit-scrollbar { width: 6px; }
 ::-webkit-scrollbar-track { background: #f7f8ed; }
-::-webkit-scrollbar-thumb { background: #0f541e; border-radius: 3px; }
+::-webkit-scrollbar-thumb { background: #16813d; border-radius: 3px; }
 ::-webkit-scrollbar-thumb:hover { background: #c7dc49; }

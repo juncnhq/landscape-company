@@ -126,7 +126,7 @@ const ProjectPage = forwardRef<HTMLDivElement, ProjectPageProps>(
           {/* Right: text info */}
           <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', padding: '12px 14px', backgroundColor: '#ffffff' }}>
             {/* Top: category tag */}
-            <span style={{ display: 'inline-block', fontSize: 8, fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#0f541e', border: '1px solid rgba(15,84,30,0.25)', backgroundColor: '#f7f8ed', padding: '2px 7px', alignSelf: 'flex-start', borderRadius: 4 }}>
+            <span style={{ display: 'inline-block', fontSize: 8, fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#16813d', border: '1px solid rgba(22,129,61,0.25)', backgroundColor: '#f7f8ed', padding: '2px 7px', alignSelf: 'flex-start', borderRadius: 4 }}>
               {p.category}
             </span>
 
@@ -149,7 +149,7 @@ const ProjectPage = forwardRef<HTMLDivElement, ProjectPageProps>(
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <span style={{ fontSize: 9, color: '#9ca3af' }}>{p.year}</span>
                 <a href={`/${locale}/projects/${p.slug}`}
-                  style={{ fontSize: 8, fontWeight: 800, color: '#0f541e', textDecoration: 'none', letterSpacing: '0.14em', textTransform: 'uppercase' }}>
+                  style={{ fontSize: 8, fontWeight: 800, color: '#16813d', textDecoration: 'none', letterSpacing: '0.14em', textTransform: 'uppercase' }}>
                   {isVi ? 'Xem →' : 'View →'}
                 </a>
               </div>
@@ -289,7 +289,7 @@ export default function CatalogViewer({ locale }: Props) {
 
   if (loading) return (
     <div style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 14, backgroundColor: '#f5f2eb' }}>
-      <div style={{ width: 28, height: 28, border: '2px solid #0f541e', borderTopColor: 'transparent', borderRadius: '50%', animation: 'spin 0.8s linear infinite' }} />
+      <div style={{ width: 28, height: 28, border: '2px solid #16813d', borderTopColor: 'transparent', borderRadius: '50%', animation: 'spin 0.8s linear infinite' }} />
       <p style={{ fontSize: 10, letterSpacing: '0.3em', color: '#9ca3af', textTransform: 'uppercase', margin: 0 }}>Loading catalog…</p>
       <style>{`@keyframes spin { to { transform: rotate(360deg) } }`}</style>
     </div>
@@ -381,19 +381,19 @@ export default function CatalogViewer({ locale }: Props) {
           <div style={{ display: 'flex', alignItems: 'center', gap: 18 }}>
             <button onClick={goPrev} aria-label="Trang trước"
               style={{ width: 36, height: 36, borderRadius: '50%', border: '1px solid rgba(0,0,0,0.15)', background: '#ffffff', cursor: 'pointer', color: '#6b7280', fontSize: 18, lineHeight: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'all 0.15s' }}
-              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderColor = '#0f541e'; (e.currentTarget as HTMLElement).style.color = '#0f541e'; }}
+              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderColor = '#16813d'; (e.currentTarget as HTMLElement).style.color = '#16813d'; }}
               onMouseLeave={e => { (e.currentTarget as HTMLElement).style.borderColor = 'rgba(0,0,0,0.15)'; (e.currentTarget as HTMLElement).style.color = '#6b7280'; }}
             >‹</button>
 
             <div style={{ display: 'flex', gap: 5, alignItems: 'center' }}>
               {Array.from({ length: TOTAL_SPREADS }).map((_, i) => (
-                <span key={i} style={{ display: 'block', height: 4, borderRadius: 2, transition: 'all 0.3s', width: i === activeSpread ? 18 : 5, backgroundColor: i === activeSpread ? '#0f541e' : 'rgba(0,0,0,0.12)' }} />
+                <span key={i} style={{ display: 'block', height: 4, borderRadius: 2, transition: 'all 0.3s', width: i === activeSpread ? 18 : 5, backgroundColor: i === activeSpread ? '#16813d' : 'rgba(0,0,0,0.12)' }} />
               ))}
             </div>
 
             <button onClick={goNext} aria-label="Trang sau"
               style={{ width: 36, height: 36, borderRadius: '50%', border: '1px solid rgba(0,0,0,0.15)', background: '#ffffff', cursor: 'pointer', color: '#6b7280', fontSize: 18, lineHeight: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'all 0.15s' }}
-              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderColor = '#0f541e'; (e.currentTarget as HTMLElement).style.color = '#0f541e'; }}
+              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderColor = '#16813d'; (e.currentTarget as HTMLElement).style.color = '#16813d'; }}
               onMouseLeave={e => { (e.currentTarget as HTMLElement).style.borderColor = 'rgba(0,0,0,0.15)'; (e.currentTarget as HTMLElement).style.color = '#6b7280'; }}
             >›</button>
           </div>

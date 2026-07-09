@@ -35,7 +35,7 @@ export default function TeamSection() {
 
   return (
     <section className="leafix-section" style={{ backgroundColor: '#fff' }}>
-      <div className="max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-14">
+      <div className="max-w-[1440px] lg:max-w-[80%] mx-auto px-6 sm:px-10 lg:px-14">
 
         {/* Header: 2-col */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-end mb-14">

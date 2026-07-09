@@ -37,7 +37,7 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
       <Navbar />
 
       {/* Back link + title */}
-      <div className="max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-14 xl:px-16 2xl:px-24 pt-32 pb-8">
+      <div className="max-w-[1440px] lg:max-w-[80%] mx-auto px-6 sm:px-10 lg:px-14 xl:px-16 2xl:px-24 pt-32 pb-8">
         <Link
           href={`/${locale}/projects`}
           className="inline-flex items-center gap-2 text-xs tracking-widest uppercase font-semibold mb-6 transition-colors hover:opacity-70"
@@ -60,7 +60,7 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
       </div>
 
       {/* Image gallery — masonry-like 1 col */}
-      <div className="max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-14 xl:px-16 2xl:px-24 pb-24 flex flex-col gap-4">
+      <div className="max-w-[1440px] lg:max-w-[80%] mx-auto px-6 sm:px-10 lg:px-14 xl:px-16 2xl:px-24 pb-24 flex flex-col gap-4">
         {allImages.map((img, i) => (
           <button
             key={i}

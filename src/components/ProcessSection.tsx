@@ -39,7 +39,7 @@ const steps = [
 ];
 
 // Decorative leaf-badge cluster (no fake stock faces)
-const badgeColors = ['#0f541e', '#1a7a30', '#48a85a', '#c7dc49'];
+const badgeColors = ['#16813d', '#1a7a30', '#48a85a', '#c7dc49'];
 
 export default function ProcessSection() {
   const locale = useLocale();
@@ -71,7 +71,7 @@ export default function ProcessSection() {
         <ScrollReveal delay={1} duration={600}>
           <div
             className="relative border border-[#e8e8e8] overflow-hidden"
-            style={{ borderRadius: '28px', boxShadow: '0 12px 40px rgba(15, 84, 30, 0.06)' }}
+            style={{ borderRadius: '28px', boxShadow: '0 12px 40px rgba(22, 129, 61, 0.06)' }}
           >
             {/* Decorative leaf graphic, bottom-left */}
             <svg
@@ -144,7 +144,7 @@ export default function ProcessSection() {
                       style={{ backgroundColor: c }}
                       aria-hidden="true"
                     >
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" style={{ color: i === 3 ? '#0f541e' : '#ffffff' }}>
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" style={{ color: i === 3 ? '#16813d' : '#ffffff' }}>
                         <path d="M12 3C8 3 4 7.5 4 12.5c0 3 2 5.5 8 5.5.5-2 .5-4 0-5.5 1.5 1.2 2.8 3 2.8 5.5 1.5-1.2 2.8-3 2.8-5C17.6 6.5 15 3 12 3z" fill="currentColor"/>
                       </svg>
                     </div>

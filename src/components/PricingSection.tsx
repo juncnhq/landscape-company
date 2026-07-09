@@ -123,7 +123,7 @@ export default function PricingSection() {
 
   return (
     <section className="leafix-section" style={{ backgroundColor: '#f5f9f0' }}>
-      <div className="max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-14">
+      <div className="max-w-[1440px] lg:max-w-[80%] mx-auto px-6 sm:px-10 lg:px-14">
 
         {/* Header */}
         <div className="text-center mb-10">
@@ -166,7 +166,7 @@ export default function PricingSection() {
               {/* Popular badge */}
               {plan.popular && (
                 <div
-                  className="absolute top-5 right-5 text-[10px] font-black uppercase tracking-widest px-3 py-1"
+                  className="absolute top-5 right-5 text-xs font-black uppercase tracking-widest px-3 py-1"
                   style={{ backgroundColor: '#0e2208', color: 'white' }}
                 >
                   {isVi ? 'Phổ biến' : 'POPULAR'}
@@ -206,7 +206,7 @@ export default function PricingSection() {
               {/* Features */}
               <div className="px-7 py-6 flex-1">
                 <p
-                  className="text-[10px] font-black uppercase tracking-widest mb-4"
+                  className="text-xs font-black uppercase tracking-widest mb-4"
                   style={{ color: plan.popular ? 'rgba(255,255,255,0.6)' : 'var(--color-brand)' }}
                 >
                   {isVi ? "Bao gồm:" : "What's included:"}

@@ -42,7 +42,7 @@ export default function PageHero({ eyebrow, title, description, breadcrumbs, bgI
       {/* Subtle left-to-right gradient on top for depth */}
       <div style={{
         position: 'absolute', inset: 0,
-        background: 'linear-gradient(105deg, rgba(15,84,30,0.30) 0%, transparent 60%)',
+        background: 'linear-gradient(105deg, rgba(22,129,61,0.30) 0%, transparent 60%)',
       }} />
 
       {/* Bottom fade — smooth transition into page content */}
@@ -71,7 +71,7 @@ export default function PageHero({ eyebrow, title, description, breadcrumbs, bgI
         background: 'linear-gradient(to right, var(--color-accent), var(--color-brand) 40%, transparent 80%)',
       }} />
 
-      <div className="max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-14 relative z-10">
+      <div className="max-w-[1440px] lg:max-w-[80%] mx-auto px-6 sm:px-10 lg:px-14 relative z-10">
 
         {/* Eyebrow */}
         <p
@@ -116,7 +116,7 @@ export default function PageHero({ eyebrow, title, description, breadcrumbs, bgI
           <div className="flex items-center gap-1.5 mt-5">
             <Link
               href={`/${locale}`}
-              className="text-[11px] uppercase tracking-widest font-semibold transition-opacity hover:opacity-80"
+              className="text-xs uppercase tracking-widest font-semibold transition-opacity hover:opacity-80"
               style={{ color: 'rgba(255,255,255,0.45)' }}
             >
               {locale === 'vi' ? 'Trang chủ' : 'Home'}
@@ -129,14 +129,14 @@ export default function PageHero({ eyebrow, title, description, breadcrumbs, bgI
                 {crumb.href ? (
                   <Link
                     href={crumb.href}
-                    className="text-[11px] uppercase tracking-widest font-semibold transition-opacity hover:opacity-80"
+                    className="text-xs uppercase tracking-widest font-semibold transition-opacity hover:opacity-80"
                     style={{ color: i === breadcrumbs.length - 1 ? 'var(--color-accent)' : 'rgba(255,255,255,0.45)' }}
                   >
                     {crumb.label}
                   </Link>
                 ) : (
                   <span
-                    className="text-[11px] uppercase tracking-widest font-semibold"
+                    className="text-xs uppercase tracking-widest font-semibold"
                     style={{ color: 'var(--color-accent)' }}
                   >
                     {crumb.label}

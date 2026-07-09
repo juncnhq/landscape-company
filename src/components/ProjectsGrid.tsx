@@ -38,7 +38,7 @@ export default function ProjectsGrid() {
 
   return (
     <section className="leafix-section" style={{ backgroundColor: 'var(--color-surface-base)' }}>
-      <div className="max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-14">
+      <div className="max-w-[1440px] lg:max-w-[80%] mx-auto px-6 sm:px-10 lg:px-14">
         {/* Filter tabs */}
         <div className="flex flex-wrap gap-2 mb-12">
           {categories.map(cat => (

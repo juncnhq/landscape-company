@@ -52,7 +52,7 @@ export default function NewsDetailClient({ article }: { article: Article }) {
             transition={{ duration: 0.7 }}
           >
             <div className="flex items-center gap-3 mb-4">
-              <span className="text-[10px] font-bold tracking-widest uppercase text-white bg-[var(--color-brand)]/80 backdrop-blur-sm px-3 py-1 rounded-full">
+              <span className="text-xs font-bold tracking-widest uppercase text-white bg-[var(--color-brand)]/80 backdrop-blur-sm px-3 py-1 rounded-full">
                 {category}
               </span>
               <span className="text-white/70 text-xs">{formatDate(article.date, locale)}</span>
@@ -65,7 +65,7 @@ export default function NewsDetailClient({ article }: { article: Article }) {
         </div>
       </div>
 
-      <div className="max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-14 xl:px-16 2xl:px-24 py-16 md:py-24">
+      <div className="max-w-[1440px] lg:max-w-[80%] mx-auto px-6 sm:px-10 lg:px-14 xl:px-16 2xl:px-24 py-16 md:py-24">
         <div className="grid lg:grid-cols-[1fr_320px] gap-12 lg:gap-20">
 
           {/* Article body */}
@@ -106,7 +106,7 @@ export default function NewsDetailClient({ article }: { article: Article }) {
 
             {/* Share */}
             <div className="mt-12 pt-8 border-t border-gray-100 flex items-center gap-4">
-              <span className="text-[10px] tracking-widest uppercase text-gray-400">Share</span>
+              <span className="text-xs tracking-widest uppercase text-gray-400">Share</span>
               <a
                 href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(typeof window !== 'undefined' ? window.location.href : '')}`}
                 target="_blank"
@@ -139,7 +139,7 @@ export default function NewsDetailClient({ article }: { article: Article }) {
           >
             {/* Article meta */}
             <div className="bg-gray-50 rounded-2xl p-6 border border-gray-100">
-              <p className="text-[10px] tracking-widest uppercase text-gray-400 mb-4">
+              <p className="text-xs tracking-widest uppercase text-gray-400 mb-4">
                 {locale === 'vi' ? 'Thông tin bài viết' : 'Article Info'}
               </p>
               <div className="space-y-3">
@@ -158,7 +158,7 @@ export default function NewsDetailClient({ article }: { article: Article }) {
 
             {/* Related articles */}
             <div>
-              <p className="text-[10px] tracking-widest uppercase text-gray-400 mb-4">
+              <p className="text-xs tracking-widest uppercase text-gray-400 mb-4">
                 {locale === 'vi' ? 'Bài viết liên quan' : 'Related Articles'}
               </p>
               <div className="space-y-4">
@@ -181,7 +181,7 @@ export default function NewsDetailClient({ article }: { article: Article }) {
                       <p className="text-xs font-semibold text-gray-800 leading-snug line-clamp-2 group-hover:text-[var(--color-brand)] transition-colors">
                         {locale === 'vi' ? rel.titleVi : rel.titleEn}
                       </p>
-                      <p className="text-[10px] text-gray-400 mt-1">{formatDate(rel.date, locale)}</p>
+                      <p className="text-xs text-gray-400 mt-1">{formatDate(rel.date, locale)}</p>
                     </div>
                   </Link>
                 ))}

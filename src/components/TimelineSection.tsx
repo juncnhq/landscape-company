@@ -37,7 +37,7 @@ export default function TimelineSection() {
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.7 }}
           >
-            <p className="text-[10px] tracking-[0.3em] uppercase font-semibold text-[var(--color-brand)] mb-4">
+            <p className="text-xs tracking-[0.3em] uppercase font-semibold text-[var(--color-brand)] mb-4">
               {isVi ? "Lịch sử" : "History"}
             </p>
             <h2 className="font-display font-bold leading-tight" style={{ fontSize: "clamp(1.8rem, 4vw, 3rem)", color: "var(--color-text-primary)" }}>
@@ -103,7 +103,7 @@ export default function TimelineSection() {
                     }`}
                   >
                     <div className={`inline-flex items-center gap-2 mb-3 ${isLeft ? "md:flex-row-reverse md:ml-auto" : ""}`}>
-                      <span className="text-[10px] tracking-[0.3em] text-[var(--color-brand)] uppercase font-semibold">
+                      <span className="text-xs tracking-[0.3em] text-[var(--color-brand)] uppercase font-semibold">
                         {String(i + 1).padStart(2, "0")}
                       </span>
                       <span className="w-6 h-px bg-[var(--color-brand)]/30" />
@@ -111,7 +111,7 @@ export default function TimelineSection() {
 
                     {/* Ghost year */}
                     <div className="text-5xl md:text-7xl font-black select-none leading-none mb-2 transition-colors"
-                      style={{ color: 'rgba(15,84,30,0.35)' }}
+                      style={{ color: 'rgba(22,129,61,0.35)' }}
                     >
                       {item.year}
                     </div>

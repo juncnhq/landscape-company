@@ -1,5 +1,10 @@
 # FAM Landscape — Project Guide
 
+## UI Reference
+
+Public site UI is a clone of the **Leafix** template: https://nayonacademy.com/html/leafix/
+When building/modifying public pages, match this template's layout, spacing, sections, and visual style as closely as possible (colors/fonts follow the Design System section below).
+
 ## Tech Stack
 
 - **Framework:** Next.js 16.1.6 (App Router, Turbopack)
@@ -307,7 +312,7 @@ src/
 - **Accent:** `#C7DC49` (lime CTA), hover `#B0C83A`
 - **Dark bg:** `#0A1606` (hero overlay, footer, dark CTA)
 - **Light bg:** `#FFFFFF` + section xen kẽ `#F8F7F3` / `#F7F8ED` / `#F5F2EB`
-- **Fonts:** Bricolage Grotesque (headings) + Public Sans (body), fallback Be Vietnam Pro
+- **Fonts:** Be Vietnam Pro duy nhất cho toàn site (heading + body, vi + en) — nạp đủ weight 300–900, không trim. Bricolage/Public Sans đã gỡ.
 - Tokens định nghĩa tại `src/app/globals.css` (`:root`) — luôn dùng CSS var
 - See `DESIGN_SYSTEM.md` for full details
 

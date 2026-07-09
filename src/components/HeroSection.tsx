@@ -127,7 +127,7 @@ export default function HeroSection({ initialSlides }: { initialSlides?: Slide[]
         className="absolute inset-0"
         style={{
           background:
-            "linear-gradient(to top, rgba(10,22,6,0.34) 0%, rgba(10,22,6,0) 42%), linear-gradient(to right, rgba(10,22,6,0.30) 0%, rgba(10,22,6,0.26) 30%, rgba(10,22,6,0.08) 100%)",
+            "linear-gradient(to top, rgba(10,22,6,0.24) 0%, rgba(10,22,6,0) 42%), linear-gradient(to right, rgba(10,22,6,0.20) 0%, rgba(10,22,6,0.16) 30%, rgba(10,22,6,0.04) 100%)",
           zIndex: 2,
         }}
       />
@@ -299,7 +299,7 @@ export default function HeroSection({ initialSlides }: { initialSlides?: Slide[]
               }}
             />
             <span
-              className="text-[11px] uppercase tracking-widest font-semibold hidden sm:block"
+              className="text-xs uppercase tracking-widest font-semibold hidden sm:block"
               style={{
                 color:
                   i === current
@@ -313,7 +313,7 @@ export default function HeroSection({ initialSlides }: { initialSlides?: Slide[]
         ))}
         {/* Slide counter */}
         <span
-          className="ml-2 text-[11px] font-bold"
+          className="ml-2 text-xs font-bold"
           style={{ color: "rgba(255,255,255,0.35)" }}
         >
           0{current + 1} / 0{slides.length}

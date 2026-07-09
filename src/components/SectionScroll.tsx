@@ -123,7 +123,7 @@ export default function SectionScroll({ children }: { children: React.ReactNode 
                 width:  i === current ? 8  : 6,
                 height: i === current ? 24 : 6,
                 borderRadius: i === current ? 4 : '50%',
-                backgroundColor: i === current ? 'var(--color-brand, #0f541e)' : 'rgba(0,0,0,0.2)',
+                backgroundColor: i === current ? 'var(--color-brand, #16813d)' : 'rgba(0,0,0,0.2)',
                 transition: 'all 0.35s cubic-bezier(.4,0,.2,1)',
                 border: 'none',
                 cursor: 'pointer',

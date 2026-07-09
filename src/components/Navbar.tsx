@@ -76,7 +76,7 @@ export default function Navbar() {
         className="fixed top-0 left-0 right-0 z-50 transition-all duration-500"
         style={{
           background: scrolled
-            ? "rgba(15,84,30,0.92)"
+            ? "rgba(22,129,61,0.92)"
             : "linear-gradient(to bottom, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.0) 100%)",
           backdropFilter: scrolled ? "blur(12px) saturate(1.4)" : "none",
           WebkitBackdropFilter: scrolled ? "blur(12px) saturate(1.4)" : "none",
@@ -112,7 +112,7 @@ export default function Navbar() {
                   <Link
                     key={link.key}
                     href={href(link.key)}
-                    className="flex items-center gap-1 px-4 py-2 text-xs font-bold uppercase tracking-wider transition-colors duration-200 rounded-full"
+                    className="flex items-center gap-1 px-4 py-2 text-xs font-bold uppercase tracking-wider whitespace-nowrap transition-colors duration-200 rounded-full"
                     style={{
                       color: active ? "var(--color-accent)" : "rgba(255,255,255,0.92)",
                       backgroundColor: "transparent",
@@ -161,7 +161,7 @@ export default function Navbar() {
               {/* REQUEST A QUOTE CTA */}
               <Link
                 href={`/${locale}/contact`}
-                className="inline-flex items-center gap-2 px-6 py-3 text-xs font-black uppercase tracking-widest transition-all duration-200 hover:opacity-90"
+                className="inline-flex items-center gap-2 px-6 py-3 text-xs font-black uppercase tracking-widest whitespace-nowrap transition-all duration-200 hover:opacity-90"
                 style={{
                   backgroundColor: "var(--color-accent)",
                   color: "var(--color-text-primary)",

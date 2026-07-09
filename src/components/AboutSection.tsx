@@ -49,7 +49,7 @@ export default function AboutSection() {
                   right: '-8px',
                   bottom: '64px',
                   borderRadius: '20px',
-                  border: '2px dashed rgba(15,84,30,0.25)',
+                  border: '2px dashed rgba(22,129,61,0.25)',
                   zIndex: 0,
                 }}
               />

@@ -327,7 +327,7 @@ export default function CareersPageContent() {
                 <div key={label} className="flex gap-4 items-start">
                   <span className="text-xl shrink-0 mt-0.5">{icon}</span>
                   <div>
-                    <p className="text-[10px] tracking-widest uppercase text-[var(--color-text-muted)] font-semibold mb-0.5">
+                    <p className="text-xs tracking-widest uppercase text-[var(--color-text-muted)] font-semibold mb-0.5">
                       {label}
                     </p>
                     {href ? (

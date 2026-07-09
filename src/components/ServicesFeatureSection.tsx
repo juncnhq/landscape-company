@@ -61,7 +61,7 @@ export default function ServicesFeatureSection() {
         className="absolute pointer-events-none select-none hidden md:block"
         style={{ top: '30px', left: '0px', width: '180px', opacity: 0.85, animation: 'float-bob-y 5s ease-in-out infinite', zIndex: 20 }}
       />
-      <div className="max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-14 xl:px-16 2xl:px-24 relative z-10">
+      <div className="max-w-[1440px] lg:max-w-[80%] mx-auto px-6 sm:px-10 lg:px-14 xl:px-16 2xl:px-24 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
 
           {/* LEFT: image + phone card */}
@@ -72,7 +72,7 @@ export default function ServicesFeatureSection() {
               </div>
               {/* Phone card overlay */}
               <div
-                className="absolute bottom-6 left-6 flex flex-col gap-1 transition-all duration-300 hover:scale-[1.04] hover:shadow-[0_8px_24px_rgba(15,84,30,0.4)]"
+                className="absolute bottom-6 left-6 flex flex-col gap-1 transition-all duration-300 hover:scale-[1.04] hover:shadow-[0_8px_24px_rgba(22,129,61,0.4)]"
                 style={{
                   backgroundColor: 'var(--color-brand)',
                   borderRadius: 12,
@@ -80,7 +80,7 @@ export default function ServicesFeatureSection() {
                   zIndex: 2,
                 }}
               >
-                <p className="text-[10px] font-bold uppercase tracking-widest" style={{ color: 'rgba(199,220,73,0.8)' }}>
+                <p className="text-xs font-bold uppercase tracking-widest" style={{ color: 'rgba(199,220,73,0.8)' }}>
                   {isVi ? 'Cần hỗ trợ?' : 'Need Any Help?'}
                 </p>
                 <a href="tel:+842363695166" className="font-bold" style={{ color: '#ffffff', fontSize: '1.1rem', letterSpacing: '0.02em' }}>
@@ -101,7 +101,7 @@ export default function ServicesFeatureSection() {
 
             <Link
               href={`/${locale}/contact`}
-              className="inline-flex items-center gap-2.5 text-xs font-black uppercase tracking-widest mb-8 transition-all duration-300 hover:scale-[1.05] hover:shadow-[0_10px_28px_rgba(15,84,30,0.35)]"
+              className="inline-flex items-center gap-2.5 text-xs font-black uppercase tracking-widest mb-8 transition-all duration-300 hover:scale-[1.05] hover:shadow-[0_10px_28px_rgba(22,129,61,0.35)]"
               style={{
                 backgroundColor: 'var(--color-brand)', color: '#fff',
                 padding: '14px 28px', borderRadius: 999,
@@ -116,10 +116,10 @@ export default function ServicesFeatureSection() {
             {/* Feature list */}
             <div className="space-y-5">
               {FEATURES.map((f, i) => (
-                <div key={i} className="group flex items-start gap-4 p-3 -mx-3 rounded-xl transition-colors duration-200 hover:bg-[rgba(15,84,30,0.04)]">
+                <div key={i} className="group flex items-start gap-4 p-3 -mx-3 rounded-xl transition-colors duration-200 hover:bg-[rgba(22,129,61,0.04)]">
                   <div
                     className="shrink-0 w-10 h-10 flex items-center justify-center transition-colors duration-300 group-hover:bg-[var(--color-brand)] group-hover:text-white"
-                    style={{ backgroundColor: 'rgba(15,84,30,0.08)', borderRadius: 10, color: 'var(--color-brand)' }}
+                    style={{ backgroundColor: 'rgba(22,129,61,0.08)', borderRadius: 10, color: 'var(--color-brand)' }}
                   >
                     {f.icon}
                   </div>

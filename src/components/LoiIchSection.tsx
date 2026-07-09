@@ -6,9 +6,9 @@ const benefits = [
   {
     icon: (
       <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-10 h-10">
-        <rect width="48" height="48" rx="12" fill="rgba(15,84,30,0.08)" />
-        <path d="M24 12 L36 18 L36 30 L24 36 L12 30 L12 18 Z" stroke="#0f541e" strokeWidth="1.8" fill="none" strokeLinejoin="round" />
-        <path d="M18 27 L22 31 L30 21" stroke="#0f541e" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
+        <rect width="48" height="48" rx="12" fill="rgba(22,129,61,0.08)" />
+        <path d="M24 12 L36 18 L36 30 L24 36 L12 30 L12 18 Z" stroke="#16813d" strokeWidth="1.8" fill="none" strokeLinejoin="round" />
+        <path d="M18 27 L22 31 L30 21" stroke="#16813d" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
       </svg>
     ),
     titleVi: 'Tăng Giá Trị Bất Động Sản',
@@ -19,10 +19,10 @@ const benefits = [
   {
     icon: (
       <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-10 h-10">
-        <rect width="48" height="48" rx="12" fill="rgba(15,84,30,0.08)" />
-        <circle cx="24" cy="22" r="7" stroke="#0f541e" strokeWidth="1.8" fill="none" />
-        <path d="M12 38 C12 32 17.373 28 24 28 C30.627 28 36 32 36 38" stroke="#0f541e" strokeWidth="1.8" strokeLinecap="round" fill="none" />
-        <path d="M20 19.5 L22.5 22 L27 17" stroke="#0f541e" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+        <rect width="48" height="48" rx="12" fill="rgba(22,129,61,0.08)" />
+        <circle cx="24" cy="22" r="7" stroke="#16813d" strokeWidth="1.8" fill="none" />
+        <path d="M12 38 C12 32 17.373 28 24 28 C30.627 28 36 32 36 38" stroke="#16813d" strokeWidth="1.8" strokeLinecap="round" fill="none" />
+        <path d="M20 19.5 L22.5 22 L27 17" stroke="#16813d" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
       </svg>
     ),
     titleVi: 'Cải Thiện Chất Lượng Sống',
@@ -33,9 +33,9 @@ const benefits = [
   {
     icon: (
       <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-10 h-10">
-        <rect width="48" height="48" rx="12" fill="rgba(15,84,30,0.08)" />
-        <path d="M24 12 C24 12 14 18 14 26 C14 31.523 18.477 36 24 36 C29.523 36 34 31.523 34 26 C34 18 24 12 24 12 Z" stroke="#0f541e" strokeWidth="1.8" fill="none" />
-        <path d="M24 20 L24 30 M20 25 L28 25" stroke="#0f541e" strokeWidth="2" strokeLinecap="round" />
+        <rect width="48" height="48" rx="12" fill="rgba(22,129,61,0.08)" />
+        <path d="M24 12 C24 12 14 18 14 26 C14 31.523 18.477 36 24 36 C29.523 36 34 31.523 34 26 C34 18 24 12 24 12 Z" stroke="#16813d" strokeWidth="1.8" fill="none" />
+        <path d="M24 20 L24 30 M20 25 L28 25" stroke="#16813d" strokeWidth="2" strokeLinecap="round" />
       </svg>
     ),
     titleVi: 'Bảo Vệ Môi Trường',
@@ -46,11 +46,11 @@ const benefits = [
   {
     icon: (
       <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-10 h-10">
-        <rect width="48" height="48" rx="12" fill="rgba(15,84,30,0.08)" />
-        <rect x="12" y="12" width="10" height="10" rx="2" stroke="#0f541e" strokeWidth="1.8" fill="none" />
-        <rect x="26" y="12" width="10" height="10" rx="2" stroke="#0f541e" strokeWidth="1.8" fill="none" />
-        <rect x="12" y="26" width="10" height="10" rx="2" stroke="#0f541e" strokeWidth="1.8" fill="none" />
-        <rect x="26" y="26" width="10" height="10" rx="2" stroke="#0f541e" strokeWidth="1.8" fill="none" />
+        <rect width="48" height="48" rx="12" fill="rgba(22,129,61,0.08)" />
+        <rect x="12" y="12" width="10" height="10" rx="2" stroke="#16813d" strokeWidth="1.8" fill="none" />
+        <rect x="26" y="12" width="10" height="10" rx="2" stroke="#16813d" strokeWidth="1.8" fill="none" />
+        <rect x="12" y="26" width="10" height="10" rx="2" stroke="#16813d" strokeWidth="1.8" fill="none" />
+        <rect x="26" y="26" width="10" height="10" rx="2" stroke="#16813d" strokeWidth="1.8" fill="none" />
       </svg>
     ),
     titleVi: 'Tối Ưu Hóa Không Gian',
@@ -66,7 +66,7 @@ export default function LoiIchSection() {
 
   return (
     <section className="leafix-section overflow-hidden" style={{ backgroundColor: 'var(--color-surface-alt)' }}>
-      <div className="max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-14">
+      <div className="max-w-[1440px] lg:max-w-[80%] mx-auto px-6 sm:px-10 lg:px-14">
 
         {/* Header */}
         <ScrollReveal className="text-center mb-14">
@@ -97,9 +97,9 @@ export default function LoiIchSection() {
                   boxShadow: '0 2px 12px rgba(0,0,0,0.05)',
                 }}
                 onMouseEnter={e => {
-                  (e.currentTarget as HTMLElement).style.boxShadow = '0 12px 40px rgba(15,84,30,0.14)';
+                  (e.currentTarget as HTMLElement).style.boxShadow = '0 12px 40px rgba(22,129,61,0.14)';
                   (e.currentTarget as HTMLElement).style.transform = 'translateY(-6px)';
-                  (e.currentTarget as HTMLElement).style.borderColor = 'rgba(15,84,30,0.15)';
+                  (e.currentTarget as HTMLElement).style.borderColor = 'rgba(22,129,61,0.15)';
                 }}
                 onMouseLeave={e => {
                   (e.currentTarget as HTMLElement).style.boxShadow = '0 2px 12px rgba(0,0,0,0.05)';
@@ -113,7 +113,7 @@ export default function LoiIchSection() {
                 {/* Number */}
                 <span
                   className="font-display font-black leading-none select-none"
-                  style={{ fontSize: '3rem', color: 'rgba(15,84,30,0.06)' }}
+                  style={{ fontSize: '3rem', color: 'rgba(22,129,61,0.06)' }}
                 >
                   0{i + 1}
                 </span>
@@ -134,7 +134,7 @@ export default function LoiIchSection() {
                 {/* Check mark */}
                 <div
                   className="mt-auto w-8 h-8 flex items-center justify-center rounded-full"
-                  style={{ backgroundColor: 'rgba(15,84,30,0.08)', color: 'var(--color-brand)' }}
+                  style={{ backgroundColor: 'rgba(22,129,61,0.08)', color: 'var(--color-brand)' }}
                 >
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />

@@ -58,12 +58,12 @@ export default function Footer() {
       }}
     >
       {/* Green overlay */}
-      <div className="absolute inset-0 pointer-events-none" style={{ backgroundColor: 'rgba(15,84,30,0.9)' }} />
+      <div className="absolute inset-0 pointer-events-none" style={{ backgroundColor: 'rgba(22,129,61,0.9)' }} />
 
       <div className="relative z-10">
         {/* ── Top bar: logo + hours + socials ── */}
         <div
-          className="max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-14 xl:px-16 2xl:px-24 py-4 sm:py-6 flex flex-row flex-wrap items-center gap-3 justify-between"
+          className="max-w-[1440px] lg:max-w-[80%] mx-auto px-6 sm:px-10 lg:px-14 xl:px-16 2xl:px-24 py-4 sm:py-6 flex flex-row flex-wrap items-center gap-3 justify-between"
           style={{ borderBottom: '1px solid rgba(255,255,255,0.12)' }}
         >
           {/* Logo */}
@@ -109,7 +109,7 @@ export default function Footer() {
 
         {/* ── Prominent CTA band (matches template) ── */}
         <div
-          className="max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-14 xl:px-16 2xl:px-24 py-8 sm:py-12 flex flex-col md:flex-row md:items-center md:justify-between gap-6"
+          className="max-w-[1440px] lg:max-w-[80%] mx-auto px-6 sm:px-10 lg:px-14 xl:px-16 2xl:px-24 py-8 sm:py-12 flex flex-col md:flex-row md:items-center md:justify-between gap-6"
           style={{ borderBottom: '1px solid rgba(255,255,255,0.12)' }}
         >
           <div className="flex flex-col sm:flex-row sm:items-center gap-5 sm:gap-8">
@@ -148,7 +148,7 @@ export default function Footer() {
         </div>
 
         {/* ── Main 4-column grid ── */}
-        <div className="max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-14 xl:px-16 2xl:px-24 py-8 sm:py-14 grid grid-cols-2 sm:grid-cols-4 gap-6 sm:gap-10">
+        <div className="max-w-[1440px] lg:max-w-[80%] mx-auto px-6 sm:px-10 lg:px-14 xl:px-16 2xl:px-24 py-8 sm:py-14 grid grid-cols-2 sm:grid-cols-4 gap-6 sm:gap-10">
 
           {/* Col 1: brand intro + contact — full width on mobile */}
           <div className="col-span-2 sm:col-span-1">
@@ -283,7 +283,7 @@ export default function Footer() {
 
         {/* ── Bottom bar ── */}
         <div
-          className="max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-14 xl:px-16 2xl:px-24 py-5 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-white"
+          className="max-w-[1440px] lg:max-w-[80%] mx-auto px-6 sm:px-10 lg:px-14 xl:px-16 2xl:px-24 py-5 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-white"
           style={{ borderTop: '1px solid rgba(255,255,255,0.15)' }}
         >
           <p>© {isVi ? `Bản quyền ${new Date().getFullYear()} by` : `All Copyright ${new Date().getFullYear()} by`} <span className="font-semibold" style={{ color: 'var(--color-accent)' }}>Lapla</span></p>

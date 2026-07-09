@@ -159,7 +159,7 @@ Quy tắc chung: label uppercase + tracking rộng, luôn kèm icon mũi tên `�
 ## 11. Checklist khi tạo section/component mới
 
 - [ ] Màu lấy từ CSS var trong `globals.css` — không hardcode hex mới
-- [ ] Heading dùng font display (mặc định qua h1–h6), body Public Sans
+- [ ] Heading dùng font display (mặc định qua h1–h6), toàn site Be Vietnam Pro
 - [ ] Section bọc `.leafix-section` + container `max-w-[1400px]`
 - [ ] Nút theo mẫu mục 4 (uppercase + arrow icon)
 - [ ] Card ảnh: title luôn visible, không phụ thuộc hover

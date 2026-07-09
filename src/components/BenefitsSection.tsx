@@ -70,13 +70,13 @@ export default function BenefitsSection() {
         className="absolute inset-0 pointer-events-none select-none"
         aria-hidden
         style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg width='120' height='120' viewBox='0 0 120 120' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M60 10 C60 10 40 30 40 55 C40 70 50 80 60 80 C70 80 80 70 80 55 C80 30 60 10 60 10Z' stroke='%230f541e' stroke-width='0.6' fill='none' opacity='0.15'/%3E%3Cpath d='M60 80 L60 110' stroke='%230f541e' stroke-width='0.6' opacity='0.15'/%3E%3C/svg%3E")`,
+          backgroundImage: `url("data:image/svg+xml,%3Csvg width='120' height='120' viewBox='0 0 120 120' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M60 10 C60 10 40 30 40 55 C40 70 50 80 60 80 C70 80 80 70 80 55 C80 30 60 10 60 10Z' stroke='%2316813d' stroke-width='0.6' fill='none' opacity='0.15'/%3E%3Cpath d='M60 80 L60 110' stroke='%2316813d' stroke-width='0.6' opacity='0.15'/%3E%3C/svg%3E")`,
           backgroundSize: '120px 120px',
           opacity: 0.5,
         }}
       />
 
-      <div className="relative z-10 max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-14 xl:px-16 2xl:px-24">
+      <div className="relative z-10 max-w-[1440px] lg:max-w-[80%] mx-auto px-6 sm:px-10 lg:px-14 xl:px-16 2xl:px-24">
 
         {/* Header */}
         <ScrollReveal className="text-center mb-14">
@@ -103,7 +103,7 @@ export default function BenefitsSection() {
                   boxShadow: '0 2px 16px rgba(0,0,0,0.05)',
                 }}
                 onMouseEnter={e => {
-                  (e.currentTarget as HTMLElement).style.boxShadow = '0 16px 48px rgba(15,84,30,0.14)';
+                  (e.currentTarget as HTMLElement).style.boxShadow = '0 16px 48px rgba(22,129,61,0.14)';
                   (e.currentTarget as HTMLElement).style.transform = 'translateY(-6px)';
                 }}
                 onMouseLeave={e => {
@@ -122,7 +122,7 @@ export default function BenefitsSection() {
                   <div
                     className="shrink-0 w-11 h-11 flex items-center justify-center transition-colors duration-300 group-hover:bg-[var(--color-brand)] group-hover:text-white"
                     style={{
-                      backgroundColor: 'rgba(15,84,30,0.07)',
+                      backgroundColor: 'rgba(22,129,61,0.07)',
                       color: 'var(--color-brand)',
                       borderRadius: '12px',
                     }}
@@ -172,8 +172,8 @@ export default function BenefitsSection() {
                 {/* Decorative leaf bottom-right */}
                 <div className="absolute bottom-0 right-0 pointer-events-none" aria-hidden style={{ opacity: 0.06 }}>
                   <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
-                    <path d="M70 10 C70 10 30 20 20 50 C14 68 25 80 40 75 C60 68 75 45 70 10Z" fill="#0f541e" />
-                    <path d="M40 75 L55 40" stroke="#0f541e" strokeWidth="2" />
+                    <path d="M70 10 C70 10 30 20 20 50 C14 68 25 80 40 75 C60 68 75 45 70 10Z" fill="#16813d" />
+                    <path d="M40 75 L55 40" stroke="#16813d" strokeWidth="2" />
                   </svg>
                 </div>
               </div>

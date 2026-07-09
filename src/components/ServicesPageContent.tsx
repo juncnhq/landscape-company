@@ -25,7 +25,7 @@ function ServiceCard({ service, index, locale, contactHref }: {
         {/* Number + content */}
         <div className={isEven ? 'order-2 lg:order-1' : 'order-2'}>
           <div className="flex items-center gap-4 mb-5">
-            <span className="font-display font-black text-6xl leading-none select-none" style={{ color: 'rgba(15,84,30,0.28)' }}>
+            <span className="font-display font-black text-6xl leading-none select-none" style={{ color: 'rgba(22,129,61,0.28)' }}>
               {String(index + 1).padStart(2, '0')}
             </span>
             <div className="w-12 h-12 flex items-center justify-center text-2xl" style={{ backgroundColor: 'var(--color-surface-alt)', borderRadius: 'var(--radius-md)' }}>
@@ -37,7 +37,7 @@ function ServiceCard({ service, index, locale, contactHref }: {
           <p className="mb-6 leading-relaxed" style={{ color: 'var(--color-text-secondary)', fontSize: '15px' }}>{desc}</p>
 
           {bullets.length > 0 && (
-            <ul className="grid grid-cols-2 gap-x-6 gap-y-2.5 mb-8">
+            <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2.5 mb-8">
               {bullets.map(b => (
                 <li key={b} className="flex items-center gap-2 text-sm" style={{ color: 'var(--color-text-secondary)' }}>
                   <svg className="w-4 h-4 shrink-0" fill="none" stroke="var(--color-brand)" strokeWidth={2.5} viewBox="0 0 24 24">
@@ -84,7 +84,7 @@ export default function ServicesPageContent({ services }: { services: DbService[
 
   return (
     <section className="leafix-section" style={{ backgroundColor: 'var(--color-surface-base)' }}>
-      <div className="max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-14">
+      <div className="max-w-[1440px] lg:max-w-[80%] mx-auto px-6 sm:px-10 lg:px-14">
         {list.map((service, i) => (
           <ServiceCard key={service.id} service={service} index={i} locale={locale} contactHref={`/${locale}/contact`} />
         ))}

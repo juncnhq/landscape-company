@@ -28,7 +28,7 @@ export default function CTASection() {
         <div
           className="absolute inset-0 pointer-events-none opacity-30"
           style={{
-            backgroundImage: 'radial-gradient(circle, rgba(15,84,30,0.12) 1px, transparent 1px)',
+            backgroundImage: 'radial-gradient(circle, rgba(22,129,61,0.12) 1px, transparent 1px)',
             backgroundSize: '22px 22px',
           }}
         />
@@ -79,7 +79,7 @@ export default function CTASection() {
         />
         <div className="absolute -top-40 -left-40 w-[500px] h-[500px] rounded-full opacity-15 pointer-events-none" style={{ backgroundColor: 'var(--color-accent)', filter: 'blur(140px)' }} />
 
-        <div className="relative z-10 max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-14 xl:px-16 2xl:px-24">
+        <div className="relative z-10 max-w-[1440px] lg:max-w-[80%] mx-auto px-6 sm:px-10 lg:px-14 xl:px-16 2xl:px-24">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-start">
 
             {/* LEFT */}
@@ -179,7 +179,7 @@ export default function CTASection() {
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-3">
-                  <div className="grid grid-cols-2 gap-3">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
                       <label className="block text-xs font-semibold mb-1.5" style={{ color: 'var(--color-text-secondary)' }}>
                         {isVi ? 'Họ *' : 'First Name *'}
@@ -210,7 +210,7 @@ export default function CTASection() {
                     </div>
                   </div>
 
-                  <div className="grid grid-cols-2 gap-3">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
                       <label className="block text-xs font-semibold mb-1.5" style={{ color: 'var(--color-text-secondary)' }}>
                         {isVi ? 'Email *' : 'Email *'}
@@ -256,7 +256,7 @@ export default function CTASection() {
                     />
                   </div>
 
-                  <div className="grid grid-cols-2 gap-3">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
                       <label className="block text-xs font-semibold mb-1.5" style={{ color: 'var(--color-text-secondary)' }}>
                         {isVi ? 'Địa chỉ' : 'Current Address'}
