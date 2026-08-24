@@ -49,9 +49,29 @@ function MemberModal({ member, onClose, isVi }: { member: Member; onClose: () =>
           </div>
         </div>
         {/* Body */}
-        <div className="px-8 py-6">
-          <p className="text-xs font-bold uppercase tracking-widest mb-2" style={{ color: 'var(--color-text-secondary)' }}>{isVi ? 'Giới thiệu' : 'About'}</p>
-          <p className="text-sm leading-relaxed" style={{ color: 'var(--color-text-secondary)' }}>{isVi ? member.descVi : member.descEn}</p>
+        <div className="px-8 py-6 space-y-5 max-h-[60vh] overflow-y-auto">
+          <div>
+            <p className="text-xs font-bold uppercase tracking-widest mb-2" style={{ color: 'var(--color-text-secondary)' }}>{isVi ? 'Giới thiệu' : 'About'}</p>
+            <p className="text-sm leading-relaxed" style={{ color: 'var(--color-text-secondary)' }}>{isVi ? member.descVi : member.descEn}</p>
+          </div>
+          {member.images && member.images.filter(Boolean).length > 0 && (
+            <div>
+              <p className="text-xs font-bold uppercase tracking-widest mb-3" style={{ color: 'var(--color-text-secondary)' }}>{isVi ? 'Hình ảnh' : 'Gallery'}</p>
+              <div className="grid grid-cols-3 gap-2">
+                {member.images.filter(Boolean).map((src, i) => (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    key={i}
+                    src={src}
+                    alt={`${member.name} ${i + 1}`}
+                    loading="lazy"
+                    className="w-full h-24 object-cover"
+                    style={{ borderRadius: '12px' }}
+                  />
+                ))}
+              </div>
+            </div>
+          )}
         </div>
         <div className="px-8 py-4 flex items-center gap-2" style={{ borderTop: '1px solid rgba(0,0,0,0.06)', backgroundColor: '#fafafa' }}>
           <div className="w-2 h-2 rounded-full" style={{ backgroundColor: 'var(--color-brand)' }} />
@@ -84,26 +104,12 @@ export default function MemberCompaniesSection() {
   return (
     <>
       <section className="leafix-section relative overflow-hidden" style={{ backgroundColor: 'var(--color-surface-alt)' }}>
-        {/* SVG botanical repeating pattern */}
-        <div className="absolute inset-0 pointer-events-none select-none" style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg width='180' height='180' viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M90 15 C70 50 50 70 50 100 C50 130 68 148 90 148 C112 148 130 130 130 100 C130 70 110 50 90 15Z' stroke='%2316813d' stroke-width='0.8' fill='none' opacity='0.09'/%3E%3Cline x1='90' y1='148' x2='90' y2='168' stroke='%2316813d' stroke-width='0.8' opacity='0.09'/%3E%3Ccircle cx='30' cy='30' r='3' fill='%2316813d' opacity='0.07'/%3E%3Ccircle cx='150' cy='150' r='3' fill='%2316813d' opacity='0.07'/%3E%3Ccircle cx='150' cy='30' r='2' fill='%2316813d' opacity='0.05'/%3E%3Ccircle cx='30' cy='150' r='2' fill='%2316813d' opacity='0.05'/%3E%3C/svg%3E")`,
-          backgroundSize: '180px 180px',
-          opacity: 1,
-        }} />
-        {/* Floating branch — bottom-right corner */}
-        <img
-          src="https://res.cloudinary.com/dg9khx2s7/image/upload/v1781085049/shapes/work-shape-01.png"
-          alt="" aria-hidden="true"
-          className="absolute pointer-events-none select-none hidden md:block"
-          style={{ bottom: '30px', right: '0px', width: '180px', opacity: 0.4, animation: 'float-bob-y 5.5s ease-in-out infinite 1s', zIndex: 0 }}
-        />
         <div className="max-w-[1440px] lg:max-w-[80%] mx-auto px-6 sm:px-10 lg:px-14 xl:px-16 2xl:px-24 relative z-10">
 
           {/* Header */}
           <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-14">
             <ScrollReveal>
-              <p className="inline-flex items-center gap-2 text-xs font-bold tracking-[0.3em] uppercase mb-4" style={{ color: 'var(--color-brand)' }}>
-                <span className="inline-block w-6 h-px" style={{ backgroundColor: 'var(--color-brand)' }} />
+              <p className="text-sm tracking-[0.3em] uppercase font-bold mb-3" style={{ color: 'var(--color-brand)' }}>
                 {isVi ? 'Hệ sinh thái' : 'Ecosystem'}
               </p>
               <h2 className="font-display font-bold leading-[1.08]" style={{ fontSize: 'clamp(1.95rem, 3.5vw, 3.75rem)', color: 'var(--color-text-primary)' }}>
@@ -208,8 +214,7 @@ export default function MemberCompaniesSection() {
                     {/* Content */}
                     <div className="flex-1">
                       <p className="text-xs font-bold tracking-[0.18em] uppercase mb-1" style={{ color: 'rgba(22,129,61,0.5)' }}>{company.tagline}</p>
-                      <h3 className="font-display font-bold text-xs leading-snug mb-1 transition-colors duration-200 group-hover:text-[var(--color-brand)]" style={{ color: 'var(--color-text-primary)' }}>{company.name}</h3>
-                      <p className="text-xs leading-relaxed line-clamp-2" style={{ color: 'var(--color-text-secondary)' }}>{isVi ? company.descVi : company.descEn}</p>
+                      <h3 className="font-display font-bold text-xs leading-snug transition-colors duration-200 group-hover:text-[var(--color-brand)]" style={{ color: 'var(--color-text-primary)' }}>{company.name}</h3>
                     </div>
 
                     {/* Footer */}

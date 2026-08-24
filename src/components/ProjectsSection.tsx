@@ -37,20 +37,6 @@ export default function ProjectsSection() {
         className="absolute pointer-events-none select-none hidden md:block"
         style={{ bottom: '30px', right: '0px', width: '160px', opacity: 0.75, animation: 'float-bob-y 4.5s ease-in-out infinite 0.5s', zIndex: 20 }}
       />
-      {/* Decorative background text */}
-      <div
-        className="absolute top-0 right-0 font-display font-bold select-none pointer-events-none leading-none"
-        style={{
-          fontSize: 'clamp(8rem, 18vw, 21.6rem)',
-          color: 'rgba(130,180,64,0.06)',
-          lineHeight: 1,
-          top: '-2rem',
-          right: '0',
-        }}
-      >
-        PROJECT
-      </div>
-
       <div className="relative z-10 max-w-[1920px] lg:max-w-[80%] mx-auto px-6 sm:px-10 lg:px-14 xl:px-16 2xl:px-24">
 
         {/* Header */}
@@ -69,7 +55,7 @@ export default function ProjectsSection() {
           <ScrollReveal delay={2}>
             <Link
               href={`/${locale}/projects`}
-              className="inline-flex items-center gap-2 text-sm font-bold uppercase tracking-wider transition-all duration-300 hover:gap-4 hover:text-[var(--color-brand)]"
+              className="inline-flex items-center gap-2 whitespace-nowrap text-sm font-bold uppercase tracking-wider transition-all duration-300 hover:gap-4 hover:text-[var(--color-brand)]"
               style={{ color: 'var(--color-brand)' }}
             >
               {isVi ? 'Xem tất cả dự án' : 'View All Projects'}

@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect, useCallback } from 'react'
+import ImageInput from '@/components/admin/ImageInput'
 import GalleryInput from '@/components/admin/GalleryInput'
 
 type Service = {
@@ -17,6 +18,7 @@ type Service = {
   tag: string
   bulletsVi: string[]
   bulletsEn: string[]
+  image: string
   images: string[]
   published: boolean
 }
@@ -34,6 +36,7 @@ const emptyService: Omit<Service, 'id'> = {
   tag: '',
   bulletsVi: [],
   bulletsEn: [],
+  image: '',
   images: [],
   published: true,
 }
@@ -148,6 +151,14 @@ export default function ServicesManager() {
                 <div className="flex items-center gap-3 shrink-0">
                   <span className="text-xs text-gray-300 font-mono w-5 text-center">{String(i + 1).padStart(2, '0')}</span>
                   <span className="text-2xl">{service.icon}</span>
+                  {(service.image || service.images?.[0]) && (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      src={service.image || service.images[0]}
+                      alt={service.titleVi}
+                      className="w-12 h-12 rounded-md object-cover border border-gray-100"
+                    />
+                  )}
                 </div>
 
                 {/* Content */}
@@ -280,6 +291,11 @@ export default function ServicesManager() {
                   />
                 </div>
               </div>
+              <ImageInput
+                label="Ảnh đại diện (thumbnail)"
+                value={editing.image || ''}
+                onChange={v => setEditing({ ...editing, image: v })}
+              />
               <GalleryInput
                 label="Ảnh gallery"
                 value={serviceImages}

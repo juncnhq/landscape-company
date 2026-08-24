@@ -2,6 +2,7 @@
 import { useLocale } from 'next-intl';
 import Link from 'next/link';
 import Image from 'next/image';
+import ScrollReveal from './ScrollReveal';
 
 const socialLinks = [
   {
@@ -108,6 +109,7 @@ export default function Footer() {
         </div>
 
         {/* ── Prominent CTA band (matches template) ── */}
+        <ScrollReveal>
         <div
           className="max-w-[1440px] lg:max-w-[80%] mx-auto px-6 sm:px-10 lg:px-14 xl:px-16 2xl:px-24 py-8 sm:py-12 flex flex-col md:flex-row md:items-center md:justify-between gap-6"
           style={{ borderBottom: '1px solid rgba(255,255,255,0.12)' }}
@@ -146,9 +148,11 @@ export default function Footer() {
             </span>
           </a>
         </div>
+        </ScrollReveal>
 
         {/* ── Main 4-column grid ── */}
-        <div className="max-w-[1440px] lg:max-w-[80%] mx-auto px-6 sm:px-10 lg:px-14 xl:px-16 2xl:px-24 py-8 sm:py-14 grid grid-cols-2 sm:grid-cols-4 gap-6 sm:gap-10">
+        <ScrollReveal>
+        <div className="max-w-[1440px] lg:max-w-[80%] mx-auto px-6 sm:px-10 lg:px-14 xl:px-16 2xl:px-24 py-8 sm:py-14 grid grid-cols-2 sm:grid-cols-4 gap-6 sm:gap-10 items-start">
 
           {/* Col 1: brand intro + contact — full width on mobile */}
           <div className="col-span-2 sm:col-span-1">
@@ -280,6 +284,7 @@ export default function Footer() {
           </div>
 
         </div>
+        </ScrollReveal>
 
         {/* ── Bottom bar ── */}
         <div

@@ -29,7 +29,10 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
   const locale = useLocale();
   const isVi = locale === 'vi';
   const title = isVi ? project.title : project.titleEn;
-  const allImages = project.images.length > 0 ? project.images : [project.image];
+  // Featured image always leads the slider, then the gallery (deduped, blanks dropped)
+  const allImages = Array.from(
+    new Set([project.image, ...(project.images ?? [])].filter(Boolean))
+  );
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
 
   return (

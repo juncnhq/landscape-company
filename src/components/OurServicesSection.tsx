@@ -13,6 +13,7 @@ type Service = {
   titleEn: string;
   descVi: string;
   descEn: string;
+  image?: string;
   images: string[];
   published: boolean;
   order: number;
@@ -49,19 +50,6 @@ export default function OurServicesSection() {
   return (
     <section className="leafix-section relative overflow-hidden" style={{ backgroundColor: 'var(--color-surface-alt)' }}>
       <div className="absolute inset-0 pointer-events-none select-none" style={{ backgroundImage: 'url(/images/shapes/service-bg-shape.png)', backgroundRepeat: 'no-repeat', backgroundPosition: 'center center', backgroundSize: 'cover', opacity: 0.35 }} />
-      {/* Decorative background text */}
-      <div
-        className="absolute top-0 right-0 font-display font-bold select-none pointer-events-none leading-none"
-        style={{
-          fontSize: 'clamp(8rem, 18vw, 21.6rem)',
-          color: 'rgba(130,180,64,0.06)',
-          lineHeight: 1,
-          top: '-2rem',
-          right: '-2rem',
-        }}
-      >
-        GREEN
-      </div>
 
       <div className="relative z-10 max-w-[1920px] lg:max-w-[80%] mx-auto px-6 sm:px-10 lg:px-14 xl:px-16 2xl:px-24">
 
@@ -131,9 +119,9 @@ export default function OurServicesSection() {
 
                   {/* Image */}
                   <div className="relative h-40 overflow-hidden mb-5 flex items-center justify-center" style={{ borderRadius: '16px', backgroundColor: '#f5f1e6' }}>
-                    {service.images?.[0] ? (
+                    {(service.image || service.images?.[0]) ? (
                       <Image
-                        src={service.images[0]}
+                        src={service.image || service.images[0]}
                         alt={isVi ? service.titleVi : service.titleEn}
                         fill
                         className="object-cover transition-transform duration-700 group-hover:scale-[1.08]"

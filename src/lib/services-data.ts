@@ -5,6 +5,7 @@ export type DbService = {
   descVi?: string; descEn?: string;
   descriptionVi?: string; descriptionEn?: string;
   bulletsVi?: string[]; bulletsEn?: string[];
+  image?: string;
   images?: string[]; published?: boolean; order?: number;
   createdAt?: Date; updatedAt?: Date;
 };

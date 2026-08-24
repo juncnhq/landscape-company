@@ -31,6 +31,7 @@ export async function PUT(
         tag: body.tag,
         bulletsVi: body.bulletsVi,
         bulletsEn: body.bulletsEn,
+        image: body.image ?? '',
         images: body.images ?? [],
         published: body.published,
       },

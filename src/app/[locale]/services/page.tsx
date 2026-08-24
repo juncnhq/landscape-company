@@ -30,7 +30,7 @@ export default async function ServicesPage({
       titleVi: s.titleVi, titleEn: s.titleEn,
       subtitleVi: s.subtitleVi, subtitleEn: s.subtitleEn,
       descriptionVi: s.descriptionVi, descriptionEn: s.descriptionEn,
-      images: s.images, published: true, order: s.order ?? 0,
+      image: s.image ?? '', images: s.images, published: true, order: s.order ?? 0,
       createdAt: new Date(), updatedAt: new Date(),
     }));
   }

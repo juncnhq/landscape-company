@@ -164,8 +164,8 @@ export default function HeroSection({ initialSlides }: { initialSlides?: Slide[]
             }}
           >
             {(isVi
-              ? ['Tạo Ra Những', 'Không Gian', 'Xanh Tuyệt Đẹp,', 'Tự Nhiên']
-              : ['Creating', 'Beautiful Outdoor', 'Spaces,', 'Naturally']
+              ? ['Tạo Ra Những', 'Không Gian', 'Xanh Tuyệt Đẹp', 'Và Tự Nhiên']
+              : ['Creating', 'Beautiful Outdoor', 'Spaces', 'Naturally']
             ).map((chunk, i) => (
               <span
                 key={i}

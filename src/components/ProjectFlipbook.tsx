@@ -21,23 +21,31 @@ type BasePageProps = { number?: number }
 
 // Cover -----------------------------------------------------------------------
 const CoverPage = forwardRef<HTMLDivElement, BasePageProps>((_, ref) => {
-  const years = projects.map((p) => parseInt(p.year, 10))
-  const range = `${Math.min(...years)} — ${Math.max(...years)}`
+  const years = projects
+    .map((p) => parseInt(p.year, 10))
+    .filter((y) => Number.isFinite(y))
+  const range = years.length
+    ? `${Math.min(...years)} — ${Math.max(...years)}`
+    : ''
+  const coverSrc =
+    projects[0]?.image || projects[0]?.images?.[0] || ''
 
   return (
     <div
       ref={ref}
       data-density="hard"
-      className="relative w-full h-full overflow-hidden"
+      className="relative w-full h-full overflow-hidden bg-stone-950"
     >
-      <Image
-        src={projects[0].images[0]}
-        alt="Lapla Landscape – Dự Án Tiêu Biểu"
-        fill
-        sizes="420px"
-        className="object-cover"
-        priority
-      />
+      {coverSrc && (
+        <Image
+          src={coverSrc}
+          alt="Lapla Landscape – Dự Án Tiêu Biểu"
+          fill
+          sizes="420px"
+          className="object-cover"
+          priority
+        />
+      )}
       {/* dark vignette */}
       <div className="absolute inset-0 bg-gradient-to-b from-stone-950/55 via-stone-950/20 to-stone-950/85" />
       {/* content */}
@@ -70,7 +78,12 @@ type ImagePageProps = BasePageProps & { project: Project; pageIndex: number }
 
 const ImagePage = forwardRef<HTMLDivElement, ImagePageProps>(
   ({ project, pageIndex }, ref) => {
-    const secondImg = project.images[1] ?? project.images[0]
+    // Prefer a distinct gallery shot; fall back to the featured image
+    const gallery = (project.images ?? []).filter(
+      (src) => Boolean(src) && src !== project.image
+    )
+    const heroImg = project.image || project.images?.[0] || ''
+    const secondImg = gallery[0] || heroImg
 
     return (
       <div
@@ -78,14 +91,16 @@ const ImagePage = forwardRef<HTMLDivElement, ImagePageProps>(
         className="w-full h-full overflow-hidden bg-stone-950 flex flex-col"
       >
         {/* ── Top: hero image (60% height) ── */}
-        <div className="relative shrink-0" style={{ height: '60%' }}>
-          <Image
-            src={project.image}
-            alt={project.title}
-            fill
-            sizes="420px"
-            className="object-cover"
-          />
+        <div className="relative shrink-0 bg-stone-900" style={{ height: '60%' }}>
+          {heroImg && (
+            <Image
+              src={heroImg}
+              alt={project.title}
+              fill
+              sizes="420px"
+              className="object-cover"
+            />
+          )}
           {/* subtle bottom fade into dark */}
           <div className="absolute inset-0 bg-linear-to-t from-stone-950/70 via-transparent to-transparent" />
 
@@ -105,14 +120,16 @@ const ImagePage = forwardRef<HTMLDivElement, ImagePageProps>(
         <div className="flex flex-1 overflow-hidden">
 
           {/* second image */}
-          <div className="relative w-[45%] shrink-0 overflow-hidden border-r border-stone-800/50">
-            <Image
-              src={secondImg}
-              alt=""
-              fill
-              sizes="190px"
-              className="object-cover opacity-80"
-            />
+          <div className="relative w-[45%] shrink-0 overflow-hidden border-r border-stone-800/50 bg-stone-900">
+            {secondImg && (
+              <Image
+                src={secondImg}
+                alt=""
+                fill
+                sizes="190px"
+                className="object-cover opacity-80"
+              />
+            )}
           </div>
 
           {/* text info */}
@@ -473,13 +490,15 @@ export default function ProjectFlipbook() {
               key={project.id}
               className="flex-none snap-center w-[78vw] max-w-[300px] h-[60vh] relative rounded-lg overflow-hidden bg-stone-900 shrink-0"
             >
-              <Image
-                src={project.image}
-                alt={project.title}
-                fill
-                sizes="300px"
-                className="object-cover"
-              />
+              {(project.image || project.images?.[0]) && (
+                <Image
+                  src={project.image || project.images[0]}
+                  alt={project.title}
+                  fill
+                  sizes="300px"
+                  className="object-cover"
+                />
+              )}
               <div className="absolute inset-0 bg-gradient-to-t from-stone-950/92 via-stone-950/20 to-transparent" />
               <div className="absolute bottom-0 left-0 right-0 p-5">
                 <div className="flex items-center gap-2 mb-2">

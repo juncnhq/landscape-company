@@ -43,10 +43,22 @@ function PartnerModal({ partner, onClose, isVi }: { partner: Partner; onClose: (
           <span className="inline-block text-xs font-bold tracking-widest uppercase text-[var(--color-accent)] bg-[var(--color-accent)]/15 px-3 py-1 rounded-full border border-[var(--color-accent)]/30 mb-3">
             {isVi ? partner.sectorVi : partner.sectorEn}
           </span>
-          <h3 className="text-2xl font-bold text-white mt-1">{partner.name}</h3>
-          <p className="text-white/70 text-xs mt-1">
-            {isVi ? `Thành lập ${partner.founded} · ${partner.hq}` : `Est. ${partner.founded} · ${partner.hq}`}
-          </p>
+          <div className="flex items-center gap-4 mt-1">
+            {partner.logo && (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={partner.logo}
+                alt={partner.name}
+                className="w-14 h-14 shrink-0 rounded-xl object-contain bg-white p-1.5"
+              />
+            )}
+            <div className="min-w-0">
+              <h3 className="text-2xl font-bold text-white">{partner.name}</h3>
+              <p className="text-white/70 text-xs mt-1">
+                {isVi ? `Thành lập ${partner.founded} · ${partner.hq}` : `Est. ${partner.founded} · ${partner.hq}`}
+              </p>
+            </div>
+          </div>
         </div>
 
         <div className="px-7 py-6 space-y-5 max-h-[60vh] overflow-y-auto">
@@ -63,6 +75,23 @@ function PartnerModal({ partner, onClose, isVi }: { partner: Partner; onClose: (
             <p className="text-xs font-bold uppercase tracking-wider text-[var(--color-text-muted)] mb-2">{isVi ? 'Giới thiệu' : 'About'}</p>
             <p className="text-sm leading-relaxed" style={{ color: "var(--color-text-secondary)" }}>{isVi ? partner.descVi : partner.descEn}</p>
           </div>
+          {partner.images && partner.images.length > 0 && (
+            <div>
+              <p className="text-xs font-bold uppercase tracking-wider text-[var(--color-text-muted)] mb-3">{isVi ? 'Hình ảnh' : 'Gallery'}</p>
+              <div className="grid grid-cols-3 gap-2">
+                {partner.images.filter(Boolean).map((src, i) => (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    key={i}
+                    src={src}
+                    alt={`${partner.name} ${i + 1}`}
+                    loading="lazy"
+                    className="w-full h-24 object-cover rounded-xl"
+                  />
+                ))}
+              </div>
+            </div>
+          )}
           {projects && projects.length > 0 && (
             <div>
               <p className="text-xs font-bold uppercase tracking-wider text-[var(--color-text-muted)] mb-3">{isVi ? 'Dự án hợp tác với Lapla' : 'Projects with Lapla'}</p>
@@ -122,7 +151,17 @@ function MarqueeRow({
             aria-label={partner.name}
             className="group shrink-0 flex items-center gap-3 px-5 py-3 rounded-full border border-gray-200 bg-white hover:bg-[var(--color-brand)] hover:border-[var(--color-brand)] hover:shadow-[0_8px_20px_rgba(22,129,61,0.18)] transition-all duration-300 cursor-pointer shadow-sm"
           >
-            <span className="w-1.5 h-1.5 rounded-full bg-[var(--color-brand)] group-hover:bg-[var(--color-accent)] shrink-0 transition-colors" />
+            {partner.logo ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={partner.logo}
+                alt=""
+                aria-hidden="true"
+                className="w-6 h-6 shrink-0 rounded-full object-contain bg-white"
+              />
+            ) : (
+              <span className="w-1.5 h-1.5 rounded-full bg-[var(--color-brand)] group-hover:bg-[var(--color-accent)] shrink-0 transition-colors" />
+            )}
             <span className="text-[var(--color-text-primary)] group-hover:text-white font-semibold text-sm whitespace-nowrap transition-colors">
               {partner.name}
             </span>

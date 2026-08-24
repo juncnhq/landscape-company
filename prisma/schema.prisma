@@ -46,6 +46,7 @@ model Service {
   tag        String
   bulletsVi  String[]
   bulletsEn  String[]
+  image      String   @default("")
   images     String[]
   published  Boolean  @default(true)
   createdAt  DateTime @default(now())

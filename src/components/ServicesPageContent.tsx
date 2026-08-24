@@ -14,6 +14,7 @@ function ServiceCard({ service, index, locale, contactHref }: {
   const subtitle = isVi ? service.subtitleVi : service.subtitleEn;
   const desc = isVi ? (service.descVi || service.descriptionVi || '') : (service.descEn || service.descriptionEn || '');
   const bullets = isVi ? (service.bulletsVi || []) : (service.bulletsEn || []);
+  const thumb = service.image || service.images?.[0] || '';
   const isEven = index % 2 === 0;
 
   return (
@@ -63,8 +64,8 @@ function ServiceCard({ service, index, locale, contactHref }: {
 
         {/* Image */}
         <div className={`${isEven ? 'order-1 lg:order-2' : 'order-1'} relative`} style={{ height: '420px', borderRadius: '20px', overflow: 'hidden' }}>
-          {(service.images?.[0]) ? (
-            <Image src={service.images[0]} alt={title} fill className="object-cover" sizes="(max-width: 1024px) 100vw, 50vw" />
+          {thumb ? (
+            <Image src={thumb} alt={title} fill className="object-cover" sizes="(max-width: 1024px) 100vw, 50vw" />
           ) : (
             <div className="w-full h-full flex items-center justify-center text-6xl" style={{ backgroundColor: 'var(--color-surface-alt)' }}>
               {service.icon}
