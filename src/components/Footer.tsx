@@ -125,7 +125,7 @@ export default function Footer() {
             </h2>
             <Link
               href={`/${locale}/contact`}
-              className="inline-flex items-center gap-2 px-7 py-3.5 text-xs font-black uppercase tracking-wider shrink-0 transition-all duration-300 hover:scale-[1.04] hover:shadow-[0_8px_24px_rgba(199,220,73,0.4)]"
+              className="btn-fx inline-flex items-center gap-2 px-7 py-3.5 text-xs font-black uppercase tracking-wider shrink-0"
               style={{ backgroundColor: 'var(--color-accent)', color: '#07130a', borderRadius: 999 }}
             >
               {isVi ? 'Yêu cầu báo giá' : 'Request A Quote'}
@@ -206,7 +206,7 @@ export default function Footer() {
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="text-sm text-white flex items-center gap-2.5 group transition-colors duration-200 hover:text-[var(--color-accent)]"
+                    className="link-fx text-sm text-white items-center gap-2.5 group hover:text-[var(--color-accent)]"
                   >
 {isVi ? link.vi : link.en}
                   </Link>
@@ -233,7 +233,7 @@ export default function Footer() {
                 <li key={item.en}>
                   <Link
                     href={`/${locale}/services`}
-                    className="text-sm text-white flex items-center gap-2.5 group transition-colors duration-200 hover:text-[var(--color-accent)]"
+                    className="link-fx text-sm text-white items-center gap-2.5 group hover:text-[var(--color-accent)]"
                   >
 {isVi ? item.vi : item.en}
                   </Link>
@@ -272,7 +272,7 @@ export default function Footer() {
                 href="https://maps.google.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider transition-colors duration-200 hover:text-[var(--color-accent)]"
+                className="link-fx items-center gap-1.5 text-xs font-semibold uppercase tracking-wider hover:text-[var(--color-accent)]"
                 style={{ color: 'var(--color-accent)' }}
               >
                 {isVi ? 'Xem bản đồ' : 'View on Map'}

@@ -72,8 +72,7 @@ export default function OurServicesSection() {
           <ScrollReveal delay={2}>
             <Link
               href={`/${locale}/services`}
-              className="inline-flex items-center gap-2 text-sm font-bold uppercase tracking-wider transition-all duration-200 hover:gap-3"
-              style={{ color: 'var(--color-brand)' }}
+              className="link-fx items-center gap-2 text-sm font-bold uppercase tracking-wider text-[var(--color-brand)] hover:text-[var(--color-brand-dark)]"
             >
               {isVi ? 'Xem tất cả dịch vụ' : 'View All Services'}
               <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24">

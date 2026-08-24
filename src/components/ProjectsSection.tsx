@@ -55,8 +55,7 @@ export default function ProjectsSection() {
           <ScrollReveal delay={2}>
             <Link
               href={`/${locale}/projects`}
-              className="inline-flex items-center gap-2 whitespace-nowrap text-sm font-bold uppercase tracking-wider transition-all duration-300 hover:gap-4 hover:text-[var(--color-brand)]"
-              style={{ color: 'var(--color-brand)' }}
+              className="link-fx items-center gap-2 whitespace-nowrap text-sm font-bold uppercase tracking-wider text-[var(--color-brand)] hover:text-[var(--color-brand-dark)]"
             >
               {isVi ? 'Xem tất cả dự án' : 'View All Projects'}
               <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24">

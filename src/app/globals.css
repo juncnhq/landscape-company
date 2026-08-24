@@ -225,6 +225,58 @@ a, button {
 }
 .nav-link:hover::after { width: 100%; }
 
+/* ═══════════════════════════════════════════════════════════
+   HOVER SYSTEM — dùng chung cho text-link và button
+   ═══════════════════════════════════════════════════════════ */
+
+/* ── BUTTON: nâng + bóng accent + mũi tên trượt ──
+   Áp cho các nút chính (accent/lime). Dùng .btn-fx--brand cho nút xanh brand. */
+.btn-fx {
+  transition: transform 300ms var(--ease-out),
+              box-shadow 300ms var(--ease-out),
+              background-color 250ms var(--ease-default),
+              color 250ms var(--ease-default);
+  will-change: transform;
+}
+.btn-fx:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 14px 32px rgba(199, 220, 73, 0.45);
+}
+.btn-fx:active { transform: translateY(-1px); }
+/* Mũi tên bên trong trượt sang phải khi hover */
+.btn-fx svg { transition: transform 300ms var(--ease-out); }
+.btn-fx:hover svg { transform: translateX(5px); }
+
+/* Nút nền xanh brand → bóng xanh thay vì lime */
+.btn-fx--brand:hover { box-shadow: 0 14px 32px rgba(22, 129, 61, 0.42); }
+/* Nút nền trong suốt / viền (glass) → bóng dịu, thêm sáng viền */
+.btn-fx--ghost:hover {
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.22);
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* ── TEXT LINK: đổi màu + nhích nhẹ ──
+   Composable: màu chữ vẫn do class/inline sẵn có xử lý, class này thêm chuyển động. */
+.link-fx {
+  display: inline-flex;
+  transition: color 250ms var(--ease-default), transform 250ms var(--ease-default);
+  will-change: transform;
+}
+.link-fx:hover { transform: translateX(3px); }
+.link-fx svg { transition: transform 250ms var(--ease-out); }
+.link-fx:hover svg { transform: translateX(3px); }
+
+/* Biến thể "nhấc lên" cho link trong thanh nav (không dịch ngang) */
+.link-lift { transition: color 200ms var(--ease-default), transform 200ms var(--ease-out); }
+.link-lift:hover { transform: translateY(-2px); }
+
+@media (prefers-reduced-motion: reduce) {
+  .btn-fx:hover, .btn-fx:active,
+  .btn-fx:hover svg,
+  .link-fx:hover, .link-fx:hover svg,
+  .link-lift:hover { transform: none; }
+}
+
 ::selection {
   background-color: #c7dc49;
   color: #141414;

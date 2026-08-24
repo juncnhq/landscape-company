@@ -112,7 +112,7 @@ export default function Navbar() {
                   <Link
                     key={link.key}
                     href={href(link.key)}
-                    className="flex items-center gap-1 px-4 py-2 text-xs font-bold uppercase tracking-wider whitespace-nowrap transition-colors duration-200 rounded-full"
+                    className="link-lift flex items-center gap-1 px-4 py-2 text-xs font-bold uppercase tracking-wider whitespace-nowrap transition-colors duration-200 rounded-full"
                     style={{
                       color: active ? "var(--color-accent)" : "rgba(255,255,255,0.92)",
                       backgroundColor: "transparent",
@@ -138,7 +138,7 @@ export default function Navbar() {
                 href={switchPath}
                 aria-label={locale === "vi" ? "Chuyển sang English" : "Switch to Tiếng Việt"}
                 title={locale === "vi" ? "Chuyển sang English" : "Switch to Tiếng Việt"}
-                className="flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-bold uppercase tracking-wider border transition-all duration-200"
+                className="link-lift flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-bold uppercase tracking-wider border transition-all duration-200"
                 style={{
                   borderColor: "rgba(255,255,255,0.3)",
                   color: "rgba(255,255,255,0.85)",
@@ -161,7 +161,7 @@ export default function Navbar() {
               {/* REQUEST A QUOTE CTA */}
               <Link
                 href={`/${locale}/contact`}
-                className="inline-flex items-center gap-2 px-6 py-3 text-xs font-black uppercase tracking-widest whitespace-nowrap transition-all duration-200 hover:opacity-90"
+                className="btn-fx inline-flex items-center gap-2 px-6 py-3 text-xs font-black uppercase tracking-widest whitespace-nowrap"
                 style={{
                   backgroundColor: "var(--color-accent)",
                   color: "var(--color-text-primary)",

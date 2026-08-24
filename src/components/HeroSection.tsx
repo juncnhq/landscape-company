@@ -157,7 +157,7 @@ export default function HeroSection({ initialSlides }: { initialSlides?: Slide[]
             className="font-display mb-6"
             style={{
               fontSize: "clamp(2.15rem, 5.5vw, 6.5rem)",
-              lineHeight: "1.14",
+              lineHeight: "1.2",
               letterSpacing: "-0.02em",
               fontWeight: 800,
               filter: "drop-shadow(0 2px 14px rgba(10,22,6,0.45))",
@@ -172,6 +172,12 @@ export default function HeroSection({ initialSlides }: { initialSlides?: Slide[]
                 className="inline-block hero-word"
                 style={{
                   animationDelay: `${120 + i * 180}ms`,
+                  // Nới hộp tô lên/xuống để không cắt dấu tiếng Việt (dấu nặng, đuôi chữ),
+                  // bù margin âm để giữ nguyên khoảng cách dòng.
+                  paddingTop: "0.08em",
+                  paddingBottom: "0.2em",
+                  marginTop: "-0.08em",
+                  marginBottom: "-0.2em",
                   // Gradient trắng → lime; fallback trắng nếu không hỗ trợ background-clip
                   color: "#ffffff",
                   backgroundImage:
@@ -210,7 +216,7 @@ export default function HeroSection({ initialSlides }: { initialSlides?: Slide[]
           >
             <Link
               href={`/${locale}/projects`}
-              className="inline-flex items-center gap-2.5 text-sm font-semibold uppercase tracking-wide transition-all duration-300 hover:scale-[1.05] hover:shadow-[0_10px_32px_rgba(199,220,73,0.45)]"
+              className="btn-fx inline-flex items-center gap-2.5 text-sm font-semibold uppercase tracking-wide"
               style={{
                 backgroundColor: "var(--color-accent)",
                 color: "var(--color-text-primary)",
@@ -237,7 +243,7 @@ export default function HeroSection({ initialSlides }: { initialSlides?: Slide[]
 
             <Link
               href={`/${locale}/contact`}
-              className="inline-flex items-center gap-2.5 text-sm font-semibold uppercase tracking-wide transition-all duration-300 hover:scale-[1.05]"
+              className="btn-fx btn-fx--ghost inline-flex items-center gap-2.5 text-sm font-semibold uppercase tracking-wide"
               style={{
                 backgroundColor: "rgba(255,255,255,0.12)",
                 backdropFilter: "blur(8px)",
