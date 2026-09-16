@@ -10,6 +10,8 @@ import PartnersSection from '@/components/PartnersSection';
 import Footer from '@/components/Footer';
 import { prisma } from '@/lib/prisma';
 
+export const dynamic = 'force-dynamic';
+
 export default async function HomePage({
   params,
 }: {

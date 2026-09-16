@@ -5,6 +5,8 @@ import PageHero from '@/components/PageHero';
 import NewsGrid from '@/components/NewsGrid';
 import { getSiteSetting } from '@/lib/getSiteSetting';
 
+export const dynamic = 'force-dynamic';
+
 export default async function NewsPage({
   params,
 }: {

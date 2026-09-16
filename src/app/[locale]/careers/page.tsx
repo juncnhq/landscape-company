@@ -5,6 +5,8 @@ import PageHero from '@/components/PageHero';
 import CareersPageContent from '@/components/CareersPageContent';
 import { getSiteSetting } from '@/lib/getSiteSetting';
 
+export const dynamic = 'force-dynamic';
+
 export default async function CareersPage({
   params,
 }: {

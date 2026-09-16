@@ -5,11 +5,7 @@ import Footer from '@/components/Footer';
 import NewsDetailClient from '@/components/NewsDetailClient';
 import { prisma } from '@/lib/prisma';
 
-export async function generateStaticParams() {
-  const locales = ['vi', 'en'];
-  const articles = await prisma.newsArticle.findMany({ select: { slug: true }, where: { published: true } });
-  return locales.flatMap((locale) => articles.map((a) => ({ locale, slug: a.slug })));
-}
+export const dynamic = 'force-dynamic';
 
 export default async function NewsDetailPage({
   params,

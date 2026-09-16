@@ -5,6 +5,8 @@ import PageHero from '@/components/PageHero';
 import ProjectsGrid from '@/components/ProjectsGrid';
 import { getSiteSetting } from '@/lib/getSiteSetting';
 
+export const dynamic = 'force-dynamic';
+
 export default async function ProjectsPage({
   params,
 }: {

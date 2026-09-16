@@ -5,6 +5,8 @@ import PageHero from '@/components/PageHero';
 import CTASection from '@/components/CTASection';
 import { getSiteSetting } from '@/lib/getSiteSetting';
 
+export const dynamic = 'force-dynamic';
+
 export default async function ContactPage({
   params,
 }: {

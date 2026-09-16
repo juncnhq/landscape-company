@@ -5,6 +5,8 @@ import PageHero from '@/components/PageHero';
 import AboutPageContent from '@/components/AboutPageContent';
 import { getSiteSetting } from '@/lib/getSiteSetting';
 
+export const dynamic = 'force-dynamic';
+
 export default async function AboutPage({
   params,
 }: {
