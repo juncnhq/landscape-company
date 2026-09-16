@@ -33,11 +33,41 @@ When building/modifying public pages, match this template's layout, spacing, sec
 ### Common Commands
 
 ```bash
-npx prisma migrate dev --name <name>   # Create & apply migration
+npm run db:push                          # Apply schema.prisma to the DB (no migration files)
+npm run db:status                        # Inspect migration state
 npx prisma generate                      # Regenerate client after schema change
 npx tsx prisma/seed.ts                   # Seed database
 npx prisma studio                        # Visual DB browser
 ```
+
+### ⚠️ Migration workflow — read before changing `schema.prisma`
+
+This project does **not** have a usable migration history:
+
+- `prisma/migrations/` is gitignored and contains only `migration_lock.toml` — the
+  migration folders were lost.
+- The DB's `_prisma_migrations` table still records 5 applied migrations whose
+  folders no longer exist locally.
+
+Consequence: as soon as any migration folder is added, `prisma migrate deploy`
+**fails** with history drift ("The migrations from the database are not found
+locally"). That is why `build` is plain `next build` — running `migrate deploy`
+there would break every deploy.
+
+To change the schema:
+
+1. Edit `prisma/schema.prisma`
+2. `npm run db:push` — pushes the schema straight to the DB in `DATABASE_URL`
+3. `npx prisma generate`
+4. Commit `schema.prisma`
+
+**Never run `prisma migrate dev` here.** `DATABASE_URL` in `.env` points at the
+**production** Railway database (`yamanote.proxy.rlwy.net`), and `migrate dev`
+may offer to reset it — that would wipe live data.
+
+To restore a proper migration history later, baseline it: generate `0_init` from
+the current schema, `prisma migrate resolve --applied 0_init`, then remove the 5
+orphan rows from `_prisma_migrations`.
 
 ## Admin System Architecture
 

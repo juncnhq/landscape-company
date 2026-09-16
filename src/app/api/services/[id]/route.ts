@@ -1,12 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { verifySession } from '@/lib/auth'
-
-const unauthorized = () => NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-const serverError = (err: unknown, label: string) => {
-  console.error(label, err)
-  return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
-}
+import { unauthorized, handleApiError, toInt } from '@/lib/apiError'
 
 export async function PUT(
   request: NextRequest,
@@ -20,7 +15,7 @@ export async function PUT(
       where: { id },
       data: {
         slug: body.slug,
-        order: body.order,
+        order: toInt(body.order, 0),
         icon: body.icon,
         titleVi: body.titleVi,
         titleEn: body.titleEn,
@@ -38,7 +33,7 @@ export async function PUT(
     })
     return NextResponse.json(service)
   } catch (err) {
-    return serverError(err, 'PUT /api/services/[id] error:')
+    return handleApiError(err, 'PUT /api/services/[id] error:')
   }
 }
 
@@ -52,6 +47,6 @@ export async function DELETE(
     await prisma.service.delete({ where: { id } })
     return NextResponse.json({ success: true })
   } catch (err) {
-    return serverError(err, 'DELETE /api/services/[id] error:')
+    return handleApiError(err, 'DELETE /api/services/[id] error:')
   }
 }

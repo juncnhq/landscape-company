@@ -1,12 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { verifySession } from '@/lib/auth'
-
-const unauthorized = () => NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-const serverError = (err: unknown, label: string) => {
-  console.error(label, err)
-  return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
-}
+import { unauthorized, handleApiError, badRequest, missingFields, toInt } from '@/lib/apiError'
 
 export async function GET(request: NextRequest) {
   try {
@@ -16,6 +11,8 @@ export async function GET(request: NextRequest) {
     const where: Record<string, unknown> = {}
     if (category) where.categoryEn = category
     if (newsType) where.newsType = newsType
+    // Khách vãng lai chỉ thấy bài đã publish; admin (có session) thấy tất cả.
+    if (!(await verifySession())) where.published = true
 
     const articles = await prisma.newsArticle.findMany({
       where,
@@ -23,7 +20,7 @@ export async function GET(request: NextRequest) {
     })
     return NextResponse.json(articles)
   } catch (err) {
-    return serverError(err, 'GET /api/news error:')
+    return handleApiError(err, 'GET /api/news error:')
   }
 }
 
@@ -31,6 +28,9 @@ export async function POST(request: NextRequest) {
   if (!(await verifySession())) return unauthorized()
   try {
     const body = await request.json()
+    const invalid = missingFields(body, ['slug', 'titleVi', 'titleEn'])
+    if (invalid) return badRequest(invalid)
+
     const article = await prisma.newsArticle.create({
       data: {
         slug: body.slug,
@@ -45,12 +45,12 @@ export async function POST(request: NextRequest) {
         categoryEn: body.categoryEn ?? '',
         newsType: body.newsType ?? 'general',
         date: body.date ?? new Date().toISOString().slice(0, 10),
-        readTime: body.readTime ?? 4,
+        readTime: toInt(body.readTime, 4),
         published: body.published ?? true,
       },
     })
     return NextResponse.json(article, { status: 201 })
   } catch (err) {
-    return serverError(err, 'POST /api/news error:')
+    return handleApiError(err, 'POST /api/news error:')
   }
 }

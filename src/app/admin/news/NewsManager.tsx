@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from 'react'
 import ImageInput from '@/components/admin/ImageInput'
 import RichTextEditor from '@/components/admin/RichTextEditor'
+import { apiErrorMessage } from '@/lib/apiClient'
 
 type NewsArticle = {
   id: string
@@ -91,18 +92,18 @@ export default function NewsManager() {
       const res = isCreating
         ? await fetch('/api/news', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(editing) })
         : await fetch(`/api/news/${editing.id}`, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(editing) })
-      if (!res.ok) throw new Error(`${res.status}`)
+      if (!res.ok) throw new Error(await apiErrorMessage(res))
       setEditing(null)
       fetchArticles()
-    } catch {
-      setError('Lưu thất bại. Vui lòng thử lại.')
+    } catch (e) {
+      setError(e instanceof Error ? e.message : 'Lưu thất bại. Vui lòng thử lại.')
     }
     setSaving(false)
   }
 
   const handleDelete = async (id: string) => {
     const res = await fetch(`/api/news/${id}`, { method: 'DELETE' })
-    if (!res.ok) { alert('Xóa thất bại.'); return }
+    if (!res.ok) { alert(await apiErrorMessage(res, 'Xóa thất bại.')); return }
     setDeleteConfirm(null)
     fetchArticles()
   }

@@ -1,12 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { verifySession } from '@/lib/auth'
-
-const unauthorized = () => NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-const serverError = (err: unknown, label: string) => {
-  console.error(label, err)
-  return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
-}
+import { unauthorized, handleApiError, toInt } from '@/lib/apiError'
 
 export async function GET(
   _request: NextRequest,
@@ -18,7 +13,7 @@ export async function GET(
     if (!item) return NextResponse.json({ error: 'Not found' }, { status: 404 })
     return NextResponse.json(item)
   } catch (err) {
-    return serverError(err, 'GET /api/timeline/[id] error:')
+    return handleApiError(err, 'GET /api/timeline/[id] error:')
   }
 }
 
@@ -33,7 +28,7 @@ export async function PUT(
     const item = await prisma.timelineItem.update({
       where: { id },
       data: {
-        order: body.order,
+        order: toInt(body.order, 0),
         year: body.year,
         titleVi: body.titleVi,
         titleEn: body.titleEn,
@@ -43,7 +38,7 @@ export async function PUT(
     })
     return NextResponse.json(item)
   } catch (err) {
-    return serverError(err, 'PUT /api/timeline/[id] error:')
+    return handleApiError(err, 'PUT /api/timeline/[id] error:')
   }
 }
 
@@ -57,6 +52,6 @@ export async function DELETE(
     await prisma.timelineItem.delete({ where: { id } })
     return NextResponse.json({ success: true })
   } catch (err) {
-    return serverError(err, 'DELETE /api/timeline/[id] error:')
+    return handleApiError(err, 'DELETE /api/timeline/[id] error:')
   }
 }

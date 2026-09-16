@@ -1,12 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { verifySession } from '@/lib/auth'
-
-const unauthorized = () => NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-const serverError = (err: unknown, label: string) => {
-  console.error(label, err)
-  return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
-}
+import { unauthorized, handleApiError, badRequest, missingFields, toInt } from '@/lib/apiError'
 
 export async function GET() {
   try {
@@ -15,7 +10,7 @@ export async function GET() {
     })
     return NextResponse.json(items)
   } catch (err) {
-    return serverError(err, 'GET /api/timeline error:')
+    return handleApiError(err, 'GET /api/timeline error:')
   }
 }
 
@@ -28,7 +23,7 @@ export async function PATCH(request: NextRequest) {
     )
     return NextResponse.json({ success: true })
   } catch (err) {
-    return serverError(err, 'PATCH /api/timeline error:')
+    return handleApiError(err, 'PATCH /api/timeline error:')
   }
 }
 
@@ -36,9 +31,12 @@ export async function POST(request: NextRequest) {
   if (!(await verifySession())) return unauthorized()
   try {
     const body = await request.json()
+    const invalid = missingFields(body, ['year', 'titleVi', 'titleEn'])
+    if (invalid) return badRequest(invalid)
+
     const item = await prisma.timelineItem.create({
       data: {
-        order: body.order ?? 0,
+        order: toInt(body.order, 0),
         year: body.year,
         titleVi: body.titleVi,
         titleEn: body.titleEn,
@@ -48,6 +46,6 @@ export async function POST(request: NextRequest) {
     })
     return NextResponse.json(item, { status: 201 })
   } catch (err) {
-    return serverError(err, 'POST /api/timeline error:')
+    return handleApiError(err, 'POST /api/timeline error:')
   }
 }

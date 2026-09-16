@@ -1,8 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { verifySession } from '@/lib/auth'
-
-const unauthorized = () => NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+import { unauthorized, badRequest, missingFields, handleApiError } from '@/lib/apiError'
 
 export async function GET(request: NextRequest) {
   const { searchParams } = request.nextUrl
@@ -10,7 +9,9 @@ export async function GET(request: NextRequest) {
   const search = searchParams.get('search')
 
   const where: Record<string, unknown> = {}
-  if (searchParams.get('published') === 'true') where.published = true
+  // Khách vãng lai chỉ thấy dự án đã publish; admin (có session) thấy tất cả.
+  const isAdmin = await verifySession()
+  if (!isAdmin || searchParams.get('published') === 'true') where.published = true
   if (category && category !== 'All') {
     where.category = category
   }
@@ -30,8 +31,7 @@ export async function GET(request: NextRequest) {
     })
     return NextResponse.json(projects)
   } catch (err) {
-    console.error('GET /api/projects error:', err)
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
+    return handleApiError(err, 'GET /api/projects error:')
   }
 }
 
@@ -39,6 +39,9 @@ export async function POST(request: NextRequest) {
   if (!(await verifySession())) return unauthorized()
   try {
     const body = await request.json()
+    const invalid = missingFields(body, ['slug', 'title', 'titleEn'])
+    if (invalid) return badRequest(invalid)
+
     const project = await prisma.project.create({
       data: {
         slug: body.slug,
@@ -60,7 +63,6 @@ export async function POST(request: NextRequest) {
     })
     return NextResponse.json(project, { status: 201 })
   } catch (err) {
-    console.error('POST /api/projects error:', err)
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
+    return handleApiError(err, 'POST /api/projects error:')
   }
 }

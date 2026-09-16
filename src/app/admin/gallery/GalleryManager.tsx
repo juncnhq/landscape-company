@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
+import { apiErrorMessage } from '@/lib/apiClient'
 
 const CLOUD_NAME = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME
 const UPLOAD_PRESET = process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET
@@ -153,7 +154,8 @@ export default function GalleryManager() {
   }
 
   const handleDelete = async (id: string) => {
-    await fetch(`/api/media/${id}`, { method: 'DELETE' })
+    const res = await fetch(`/api/media/${id}`, { method: 'DELETE' })
+    if (!res.ok) { alert(await apiErrorMessage(res, 'Xoá thất bại.')); return }
     setMediaItems(prev => prev.filter(m => m.id !== id))
     setAllImages(prev => {
       const item = mediaItems.find(m => m.id === id)

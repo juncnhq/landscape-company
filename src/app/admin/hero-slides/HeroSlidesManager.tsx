@@ -1,6 +1,7 @@
 'use client'
 import { useEffect, useState, useCallback } from 'react'
 import CloudinaryUpload from '@/components/admin/CloudinaryUpload'
+import { apiErrorMessage } from '@/lib/apiClient'
 
 interface HeroSlide {
   id: string
@@ -109,6 +110,7 @@ export default function HeroSlidesManager() {
   const [form, setForm] = useState(empty())
   const [deleteConfirm, setDeleteConfirm] = useState<string | null>(null)
   const [saving, setSaving] = useState(false)
+  const [error, setError] = useState<string | null>(null)
   const [showPicker, setShowPicker] = useState(false)
   const [imageTab, setImageTab] = useState<'upload' | 'library'>('library')
 
@@ -127,6 +129,7 @@ export default function HeroSlidesManager() {
   useEffect(() => { fetchSlides() }, [fetchSlides])
 
   const openCreate = () => {
+    setError(null)
     setForm({ ...empty(), order: slides.length })
     setImageTab('library')
     setIsCreating(true)
@@ -134,50 +137,57 @@ export default function HeroSlidesManager() {
   }
 
   const openEdit = (slide: HeroSlide) => {
+    setError(null)
     setForm({ order: slide.order, image: slide.image, labelVi: slide.labelVi, labelEn: slide.labelEn, published: slide.published })
     setImageTab('library')
     setEditingSlide(slide)
     setIsCreating(false)
   }
 
-  const closeModal = () => { setEditingSlide(null); setIsCreating(false) }
+  const closeModal = () => { setEditingSlide(null); setIsCreating(false); setError(null) }
 
   const handleSave = async () => {
     if (!form.image || !form.labelVi || !form.labelEn) return
     setSaving(true)
+    setError(null)
     try {
-      if (isCreating) {
-        await fetch('/api/hero-slides', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(form),
-        })
-      } else if (editingSlide) {
-        await fetch(`/api/hero-slides/${editingSlide.id}`, {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(form),
-        })
-      }
+      const res = isCreating
+        ? await fetch('/api/hero-slides', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(form),
+          })
+        : editingSlide
+          ? await fetch(`/api/hero-slides/${editingSlide.id}`, {
+              method: 'PUT',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(form),
+            })
+          : null
+      if (res && !res.ok) throw new Error(await apiErrorMessage(res))
       await fetchSlides()
       closeModal()
+    } catch (e) {
+      setError(e instanceof Error ? e.message : 'Lưu thất bại. Vui lòng thử lại.')
     } finally {
       setSaving(false)
     }
   }
 
   const handleDelete = async (id: string) => {
-    await fetch(`/api/hero-slides/${id}`, { method: 'DELETE' })
+    const res = await fetch(`/api/hero-slides/${id}`, { method: 'DELETE' })
+    if (!res.ok) { alert(await apiErrorMessage(res, 'Xoá thất bại.')); return }
     await fetchSlides()
     setDeleteConfirm(null)
   }
 
   const togglePublished = async (slide: HeroSlide) => {
-    await fetch(`/api/hero-slides/${slide.id}`, {
+    const res = await fetch(`/api/hero-slides/${slide.id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ ...slide, published: !slide.published }),
     })
+    if (!res.ok) { alert(await apiErrorMessage(res, 'Cập nhật trạng thái thất bại.')); return }
     await fetchSlides()
   }
 
@@ -371,7 +381,8 @@ export default function HeroSlidesManager() {
               </div>
             </div>
 
-            <div className="flex justify-end gap-3 px-6 py-4 border-t bg-gray-50 rounded-b-lg">
+            <div className="flex items-center justify-end gap-3 px-6 py-4 border-t bg-gray-50 rounded-b-lg">
+              {error && <p className="text-sm text-red-500 mr-auto">{error}</p>}
               <button onClick={closeModal} className="px-4 py-2 text-sm text-gray-600 border border-gray-200 rounded-lg hover:bg-gray-100">
                 Huỷ
               </button>

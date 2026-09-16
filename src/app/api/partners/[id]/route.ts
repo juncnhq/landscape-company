@@ -1,12 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { verifySession } from '@/lib/auth'
-
-const unauthorized = () => NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-const serverError = (err: unknown, label: string) => {
-  console.error(label, err)
-  return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
-}
+import { unauthorized, handleApiError, toInt } from '@/lib/apiError'
 
 export async function GET(
   _request: NextRequest,
@@ -18,7 +13,7 @@ export async function GET(
     if (!partner) return NextResponse.json({ error: 'Not found' }, { status: 404 })
     return NextResponse.json(partner)
   } catch (err) {
-    return serverError(err, 'GET /api/partners/[id] error:')
+    return handleApiError(err, 'GET /api/partners/[id] error:')
   }
 }
 
@@ -33,13 +28,13 @@ export async function PUT(
     const partner = await prisma.partner.update({
       where: { id },
       data: {
-        order: body.order,
+        order: toInt(body.order, 0),
         name: body.name,
         sectorVi: body.sectorVi,
         sectorEn: body.sectorEn,
         descVi: body.descVi,
         descEn: body.descEn,
-        founded: body.founded,
+        founded: toInt(body.founded, 2000),
         hq: body.hq,
         statLabelVi: body.statLabelVi,
         statLabelEn: body.statLabelEn,
@@ -55,7 +50,7 @@ export async function PUT(
     })
     return NextResponse.json(partner)
   } catch (err) {
-    return serverError(err, 'PUT /api/partners/[id] error:')
+    return handleApiError(err, 'PUT /api/partners/[id] error:')
   }
 }
 
@@ -69,6 +64,6 @@ export async function DELETE(
     await prisma.partner.delete({ where: { id } })
     return NextResponse.json({ success: true })
   } catch (err) {
-    return serverError(err, 'DELETE /api/partners/[id] error:')
+    return handleApiError(err, 'DELETE /api/partners/[id] error:')
   }
 }

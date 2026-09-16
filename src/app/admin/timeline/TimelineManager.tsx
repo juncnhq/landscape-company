@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect, useCallback, useRef } from 'react'
+import { apiErrorMessage } from '@/lib/apiClient'
 
 type TimelineItem = {
   id: string
@@ -96,18 +97,18 @@ export default function TimelineManager() {
       const res = isCreating
         ? await fetch('/api/timeline', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(editing) })
         : await fetch(`/api/timeline/${editing.id}`, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(editing) })
-      if (!res.ok) throw new Error(`${res.status}`)
+      if (!res.ok) throw new Error(await apiErrorMessage(res))
       setEditing(null)
       fetchItems()
-    } catch {
-      setError('Lưu thất bại. Vui lòng thử lại.')
+    } catch (e) {
+      setError(e instanceof Error ? e.message : 'Lưu thất bại. Vui lòng thử lại.')
     }
     setSaving(false)
   }
 
   const handleDelete = async (id: string) => {
     const res = await fetch(`/api/timeline/${id}`, { method: 'DELETE' })
-    if (!res.ok) { alert('Xóa thất bại.'); return }
+    if (!res.ok) { alert(await apiErrorMessage(res, 'Xóa thất bại.')); return }
     setDeleteConfirm(null)
     fetchItems()
   }

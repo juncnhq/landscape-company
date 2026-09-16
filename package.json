@@ -5,7 +5,9 @@
   "scripts": {
     "seed:excel": "tsx prisma/seed-from-excel.ts",
     "dev": "next dev",
-    "build": "prisma migrate deploy && next build",
+    "build": "next build",
+    "db:push": "prisma db push",
+    "db:status": "prisma migrate status",
     "postinstall": "prisma generate",
     "start": "next start",
     "lint": "eslint"

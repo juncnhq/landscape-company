@@ -1,12 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { verifySession } from '@/lib/auth'
-
-const unauthorized = () => NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-const serverError = (err: unknown, label: string) => {
-  console.error(label, err)
-  return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
-}
+import { unauthorized, handleApiError } from '@/lib/apiError'
 
 export async function PUT(
   request: NextRequest,
@@ -23,7 +18,7 @@ export async function PUT(
     })
     return NextResponse.json(setting)
   } catch (err) {
-    return serverError(err, 'PUT /api/site-settings/[key] error:')
+    return handleApiError(err, 'PUT /api/site-settings/[key] error:')
   }
 }
 
@@ -37,6 +32,6 @@ export async function DELETE(
     await prisma.siteSetting.deleteMany({ where: { key } })
     return NextResponse.json({ success: true })
   } catch (err) {
-    return serverError(err, 'DELETE /api/site-settings/[key] error:')
+    return handleApiError(err, 'DELETE /api/site-settings/[key] error:')
   }
 }

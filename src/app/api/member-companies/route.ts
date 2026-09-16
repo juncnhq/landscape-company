@@ -1,21 +1,20 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { verifySession } from '@/lib/auth'
-
-const unauthorized = () => NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-const serverError = (err: unknown, label: string) => {
-  console.error(label, err)
-  return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
-}
+import { unauthorized, handleApiError, badRequest, missingFields, toInt } from '@/lib/apiError'
 
 export async function GET() {
   try {
+    const where: Record<string, unknown> = {}
+    if (!(await verifySession())) where.published = true
+
     const companies = await prisma.memberCompany.findMany({
+      where,
       orderBy: { order: 'asc' },
     })
     return NextResponse.json(companies)
   } catch (err) {
-    return serverError(err, 'GET /api/member-companies error:')
+    return handleApiError(err, 'GET /api/member-companies error:')
   }
 }
 
@@ -23,9 +22,12 @@ export async function POST(request: NextRequest) {
   if (!(await verifySession())) return unauthorized()
   try {
     const body = await request.json()
+    const invalid = missingFields(body, ['abbr', 'name'])
+    if (invalid) return badRequest(invalid)
+
     const company = await prisma.memberCompany.create({
       data: {
-        order: body.order ?? 0,
+        order: toInt(body.order, 0),
         abbr: body.abbr,
         name: body.name,
         tagline: body.tagline ?? '',
@@ -38,6 +40,6 @@ export async function POST(request: NextRequest) {
     })
     return NextResponse.json(company, { status: 201 })
   } catch (err) {
-    return serverError(err, 'POST /api/member-companies error:')
+    return handleApiError(err, 'POST /api/member-companies error:')
   }
 }

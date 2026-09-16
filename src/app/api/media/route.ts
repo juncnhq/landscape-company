@@ -1,21 +1,18 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { verifySession } from '@/lib/auth'
-
-const unauthorized = () => NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-const serverError = (err: unknown, label: string) => {
-  console.error(label, err)
-  return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
-}
+import { unauthorized, handleApiError, badRequest, missingFields } from '@/lib/apiError'
 
 export async function GET() {
+  // Thư viện media chỉ phục vụ admin — không có component public nào gọi.
+  if (!(await verifySession())) return unauthorized()
   try {
     const items = await prisma.media.findMany({
       orderBy: { createdAt: 'desc' },
     })
     return NextResponse.json(items)
   } catch (err) {
-    return serverError(err, 'GET /api/media error:')
+    return handleApiError(err, 'GET /api/media error:')
   }
 }
 
@@ -23,6 +20,9 @@ export async function POST(request: NextRequest) {
   if (!(await verifySession())) return unauthorized()
   try {
     const body = await request.json()
+    const invalid = missingFields(body, ['url'])
+    if (invalid) return badRequest(invalid)
+
     const item = await prisma.media.create({
       data: {
         url: body.url,
@@ -32,6 +32,6 @@ export async function POST(request: NextRequest) {
     })
     return NextResponse.json(item, { status: 201 })
   } catch (err) {
-    return serverError(err, 'POST /api/media error:')
+    return handleApiError(err, 'POST /api/media error:')
   }
 }

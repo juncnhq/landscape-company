@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from 'react'
 import ImageInput from '@/components/admin/ImageInput'
 import GalleryInput from '@/components/admin/GalleryInput'
+import { apiErrorMessage } from '@/lib/apiClient'
 
 type Service = {
   id: string
@@ -101,18 +102,18 @@ export default function ServicesManager() {
       const res = isCreating
         ? await fetch('/api/services', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) })
         : await fetch(`/api/services/${editing.id}`, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) })
-      if (!res.ok) throw new Error(`${res.status}`)
+      if (!res.ok) throw new Error(await apiErrorMessage(res))
       setEditing(null)
       fetchServices()
-    } catch {
-      setError('Lưu thất bại. Vui lòng thử lại.')
+    } catch (e) {
+      setError(e instanceof Error ? e.message : 'Lưu thất bại. Vui lòng thử lại.')
     }
     setSaving(false)
   }
 
   const handleDelete = async (id: string) => {
     const res = await fetch(`/api/services/${id}`, { method: 'DELETE' })
-    if (!res.ok) { alert('Xóa thất bại.'); return }
+    if (!res.ok) { alert(await apiErrorMessage(res, 'Xóa thất bại.')); return }
     setDeleteConfirm(null)
     fetchServices()
   }

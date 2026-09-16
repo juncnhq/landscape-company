@@ -1,12 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { verifySession } from '@/lib/auth'
-
-const unauthorized = () => NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-const serverError = (err: unknown, label: string) => {
-  console.error(label, err)
-  return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
-}
+import { unauthorized, handleApiError, toInt } from '@/lib/apiError'
 
 export async function GET(
   _request: NextRequest,
@@ -18,7 +13,7 @@ export async function GET(
     if (!article) return NextResponse.json({ error: 'Not found' }, { status: 404 })
     return NextResponse.json(article)
   } catch (err) {
-    return serverError(err, 'GET /api/news/[id] error:')
+    return handleApiError(err, 'GET /api/news/[id] error:')
   }
 }
 
@@ -45,13 +40,13 @@ export async function PUT(
         categoryEn: body.categoryEn,
         newsType: body.newsType ?? 'general',
         date: body.date,
-        readTime: body.readTime,
+        readTime: toInt(body.readTime, 4),
         published: body.published,
       },
     })
     return NextResponse.json(article)
   } catch (err) {
-    return serverError(err, 'PUT /api/news/[id] error:')
+    return handleApiError(err, 'PUT /api/news/[id] error:')
   }
 }
 
@@ -65,6 +60,6 @@ export async function DELETE(
     await prisma.newsArticle.delete({ where: { id } })
     return NextResponse.json({ success: true })
   } catch (err) {
-    return serverError(err, 'DELETE /api/news/[id] error:')
+    return handleApiError(err, 'DELETE /api/news/[id] error:')
   }
 }

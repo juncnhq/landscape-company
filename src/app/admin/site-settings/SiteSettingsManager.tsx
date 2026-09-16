@@ -1,6 +1,7 @@
 'use client'
 import { useCallback, useEffect, useState } from 'react'
 import ImageInput from '@/components/admin/ImageInput'
+import { apiErrorMessage } from '@/lib/apiClient'
 
 const DEFAULT_BG = 'https://res.cloudinary.com/dg9khx2s7/image/upload/v1780671218/wymbkpzgdmlov1gnysd3.jpg'
 
@@ -17,6 +18,7 @@ export default function SiteSettingsManager() {
   const [settings, setSettings] = useState<Record<string, string>>({})
   const [saving, setSaving] = useState<Record<string, boolean>>({})
   const [saved, setSaved] = useState<Record<string, boolean>>({})
+  const [errors, setErrors] = useState<Record<string, string | null>>({})
   const [loading, setLoading] = useState(true)
 
   const fetchSettings = useCallback(async () => {
@@ -33,21 +35,37 @@ export default function SiteSettingsManager() {
   const handleSave = async (key: string, value: string) => {
     setSaving(prev => ({ ...prev, [key]: true }))
     setSaved(prev => ({ ...prev, [key]: false }))
+    setErrors(prev => ({ ...prev, [key]: null }))
     try {
-      await fetch(`/api/site-settings/${key}`, {
+      const res = await fetch(`/api/site-settings/${key}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ value }),
       })
+      // Không báo "Đã lưu" khi request thất bại — trước đây session hết hạn
+      // vẫn hiện dấu tick dù không có gì được ghi.
+      if (!res.ok) {
+        const msg = await apiErrorMessage(res)
+        setErrors(prev => ({ ...prev, [key]: msg }))
+        return
+      }
       setSaved(prev => ({ ...prev, [key]: true }))
       setTimeout(() => setSaved(prev => ({ ...prev, [key]: false })), 2000)
+    } catch {
+      setErrors(prev => ({ ...prev, [key]: 'Lưu thất bại. Vui lòng thử lại.' }))
     } finally {
       setSaving(prev => ({ ...prev, [key]: false }))
     }
   }
 
   const handleReset = async (key: string) => {
-    await fetch(`/api/site-settings/${key}`, { method: 'DELETE' })
+    const res = await fetch(`/api/site-settings/${key}`, { method: 'DELETE' })
+    if (!res.ok) {
+      const msg = await apiErrorMessage(res, 'Reset thất bại.')
+      setErrors(prev => ({ ...prev, [key]: msg }))
+      return
+    }
+    setErrors(prev => ({ ...prev, [key]: null }))
     setSettings(prev => { const n = { ...prev }; delete n[key]; return n })
   }
 
@@ -142,6 +160,9 @@ export default function SiteSettingsManager() {
                     </button>
                   )}
                 </div>
+                {errors[page.key] && (
+                  <p className="mt-2 text-sm text-red-500">{errors[page.key]}</p>
+                )}
               </div>
             </div>
           )
