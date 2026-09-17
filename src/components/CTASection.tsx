@@ -11,12 +11,41 @@ export default function CTASection() {
     company: '', address: '', service: '', message: '',
   });
   const [sent, setSent] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  // Honeypot: field ẩn, người thật không nhìn thấy nên không bao giờ điền.
+  const [website, setWebsite] = useState('');
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSent(true);
-    setTimeout(() => setSent(false), 4000);
-    setForm({ firstName: '', lastName: '', email: '', phone: '', company: '', address: '', service: '', message: '' });
+    setSending(true);
+    setError(null);
+    try {
+      const res = await fetch('/api/contacts', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...form, website }),
+      });
+      if (!res.ok) {
+        const data = await res.json().catch(() => null);
+        throw new Error(
+          (data && typeof data.error === 'string' && data.error) ||
+          (isVi ? 'Gửi không thành công, vui lòng thử lại.' : 'Could not send, please try again.')
+        );
+      }
+      // Chỉ báo thành công và xoá form sau khi server xác nhận đã lưu.
+      setSent(true);
+      setTimeout(() => setSent(false), 4000);
+      setForm({ firstName: '', lastName: '', email: '', phone: '', company: '', address: '', service: '', message: '' });
+    } catch (err) {
+      setError(
+        err instanceof Error
+          ? err.message
+          : isVi ? 'Gửi không thành công, vui lòng thử lại.' : 'Could not send, please try again.'
+      );
+    } finally {
+      setSending(false);
+    }
   };
 
   return (
@@ -309,12 +338,31 @@ export default function CTASection() {
                     />
                   </div>
 
+                  {/* Honeypot — ẩn khỏi người dùng và screen reader */}
+                  <input
+                    type="text"
+                    name="website"
+                    value={website}
+                    onChange={e => setWebsite(e.target.value)}
+                    tabIndex={-1}
+                    autoComplete="off"
+                    aria-hidden="true"
+                    style={{ position: 'absolute', left: '-9999px', width: 1, height: 1, opacity: 0 }}
+                  />
+
+                  {error && (
+                    <p className="text-sm text-red-600" role="alert">{error}</p>
+                  )}
+
                   <button
                     type="submit"
-                    className="w-full py-3.5 text-white text-sm font-bold uppercase tracking-wider transition-all duration-200 hover:opacity-90"
+                    disabled={sending}
+                    className="w-full py-3.5 text-white text-sm font-bold uppercase tracking-wider transition-all duration-200 hover:opacity-90 disabled:opacity-60 disabled:cursor-not-allowed"
                     style={{ backgroundColor: 'var(--color-accent)', color: 'var(--color-text-primary)', borderRadius: '10px', }}
                   >
-                    {isVi ? 'Gửi yêu cầu tư vấn' : 'Submit Request'}
+                    {sending
+                      ? (isVi ? 'Đang gửi...' : 'Sending...')
+                      : (isVi ? 'Gửi yêu cầu tư vấn' : 'Submit Request')}
                   </button>
                 </form>
               )}

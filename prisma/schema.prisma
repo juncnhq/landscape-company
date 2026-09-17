@@ -170,3 +170,25 @@ model SiteSetting {
 
   @@map("site_setting")
 }
+
+model ContactRequest {
+  id        String   @id @default(cuid())
+  firstName String
+  lastName  String
+  email     String
+  phone     String
+  company   String   @default("")
+  address   String   @default("")
+  service   String   @default("")
+  message   String   @default("")
+  /// new | contacted | done — trạng thái xử lý lead
+  status    String   @default("new")
+  /// Ghi chú nội bộ của nhân viên xử lý
+  note      String   @default("")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("contact_request")
+  @@index([status])
+  @@index([createdAt])
+}
