@@ -1,7 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { verifySession } from '@/lib/auth'
-import { unauthorized, handleApiError, toInt } from '@/lib/apiError'
+import { unauthorized, handleApiError } from '@/lib/apiError'
+import { readJson } from '@/lib/validate'
+import { parsePartner } from '@/lib/entityInput'
 
 export async function GET(
   _request: NextRequest,
@@ -24,31 +26,12 @@ export async function PUT(
   if (!(await verifySession())) return unauthorized()
   try {
     const { id } = await params
-    const body = await request.json()
-    const partner = await prisma.partner.update({
+    const body = await readJson(request)
+    const item = await prisma.partner.update({
       where: { id },
-      data: {
-        order: toInt(body.order, 0),
-        name: body.name,
-        sectorVi: body.sectorVi,
-        sectorEn: body.sectorEn,
-        descVi: body.descVi,
-        descEn: body.descEn,
-        founded: toInt(body.founded, 2000),
-        hq: body.hq,
-        statLabelVi: body.statLabelVi,
-        statLabelEn: body.statLabelEn,
-        statValue: body.statValue,
-        projectsVi: body.projectsVi,
-        projectsEn: body.projectsEn,
-        highlightVi: body.highlightVi,
-        highlightEn: body.highlightEn,
-        logo: body.logo ?? '',
-        images: body.images ?? [],
-        published: body.published,
-      },
+      data: parsePartner(body),
     })
-    return NextResponse.json(partner)
+    return NextResponse.json(item)
   } catch (err) {
     return handleApiError(err, 'PUT /api/partners/[id] error:')
   }

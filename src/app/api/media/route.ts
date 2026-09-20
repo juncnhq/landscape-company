@@ -1,7 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { verifySession } from '@/lib/auth'
-import { unauthorized, handleApiError, badRequest, missingFields } from '@/lib/apiError'
+import { unauthorized, handleApiError } from '@/lib/apiError'
+import { readJson } from '@/lib/validate'
+import { parseMedia } from '@/lib/entityInput'
 
 export async function GET() {
   // Thư viện media chỉ phục vụ admin — không có component public nào gọi.
@@ -19,17 +21,8 @@ export async function GET() {
 export async function POST(request: NextRequest) {
   if (!(await verifySession())) return unauthorized()
   try {
-    const body = await request.json()
-    const invalid = missingFields(body, ['url'])
-    if (invalid) return badRequest(invalid)
-
-    const item = await prisma.media.create({
-      data: {
-        url: body.url,
-        filename: body.filename ?? '',
-        folder: body.folder ?? 'gallery',
-      },
-    })
+    const body = await readJson(request)
+    const item = await prisma.media.create({ data: parseMedia(body) })
     return NextResponse.json(item, { status: 201 })
   } catch (err) {
     return handleApiError(err, 'POST /api/media error:')

@@ -11,16 +11,28 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useLocale } from 'next-intl'
 import HTMLFlipBook from 'react-pageflip'
-import { projects } from '@/lib/data'
+/** Chỉ những field flipbook thực sự đọc — khớp với select ở trang server. */
+export type FlipbookProject = {
+  id: string
+  title: string
+  year: string
+  category: string
+  location: string
+  client: string
+  description: string
+  image: string
+  images: string[]
+}
 
-type Project = (typeof projects)[number]
+type Project = FlipbookProject
 
 // ─── Pages (forwardRef required — react-pageflip injects ref + number prop) ──
 
 type BasePageProps = { number?: number }
+type CoverPageProps = BasePageProps & { projects: Project[] }
 
 // Cover -----------------------------------------------------------------------
-const CoverPage = forwardRef<HTMLDivElement, BasePageProps>((_, ref) => {
+const CoverPage = forwardRef<HTMLDivElement, CoverPageProps>(({ projects }, ref) => {
   const years = projects
     .map((p) => parseInt(p.year, 10))
     .filter((y) => Number.isFinite(y))
@@ -200,9 +212,9 @@ BackCoverPage.displayName = 'BackCoverPage'
 
 const PAGE_W = 420
 const PAGE_H = 560
-// 1 cover + N projects + 1 back cover; use spread count (÷2) for dots
-const TOTAL_PAGES = projects.length + 2
-const TOTAL_SPREADS = Math.ceil(TOTAL_PAGES / 2) // ≈ 13 dots
+// 1 cover + N projects + 1 back cover; use spread count (÷2) for dots.
+// Số dự án giờ đến từ DB nên phải tính trong component, không còn là hằng số.
+const spreadCount = (projectCount: number) => Math.ceil((projectCount + 2) / 2)
 
 // Synthesize a realistic book page-flip sound via Web Audio API
 function playFlipSound() {
@@ -269,7 +281,7 @@ const ZOOM_MIN = 0.6
 const ZOOM_MAX = 1.4
 const ZOOM_STEP = 0.1
 
-export default function ProjectFlipbook() {
+export default function ProjectFlipbook({ projects }: { projects: FlipbookProject[] }) {
   const locale = useLocale()
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const bookRef = useRef<any>(null)
@@ -435,7 +447,7 @@ export default function ProjectFlipbook() {
               disableFlipByClick={false}
               onFlip={handleFlip}
             >
-              <CoverPage />
+              <CoverPage projects={projects} />
               {projects.map((project, i) => (
                 <ImagePage key={project.id} project={project} pageIndex={i + 1} />
               ))}
@@ -454,7 +466,7 @@ export default function ProjectFlipbook() {
             </button>
 
             <div className="flex items-center gap-1.5">
-              {Array.from({ length: TOTAL_SPREADS }).map((_, i) => (
+              {Array.from({ length: spreadCount(projects.length) }).map((_, i) => (
                 <span
                   key={i}
                   className={`block h-1 rounded-full transition-all duration-300 ${

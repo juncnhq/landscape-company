@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from 'react'
 import ImageInput from '@/components/admin/ImageInput'
 import GalleryInput from '@/components/admin/GalleryInput'
+import SlugField from '@/components/admin/SlugField'
 import { apiErrorMessage } from '@/lib/apiClient'
 
 type Project = {
@@ -298,17 +299,17 @@ export default function ProjectsManager() {
 
             <div className="px-6 py-5 space-y-4 max-h-[70vh] overflow-y-auto">
               <div className="grid grid-cols-2 gap-4">
-                <Field label="Slug" value={editingProject.slug || ''} onChange={(v) => setEditingProject({ ...editingProject, slug: v })} />
+                <SlugField value={editingProject.slug || ''} onChange={(v) => setEditingProject({ ...editingProject, slug: v })} source={editingProject.title || ''} autoFill={isCreating} />
                 <Field label="Danh mục" value={editingProject.category || 'Golf'} onChange={(v) => setEditingProject({ ...editingProject, category: v })} type="select" options={CATEGORIES.filter(c => c !== 'All')} />
               </div>
-              <Field label="Tên dự án (VI)" value={editingProject.title || ''} onChange={(v) => setEditingProject({ ...editingProject, title: v })} />
-              <Field label="Tên dự án (EN)" value={editingProject.titleEn || ''} onChange={(v) => setEditingProject({ ...editingProject, titleEn: v })} />
+              <Field label="Tên dự án (VI)" value={editingProject.title || ''} onChange={(v) => setEditingProject({ ...editingProject, title: v })} required />
+              <Field label="Tên dự án (EN)" value={editingProject.titleEn || ''} onChange={(v) => setEditingProject({ ...editingProject, titleEn: v })} required />
               <div className="grid grid-cols-2 gap-4">
-                <Field label="Địa điểm" value={editingProject.location || ''} onChange={(v) => setEditingProject({ ...editingProject, location: v })} />
-                <Field label="Khách hàng" value={editingProject.client || ''} onChange={(v) => setEditingProject({ ...editingProject, client: v })} />
+                <Field label="Địa điểm" value={editingProject.location || ''} onChange={(v) => setEditingProject({ ...editingProject, location: v })} required />
+                <Field label="Khách hàng" value={editingProject.client || ''} onChange={(v) => setEditingProject({ ...editingProject, client: v })} required />
               </div>
               <div className="grid grid-cols-3 gap-4">
-                <Field label="Năm" value={editingProject.year || ''} onChange={(v) => setEditingProject({ ...editingProject, year: v })} />
+                <Field label="Năm" value={editingProject.year || ''} onChange={(v) => setEditingProject({ ...editingProject, year: v })} required />
                 <Field label="Diện tích" value={editingProject.area || ''} onChange={(v) => setEditingProject({ ...editingProject, area: v })} />
                 <Field label="Thời gian" value={editingProject.duration || ''} onChange={(v) => setEditingProject({ ...editingProject, duration: v })} />
               </div>
@@ -322,8 +323,8 @@ export default function ProjectsManager() {
                 value={editingProject.sketchImage || ''}
                 onChange={(v) => setEditingProject({ ...editingProject, sketchImage: v })}
               />
-              <Field label="Mô tả (VI)" value={editingProject.description || ''} onChange={(v) => setEditingProject({ ...editingProject, description: v })} type="textarea" />
-              <Field label="Mô tả (EN)" value={editingProject.descriptionEn || ''} onChange={(v) => setEditingProject({ ...editingProject, descriptionEn: v })} type="textarea" />
+              <Field label="Mô tả (VI)" value={editingProject.description || ''} onChange={(v) => setEditingProject({ ...editingProject, description: v })} type="textarea" required />
+              <Field label="Mô tả (EN)" value={editingProject.descriptionEn || ''} onChange={(v) => setEditingProject({ ...editingProject, descriptionEn: v })} type="textarea" required />
               <GalleryInput
                 label="Ảnh gallery"
                 value={galleryImages}
@@ -397,18 +398,20 @@ function Field({
   onChange,
   type = 'text',
   options,
+  required = false,
 }: {
   label: string
   value: string
   onChange: (v: string) => void
   type?: 'text' | 'textarea' | 'select'
   options?: string[]
+  required?: boolean
 }) {
   const cls = "w-full px-3 py-2 rounded-lg border border-gray-200 text-sm text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-[#328442]/30 focus:border-[#328442]"
 
   return (
     <div>
-      <label className="block text-sm font-medium text-gray-700 mb-1">{label}</label>
+      <label className="block text-sm font-medium text-gray-700 mb-1">{label}{required && <span className="text-red-500"> *</span>}</label>
       {type === 'textarea' ? (
         <textarea value={value} onChange={(e) => onChange(e.target.value)} rows={3} className={`${cls} resize-none`} />
       ) : type === 'select' ? (

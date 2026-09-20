@@ -1,7 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { verifySession } from '@/lib/auth'
-import { unauthorized, handleApiError, toInt } from '@/lib/apiError'
+import { unauthorized, handleApiError } from '@/lib/apiError'
+import { readJson } from '@/lib/validate'
+import { parseMemberCompany } from '@/lib/entityInput'
 
 export async function GET(
   _request: NextRequest,
@@ -24,22 +26,12 @@ export async function PUT(
   if (!(await verifySession())) return unauthorized()
   try {
     const { id } = await params
-    const body = await request.json()
-    const company = await prisma.memberCompany.update({
+    const body = await readJson(request)
+    const item = await prisma.memberCompany.update({
       where: { id },
-      data: {
-        order: toInt(body.order, 0),
-        abbr: body.abbr,
-        name: body.name,
-        tagline: body.tagline,
-        descVi: body.descVi,
-        descEn: body.descEn,
-        accent: body.accent,
-        images: body.images ?? [],
-        published: body.published,
-      },
+      data: parseMemberCompany(body),
     })
-    return NextResponse.json(company)
+    return NextResponse.json(item)
   } catch (err) {
     return handleApiError(err, 'PUT /api/member-companies/[id] error:')
   }

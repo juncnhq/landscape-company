@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from 'react'
 import ImageInput from '@/components/admin/ImageInput'
 import GalleryInput from '@/components/admin/GalleryInput'
+import SlugField from '@/components/admin/SlugField'
 import { apiErrorMessage } from '@/lib/apiClient'
 
 type Service = {
@@ -244,7 +245,7 @@ export default function ServicesManager() {
 
             <div className="px-6 py-5 space-y-4 max-h-[72vh] overflow-y-auto">
               <div className="grid grid-cols-3 gap-4">
-                <Field label="Slug" value={editing.slug || ''} onChange={v => setEditing({ ...editing, slug: v })} />
+                <SlugField value={editing.slug || ''} onChange={v => setEditing({ ...editing, slug: v })} source={editing.titleVi || ''} autoFill={isCreating} />
                 <Field label="Icon (emoji)" value={editing.icon || ''} onChange={v => setEditing({ ...editing, icon: v })} />
                 <Field label="Tag" value={editing.tag || ''} onChange={v => setEditing({ ...editing, tag: v })} />
               </div>
@@ -263,15 +264,15 @@ export default function ServicesManager() {
                 </div>
               </div>
               <div className="grid grid-cols-2 gap-4">
-                <Field label="Tiêu đề (VI)" value={editing.titleVi || ''} onChange={v => setEditing({ ...editing, titleVi: v })} />
-                <Field label="Tiêu đề (EN)" value={editing.titleEn || ''} onChange={v => setEditing({ ...editing, titleEn: v })} />
+                <Field label="Tiêu đề (VI)" value={editing.titleVi || ''} onChange={v => setEditing({ ...editing, titleVi: v })} required />
+                <Field label="Tiêu đề (EN)" value={editing.titleEn || ''} onChange={v => setEditing({ ...editing, titleEn: v })} required />
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <Field label="Phụ đề (VI)" value={editing.subtitleVi || ''} onChange={v => setEditing({ ...editing, subtitleVi: v })} />
                 <Field label="Phụ đề (EN)" value={editing.subtitleEn || ''} onChange={v => setEditing({ ...editing, subtitleEn: v })} />
               </div>
-              <Field label="Mô tả (VI)" value={editing.descVi || ''} onChange={v => setEditing({ ...editing, descVi: v })} type="textarea" />
-              <Field label="Mô tả (EN)" value={editing.descEn || ''} onChange={v => setEditing({ ...editing, descEn: v })} type="textarea" />
+              <Field label="Mô tả (VI)" value={editing.descVi || ''} onChange={v => setEditing({ ...editing, descVi: v })} type="textarea" required />
+              <Field label="Mô tả (EN)" value={editing.descEn || ''} onChange={v => setEditing({ ...editing, descEn: v })} type="textarea" required />
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">Bullets VI (mỗi dòng 1 mục)</label>
@@ -341,14 +342,14 @@ export default function ServicesManager() {
 }
 
 function Field({
-  label, value, onChange, type = 'text',
+  label, value, onChange, type = 'text', required = false,
 }: {
-  label: string; value: string; onChange: (v: string) => void; type?: 'text' | 'textarea'
+  label: string; value: string; onChange: (v: string) => void; type?: 'text' | 'textarea'; required?: boolean
 }) {
   const cls = "w-full px-3 py-2 rounded-lg border border-gray-200 text-sm text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-[#328442]/30 focus:border-[#328442]"
   return (
     <div>
-      <label className="block text-sm font-medium text-gray-700 mb-1">{label}</label>
+      <label className="block text-sm font-medium text-gray-700 mb-1">{label}{required && <span className="text-red-500"> *</span>}</label>
       {type === 'textarea'
         ? <textarea value={value} onChange={e => onChange(e.target.value)} rows={3} className={`${cls} resize-none`} />
         : <input type="text" value={value} onChange={e => onChange(e.target.value)} className={cls} />

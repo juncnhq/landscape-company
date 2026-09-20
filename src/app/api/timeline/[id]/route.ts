@@ -1,7 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { verifySession } from '@/lib/auth'
-import { unauthorized, handleApiError, toInt } from '@/lib/apiError'
+import { unauthorized, handleApiError } from '@/lib/apiError'
+import { readJson } from '@/lib/validate'
+import { parseTimelineItem } from '@/lib/entityInput'
 
 export async function GET(
   _request: NextRequest,
@@ -24,17 +26,10 @@ export async function PUT(
   if (!(await verifySession())) return unauthorized()
   try {
     const { id } = await params
-    const body = await request.json()
+    const body = await readJson(request)
     const item = await prisma.timelineItem.update({
       where: { id },
-      data: {
-        order: toInt(body.order, 0),
-        year: body.year,
-        titleVi: body.titleVi,
-        titleEn: body.titleEn,
-        descVi: body.descVi,
-        descEn: body.descEn,
-      },
+      data: parseTimelineItem(body),
     })
     return NextResponse.json(item)
   } catch (err) {

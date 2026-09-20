@@ -1,7 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { verifySession } from '@/lib/auth'
-import { unauthorized, handleApiError, toInt } from '@/lib/apiError'
+import { unauthorized, handleApiError } from '@/lib/apiError'
+import { readJson } from '@/lib/validate'
+import { parseService } from '@/lib/entityInput'
 
 export async function PUT(
   request: NextRequest,
@@ -10,28 +12,12 @@ export async function PUT(
   if (!(await verifySession())) return unauthorized()
   try {
     const { id } = await params
-    const body = await request.json()
-    const service = await prisma.service.update({
+    const body = await readJson(request)
+    const item = await prisma.service.update({
       where: { id },
-      data: {
-        slug: body.slug,
-        order: toInt(body.order, 0),
-        icon: body.icon,
-        titleVi: body.titleVi,
-        titleEn: body.titleEn,
-        subtitleVi: body.subtitleVi,
-        subtitleEn: body.subtitleEn,
-        descVi: body.descVi,
-        descEn: body.descEn,
-        tag: body.tag,
-        bulletsVi: body.bulletsVi,
-        bulletsEn: body.bulletsEn,
-        image: body.image ?? '',
-        images: body.images ?? [],
-        published: body.published,
-      },
+      data: parseService(body),
     })
-    return NextResponse.json(service)
+    return NextResponse.json(item)
   } catch (err) {
     return handleApiError(err, 'PUT /api/services/[id] error:')
   }

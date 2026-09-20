@@ -1,7 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { verifySession } from '@/lib/auth'
-import { unauthorized, handleApiError, badRequest, missingFields, toInt } from '@/lib/apiError'
+import { unauthorized, handleApiError } from '@/lib/apiError'
+import { readJson } from '@/lib/validate'
+import { parseService } from '@/lib/entityInput'
 
 export async function GET() {
   try {
@@ -21,30 +23,9 @@ export async function GET() {
 export async function POST(request: NextRequest) {
   if (!(await verifySession())) return unauthorized()
   try {
-    const body = await request.json()
-    const invalid = missingFields(body, ['slug', 'titleVi', 'titleEn'])
-    if (invalid) return badRequest(invalid)
-
-    const service = await prisma.service.create({
-      data: {
-        slug: body.slug,
-        order: toInt(body.order, 0),
-        icon: body.icon ?? '',
-        titleVi: body.titleVi,
-        titleEn: body.titleEn,
-        subtitleVi: body.subtitleVi ?? '',
-        subtitleEn: body.subtitleEn ?? '',
-        descVi: body.descVi,
-        descEn: body.descEn,
-        tag: body.tag ?? '',
-        bulletsVi: body.bulletsVi ?? [],
-        bulletsEn: body.bulletsEn ?? [],
-        image: body.image ?? '',
-        images: body.images ?? [],
-        published: body.published ?? true,
-      },
-    })
-    return NextResponse.json(service, { status: 201 })
+    const body = await readJson(request)
+    const item = await prisma.service.create({ data: parseService(body) })
+    return NextResponse.json(item, { status: 201 })
   } catch (err) {
     return handleApiError(err, 'POST /api/services error:')
   }

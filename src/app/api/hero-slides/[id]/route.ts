@@ -1,7 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { verifySession } from '@/lib/auth'
-import { unauthorized, handleApiError, toInt } from '@/lib/apiError'
+import { unauthorized, handleApiError } from '@/lib/apiError'
+import { readJson } from '@/lib/validate'
+import { parseHeroSlide } from '@/lib/entityInput'
 
 export async function GET(
   _request: NextRequest,
@@ -24,18 +26,12 @@ export async function PUT(
   if (!(await verifySession())) return unauthorized()
   try {
     const { id } = await params
-    const body = await request.json()
-    const slide = await prisma.heroSlide.update({
+    const body = await readJson(request)
+    const item = await prisma.heroSlide.update({
       where: { id },
-      data: {
-        order: toInt(body.order, 0),
-        image: body.image,
-        labelVi: body.labelVi,
-        labelEn: body.labelEn,
-        published: body.published,
-      },
+      data: parseHeroSlide(body),
     })
-    return NextResponse.json(slide)
+    return NextResponse.json(item)
   } catch (err) {
     return handleApiError(err, 'PUT /api/hero-slides/[id] error:')
   }

@@ -1,7 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { verifySession } from '@/lib/auth'
-import { unauthorized, badRequest, missingFields, handleApiError } from '@/lib/apiError'
+import { unauthorized, handleApiError } from '@/lib/apiError'
+import { readJson } from '@/lib/validate'
+import { parseProject } from '@/lib/entityInput'
 
 export async function GET(request: NextRequest) {
   const { searchParams } = request.nextUrl
@@ -38,29 +40,8 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   if (!(await verifySession())) return unauthorized()
   try {
-    const body = await request.json()
-    const invalid = missingFields(body, ['slug', 'title', 'titleEn'])
-    if (invalid) return badRequest(invalid)
-
-    const project = await prisma.project.create({
-      data: {
-        slug: body.slug,
-        title: body.title,
-        titleEn: body.titleEn,
-        category: body.category,
-        location: body.location,
-        area: body.area || '—',
-        duration: body.duration || '—',
-        client: body.client,
-        year: body.year,
-        image: body.image,
-        sketchImage: body.sketchImage || '',
-        images: body.images || [],
-        description: body.description,
-        descriptionEn: body.descriptionEn,
-        published: body.published ?? true,
-      },
-    })
+    const body = await readJson(request)
+    const project = await prisma.project.create({ data: parseProject(body) })
     return NextResponse.json(project, { status: 201 })
   } catch (err) {
     return handleApiError(err, 'POST /api/projects error:')

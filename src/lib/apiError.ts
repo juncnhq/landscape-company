@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server'
+import { ValidationError } from '@/lib/validate'
 
 export const unauthorized = () =>
   NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
@@ -21,6 +22,12 @@ type PrismaKnownError = { code?: string; meta?: { target?: unknown } }
  * trùng slug chỉ thấy "Lưu thất bại" và không có cách nào tự xử lý.
  */
 export function handleApiError(err: unknown, label: string) {
+  // Lỗi validate là lỗi của người nhập, không phải lỗi hệ thống → 400 kèm
+  // message tiếng Việt để admin biết sửa ô nào.
+  if (err instanceof ValidationError) {
+    return NextResponse.json({ error: err.message }, { status: 400 })
+  }
+
   const e = err as PrismaKnownError
 
   // P2002 — vi phạm ràng buộc unique
@@ -41,35 +48,4 @@ export function handleApiError(err: unknown, label: string) {
 
   console.error(label, err)
   return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
-}
-
-/**
- * Kiểm tra các field bắt buộc là chuỗi không rỗng.
- * Trả về message lỗi đầu tiên, hoặc null nếu hợp lệ.
- */
-export function missingFields(
-  body: Record<string, unknown>,
-  required: string[]
-): string | null {
-  for (const f of required) {
-    const v = body[f]
-    if (typeof v !== 'string' || v.trim() === '') {
-      return `Thiếu trường bắt buộc: ${f}`
-    }
-  }
-  return null
-}
-
-/**
- * Ép giá trị về số nguyên. Trả về `fallback` khi không parse được,
- * tránh đẩy NaN xuống Prisma (NaN làm query throw và trả về 500 khó hiểu).
- */
-export function toInt(value: unknown, fallback: number): number {
-  // Ô nhập bị bỏ trống (''/null/undefined) phải dùng giá trị mặc định,
-  // không phải 0 — Number('') === 0 sẽ biến "năm thành lập" rỗng thành năm 0.
-  if (value === null || value === undefined) return fallback
-  if (typeof value === 'string' && value.trim() === '') return fallback
-
-  const n = typeof value === 'number' ? value : Number(value)
-  return Number.isFinite(n) ? Math.trunc(n) : fallback
 }

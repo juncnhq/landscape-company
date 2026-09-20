@@ -1,7 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { verifySession } from '@/lib/auth'
-import { unauthorized, handleApiError, badRequest, missingFields, toInt } from '@/lib/apiError'
+import { unauthorized, badRequest, handleApiError } from '@/lib/apiError'
+import { readJson, asObject, reqStr, intRange } from '@/lib/validate'
+import { parseTimelineItem } from '@/lib/entityInput'
 
 export async function GET() {
   try {
@@ -17,9 +19,23 @@ export async function GET() {
 export async function PATCH(request: NextRequest) {
   if (!(await verifySession())) return unauthorized()
   try {
-    const body: { id: string; order: number }[] = await request.json()
-    await Promise.all(
-      body.map(({ id, order }) => prisma.timelineItem.update({ where: { id }, data: { order } }))
+    const raw = await request.json().catch(() => null)
+    // Trước đây gọi thẳng body.map — body không phải mảng là TypeError → 500.
+    if (!Array.isArray(raw)) return badRequest('Dữ liệu sắp xếp không hợp lệ.')
+
+    const updates = raw.map((row, i) => {
+      const r = asObject(row)
+      return {
+        id: reqStr(r.id, `ID mục thứ ${i + 1}`, 60),
+        order: intRange(r.order, 0, 0, 9999, `Thứ tự mục thứ ${i + 1}`),
+      }
+    })
+
+    // Đặt trong transaction: reorder nửa chừng rồi lỗi sẽ để timeline sai thứ tự.
+    await prisma.$transaction(
+      updates.map(({ id, order }) =>
+        prisma.timelineItem.update({ where: { id }, data: { order } })
+      )
     )
     return NextResponse.json({ success: true })
   } catch (err) {
@@ -30,20 +46,8 @@ export async function PATCH(request: NextRequest) {
 export async function POST(request: NextRequest) {
   if (!(await verifySession())) return unauthorized()
   try {
-    const body = await request.json()
-    const invalid = missingFields(body, ['year', 'titleVi', 'titleEn'])
-    if (invalid) return badRequest(invalid)
-
-    const item = await prisma.timelineItem.create({
-      data: {
-        order: toInt(body.order, 0),
-        year: body.year,
-        titleVi: body.titleVi,
-        titleEn: body.titleEn,
-        descVi: body.descVi ?? '',
-        descEn: body.descEn ?? '',
-      },
-    })
+    const body = await readJson(request)
+    const item = await prisma.timelineItem.create({ data: parseTimelineItem(body) })
     return NextResponse.json(item, { status: 201 })
   } catch (err) {
     return handleApiError(err, 'POST /api/timeline error:')

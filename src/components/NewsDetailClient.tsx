@@ -3,7 +3,14 @@ import { useLocale } from 'next-intl';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
-import { newsArticles } from '@/lib/data';
+
+/** Phần dữ liệu khối "Bài viết liên quan" cần — ít hơn Article đầy đủ. */
+type RelatedArticle = {
+  slug: string;
+  titleVi: string; titleEn: string;
+  image: string;
+  date: string;
+};
 
 type Article = {
   slug: string;
@@ -22,14 +29,20 @@ function formatDate(dateStr: string, locale: string) {
   });
 }
 
-export default function NewsDetailClient({ article }: { article: Article }) {
+export default function NewsDetailClient({
+  article,
+  related = [],
+}: {
+  article: Article
+  /** Bài liên quan do server truyền xuống — trước đây đọc từ data.ts hardcode
+   *  nên bài mới thêm qua admin không bao giờ xuất hiện ở khối này. */
+  related?: RelatedArticle[]
+}) {
   const locale = useLocale();
   const title = locale === 'vi' ? article.titleVi : article.titleEn;
   const summary = locale === 'vi' ? article.summaryVi : article.summaryEn;
   const content = locale === 'vi' ? article.contentVi : article.contentEn;
   const category = locale === 'vi' ? article.categoryVi : article.categoryEn;
-
-  const related = newsArticles.filter((a) => a.slug !== article.slug).slice(0, 3);
 
   return (
     <main className="min-h-screen bg-white">
@@ -157,6 +170,7 @@ export default function NewsDetailClient({ article }: { article: Article }) {
             </div>
 
             {/* Related articles */}
+            {related.length > 0 && (
             <div>
               <p className="text-xs tracking-widest uppercase text-gray-400 mb-4">
                 {locale === 'vi' ? 'Bài viết liên quan' : 'Related Articles'}
@@ -187,6 +201,7 @@ export default function NewsDetailClient({ article }: { article: Article }) {
                 ))}
               </div>
             </div>
+            )}
           </motion.aside>
 
         </div>
