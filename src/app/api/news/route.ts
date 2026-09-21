@@ -1,7 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { verifySession } from '@/lib/auth'
-import { unauthorized, handleApiError, badRequest, missingFields, toInt } from '@/lib/apiError'
+import { unauthorized, handleApiError } from '@/lib/apiError'
+import { readJson } from '@/lib/validate'
+import { parseNews } from '@/lib/entityInput'
 
 export async function GET(request: NextRequest) {
   try {
@@ -27,29 +29,9 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   if (!(await verifySession())) return unauthorized()
   try {
-    const body = await request.json()
-    const invalid = missingFields(body, ['slug', 'titleVi', 'titleEn'])
-    if (invalid) return badRequest(invalid)
-
-    const article = await prisma.newsArticle.create({
-      data: {
-        slug: body.slug,
-        titleVi: body.titleVi,
-        titleEn: body.titleEn,
-        summaryVi: body.summaryVi ?? '',
-        summaryEn: body.summaryEn ?? '',
-        contentVi: body.contentVi ?? '',
-        contentEn: body.contentEn ?? '',
-        image: body.image ?? '',
-        categoryVi: body.categoryVi ?? '',
-        categoryEn: body.categoryEn ?? '',
-        newsType: body.newsType ?? 'general',
-        date: body.date ?? new Date().toISOString().slice(0, 10),
-        readTime: toInt(body.readTime, 4),
-        published: body.published ?? true,
-      },
-    })
-    return NextResponse.json(article, { status: 201 })
+    const body = await readJson(request)
+    const item = await prisma.newsArticle.create({ data: parseNews(body) })
+    return NextResponse.json(item, { status: 201 })
   } catch (err) {
     return handleApiError(err, 'POST /api/news error:')
   }

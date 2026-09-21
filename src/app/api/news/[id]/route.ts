@@ -1,7 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { verifySession } from '@/lib/auth'
-import { unauthorized, handleApiError, toInt } from '@/lib/apiError'
+import { unauthorized, handleApiError } from '@/lib/apiError'
+import { readJson } from '@/lib/validate'
+import { parseNews } from '@/lib/entityInput'
 
 export async function GET(
   _request: NextRequest,
@@ -24,27 +26,12 @@ export async function PUT(
   if (!(await verifySession())) return unauthorized()
   try {
     const { id } = await params
-    const body = await request.json()
-    const article = await prisma.newsArticle.update({
+    const body = await readJson(request)
+    const item = await prisma.newsArticle.update({
       where: { id },
-      data: {
-        slug: body.slug,
-        titleVi: body.titleVi,
-        titleEn: body.titleEn,
-        summaryVi: body.summaryVi,
-        summaryEn: body.summaryEn,
-        contentVi: body.contentVi,
-        contentEn: body.contentEn,
-        image: body.image,
-        categoryVi: body.categoryVi,
-        categoryEn: body.categoryEn,
-        newsType: body.newsType ?? 'general',
-        date: body.date,
-        readTime: toInt(body.readTime, 4),
-        published: body.published,
-      },
+      data: parseNews(body),
     })
-    return NextResponse.json(article)
+    return NextResponse.json(item)
   } catch (err) {
     return handleApiError(err, 'PUT /api/news/[id] error:')
   }

@@ -147,7 +147,10 @@ export default function HeroSlidesManager() {
   const closeModal = () => { setEditingSlide(null); setIsCreating(false); setError(null) }
 
   const handleSave = async () => {
-    if (!form.image || !form.labelVi || !form.labelEn) return
+    if (!form.image || !form.labelVi || !form.labelEn) {
+      setError('Vui lòng nhập đủ Ảnh slide, Label (VI) và Label (EN).')
+      return
+    }
     setSaving(true)
     setError(null)
     try {
@@ -282,7 +285,7 @@ export default function HeroSlidesManager() {
             <div className="px-6 py-5 space-y-5">
               {/* Image section */}
               <div>
-                <label className="block text-xs font-semibold text-gray-600 mb-2">Ảnh slide</label>
+                <label className="block text-xs font-semibold text-gray-600 mb-2">Ảnh slide<span className="text-red-500"> *</span></label>
 
                 {/* Tab switcher */}
                 <div className="flex gap-1 p-1 bg-gray-100 rounded-lg mb-3 w-fit">
@@ -337,7 +340,7 @@ export default function HeroSlidesManager() {
 
               {/* Labels */}
               <div>
-                <label className="block text-xs font-semibold text-gray-600 mb-1">Label (Tiếng Việt)</label>
+                <label className="block text-xs font-semibold text-gray-600 mb-1">Label (Tiếng Việt)<span className="text-red-500"> *</span></label>
                 <input
                   className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-[#328442]/30 focus:border-[#328442] outline-none"
                   value={form.labelVi}
@@ -346,7 +349,7 @@ export default function HeroSlidesManager() {
                 />
               </div>
               <div>
-                <label className="block text-xs font-semibold text-gray-600 mb-1">Label (English)</label>
+                <label className="block text-xs font-semibold text-gray-600 mb-1">Label (English)<span className="text-red-500"> *</span></label>
                 <input
                   className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-[#328442]/30 focus:border-[#328442] outline-none"
                   value={form.labelEn}

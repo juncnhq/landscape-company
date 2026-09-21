@@ -1,7 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { verifySession } from '@/lib/auth'
-import { unauthorized, handleApiError, badRequest, missingFields, toInt } from '@/lib/apiError'
+import { unauthorized, handleApiError } from '@/lib/apiError'
+import { readJson } from '@/lib/validate'
+import { parseHeroSlide } from '@/lib/entityInput'
 
 export async function GET() {
   try {
@@ -18,20 +20,9 @@ export async function GET() {
 export async function POST(request: NextRequest) {
   if (!(await verifySession())) return unauthorized()
   try {
-    const body = await request.json()
-    const invalid = missingFields(body, ['image'])
-    if (invalid) return badRequest(invalid)
-
-    const slide = await prisma.heroSlide.create({
-      data: {
-        order: toInt(body.order, 0),
-        image: body.image,
-        labelVi: body.labelVi,
-        labelEn: body.labelEn,
-        published: body.published ?? true,
-      },
-    })
-    return NextResponse.json(slide, { status: 201 })
+    const body = await readJson(request)
+    const item = await prisma.heroSlide.create({ data: parseHeroSlide(body) })
+    return NextResponse.json(item, { status: 201 })
   } catch (err) {
     return handleApiError(err, 'POST /api/hero-slides error:')
   }

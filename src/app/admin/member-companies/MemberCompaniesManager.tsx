@@ -140,7 +140,7 @@ export default function MemberCompaniesManager() {
             </div>
             <div className="px-6 py-5 space-y-4">
               <div className="grid grid-cols-3 gap-4">
-                <Field label="Viết tắt" value={editing.abbr || ''} onChange={v => setEditing({ ...editing, abbr: v })} />
+                <Field label="Viết tắt" value={editing.abbr || ''} onChange={v => setEditing({ ...editing, abbr: v })} required />
                 <Field label="Order" value={String(editing.order ?? 0)} onChange={v => setEditing({ ...editing, order: Number(v) })} />
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">Màu accent</label>
@@ -150,7 +150,7 @@ export default function MemberCompaniesManager() {
                   </div>
                 </div>
               </div>
-              <Field label="Tên công ty" value={editing.name || ''} onChange={v => setEditing({ ...editing, name: v })} />
+              <Field label="Tên công ty" value={editing.name || ''} onChange={v => setEditing({ ...editing, name: v })} required />
               <Field label="Tagline" value={editing.tagline || ''} onChange={v => setEditing({ ...editing, tagline: v })} />
               <div className="grid grid-cols-2 gap-4">
                 <Field label="Mô tả (VI)" value={editing.descVi || ''} onChange={v => setEditing({ ...editing, descVi: v })} />
@@ -195,10 +195,10 @@ export default function MemberCompaniesManager() {
   )
 }
 
-function Field({ label, value, onChange }: { label: string; value: string; onChange: (v: string) => void }) {
+function Field({ label, value, onChange, required = false }: { label: string; value: string; onChange: (v: string) => void; required?: boolean }) {
   return (
     <div>
-      <label className="block text-sm font-medium text-gray-700 mb-1">{label}</label>
+      <label className="block text-sm font-medium text-gray-700 mb-1">{label}{required && <span className="text-red-500"> *</span>}</label>
       <input type="text" value={value} onChange={e => onChange(e.target.value)} className="w-full px-3 py-2 rounded-lg border border-gray-200 text-sm text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-[#328442]/30 focus:border-[#328442]" />
     </div>
   )

@@ -1,7 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { verifySession } from '@/lib/auth'
-import { unauthorized, handleApiError, badRequest, missingFields, toInt } from '@/lib/apiError'
+import { unauthorized, handleApiError } from '@/lib/apiError'
+import { readJson } from '@/lib/validate'
+import { parseMemberCompany } from '@/lib/entityInput'
 
 export async function GET() {
   try {
@@ -21,24 +23,9 @@ export async function GET() {
 export async function POST(request: NextRequest) {
   if (!(await verifySession())) return unauthorized()
   try {
-    const body = await request.json()
-    const invalid = missingFields(body, ['abbr', 'name'])
-    if (invalid) return badRequest(invalid)
-
-    const company = await prisma.memberCompany.create({
-      data: {
-        order: toInt(body.order, 0),
-        abbr: body.abbr,
-        name: body.name,
-        tagline: body.tagline ?? '',
-        descVi: body.descVi ?? '',
-        descEn: body.descEn ?? '',
-        accent: body.accent ?? '#328442',
-        images: body.images ?? [],
-        published: body.published ?? true,
-      },
-    })
-    return NextResponse.json(company, { status: 201 })
+    const body = await readJson(request)
+    const item = await prisma.memberCompany.create({ data: parseMemberCompany(body) })
+    return NextResponse.json(item, { status: 201 })
   } catch (err) {
     return handleApiError(err, 'POST /api/member-companies error:')
   }
