@@ -1,128 +1,80 @@
 'use client'
 
-import { useState, useEffect, useCallback, useRef } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { fetchJson, sendJson, errMessage } from '@/lib/apiClient'
-import Field from '@/components/admin/Field'
+import Field, { AutoTextarea } from '@/components/admin/Field'
+import GalleryInput from '@/components/admin/GalleryInput'
+import { AboutContent, EMPTY_ABOUT } from '@/lib/aboutContent'
 
-type TimelineItem = {
-  id: string
-  order: number
-  year: string
-  titleVi: string
-  titleEn: string
-  descVi: string
-  descEn: string
-}
+/**
+ * Sửa nội dung trang /vi/about.
+ *
+ * Khác các manager còn lại: đây là **một bản ghi duy nhất**, không có danh sách
+ * hay modal — cả trang là một form, lưu bằng PUT /api/about-page.
+ *
+ * Các danh sách lặp (tính năng, chỉ số, FAQ, quy trình) nhập bằng textarea
+ * "mỗi dòng 1 mục", đúng quy ước sẵn có ở Partner/Service. Cặp mảng song song
+ * (chỉ số ↔ nhãn, câu hỏi ↔ trả lời) phải cùng số dòng — form cảnh báo khi lệch
+ * vì trang public cắt theo mảng ngắn hơn, tức là dòng thừa sẽ biến mất.
+ */
 
-const emptyItem: Omit<TimelineItem, 'id'> = {
-  order: 0, year: '', titleVi: '', titleEn: '', descVi: '', descEn: '',
-}
+const linesToArray = (t: string) => t.split('\n').map(s => s.trim()).filter(Boolean)
+const arrayToLines = (a: string[] | undefined) => (a ?? []).join('\n')
 
 export default function AboutManager() {
-  const [items, setItems] = useState<TimelineItem[]>([])
+  const [form, setForm] = useState<AboutContent>(EMPTY_ABOUT)
   const [loading, setLoading] = useState(true)
-  const [editing, setEditing] = useState<Partial<TimelineItem> | null>(null)
-  const [isCreating, setIsCreating] = useState(false)
   const [saving, setSaving] = useState(false)
-  const [savingOrder, setSavingOrder] = useState(false)
   const [error, setError] = useState<string | null>(null)
-  // Lỗi tải danh sách — trước đây chỉ console.error, nên hết phiên hay DB lỗi
-  // đều hiện thành "danh sách rỗng" và admin tưởng dữ liệu bị xoá.
   const [listError, setListError] = useState<string | null>(null)
-  const [deleteError, setDeleteError] = useState<string | null>(null)
-  const [deleting, setDeleting] = useState(false)
-  const [orderDirty, setOrderDirty] = useState(false)
-  const [deleteConfirm, setDeleteConfirm] = useState<string | null>(null)
+  const [saved, setSaved] = useState(false)
 
-  const dragIndex = useRef<number | null>(null)
-  const dragOverIndex = useRef<number | null>(null)
+  const set = <K extends keyof AboutContent>(key: K, value: AboutContent[K]) => {
+    setForm(prev => ({ ...prev, [key]: value }))
+    setSaved(false)
+  }
+  const setText = (key: keyof AboutContent) => (v: string) =>
+    set(key, v as AboutContent[typeof key])
+  const setList = (key: keyof AboutContent) => (v: string) =>
+    set(key, linesToArray(v) as AboutContent[typeof key])
 
-  const fetchItems = useCallback(async () => {
+  const fetchContent = useCallback(async () => {
     setLoading(true)
     try {
-      setItems(await fetchJson<TimelineItem[]>('/api/timeline', 'Không tải được dòng thời gian.'))
-      setOrderDirty(false)
+      const data = await fetchJson<Partial<AboutContent>>(
+        '/api/about-page',
+        'Không tải được nội dung trang About.',
+      )
+      setForm({ ...EMPTY_ABOUT, ...data })
       setListError(null)
     } catch (e) {
-      setListError(errMessage(e, 'Không tải được dòng thời gian.'))
+      setListError(errMessage(e, 'Không tải được nội dung trang About.'))
     }
     setLoading(false)
   }, [])
 
-  useEffect(() => { fetchItems() }, [fetchItems])
-
-  // Drag handlers
-  const onDragStart = (index: number) => {
-    dragIndex.current = index
-  }
-
-  const onDragEnter = (index: number) => {
-    if (dragIndex.current === null || dragIndex.current === index) return
-    dragOverIndex.current = index
-    setItems(prev => {
-      const next = [...prev]
-      const [moved] = next.splice(dragIndex.current!, 1)
-      next.splice(index, 0, moved)
-      dragIndex.current = index
-      return next
-    })
-  }
-
-  const onDragEnd = () => {
-    dragIndex.current = null
-    dragOverIndex.current = null
-    setOrderDirty(true)
-  }
-
-  const saveOrder = async () => {
-    setSavingOrder(true)
-    setListError(null)
-    try {
-      await sendJson('/api/timeline', {
-        method: 'PATCH',
-        body: items.map((item, i) => ({ id: item.id, order: i })),
-      }, 'Lưu thứ tự thất bại.')
-      setOrderDirty(false)
-    } catch (e) {
-      // Trước đây lỗi chỉ vào console: giao diện hiện thứ tự mới, DB không
-      // lưu, F5 là về như cũ mà không ai biết vì sao.
-      setListError(errMessage(e, 'Lưu thứ tự thất bại.'))
-    } finally {
-      setSavingOrder(false)
-    }
-  }
-
-  const openEdit = (item: TimelineItem) => { setEditing(item); setIsCreating(false); setError(null) }
-  const openCreate = () => { setEditing({ ...emptyItem }); setIsCreating(true); setError(null) }
-  const closeModal = () => { setEditing(null); setError(null) }
+  useEffect(() => { fetchContent() }, [fetchContent])
 
   const handleSave = async () => {
-    if (!editing) return
     setSaving(true)
     setError(null)
     try {
-      if (isCreating) await sendJson('/api/timeline', { method: 'POST', body: editing })
-      else await sendJson(`/api/timeline/${editing.id}`, { method: 'PUT', body: editing })
-      setEditing(null)
-      fetchItems()
+      await sendJson('/api/about-page', { method: 'PUT', body: form })
+      setSaved(true)
     } catch (e) {
       setError(errMessage(e, 'Lưu thất bại. Vui lòng thử lại.'))
     }
     setSaving(false)
   }
 
-  const handleDelete = async (id: string) => {
-    setDeleting(true)
-    setDeleteError(null)
-    try {
-      await sendJson(`/api/timeline/${id}`, { method: 'DELETE' }, 'Xóa thất bại.')
-      setDeleteConfirm(null)
-      fetchItems()
-    } catch (e) {
-      setDeleteError(errMessage(e, 'Xóa thất bại.'))
-    } finally {
-      setDeleting(false)
-    }
+  if (loading) {
+    return (
+      <div className="px-6 py-6 space-y-3">
+        {Array.from({ length: 6 }).map((_, i) => (
+          <div key={i} className="h-24 rounded-lg bg-white animate-pulse" />
+        ))}
+      </div>
+    )
   }
 
   return (
@@ -130,135 +82,281 @@ export default function AboutManager() {
       <div className="sticky top-0 z-30 bg-[#f0f4f1]/90 backdrop-blur border-b border-gray-200/60 px-6 py-4 flex items-center justify-between">
         <div>
           <h1 className="text-base font-semibold text-gray-900">Về chúng tôi</h1>
-          <p className="text-xs text-gray-400 mt-0.5">Lịch sử phát triển — {items.length} mốc thời gian trên trang /vi/about</p>
+          <p className="text-xs text-gray-400 mt-0.5">Nội dung hiển thị trên trang /vi/about</p>
         </div>
-        <div className="flex items-center gap-2">
-          {orderDirty && (
-            <button
-              onClick={saveOrder}
-              disabled={savingOrder}
-              className="bg-amber-500 hover:bg-amber-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors disabled:opacity-50"
-            >
-              {savingOrder ? 'Đang lưu...' : 'Lưu thứ tự'}
-            </button>
-          )}
-          <button onClick={openCreate} className="bg-[#328442] hover:bg-[#48a85a] text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors">
-            + Thêm mốc
+        <div className="flex items-center gap-3">
+          {saved && <span className="text-xs text-[#328442]">✓ Đã lưu</span>}
+          <a
+            href="/vi/about"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="px-4 py-2 rounded-lg text-sm text-gray-600 hover:bg-white border border-gray-200 transition-colors"
+          >
+            Xem trang
+          </a>
+          <button
+            onClick={handleSave}
+            disabled={saving}
+            className="bg-[#328442] hover:bg-[#48a85a] text-white px-5 py-2 rounded-lg text-sm font-medium transition-colors disabled:opacity-50"
+          >
+            {saving ? 'Đang lưu...' : 'Lưu thay đổi'}
           </button>
         </div>
       </div>
 
-      <div className="px-6 py-6">
-        {listError && (
-          <div className="mb-4 flex items-start gap-3 rounded-lg border border-red-200 bg-red-50 px-4 py-3">
-            <span className="text-red-600 text-sm leading-5">⚠</span>
-            <div className="flex-1">
-              <p className="text-sm text-red-700">{listError}</p>
-              <p className="text-xs text-red-500 mt-0.5">Danh sách bên dưới có thể chưa đầy đủ.</p>
-            </div>
+      <div className="px-6 py-6 space-y-5 max-w-4xl">
+        {listError && <Alert>{listError}</Alert>}
+        {error && <Alert>{error}</Alert>}
+
+        <Card title="Hero (đầu trang)" note="Ảnh nền hero sửa ở trang “Ảnh trang”">
+          <Pair>
+            <Field label="Eyebrow (VI)" value={form.heroEyebrowVi} onChange={setText('heroEyebrowVi')} />
+            <Field label="Eyebrow (EN)" value={form.heroEyebrowEn} onChange={setText('heroEyebrowEn')} />
+          </Pair>
+          <Pair>
+            <Field label="Tiêu đề (VI)" value={form.heroTitleVi} onChange={setText('heroTitleVi')} />
+            <Field label="Tiêu đề (EN)" value={form.heroTitleEn} onChange={setText('heroTitleEn')} />
+          </Pair>
+          <Pair>
+            <Field label="Mô tả (VI)" value={form.heroDescVi} onChange={setText('heroDescVi')} type="textarea" />
+            <Field label="Mô tả (EN)" value={form.heroDescEn} onChange={setText('heroDescEn')} type="textarea" />
+          </Pair>
+        </Card>
+
+        <Card title="1 — Giới thiệu">
+          <Pair>
+            <Field label="Eyebrow (VI)" value={form.introEyebrowVi} onChange={setText('introEyebrowVi')} />
+            <Field label="Eyebrow (EN)" value={form.introEyebrowEn} onChange={setText('introEyebrowEn')} />
+          </Pair>
+          <Pair>
+            <Field label="Tiêu đề (VI)" value={form.introTitleVi} onChange={setText('introTitleVi')} />
+            <Field label="Tiêu đề (EN)" value={form.introTitleEn} onChange={setText('introTitleEn')} />
+          </Pair>
+          <Pair>
+            <Field label="Mô tả (VI)" value={form.introDescVi} onChange={setText('introDescVi')} type="textarea" rows={4} />
+            <Field label="Mô tả (EN)" value={form.introDescEn} onChange={setText('introDescEn')} type="textarea" rows={4} />
+          </Pair>
+          <ListPair
+            labelVi="Gạch đầu dòng (VI)"
+            labelEn="Gạch đầu dòng (EN)"
+            vi={form.featuresVi}
+            en={form.featuresEn}
+            onChangeVi={setList('featuresVi')}
+            onChangeEn={setList('featuresEn')}
+          />
+          <div className="grid grid-cols-3 gap-4">
+            <Field label="Số trên badge" value={form.badgeValue} onChange={setText('badgeValue')} />
+            <Field label="Nhãn badge (VI)" value={form.badgeLabelVi} onChange={setText('badgeLabelVi')} />
+            <Field label="Nhãn badge (EN)" value={form.badgeLabelEn} onChange={setText('badgeLabelEn')} />
           </div>
-        )}
-        {loading ? (
-          <div className="space-y-3">{Array.from({ length: 4 }).map((_, i) => <div key={i} className="h-16 rounded-xl bg-white animate-pulse" />)}</div>
-        ) : (
-          <>
-            {orderDirty && (
-              <p className="text-xs text-amber-600 mb-3 flex items-center gap-1.5">
-                <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" /></svg>
-                Thứ tự đã thay đổi — nhấn &quot;Lưu thứ tự&quot; để lưu
-              </p>
-            )}
-            <div className="space-y-2">
-              {items.map((item, index) => (
-                <div
-                  key={item.id}
-                  draggable
-                  onDragStart={() => onDragStart(index)}
-                  onDragEnter={() => onDragEnter(index)}
-                  onDragEnd={onDragEnd}
-                  onDragOver={e => e.preventDefault()}
-                  className="bg-white rounded-lg border border-gray-100 px-5 py-4 flex items-start gap-4 shadow-sm hover:shadow-md transition-shadow cursor-grab active:cursor-grabbing active:opacity-60 select-none"
-                >
-                  {/* Drag handle */}
-                  <div className="shrink-0 mt-1 text-gray-300 hover:text-gray-400">
-                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 9h16.5m-16.5 6.75h16.5" />
-                    </svg>
-                  </div>
+          <div className="grid grid-cols-3 gap-4">
+            <Field label="Tên người đại diện" value={form.ownerName} onChange={setText('ownerName')} />
+            <Field label="Chức danh (VI)" value={form.ownerRoleVi} onChange={setText('ownerRoleVi')} />
+            <Field label="Chức danh (EN)" value={form.ownerRoleEn} onChange={setText('ownerRoleEn')} />
+          </div>
+          <div className="grid grid-cols-3 gap-4">
+            <Field label="Số điện thoại" value={form.phone} onChange={setText('phone')} />
+            <Field label="Nhãn điện thoại (VI)" value={form.phoneLabelVi} onChange={setText('phoneLabelVi')} />
+            <Field label="Nhãn điện thoại (EN)" value={form.phoneLabelEn} onChange={setText('phoneLabelEn')} />
+          </div>
+          <GalleryInput
+            label="Ảnh collage (thứ tự quyết định vị trí trên trang)"
+            value={form.images}
+            onChange={v => set('images', v)}
+          />
+        </Card>
 
-                  <div className="shrink-0 mt-0.5">
-                    <span className="inline-block bg-[#328442]/10 text-[#328442] text-xs font-semibold px-2.5 py-1 rounded-full whitespace-nowrap">{item.year}</span>
-                  </div>
+        <Card title="2 — Chỉ số">
+          <Pair>
+            <Field label="Tiêu đề khối (VI)" value={form.statsTitleVi} onChange={setText('statsTitleVi')} />
+            <Field label="Tiêu đề khối (EN)" value={form.statsTitleEn} onChange={setText('statsTitleEn')} />
+          </Pair>
+          <div className="grid grid-cols-3 gap-4">
+            <Lines label="Giá trị — mỗi dòng 1 mục" hint="ví dụ 200+ · 99%" value={form.statValues} onChange={setList('statValues')} />
+            <Lines label="Nhãn (VI)" value={form.statLabelsVi} onChange={setList('statLabelsVi')} />
+            <Lines label="Nhãn (EN)" value={form.statLabelsEn} onChange={setList('statLabelsEn')} />
+          </div>
+          <LenWarning groups={[
+            ['Giá trị', form.statValues.length],
+            ['Nhãn VI', form.statLabelsVi.length],
+            ['Nhãn EN', form.statLabelsEn.length],
+          ]} />
+        </Card>
 
-                  <div className="flex-1 min-w-0">
-                    <p className="font-medium text-gray-900 text-sm">{item.titleVi}</p>
-                    <p className="text-xs text-gray-400 mt-0.5">{item.titleEn}</p>
-                    <p className="text-xs text-gray-500 mt-1 line-clamp-2">{item.descVi}</p>
-                  </div>
+        <Card title="3 — FAQ">
+          <Pair>
+            <Field label="Eyebrow (VI)" value={form.faqEyebrowVi} onChange={setText('faqEyebrowVi')} />
+            <Field label="Eyebrow (EN)" value={form.faqEyebrowEn} onChange={setText('faqEyebrowEn')} />
+          </Pair>
+          <Pair>
+            <Field label="Tiêu đề (VI)" value={form.faqTitleVi} onChange={setText('faqTitleVi')} />
+            <Field label="Tiêu đề (EN)" value={form.faqTitleEn} onChange={setText('faqTitleEn')} />
+          </Pair>
+          <Pair>
+            <Field label="Mô tả (VI)" value={form.faqDescVi} onChange={setText('faqDescVi')} type="textarea" />
+            <Field label="Mô tả (EN)" value={form.faqDescEn} onChange={setText('faqDescEn')} type="textarea" />
+          </Pair>
+          <Pair>
+            <Lines label="Câu hỏi (VI)" value={form.faqQuestionsVi} onChange={setList('faqQuestionsVi')} rows={4} />
+            <Lines label="Câu hỏi (EN)" value={form.faqQuestionsEn} onChange={setList('faqQuestionsEn')} rows={4} />
+          </Pair>
+          <Pair>
+            <Lines label="Trả lời (VI) — cùng thứ tự với câu hỏi" value={form.faqAnswersVi} onChange={setList('faqAnswersVi')} rows={6} />
+            <Lines label="Trả lời (EN) — cùng thứ tự với câu hỏi" value={form.faqAnswersEn} onChange={setList('faqAnswersEn')} rows={6} />
+          </Pair>
+          <LenWarning groups={[
+            ['Câu hỏi VI', form.faqQuestionsVi.length],
+            ['Trả lời VI', form.faqAnswersVi.length],
+            ['Câu hỏi EN', form.faqQuestionsEn.length],
+            ['Trả lời EN', form.faqAnswersEn.length],
+          ]} />
+        </Card>
 
-                  <div className="flex items-center gap-1 shrink-0 mt-1">
-                    <a href="/vi/about" target="_blank" rel="noopener noreferrer" className="p-1.5 rounded-md hover:bg-blue-100 text-gray-400 hover:text-blue-600 transition-colors" title="Xem trang">
-                      <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" /></svg>
-                    </a>
-                    <button onClick={() => openEdit(item)} className="p-1.5 rounded-md hover:bg-green-100 text-gray-400 hover:text-[#328442] transition-colors">
-                      <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /></svg>
-                    </button>
-                    <button onClick={() => setDeleteConfirm(item.id)} className="p-1.5 rounded-md hover:bg-red-100 text-gray-400 hover:text-red-600 transition-colors">
-                      <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
-                    </button>
-                  </div>
-                </div>
-              ))}
-              {items.length === 0 && <div className="text-center py-16 text-gray-400 text-sm">Chưa có mốc thời gian nào</div>}
-            </div>
-          </>
-        )}
+        <Card title="4 — Quy trình">
+          <Pair>
+            <Field label="Eyebrow (VI)" value={form.processEyebrowVi} onChange={setText('processEyebrowVi')} />
+            <Field label="Eyebrow (EN)" value={form.processEyebrowEn} onChange={setText('processEyebrowEn')} />
+          </Pair>
+          <Pair>
+            <Field label="Tiêu đề (VI)" value={form.processTitleVi} onChange={setText('processTitleVi')} />
+            <Field label="Tiêu đề (EN)" value={form.processTitleEn} onChange={setText('processTitleEn')} />
+          </Pair>
+          <ListPair
+            labelVi="Các bước (VI)"
+            labelEn="Các bước (EN)"
+            vi={form.processVi}
+            en={form.processEn}
+            onChangeVi={setList('processVi')}
+            onChangeEn={setList('processEn')}
+          />
+          <p className="text-xs text-gray-400">
+            Trang chỉ có 4 biểu tượng quy trình — nhập quá 4 bước thì các bước sau dùng lại biểu tượng đầu.
+          </p>
+        </Card>
+
+        <Card title="5 — Sứ mệnh">
+          <Pair>
+            <Field label="Eyebrow (VI)" value={form.missionEyebrowVi} onChange={setText('missionEyebrowVi')} />
+            <Field label="Eyebrow (EN)" value={form.missionEyebrowEn} onChange={setText('missionEyebrowEn')} />
+          </Pair>
+          <Pair>
+            <Field label="Tiêu đề (VI)" value={form.missionTitleVi} onChange={setText('missionTitleVi')} />
+            <Field label="Tiêu đề (EN)" value={form.missionTitleEn} onChange={setText('missionTitleEn')} />
+          </Pair>
+          <Pair>
+            <Field label="Đoạn 1 (VI)" value={form.missionDesc1Vi} onChange={setText('missionDesc1Vi')} type="textarea" rows={4} />
+            <Field label="Đoạn 1 (EN)" value={form.missionDesc1En} onChange={setText('missionDesc1En')} type="textarea" rows={4} />
+          </Pair>
+          <Pair>
+            <Field label="Đoạn 2 (VI)" value={form.missionDesc2Vi} onChange={setText('missionDesc2Vi')} type="textarea" rows={3} />
+            <Field label="Đoạn 2 (EN)" value={form.missionDesc2En} onChange={setText('missionDesc2En')} type="textarea" rows={3} />
+          </Pair>
+        </Card>
+
+        <Card title="CTA cuối trang">
+          <Pair>
+            <Field label="Eyebrow (VI)" value={form.ctaEyebrowVi} onChange={setText('ctaEyebrowVi')} />
+            <Field label="Eyebrow (EN)" value={form.ctaEyebrowEn} onChange={setText('ctaEyebrowEn')} />
+          </Pair>
+          <Pair>
+            <Field label="Tiêu đề (VI)" value={form.ctaTitleVi} onChange={setText('ctaTitleVi')} />
+            <Field label="Tiêu đề (EN)" value={form.ctaTitleEn} onChange={setText('ctaTitleEn')} />
+          </Pair>
+          <Pair>
+            <Field label="Mô tả (VI)" value={form.ctaDescVi} onChange={setText('ctaDescVi')} type="textarea" />
+            <Field label="Mô tả (EN)" value={form.ctaDescEn} onChange={setText('ctaDescEn')} type="textarea" />
+          </Pair>
+        </Card>
+
+        <div className="flex justify-end gap-3 pb-10">
+          {error && <p className="text-sm text-red-500 mr-auto self-center">{error}</p>}
+          <button
+            onClick={handleSave}
+            disabled={saving}
+            className="bg-[#328442] hover:bg-[#48a85a] text-white px-6 py-2.5 rounded-lg text-sm font-medium transition-colors disabled:opacity-50"
+          >
+            {saving ? 'Đang lưu...' : 'Lưu thay đổi'}
+          </button>
+        </div>
       </div>
-
-      {editing && (
-        <div className="fixed inset-0 bg-black/50 z-50 flex items-start justify-center pt-8 px-4 overflow-y-auto">
-          <div className="bg-white rounded-lg w-full max-w-lg shadow-2xl mb-10">
-            <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100">
-              <h2 className="text-base font-semibold text-gray-900">{isCreating ? 'Thêm mốc thời gian' : 'Chỉnh sửa mốc'}</h2>
-              <button onClick={closeModal} className="p-1 rounded-md hover:bg-gray-100 text-gray-400">
-                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
-              </button>
-            </div>
-            <div className="px-6 py-5 space-y-4">
-              <Field label="Năm / Giai đoạn" value={editing.year || ''} onChange={v => setEditing({ ...editing, year: v })} required />
-              <div className="grid grid-cols-2 gap-4">
-                <Field label="Tiêu đề (VI)" value={editing.titleVi || ''} onChange={v => setEditing({ ...editing, titleVi: v })} required />
-                <Field label="Tiêu đề (EN)" value={editing.titleEn || ''} onChange={v => setEditing({ ...editing, titleEn: v })} required />
-              </div>
-              <Field label="Mô tả (VI)" value={editing.descVi || ''} onChange={v => setEditing({ ...editing, descVi: v })} type="textarea" />
-              <Field label="Mô tả (EN)" value={editing.descEn || ''} onChange={v => setEditing({ ...editing, descEn: v })} type="textarea" />
-            </div>
-            <div className="flex items-center gap-3 px-6 py-4 border-t border-gray-100">
-              {error && <p className="text-sm text-red-500 mr-auto">{error}</p>}
-              <div className="flex items-center gap-3 ml-auto">
-                <button onClick={closeModal} className="px-4 py-2 rounded-lg text-sm text-gray-600 hover:bg-gray-100 transition-colors">Hủy</button>
-                <button onClick={handleSave} disabled={saving} className="bg-[#328442] hover:bg-[#48a85a] text-white px-5 py-2 rounded-lg text-sm font-medium transition-colors disabled:opacity-50">
-                  {saving ? 'Đang lưu...' : isCreating ? 'Tạo mốc' : 'Lưu thay đổi'}
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {deleteConfirm && (
-        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center px-4">
-          <div className="bg-white rounded-lg p-6 max-w-sm w-full shadow-2xl">
-            <h3 className="text-base font-semibold text-gray-900 mb-2">Xác nhận xóa</h3>
-            <p className="text-sm text-gray-500 mb-5">Bạn có chắc muốn xóa mốc thời gian này?</p>
-            {deleteError && <p className="text-sm text-red-600 mb-3">{deleteError}</p>}
-            <div className="flex justify-end gap-3">
-              <button onClick={() => setDeleteConfirm(null)} disabled={deleting} className="px-4 py-2 rounded-lg text-sm text-gray-600 hover:bg-gray-100 transition-colors disabled:opacity-50">Hủy</button>
-              <button onClick={() => handleDelete(deleteConfirm)} disabled={deleting} className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors disabled:opacity-50">{deleting ? 'Đang xóa...' : 'Xóa'}</button>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
+  )
+}
+
+/* ── UI phụ ─────────────────────────────────────────────────────────────── */
+
+function Alert({ children }: { children: React.ReactNode }) {
+  return (
+    <div className="flex items-start gap-3 rounded-lg border border-red-200 bg-red-50 px-4 py-3">
+      <span className="text-red-600 text-sm leading-5">⚠</span>
+      <p className="text-sm text-red-700 flex-1">{children}</p>
+    </div>
+  )
+}
+
+function Card({ title, note, children }: { title: string; note?: string; children: React.ReactNode }) {
+  return (
+    <section className="bg-white rounded-lg border border-gray-100 shadow-sm">
+      <div className="px-5 py-3 border-b border-gray-100 flex items-baseline gap-3">
+        <h2 className="text-sm font-semibold text-gray-900">{title}</h2>
+        {note && <p className="text-xs text-gray-400">{note}</p>}
+      </div>
+      <div className="px-5 py-4 space-y-4">{children}</div>
+    </section>
+  )
+}
+
+function Pair({ children }: { children: React.ReactNode }) {
+  return <div className="grid grid-cols-1 md:grid-cols-2 gap-4">{children}</div>
+}
+
+function Lines({
+  label, value, onChange, rows = 4, hint,
+}: {
+  label: string; value: string[]; onChange: (v: string) => void; rows?: number; hint?: string
+}) {
+  return (
+    <div>
+      <label className="block text-sm font-medium text-gray-700 mb-1">
+        {label}
+        {hint && <span className="text-gray-400 font-normal"> — {hint}</span>}
+      </label>
+      <AutoTextarea value={arrayToLines(value)} onChange={onChange} rows={rows} />
+      <p className="text-xs text-gray-400 mt-1">{value.length} dòng</p>
+    </div>
+  )
+}
+
+function ListPair({
+  labelVi, labelEn, vi, en, onChangeVi, onChangeEn,
+}: {
+  labelVi: string; labelEn: string; vi: string[]; en: string[]
+  onChangeVi: (v: string) => void; onChangeEn: (v: string) => void
+}) {
+  return (
+    <>
+      <Pair>
+        <Lines label={`${labelVi} — mỗi dòng 1 mục`} value={vi} onChange={onChangeVi} />
+        <Lines label={`${labelEn} — mỗi dòng 1 mục`} value={en} onChange={onChangeEn} />
+      </Pair>
+      <LenWarning groups={[['VI', vi.length], ['EN', en.length]]} />
+    </>
+  )
+}
+
+/**
+ * Cảnh báo khi các danh sách song song lệch số dòng.
+ * Trang public cắt theo mảng ngắn nhất, nên dòng thừa sẽ không hiển thị.
+ */
+function LenWarning({ groups }: { groups: [string, number][] }) {
+  const lens = groups.map(g => g[1])
+  if (new Set(lens).size <= 1) return null
+  return (
+    <p className="text-xs text-amber-600 flex items-center gap-1.5">
+      <svg className="w-3.5 h-3.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
+      </svg>
+      Số dòng lệch nhau ({groups.map(([n, l]) => `${n}: ${l}`).join(' · ')}) — trang chỉ hiển thị {Math.min(...lens)} mục.
+    </p>
   )
 }

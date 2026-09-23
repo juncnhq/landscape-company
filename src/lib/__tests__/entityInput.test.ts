@@ -5,7 +5,7 @@ import {
   parseNews,
   parseService,
   parsePartner,
-  parseTimelineItem,
+  parseAboutPage,
   parseMemberCompany,
   parseHeroSlide,
   parseMedia,
@@ -201,18 +201,6 @@ describe('parsePartner', () => {
   })
 })
 
-describe('parseTimelineItem', () => {
-  const valid = { year: '2020', titleVi: 'Thành lập', titleEn: 'Founded' }
-
-  it('chấp nhận payload hợp lệ', () => {
-    expect(parseTimelineItem({ ...valid }).year).toBe('2020')
-  })
-
-  it.each(['year', 'titleVi', 'titleEn'])('từ chối %s rỗng', (field) => {
-    expect(() => parseTimelineItem({ ...valid, [field]: '' })).toThrow(ValidationError)
-  })
-})
-
 describe('parseMemberCompany', () => {
   const valid = { abbr: 'FAM', name: 'FAM Landscape' }
 
@@ -282,5 +270,37 @@ describe('parseJobPosition', () => {
 
   it('ẩn vị trí được thì published phải nhận đúng false', () => {
     expect(parseJobPosition({ ...valid, published: 'false' }).published).toBe(false)
+  })
+})
+
+describe('parseAboutPage', () => {
+  it('chấp nhận payload rỗng — mọi field đều tuỳ chọn', () => {
+    const p = parseAboutPage({})
+    expect(p.heroTitleVi).toBe('')
+    expect(p.featuresVi).toEqual([])
+  })
+
+  it('giữ nguyên chữ và mảng hợp lệ', () => {
+    const p = parseAboutPage({
+      heroTitleVi: '  Về Lapla  ',
+      featuresVi: ['A', 'B'],
+      statValues: ['200+', '99%'],
+    })
+    expect(p.heroTitleVi).toBe('Về Lapla')
+    expect(p.featuresVi).toEqual(['A', 'B'])
+    expect(p.statValues).toEqual(['200+', '99%'])
+  })
+
+  it('loại bỏ dòng trống trong danh sách', () => {
+    expect(parseAboutPage({ processVi: ['Bước 1', '', '   ', 'Bước 2'] }).processVi)
+      .toEqual(['Bước 1', 'Bước 2'])
+  })
+
+  it('từ chối mảng không phải array', () => {
+    expect(() => parseAboutPage({ featuresVi: 'A,B' })).toThrow(ValidationError)
+  })
+
+  it('từ chối chữ vượt quá giới hạn', () => {
+    expect(() => parseAboutPage({ heroTitleVi: 'x'.repeat(301) })).toThrow(ValidationError)
   })
 })

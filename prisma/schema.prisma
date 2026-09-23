@@ -27,9 +27,9 @@ model Project {
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
 
-  @@map("project")
   @@index([category])
   @@index([published])
+  @@map("project")
 }
 
 model Service {
@@ -52,71 +52,74 @@ model Service {
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
 
-  @@map("service")
   @@index([published])
+  @@map("service")
 }
 
 model NewsArticle {
+  id         String   @id @default(cuid())
+  slug       String   @unique
+  titleVi    String
+  titleEn    String
+  summaryVi  String   @db.Text
+  summaryEn  String   @db.Text
+  contentVi  String   @default("") @db.Text
+  contentEn  String   @default("") @db.Text
+  image      String
+  categoryVi String
+  categoryEn String
+  newsType   String   @default("general")
+  date       String
+  readTime   Int      @default(4)
+  published  Boolean  @default(true)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([published])
+  @@index([categoryVi])
+  @@map("news_article")
+}
+
+model Partner {
   id          String   @id @default(cuid())
-  slug        String   @unique
-  titleVi     String
-  titleEn     String
-  summaryVi   String   @db.Text
-  summaryEn   String   @db.Text
-  contentVi   String   @db.Text @default("")
-  contentEn   String   @db.Text @default("")
-  image       String
-  categoryVi  String
-  categoryEn  String
-  newsType    String   @default("general")
-  date        String
-  readTime    Int      @default(4)
+  order       Int      @default(0)
+  name        String
+  sectorVi    String
+  sectorEn    String
+  descVi      String   @db.Text
+  descEn      String   @db.Text
+  founded     Int
+  hq          String
+  statLabelVi String
+  statLabelEn String
+  statValue   String
+  projectsVi  String[]
+  projectsEn  String[]
+  highlightVi String   @db.Text
+  highlightEn String   @db.Text
+  logo        String   @default("")
+  images      String[]
   published   Boolean  @default(true)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
-  @@map("news_article")
   @@index([published])
-  @@index([categoryVi])
-}
-
-model Partner {
-  id           String   @id @default(cuid())
-  order        Int      @default(0)
-  name         String
-  sectorVi     String
-  sectorEn     String
-  descVi       String   @db.Text
-  descEn       String   @db.Text
-  founded      Int
-  hq           String
-  statLabelVi  String
-  statLabelEn  String
-  statValue    String
-  projectsVi   String[]
-  projectsEn   String[]
-  highlightVi  String   @db.Text
-  highlightEn  String   @db.Text
-  logo         String   @default("")
-  images       String[]
-  published    Boolean  @default(true)
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
-
   @@map("partner")
-  @@index([published])
 }
 
+/// KHÔNG còn dùng. Tab "Lịch sử" trong admin đã gỡ (feedback 22.09) vì không có
+/// trang public nào hiển thị dòng thời gian. Model giữ lại để KHÔNG mất 5 bản ghi
+/// đang có trong DB production — xoá model này rồi `db push` sẽ DROP bảng.
 model TimelineItem {
-  id           String   @id @default(cuid())
-  order        Int      @default(0)
-  year         String
-  titleVi      String
-  titleEn      String
-  descVi       String   @db.Text
-  descEn       String   @db.Text
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  id        String   @id @default(cuid())
+  order     Int      @default(0)
+  year      String
+  titleVi   String
+  titleEn   String
+  descVi    String   @db.Text
+  descEn    String   @db.Text
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@map("timeline_item")
 }
@@ -141,26 +144,26 @@ model HeroSlide {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@map("hero_slide")
   @@index([published])
+  @@map("hero_slide")
 }
 
 model MemberCompany {
-  id           String   @id @default(cuid())
-  order        Int      @default(0)
-  abbr         String
-  name         String
-  tagline      String
-  descVi       String
-  descEn       String
-  accent       String
-  images       String[]
-  published    Boolean  @default(true)
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  id        String   @id @default(cuid())
+  order     Int      @default(0)
+  abbr      String
+  name      String
+  tagline   String
+  descVi    String
+  descEn    String
+  accent    String
+  images    String[]
+  published Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-  @@map("member_company")
   @@index([published])
+  @@map("member_company")
 }
 
 model SiteSetting {
@@ -188,9 +191,9 @@ model ContactRequest {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@map("contact_request")
   @@index([status])
   @@index([createdAt])
+  @@map("contact_request")
 }
 
 model JobPosition {
@@ -208,6 +211,91 @@ model JobPosition {
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
 
-  @@map("job_position")
   @@index([published])
+  @@map("job_position")
+}
+
+/// Nội dung trang /[locale]/about — một bản ghi duy nhất (id = "main").
+/// Các danh sách lặp (tính năng, chỉ số, FAQ, quy trình) lưu dạng mảng song song
+/// theo đúng quy ước sẵn có của repo (xem Partner.projectsVi, Service.bulletsVi):
+/// mỗi dòng trong textarea là một mục.
+model AboutPage {
+  id String @id @default("main")
+
+  // ── Hero ──
+  heroEyebrowVi String @default("")
+  heroEyebrowEn String @default("")
+  heroTitleVi   String @default("")
+  heroTitleEn   String @default("")
+  heroDescVi    String @default("") @db.Text
+  heroDescEn    String @default("") @db.Text
+
+  // ── Section 1 — Giới thiệu ──
+  introEyebrowVi String   @default("")
+  introEyebrowEn String   @default("")
+  introTitleVi   String   @default("")
+  introTitleEn   String   @default("")
+  introDescVi    String   @default("") @db.Text
+  introDescEn    String   @default("") @db.Text
+  featuresVi     String[]
+  featuresEn     String[]
+  badgeValue     String   @default("")
+  badgeLabelVi   String   @default("")
+  badgeLabelEn   String   @default("")
+  ownerName      String   @default("")
+  ownerRoleVi    String   @default("")
+  ownerRoleEn    String   @default("")
+  phoneLabelVi   String   @default("")
+  phoneLabelEn   String   @default("")
+  phone          String   @default("")
+  images         String[]
+
+  // ── Section 2 — Chỉ số ──
+  statsTitleVi String   @default("")
+  statsTitleEn String   @default("")
+  statValues   String[]
+  statLabelsVi String[]
+  statLabelsEn String[]
+
+  // ── Section 3 — FAQ ──
+  faqEyebrowVi   String   @default("")
+  faqEyebrowEn   String   @default("")
+  faqTitleVi     String   @default("")
+  faqTitleEn     String   @default("")
+  faqDescVi      String   @default("") @db.Text
+  faqDescEn      String   @default("") @db.Text
+  faqQuestionsVi String[]
+  faqAnswersVi   String[]
+  faqQuestionsEn String[]
+  faqAnswersEn   String[]
+
+  // ── Section 4 — Quy trình ──
+  processEyebrowVi String   @default("")
+  processEyebrowEn String   @default("")
+  processTitleVi   String   @default("")
+  processTitleEn   String   @default("")
+  processVi        String[]
+  processEn        String[]
+
+  // ── Section 5 — Sứ mệnh ──
+  missionEyebrowVi String @default("")
+  missionEyebrowEn String @default("")
+  missionTitleVi   String @default("")
+  missionTitleEn   String @default("")
+  missionDesc1Vi   String @default("") @db.Text
+  missionDesc1En   String @default("") @db.Text
+  missionDesc2Vi   String @default("") @db.Text
+  missionDesc2En   String @default("") @db.Text
+
+  // ── CTA cuối trang ──
+  ctaEyebrowVi String @default("")
+  ctaEyebrowEn String @default("")
+  ctaTitleVi   String @default("")
+  ctaTitleEn   String @default("")
+  ctaDescVi    String @default("") @db.Text
+  ctaDescEn    String @default("") @db.Text
+
+  updatedAt DateTime @updatedAt
+
+  @@map("about_page")
 }

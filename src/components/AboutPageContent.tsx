@@ -5,9 +5,7 @@ import Link from "next/link";
 import { useState, useRef, useEffect } from "react";
 import { useInView } from "framer-motion";
 import ScrollReveal from "./ScrollReveal";
-import TimelineSection from "./TimelineSection";
-import TeamSection from "./TeamSection";
-import TestimonialsSection from "./TestimonialsSection";
+import { AboutContent, parseStatValue } from "@/lib/aboutContent";
 
 function useCounter(target: number, inView: boolean, duration = 1800) {
   const [count, setCount] = useState(0);
@@ -37,87 +35,10 @@ const IMG4 =
 const IMG5 =
   "https://res.cloudinary.com/dg9khx2s7/image/upload/v1780671226/z2ljjartk4vgpbvanae2.png";
 
-const FEATURES = {
-  vi: [
-    "Đội ngũ cảnh quan chuyên nghiệp",
-    "Thực hành bền vững",
-    "Giải pháp ngoài trời tùy chỉnh",
-    "Dịch vụ đáng tin cậy",
-  ],
-  en: [
-    "Expert Landscaping Team",
-    "Sustainable Practices",
-    "Custom Outdoor Solutions",
-    "Trusted & Reliable Service",
-  ],
-};
 
-const THUMBS = [
-  [IMG1, IMG2, IMG3],
-  [IMG5, IMG2, IMG4],
-  [IMG3, IMG1, IMG4],
-  [IMG5, IMG1, IMG3],
-];
 
-const STATS = [
-  {
-    n: 200,
-    suffix: "+",
-    vi: "Dự án hoàn thành",
-    en: "Beautiful Lawns Designed",
-  },
-  {
-    n: 99,
-    suffix: "%",
-    vi: "Khách hàng hài lòng",
-    en: "Customer Satisfaction Rate",
-  },
-  { n: 17, suffix: "+", vi: "Năm kinh nghiệm", en: "Years of Experience" },
-  {
-    n: 500,
-    suffix: "+",
-    vi: "Nhân sự chuyên nghiệp",
-    en: "Expert Staff Members",
-  },
-];
 
-const FAQ_ITEMS = {
-  vi: [
-    {
-      q: "Cung cấp dịch vụ cảnh quan chất lượng cao",
-      a: "Lapla cung cấp dịch vụ cảnh quan toàn diện từ thiết kế, thi công đến bảo dưỡng. Với cam kết chất lượng cao và bền vững, chúng tôi đồng hành cùng mọi công trình từ dân dụng đến thương mại.",
-    },
-    {
-      q: "01. Làm thế nào để bắt đầu với dịch vụ của chúng tôi?",
-      a: "Liên hệ qua form báo giá hoặc điện thoại. Đội ngũ chuyên gia sẽ tư vấn và khảo sát miễn phí, đề xuất giải pháp phù hợp nhất với nhu cầu của bạn.",
-    },
-    {
-      q: "03. Một dự án cảnh quan mất bao lâu?",
-      a: "Thời gian phụ thuộc vào quy mô và độ phức tạp. Dự án nhỏ thường 1–2 tuần, dự án lớn 1–6 tháng. Chúng tôi luôn cam kết tiến độ đã thỏa thuận với khách hàng.",
-    },
-  ],
-  en: [
-    {
-      q: "Providing Dependable, High-Quality Lawn And Garden Care.",
-      a: "Lapla provides comprehensive landscaping services from design to construction and maintenance, committed to high quality and sustainability for every residential and commercial project.",
-    },
-    {
-      q: "01. How Do I Get Started With Your Services?",
-      a: "Contact us via our quote form or phone. Our expert team will provide a free consultation and site survey to propose the most suitable solution for your specific needs.",
-    },
-    {
-      q: "03. How Long Does A Landscaping Project Take?",
-      a: "Timeline depends on scale and complexity. Small projects typically take 1–2 weeks, while larger ones may take 1–6 months. We always commit to the agreed schedule.",
-    },
-  ],
-};
 
-const PROCESS = [
-  { vi: "Tư vấn & Khảo sát", en: "Discovery & Consultation" },
-  { vi: "Tích hợp cây bản địa", en: "Native Plant Integration" },
-  { vi: "Hệ thống tưới tiêu", en: "Water-Efficient Irrigation" },
-  { vi: "Bảo dưỡng định kỳ", en: "Ongoing Maintenance" },
-];
 
 const PROCESS_ICONS = [
   <svg
@@ -183,21 +104,43 @@ const PROCESS_ICONS = [
 ];
 
 /* ─────────────────────────────────── */
-export default function AboutPageContent() {
+/** Đếm số cho một ô chỉ số. Tách riêng vì số lượng chỉ số do admin quyết định,
+ *  không gọi hook trong vòng lặp được. */
+function Counter({ target, inView }: { target: number; inView: boolean }) {
+  return <>{useCounter(target, inView)}</>;
+}
+
+/** Ghép hai mảng song song theo chỉ số, cắt về độ dài ngắn hơn để một bên
+ *  thiếu dòng không sinh ra mục rỗng trên trang. */
+function zip<A, B, R>(a: A[], b: B[], fn: (x: A, y: B, i: number) => R): R[] {
+  return a.slice(0, Math.min(a.length, b.length)).map((x, i) => fn(x, b[i], i));
+}
+
+export default function AboutPageContent({ content }: { content: AboutContent }) {
   const locale = useLocale();
   const isVi = locale === "vi";
   const [openFaq, setOpenFaq] = useState(1);
 
   const statsRef = useRef<HTMLElement>(null);
   const statsInView = useInView(statsRef, { once: true, margin: "-80px" });
-  const c0 = useCounter(STATS[0].n, statsInView);
-  const c1 = useCounter(STATS[1].n, statsInView);
-  const c2 = useCounter(STATS[2].n, statsInView);
-  const c3 = useCounter(STATS[3].n, statsInView);
-  const counts = [c0, c1, c2, c3];
 
-  const faqItems = isVi ? FAQ_ITEMS.vi : FAQ_ITEMS.en;
-  const features = isVi ? FEATURES.vi : FEATURES.en;
+  // Ảnh collage do admin chọn; thiếu thì quay về bộ ảnh mặc định.
+  const imgs = content.images.length ? content.images : [IMG1, IMG2, IMG3, IMG4, IMG5];
+  const img = (i: number) => imgs[i % imgs.length];
+  const thumbsFor = (i: number) => [img(i), img(i + 1), img(i + 2)];
+
+  const features = isVi ? content.featuresVi : content.featuresEn;
+  const faqItems = zip(
+    isVi ? content.faqQuestionsVi : content.faqQuestionsEn,
+    isVi ? content.faqAnswersVi : content.faqAnswersEn,
+    (q, a) => ({ q, a }),
+  );
+  const processSteps = isVi ? content.processVi : content.processEn;
+  const stats = zip(
+    content.statValues,
+    isVi ? content.statLabelsVi : content.statLabelsEn,
+    (value, label) => ({ ...parseStatValue(value), label }),
+  );
 
   return (
     <>
@@ -226,7 +169,7 @@ export default function AboutPageContent() {
                   }}
                 >
                   <Image
-                    src={IMG1}
+                    src={img(0)}
                     alt="Lapla project"
                     fill
                     className="object-cover"
@@ -247,20 +190,14 @@ export default function AboutPageContent() {
                     className="font-display font-black leading-none"
                     style={{ fontSize: "3.2rem", color: "var(--color-brand)" }}
                   >
-                    17+
+                    {content.badgeValue}
                   </p>
                   <div>
                     <p
-                      className="text-xs font-semibold leading-tight"
+                      className="text-xs font-semibold leading-tight max-w-[70px]"
                       style={{ color: "var(--color-text-secondary)" }}
                     >
-                      {isVi ? "Năm kinh" : "Years of"}
-                    </p>
-                    <p
-                      className="text-xs font-semibold leading-tight"
-                      style={{ color: "var(--color-text-secondary)" }}
-                    >
-                      {isVi ? "nghiệm" : "experienced"}
+                      {isVi ? content.badgeLabelVi : content.badgeLabelEn}
                     </p>
                   </div>
                 </div>
@@ -278,7 +215,7 @@ export default function AboutPageContent() {
                   }}
                 >
                   <Image
-                    src={IMG2}
+                    src={img(1)}
                     alt="Lapla landscape"
                     fill
                     className="object-cover"
@@ -371,7 +308,7 @@ export default function AboutPageContent() {
                 className="text-sm font-bold uppercase tracking-[0.3em] mb-3"
                 style={{ color: "var(--color-brand)" }}
               >
-                {isVi ? "Về chúng tôi" : "About Us"}
+                {isVi ? content.introEyebrowVi : content.introEyebrowEn}
               </p>
               <h2
                 className="font-display font-bold leading-tight mb-5"
@@ -380,18 +317,7 @@ export default function AboutPageContent() {
                   color: 'var(--color-text-primary)',
                 }}
               >
-                {isVi ? (
-                  <>
-                    Thiết kế không gian ngoài trời
-                    truyền cảm hứng
-                  </>
-                ) : (
-                  <>
-                    Designing Outdoor Spaces
-                    <br />
-                    That Inspire
-                  </>
-                )}
+                {isVi ? content.introTitleVi : content.introTitleEn}
               </h2>
               <p
                 className="mb-7 leading-relaxed text-sm"
@@ -401,9 +327,7 @@ export default function AboutPageContent() {
                   maxWidth: "480px",
                 }}
               >
-                {isVi
-                  ? "Lapla là nông trại cảnh quan vi mô đam mê thực phẩm tươi và các thành phố xanh hơn. Chúng tôi cung cấp giải pháp xanh phong phú cho các hộ gia đình, nhà hàng và bất kỳ ai đề cao cuộc sống bền vững."
-                  : "Lapla is a local microgreen farm passionate about fresh food and greener cities. We provide nutrient-rich microgreens to homes, restaurants, and anyone who values healthy, eco-friendly produce."}
+                {isVi ? content.introDescVi : content.introDescEn}
               </p>
 
               {/* Feature 2-col */}
@@ -411,7 +335,7 @@ export default function AboutPageContent() {
                 {features.map((f) => (
                   <div key={f} className="flex items-center gap-2.5">
                     <Image
-                      src={IMG3}
+                      src={img(2)}
                       alt=""
                       width={18}
                       height={18}
@@ -443,7 +367,7 @@ export default function AboutPageContent() {
                     style={{ width: 48, height: 48, borderRadius: "50%" }}
                   >
                     <Image
-                      src={IMG5}
+                      src={img(4)}
                       alt="CEO"
                       fill
                       className="object-cover"
@@ -455,13 +379,13 @@ export default function AboutPageContent() {
                       className="font-bold text-sm"
                       style={{ color: "var(--color-text-primary)" }}
                     >
-                      Nguyễn Văn Hoàng
+                      {content.ownerName}
                     </p>
                     <p
                       className="text-xs"
                       style={{ color: "var(--color-text-secondary)" }}
                     >
-                      {isVi ? "CEO & Sáng lập" : "CEO & founder"}
+                      {isVi ? content.ownerRoleVi : content.ownerRoleEn}
                     </p>
                   </div>
                 </div>
@@ -487,7 +411,7 @@ export default function AboutPageContent() {
                     }}
                   >
                     <Image
-                      src={IMG3}
+                      src={img(2)}
                       alt="Call"
                       fill
                       className="object-cover"
@@ -518,14 +442,14 @@ export default function AboutPageContent() {
                       className="text-xs font-semibold uppercase tracking-wider"
                       style={{ color: "var(--color-text-secondary)" }}
                     >
-                      {isVi ? "Gọi bất cứ lúc nào" : "Call Us Any Time"}
+                      {isVi ? content.phoneLabelVi : content.phoneLabelEn}
                     </p>
                     <a
-                      href="tel:+842363695166"
+                      href={`tel:${content.phone.replace(/[^\d+]/g, "")}`}
                       className="text-sm font-bold"
                       style={{ color: "var(--color-text-primary)" }}
                     >
-                      0236 3695 166
+                      {content.phone}
                     </a>
                   </div>
                 </div>
@@ -548,14 +472,12 @@ export default function AboutPageContent() {
             className="text-center font-semibold mb-12"
             style={{ fontSize: "1.1rem", color: "var(--color-text-primary)" }}
           >
-            {isVi
-              ? "Thành tích của chúng tôi nói lên tất cả"
-              : "Our Experience Speaks for Itself"}
+            {isVi ? content.statsTitleVi : content.statsTitleEn}
           </p>
           <div className="grid grid-cols-2 md:grid-cols-4">
-            {STATS.map((stat, i) => (
+            {stats.map((stat, i) => (
               <div
-                key={stat.en}
+                key={`${stat.label}-${i}`}
                 className="flex flex-col px-8 py-4"
                 style={{
                   borderLeft: i > 0 ? "1px solid rgba(0,0,0,0.1)" : "none",
@@ -568,7 +490,7 @@ export default function AboutPageContent() {
                     color: "var(--color-text-primary)",
                   }}
                 >
-                  {counts[i]}
+                  <Counter target={stat.n} inView={statsInView} />
                   <span style={{ color: "var(--color-text-primary)" }}>
                     {stat.suffix}
                   </span>
@@ -577,11 +499,11 @@ export default function AboutPageContent() {
                   className="text-sm mb-4"
                   style={{ color: "var(--color-text-secondary)" }}
                 >
-                  {isVi ? stat.vi : stat.en}
+                  {stat.label}
                 </p>
                 {/* Thumbnail row */}
                 <div className="flex gap-1.5">
-                  {THUMBS[i].map((src, j) => (
+                  {thumbsFor(i).map((src, j) => (
                     <div
                       key={j}
                       className="overflow-hidden"
@@ -625,7 +547,7 @@ export default function AboutPageContent() {
                 className="text-sm font-bold uppercase tracking-[0.3em] mb-3"
                 style={{ color: "var(--color-brand)" }}
               >
-                {isVi ? "Thêm về chúng tôi" : "More About"}
+                {isVi ? content.faqEyebrowVi : content.faqEyebrowEn}
               </p>
               <h2
                 className="font-display font-bold mb-3 leading-tight"
@@ -634,19 +556,7 @@ export default function AboutPageContent() {
                   color: 'var(--color-text-primary)',
                 }}
               >
-                {isVi ? (
-                  <>
-                    Phát triển vẻ đẹp qua
-                    <br />
-                    sự tận tâm và tin cậy
-                  </>
-                ) : (
-                  <>
-                    Growing Beauty Through
-                    <br />
-                    Honest, Reliable Care
-                  </>
-                )}
+                {isVi ? content.faqTitleVi : content.faqTitleEn}
               </h2>
               <p
                 className="text-sm mb-8 leading-relaxed"
@@ -655,9 +565,7 @@ export default function AboutPageContent() {
                   maxWidth: "480px",
                 }}
               >
-                {isVi
-                  ? "Cung cấp dịch vụ cảnh quan xanh bền vững nâng cao giá trị thẩm mỹ, hỗ trợ tăng trưởng lành mạnh và mang lại cho khách hàng thêm thời gian."
-                  : "To provide dependable, eco-conscious lawn and garden care that enhances curb appeal, supports healthy growth, and gives our clients more time."}
+                {isVi ? content.faqDescVi : content.faqDescEn}
               </p>
 
               {/* Simple accordion */}
@@ -716,7 +624,7 @@ export default function AboutPageContent() {
                 style={{ borderRadius: 20, height: "500px" }}
               >
                 <Image
-                  src={IMG4}
+                  src={img(3)}
                   alt="Landscaper at work"
                   fill
                   className="object-cover"
@@ -742,15 +650,13 @@ export default function AboutPageContent() {
               className="text-sm font-bold uppercase tracking-[0.3em] mb-3"
               style={{ color: "var(--color-brand)" }}
             >
-              {isVi ? "Giải pháp công ty" : "Our Company Solution"}
+              {isVi ? content.processEyebrowVi : content.processEyebrowEn}
             </p>
             <h2
               className="font-display font-bold"
               style={{ fontSize: "clamp(1.8rem, 4vw, 3rem)", color: 'var(--color-text-primary)' }}
             >
-              {isVi
-                ? "Thiết kế cảnh quan chuyên nghiệp & tận tâm"
-                : "Boutique Landscape Design & Garden"}
+              {isVi ? content.processTitleVi : content.processTitleEn}
             </h2>
           </ScrollReveal>
 
@@ -761,7 +667,7 @@ export default function AboutPageContent() {
               style={{ borderRadius: 24, height: "480px" }}
             >
               <Image
-                src={IMG3}
+                src={img(2)}
                 alt="Company solution"
                 fill
                 className="object-cover"
@@ -777,8 +683,8 @@ export default function AboutPageContent() {
 
           {/* 4 process steps below */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-10">
-            {PROCESS.map((step, i) => (
-              <ScrollReveal key={step.en} delay={i % 4}>
+            {processSteps.map((step, i) => (
+              <ScrollReveal key={`${step}-${i}`} delay={i % 4}>
                 <div
                   className="flex items-center gap-4 py-4 px-5"
                   style={{
@@ -801,7 +707,7 @@ export default function AboutPageContent() {
                     className="text-sm font-bold leading-snug"
                     style={{ color: "var(--color-text-primary)" }}
                   >
-                    {isVi ? step.vi : step.en}
+                    {step}
                   </p>
                 </div>
               </ScrollReveal>
@@ -845,8 +751,8 @@ export default function AboutPageContent() {
                 style={{ height: "480px", width: "380px", zIndex: 1 }}
               >
                 <Image
-                  src={IMG5}
-                  alt={isVi ? "Đội ngũ Lapla" : "Lapla Team"}
+                  src={img(4)}
+                  alt={content.ownerName || "Lapla"}
                   fill
                   className="object-cover object-center"
                   sizes="40vw"
@@ -862,7 +768,7 @@ export default function AboutPageContent() {
                   className="text-sm font-bold uppercase tracking-[0.3em] mb-5"
                   style={{ color: "var(--color-accent)" }}
                 >
-                  {isVi ? "Sứ mệnh của chúng tôi" : "Our Mission"}
+                  {isVi ? content.missionEyebrowVi : content.missionEyebrowEn}
                 </p>
                 <h2
                   className="font-display font-bold mb-6 leading-tight"
@@ -871,19 +777,7 @@ export default function AboutPageContent() {
                     color: "#ffffff",
                   }}
                 >
-                  {isVi ? (
-                    <>
-                      Định chuẩn mới cho
-                      <br />
-                      không gian xanh Việt Nam
-                    </>
-                  ) : (
-                    <>
-                      Setting the Standard for
-                      <br />
-                      Vietnam&apos;s Green Spaces
-                    </>
-                  )}
+                  {isVi ? content.missionTitleVi : content.missionTitleEn}
                 </h2>
                 <p
                   className="mb-4 leading-relaxed text-sm"
@@ -893,9 +787,7 @@ export default function AboutPageContent() {
                     maxWidth: "460px",
                   }}
                 >
-                  {isVi
-                    ? "Tại Lapla, chúng tôi hình dung một Việt Nam nơi mỗi không gian ngoài trời phản ánh vẻ đẹp, sự bền vững và chuyên môn đỉnh cao. Sứ mệnh của chúng tôi là dẫn dắt ngành cảnh quan, được công nhận qua cam kết về chất lượng, đổi mới sáng tạo và dịch vụ khách hàng xuất sắc."
-                    : "At Lapla, we envision a Vietnam where every outdoor space reflects beauty, sustainability and expert craftsmanship. Our mission is to lead the landscaping industry, recognized for our commitment to excellence, innovation, and exceptional customer service."}
+                  {isVi ? content.missionDesc1Vi : content.missionDesc1En}
                 </p>
                 <p
                   className="mb-8 leading-relaxed text-sm"
@@ -905,9 +797,7 @@ export default function AboutPageContent() {
                     maxWidth: "460px",
                   }}
                 >
-                  {isVi
-                    ? "Chúng tôi đam mê tạo ra cảnh quan không chỉ nâng tầm giá trị thẩm mỹ mà còn làm giàu thêm môi trường tự nhiên — mang lại niềm vui lâu dài và lợi ích sinh thái cho khách hàng."
-                    : "We are passionate about creating landscapes that not only elevate the visual appeal of properties but also enrich the natural environment — providing long-lasting joy and ecological benefits to our clients."}
+                  {isVi ? content.missionDesc2Vi : content.missionDesc2En}
                 </p>
                 <Link
                   href={`/${locale}/services`}
@@ -956,7 +846,7 @@ export default function AboutPageContent() {
             className="text-sm font-bold uppercase tracking-[0.3em] mb-5"
             style={{ color: "var(--color-brand)" }}
           >
-            {isVi ? "Bắt đầu hành trình" : "Start Your Journey"}
+            {isVi ? content.ctaEyebrowVi : content.ctaEyebrowEn}
           </p>
           <h2
             className="font-display font-bold mb-5 mx-auto"
@@ -967,9 +857,7 @@ export default function AboutPageContent() {
               maxWidth: "780px",
             }}
           >
-            {isVi
-              ? "Hãy Cùng Tạo Ra Điều Gì Đó Xanh"
-              : "Let's Create Something Green Together"}
+            {isVi ? content.ctaTitleVi : content.ctaTitleEn}
           </h2>
           <p
             className="text-base mb-10 mx-auto"
@@ -979,9 +867,7 @@ export default function AboutPageContent() {
               lineHeight: "26px",
             }}
           >
-            {isVi
-              ? "Từ ý tưởng đến hoàn thiện — Lapla cung cấp giải pháp cảnh quan trọn gói theo tầm nhìn của bạn."
-              : "From concept to completion — Lapla delivers full-package landscape solutions shaped by your vision."}
+            {isVi ? content.ctaDescVi : content.ctaDescEn}
           </p>
           <a
             href={`/${locale}/contact`}

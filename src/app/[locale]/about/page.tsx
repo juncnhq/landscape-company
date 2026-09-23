@@ -4,6 +4,7 @@ import Footer from '@/components/Footer';
 import PageHero from '@/components/PageHero';
 import AboutPageContent from '@/components/AboutPageContent';
 import { getSiteSetting } from '@/lib/getSiteSetting';
+import { getAboutContent } from '@/lib/getAboutContent';
 
 export const dynamic = 'force-dynamic';
 
@@ -15,21 +16,24 @@ export default async function AboutPage({
   const { locale } = await params;
   setRequestLocale(locale);
   const isVi = locale === 'vi';
-  const bgImage = await getSiteSetting('hero_about') ?? undefined;
+
+  // Đọc phía server để nội dung có sẵn trong HTML (SEO), không fetch ở client.
+  const [bgImage, content] = await Promise.all([
+    getSiteSetting('hero_about'),
+    getAboutContent(),
+  ]);
 
   return (
     <main className="min-h-screen bg-white">
       <Navbar />
       <PageHero
-        eyebrow={isVi ? 'Câu chuyện của chúng tôi' : 'Our Story'}
-        title={isVi ? 'Về Lapla Landscape' : 'About Us'}
-        description={isVi
-          ? '17 năm kiến tạo không gian xanh — Lapla là đơn vị cảnh quan hàng đầu Việt Nam với hệ sinh thái chuyên biệt từ thiết kế đến vận hành.'
-          : '17 years crafting green spaces — Lapla is Vietnam\'s leading landscape firm with a specialized ecosystem from design to operations.'}
+        eyebrow={isVi ? content.heroEyebrowVi : content.heroEyebrowEn}
+        title={isVi ? content.heroTitleVi : content.heroTitleEn}
+        description={isVi ? content.heroDescVi : content.heroDescEn}
         breadcrumbs={[{ label: isVi ? 'Về chúng tôi' : 'About' }]}
-        bgImage={bgImage}
+        bgImage={bgImage ?? undefined}
       />
-      <AboutPageContent />
+      <AboutPageContent content={content} />
       <Footer />
     </main>
   );

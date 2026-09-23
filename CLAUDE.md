@@ -291,6 +291,7 @@ Each admin manager page (`src/app/admin/<entity>/<Entity>Manager.tsx`) follows t
 - Wrap in `AdminShell` in `page.tsx` (provides sidebar layout)
 - Action buttons per row: **view** (blue, opens public page in new tab) → **edit** (green) → **delete** (red)
 - View button links: Projects → `/vi/projects/[slug]`, News → `/vi/news/[slug]`, Services → `/vi/services`, Partners → `/vi/partners`, About/MemberCompanies → `/vi/about`, Careers → `/vi/careers`
+- **Ngoại lệ:** `/admin/about` không phải danh sách — là form một bản ghi duy nhất (`AboutPage`, id `"main"`), lưu bằng `PUT /api/about-page`, không có modal/xoá
 - Image fields use `ImageInput` (single) or `GalleryInput` (gallery)
 - Text fields use `Field` từ `src/components/admin/Field.tsx` — **không tự khai báo `Field` trong từng manager nữa**. Textarea trong đó tự giãn theo nội dung nên mô tả dài không bị cắt; bo góc `rounded-md` (feedback 22.09).
 
@@ -310,6 +311,8 @@ src/
 ├── generated/prisma/      # Generated Prisma client (don't edit)
 ├── lib/
 │   ├── prisma.ts          # PrismaClient singleton
+│   ├── aboutContent.ts    # Type + hằng số trang /about (KHÔNG import prisma — dùng cả ở client)
+│   ├── getAboutContent.ts # Đọc nội dung /about phía server
 │   └── data.ts            # Legacy hardcoded data (projects, articles, partners, timeline)
 ├── components/
 │   └── admin/
@@ -330,16 +333,15 @@ src/
 │   │   ├── news/
 │   │   ├── services/
 │   │   ├── partners/
-│   │   ├── about/             # Lịch sử phát triển (timeline) của trang /vi/about
+│   │   ├── about/             # Nội dung trang /vi/about (form 1 bản ghi)
 │   │   ├── careers/           # Vị trí tuyển dụng của trang /vi/careers
-│   │   ├── timeline/          # Chỉ redirect → /admin/about (giữ link cũ)
 │   │   └── member-companies/
 │   ├── api/
 │   │   ├── projects/
 │   │   ├── news/
 │   │   ├── services/
 │   │   ├── partners/
-│   │   ├── timeline/
+│   │   ├── about-page/        # Nội dung trang /vi/about (GET + PUT)
 │   │   ├── job-positions/
 │   │   ├── member-companies/
 │   │   └── media/             # Media library API
@@ -371,6 +373,18 @@ src/
 > **Vị trí tuyển dụng** từng hardcode trong `src/components/CareersPageContent.tsx`, nay
 > nằm trong model `JobPosition` và sửa tại `/admin/careers`. Seed lần đầu:
 > `npx tsx prisma/seed-job-positions.ts` (tự bỏ qua nếu bảng đã có dữ liệu).
+>
+> **Nội dung trang /about** từng hardcode trong `src/components/AboutPageContent.tsx`, nay
+> nằm trong model `AboutPage` và sửa tại `/admin/about`. Seed lần đầu:
+> `npx tsx prisma/seed-about-page.ts`.
+>
+> Các danh sách lặp của trang about (tính năng, chỉ số, FAQ, quy trình) lưu dạng **mảng
+> song song** (`statValues` ↔ `statLabelsVi`, `faqQuestionsVi` ↔ `faqAnswersVi`). Trang
+> public cắt theo mảng ngắn hơn, nên form admin cảnh báo khi số dòng lệch nhau.
+>
+> `TimelineSection`, `TeamSection`, `TestimonialsSection` đã bị **xoá**: cả ba chỉ được
+> import chứ không bao giờ render kể từ ~06/2026. Tab "Lịch sử" trong admin quản lý dữ
+> liệu không hiển thị ở đâu, nên đã gỡ cùng `/api/timeline`.
 
 ## DB Models & `images` fields
 
@@ -382,4 +396,6 @@ src/
 | Partner | — | ✅ | Gallery |
 | MemberCompany | — | ✅ | Gallery |
 | JobPosition | — | — | Vị trí tuyển dụng, VI/EN + `order` + `published` |
+| AboutPage | — | ✅ | Nội dung trang /vi/about, **một bản ghi** id `"main"` |
+| TimelineItem | — | — | ⚠️ KHÔNG còn dùng — giữ bảng để không mất dữ liệu, không có UI/API |
 | Media | — | — | `url` field, standalone uploads |

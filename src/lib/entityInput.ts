@@ -110,17 +110,6 @@ export function parsePartner(b: Record<string, unknown>) {
   }
 }
 
-export function parseTimelineItem(b: Record<string, unknown>) {
-  return {
-    order: intRange(b.order, 0, 0, 9999, 'Order'),
-    year: reqStr(b.year, 'Năm / Giai đoạn', 50),
-    titleVi: reqStr(b.titleVi, 'Tiêu đề (VI)'),
-    titleEn: reqStr(b.titleEn, 'Tiêu đề (EN)'),
-    descVi: optStr(b.descVi, 'Mô tả (VI)', LONG),
-    descEn: optStr(b.descEn, 'Mô tả (EN)', LONG),
-  }
-}
-
 export function parseMemberCompany(b: Record<string, unknown>) {
   return {
     order: intRange(b.order, 0, 0, 9999, 'Order'),
@@ -165,5 +154,98 @@ export function parseJobPosition(b: Record<string, unknown>) {
     descVi: optStr(b.descVi, 'Mô tả công việc (VI)', LONG),
     descEn: optStr(b.descEn, 'Mô tả công việc (EN)', LONG),
     published: bool(b.published, true),
+  }
+}
+
+/**
+ * Nội dung trang /about — một bản ghi duy nhất.
+ *
+ * Mọi field đều `optStr`: admin để trống một ô nghĩa là ẩn dòng đó trên trang,
+ * không phải lỗi. Các danh sách lặp lưu dạng mảng song song (câu hỏi ↔ câu trả
+ * lời, chỉ số ↔ nhãn) nên được cắt về cùng độ dài ở `zipLen` bên dưới — lệch
+ * độ dài sẽ khiến trang render ra ô trống hoặc mất nội dung.
+ */
+export function parseAboutPage(b: Record<string, unknown>) {
+  const featuresVi = strArray(b.featuresVi, 'Tính năng (VI)', 12, 300)
+  const featuresEn = strArray(b.featuresEn, 'Tính năng (EN)', 12, 300)
+
+  const statValues = strArray(b.statValues, 'Giá trị chỉ số', 8, 20)
+  const statLabelsVi = strArray(b.statLabelsVi, 'Nhãn chỉ số (VI)', 8, 200)
+  const statLabelsEn = strArray(b.statLabelsEn, 'Nhãn chỉ số (EN)', 8, 200)
+
+  const faqQuestionsVi = strArray(b.faqQuestionsVi, 'Câu hỏi (VI)', 12, 500)
+  const faqAnswersVi = strArray(b.faqAnswersVi, 'Trả lời (VI)', 12, LONG)
+  const faqQuestionsEn = strArray(b.faqQuestionsEn, 'Câu hỏi (EN)', 12, 500)
+  const faqAnswersEn = strArray(b.faqAnswersEn, 'Trả lời (EN)', 12, LONG)
+
+  const processVi = strArray(b.processVi, 'Bước quy trình (VI)', 12, 200)
+  const processEn = strArray(b.processEn, 'Bước quy trình (EN)', 12, 200)
+
+  return {
+    heroEyebrowVi: optStr(b.heroEyebrowVi, 'Eyebrow hero (VI)', 200),
+    heroEyebrowEn: optStr(b.heroEyebrowEn, 'Eyebrow hero (EN)', 200),
+    heroTitleVi: optStr(b.heroTitleVi, 'Tiêu đề hero (VI)', 300),
+    heroTitleEn: optStr(b.heroTitleEn, 'Tiêu đề hero (EN)', 300),
+    heroDescVi: optStr(b.heroDescVi, 'Mô tả hero (VI)', LONG),
+    heroDescEn: optStr(b.heroDescEn, 'Mô tả hero (EN)', LONG),
+
+    introEyebrowVi: optStr(b.introEyebrowVi, 'Eyebrow giới thiệu (VI)', 200),
+    introEyebrowEn: optStr(b.introEyebrowEn, 'Eyebrow giới thiệu (EN)', 200),
+    introTitleVi: optStr(b.introTitleVi, 'Tiêu đề giới thiệu (VI)', 300),
+    introTitleEn: optStr(b.introTitleEn, 'Tiêu đề giới thiệu (EN)', 300),
+    introDescVi: optStr(b.introDescVi, 'Mô tả giới thiệu (VI)', LONG),
+    introDescEn: optStr(b.introDescEn, 'Mô tả giới thiệu (EN)', LONG),
+    featuresVi,
+    featuresEn,
+    badgeValue: optStr(b.badgeValue, 'Số trên badge', 20),
+    badgeLabelVi: optStr(b.badgeLabelVi, 'Nhãn badge (VI)', 100),
+    badgeLabelEn: optStr(b.badgeLabelEn, 'Nhãn badge (EN)', 100),
+    ownerName: optStr(b.ownerName, 'Tên người đại diện', 200),
+    ownerRoleVi: optStr(b.ownerRoleVi, 'Chức danh (VI)', 200),
+    ownerRoleEn: optStr(b.ownerRoleEn, 'Chức danh (EN)', 200),
+    phoneLabelVi: optStr(b.phoneLabelVi, 'Nhãn điện thoại (VI)', 100),
+    phoneLabelEn: optStr(b.phoneLabelEn, 'Nhãn điện thoại (EN)', 100),
+    phone: optStr(b.phone, 'Số điện thoại', 50),
+    images: strArray(b.images, 'Ảnh collage', 10, 2000),
+
+    statsTitleVi: optStr(b.statsTitleVi, 'Tiêu đề khối chỉ số (VI)', 300),
+    statsTitleEn: optStr(b.statsTitleEn, 'Tiêu đề khối chỉ số (EN)', 300),
+    statValues,
+    statLabelsVi,
+    statLabelsEn,
+
+    faqEyebrowVi: optStr(b.faqEyebrowVi, 'Eyebrow FAQ (VI)', 200),
+    faqEyebrowEn: optStr(b.faqEyebrowEn, 'Eyebrow FAQ (EN)', 200),
+    faqTitleVi: optStr(b.faqTitleVi, 'Tiêu đề FAQ (VI)', 300),
+    faqTitleEn: optStr(b.faqTitleEn, 'Tiêu đề FAQ (EN)', 300),
+    faqDescVi: optStr(b.faqDescVi, 'Mô tả FAQ (VI)', LONG),
+    faqDescEn: optStr(b.faqDescEn, 'Mô tả FAQ (EN)', LONG),
+    faqQuestionsVi,
+    faqAnswersVi,
+    faqQuestionsEn,
+    faqAnswersEn,
+
+    processEyebrowVi: optStr(b.processEyebrowVi, 'Eyebrow quy trình (VI)', 200),
+    processEyebrowEn: optStr(b.processEyebrowEn, 'Eyebrow quy trình (EN)', 200),
+    processTitleVi: optStr(b.processTitleVi, 'Tiêu đề quy trình (VI)', 300),
+    processTitleEn: optStr(b.processTitleEn, 'Tiêu đề quy trình (EN)', 300),
+    processVi,
+    processEn,
+
+    missionEyebrowVi: optStr(b.missionEyebrowVi, 'Eyebrow sứ mệnh (VI)', 200),
+    missionEyebrowEn: optStr(b.missionEyebrowEn, 'Eyebrow sứ mệnh (EN)', 200),
+    missionTitleVi: optStr(b.missionTitleVi, 'Tiêu đề sứ mệnh (VI)', 300),
+    missionTitleEn: optStr(b.missionTitleEn, 'Tiêu đề sứ mệnh (EN)', 300),
+    missionDesc1Vi: optStr(b.missionDesc1Vi, 'Đoạn 1 sứ mệnh (VI)', LONG),
+    missionDesc1En: optStr(b.missionDesc1En, 'Đoạn 1 sứ mệnh (EN)', LONG),
+    missionDesc2Vi: optStr(b.missionDesc2Vi, 'Đoạn 2 sứ mệnh (VI)', LONG),
+    missionDesc2En: optStr(b.missionDesc2En, 'Đoạn 2 sứ mệnh (EN)', LONG),
+
+    ctaEyebrowVi: optStr(b.ctaEyebrowVi, 'Eyebrow CTA (VI)', 200),
+    ctaEyebrowEn: optStr(b.ctaEyebrowEn, 'Eyebrow CTA (EN)', 200),
+    ctaTitleVi: optStr(b.ctaTitleVi, 'Tiêu đề CTA (VI)', 300),
+    ctaTitleEn: optStr(b.ctaTitleEn, 'Tiêu đề CTA (EN)', 300),
+    ctaDescVi: optStr(b.ctaDescVi, 'Mô tả CTA (VI)', LONG),
+    ctaDescEn: optStr(b.ctaDescEn, 'Mô tả CTA (EN)', LONG),
   }
 }
