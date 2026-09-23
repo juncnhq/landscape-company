@@ -4,7 +4,8 @@ import { useState, useEffect, useCallback } from 'react'
 import ImageInput from '@/components/admin/ImageInput'
 import GalleryInput from '@/components/admin/GalleryInput'
 import SlugField from '@/components/admin/SlugField'
-import { apiErrorMessage } from '@/lib/apiClient'
+import { fetchJson, sendJson, errMessage } from '@/lib/apiClient'
+import Field from '@/components/admin/Field'
 
 type Project = {
   id: string
@@ -58,6 +59,11 @@ export default function ProjectsManager() {
   const [deleteConfirm, setDeleteConfirm] = useState<string | null>(null)
   const [galleryImages, setGalleryImages] = useState<string[]>([])
   const [error, setError] = useState<string | null>(null)
+  // Lỗi tải danh sách — trước đây chỉ console.error, nên hết phiên hay DB lỗi
+  // đều hiện thành "danh sách rỗng" và admin tưởng dữ liệu bị xoá.
+  const [listError, setListError] = useState<string | null>(null)
+  const [deleteError, setDeleteError] = useState<string | null>(null)
+  const [deleting, setDeleting] = useState(false)
 
   const fetchProjects = useCallback(async () => {
     setLoading(true)
@@ -65,11 +71,10 @@ export default function ProjectsManager() {
       const params = new URLSearchParams()
       if (filter !== 'All') params.set('category', filter)
       if (search) params.set('search', search)
-      const res = await fetch(`/api/projects?${params}`)
-      if (!res.ok) throw new Error(`HTTP ${res.status}`)
-      setProjects(await res.json())
-    } catch (err) {
-      console.error('Failed to load projects:', err)
+      setProjects(await fetchJson<Project[]>(`/api/projects?${params}`, 'Không tải được danh sách dự án.'))
+      setListError(null)
+    } catch (e) {
+      setListError(errMessage(e, 'Không tải được danh sách dự án.'))
     }
     setLoading(false)
   }, [filter, search])
@@ -86,32 +91,29 @@ export default function ProjectsManager() {
     const payload = { ...editingProject, images: galleryImages }
 
     try {
-      const res = isCreating
-        ? await fetch('/api/projects', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload),
-          })
-        : await fetch(`/api/projects/${editingProject.id}`, {
-            method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload),
-          })
-      if (!res.ok) throw new Error(await apiErrorMessage(res))
+      if (isCreating) await sendJson('/api/projects', { method: 'POST', body: payload })
+      else await sendJson(`/api/projects/${editingProject.id}`, { method: 'PUT', body: payload })
       setEditingProject(null)
       setIsCreating(false)
       fetchProjects()
     } catch (e) {
-      setError(e instanceof Error ? e.message : 'Lưu thất bại. Vui lòng thử lại.')
+      setError(errMessage(e, 'Lưu thất bại. Vui lòng thử lại.'))
     }
     setSaving(false)
   }
 
   const handleDelete = async (id: string) => {
-    const res = await fetch(`/api/projects/${id}`, { method: 'DELETE' })
-    if (!res.ok) { alert(await apiErrorMessage(res, 'Xóa thất bại.')); return }
-    setDeleteConfirm(null)
-    fetchProjects()
+    setDeleting(true)
+    setDeleteError(null)
+    try {
+      await sendJson(`/api/projects/${id}`, { method: 'DELETE' }, 'Xóa thất bại.')
+      setDeleteConfirm(null)
+      fetchProjects()
+    } catch (e) {
+      setDeleteError(errMessage(e, 'Xóa thất bại.'))
+    } finally {
+      setDeleting(false)
+    }
   }
 
   const openEdit = (project: Project) => {
@@ -174,6 +176,15 @@ export default function ProjectsManager() {
         </div>
 
         {/* Table */}
+        {listError && (
+          <div className="mb-4 flex items-start gap-3 rounded-lg border border-red-200 bg-red-50 px-4 py-3">
+            <span className="text-red-600 text-sm leading-5">⚠</span>
+            <div className="flex-1">
+              <p className="text-sm text-red-700">{listError}</p>
+              <p className="text-xs text-red-500 mt-0.5">Danh sách bên dưới có thể chưa đầy đủ.</p>
+            </div>
+          </div>
+        )}
         {loading ? (
           <div className="text-center py-20 text-gray-400">Đang tải...</div>
         ) : (
@@ -371,55 +382,25 @@ export default function ProjectsManager() {
             <p className="text-sm text-gray-500 mb-5">
               Bạn có chắc chắn muốn xóa dự án này? Hành động này không thể hoàn tác.
             </p>
+            {deleteError && <p className="text-sm text-red-600 mb-3">{deleteError}</p>}
             <div className="flex justify-end gap-3">
               <button
                 onClick={() => setDeleteConfirm(null)}
-                className="px-4 py-2 rounded-lg text-sm text-gray-600 hover:bg-gray-100 transition-colors"
+                disabled={deleting}
+                className="px-4 py-2 rounded-lg text-sm text-gray-600 hover:bg-gray-100 transition-colors disabled:opacity-50"
               >
                 Hủy
               </button>
               <button
                 onClick={() => handleDelete(deleteConfirm)}
-                className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors"
+                disabled={deleting}
+                className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors disabled:opacity-50"
               >
-                Xóa dự án
+                {deleting ? 'Đang xóa...' : 'Xóa dự án'}
               </button>
             </div>
           </div>
         </div>
-      )}
-    </div>
-  )
-}
-
-function Field({
-  label,
-  value,
-  onChange,
-  type = 'text',
-  options,
-  required = false,
-}: {
-  label: string
-  value: string
-  onChange: (v: string) => void
-  type?: 'text' | 'textarea' | 'select'
-  options?: string[]
-  required?: boolean
-}) {
-  const cls = "w-full px-3 py-2 rounded-lg border border-gray-200 text-sm text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-[#328442]/30 focus:border-[#328442]"
-
-  return (
-    <div>
-      <label className="block text-sm font-medium text-gray-700 mb-1">{label}{required && <span className="text-red-500"> *</span>}</label>
-      {type === 'textarea' ? (
-        <textarea value={value} onChange={(e) => onChange(e.target.value)} rows={3} className={`${cls} resize-none`} />
-      ) : type === 'select' ? (
-        <select value={value} onChange={(e) => onChange(e.target.value)} className={cls}>
-          {options?.map((opt) => <option key={opt} value={opt}>{opt}</option>)}
-        </select>
-      ) : (
-        <input type="text" value={value} onChange={(e) => onChange(e.target.value)} className={cls} />
       )}
     </div>
   )

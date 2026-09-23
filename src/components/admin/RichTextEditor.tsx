@@ -7,7 +7,7 @@ import Link from '@tiptap/extension-link'
 import TextAlign from '@tiptap/extension-text-align'
 import Underline from '@tiptap/extension-underline'
 import Placeholder from '@tiptap/extension-placeholder'
-import { useRef, useEffect } from 'react'
+import { useRef, useEffect, useState } from 'react'
 
 const CLOUD_NAME = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME
 const UPLOAD_PRESET = process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET
@@ -22,6 +22,7 @@ interface Props {
 export default function RichTextEditor({ value, onChange, placeholder = 'Nhập nội dung...', label }: Props) {
   const fileInputRef = useRef<HTMLInputElement>(null)
   const isUpdating = useRef(false)
+  const [uploadError, setUploadError] = useState('')
 
   const editor = useEditor({
     immediatelyRender: false,
@@ -55,17 +56,28 @@ export default function RichTextEditor({ value, onChange, placeholder = 'Nhập 
   }, [value, editor])
 
   const uploadImage = async (file: File) => {
-    if (!CLOUD_NAME || !UPLOAD_PRESET) return
-    const form = new FormData()
-    form.append('file', file)
-    form.append('upload_preset', UPLOAD_PRESET)
-    const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`, {
-      method: 'POST',
-      body: form,
-    })
-    const data = await res.json()
-    if (data.secure_url) {
+    // Trước đây hàm này không kiểm tra gì: preset thiếu thì return im lặng,
+    // upload hỏng thì `res.json()` có thể ném lỗi, và ảnh chỉ đơn giản không
+    // hiện ra mà người viết bài không biết vì sao.
+    if (!CLOUD_NAME || !UPLOAD_PRESET) {
+      setUploadError('Chưa cấu hình Cloudinary — không chèn được ảnh.')
+      return
+    }
+    setUploadError('')
+    try {
+      const form = new FormData()
+      form.append('file', file)
+      form.append('upload_preset', UPLOAD_PRESET)
+      const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`, {
+        method: 'POST',
+        body: form,
+      })
+      if (!res.ok) throw new Error(`Cloudinary trả về ${res.status}`)
+      const data = await res.json()
+      if (!data?.secure_url) throw new Error('Cloudinary không trả về đường dẫn ảnh')
       editor?.chain().focus().setImage({ src: data.secure_url }).run()
+    } catch {
+      setUploadError('Chèn ảnh thất bại, vui lòng thử lại.')
     }
   }
 
@@ -78,7 +90,7 @@ export default function RichTextEditor({ value, onChange, placeholder = 'Nhập 
     <div>
       {label && <label className="block text-sm font-medium text-gray-700 mb-1">{label}</label>}
 
-      <div className="border border-gray-200 rounded-lg overflow-hidden bg-white focus-within:ring-2 focus-within:ring-[#328442]/30 focus-within:border-[#328442]">
+      <div className="border border-gray-200 rounded-md overflow-hidden bg-white focus-within:ring-2 focus-within:ring-[#328442]/30 focus-within:border-[#328442]">
         {/* Toolbar */}
         <div className="flex flex-wrap items-center gap-0.5 px-2 py-1.5 border-b border-gray-100 bg-gray-50/60">
           {/* Text style */}
@@ -157,6 +169,9 @@ export default function RichTextEditor({ value, onChange, placeholder = 'Nhập 
 
         {/* Editor */}
         <EditorContent editor={editor} />
+        {uploadError && (
+          <p className="px-3 pb-2 text-xs text-red-600">{uploadError}</p>
+        )}
       </div>
 
       <input

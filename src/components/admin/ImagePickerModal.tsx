@@ -1,5 +1,6 @@
 'use client'
 import { useEffect, useState } from 'react'
+import { fetchJson, errMessage } from '@/lib/apiClient'
 
 interface MediaItem { id: string; url: string; filename: string }
 
@@ -10,14 +11,18 @@ interface Props {
 
 export default function ImagePickerModal({ onSelect, onClose }: Props) {
   const [media, setMedia] = useState<MediaItem[]>([])
+  const [loadError, setLoadError] = useState('')
   const [loading, setLoading] = useState(true)
   const [search, setSearch] = useState('')
 
   useEffect(() => {
-    fetch('/api/media')
-      .then(r => r.json())
-      .then(data => { setMedia(data); setLoading(false) })
-      .catch(() => setLoading(false))
+    // Phải qua fetchJson: trước đây `.then(r => r.json())` không kiểm tra r.ok,
+    // nên 401 trả về object {error} rồi `media.filter(...)` ném TypeError và
+    // sập cả trang. Array.isArray là chốt chặn cuối nếu API đổi hình dạng.
+    fetchJson<MediaItem[]>('/api/media', 'Không tải được thư viện ảnh.')
+      .then(data => setMedia(Array.isArray(data) ? data : []))
+      .catch(e => setLoadError(errMessage(e, 'Không tải được thư viện ảnh.')))
+      .finally(() => setLoading(false))
   }, [])
 
   const filtered = media.filter(m =>
@@ -34,14 +39,19 @@ export default function ImagePickerModal({ onSelect, onClose }: Props) {
         <div className="px-6 py-3 border-b shrink-0">
           <input
             autoFocus
-            className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-[#328442]/30 focus:border-[#328442]"
+            className="w-full border border-gray-200 rounded-md px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-[#328442]/30 focus:border-[#328442]"
             placeholder="Tìm kiếm ảnh..."
             value={search}
             onChange={e => setSearch(e.target.value)}
           />
         </div>
         <div className="flex-1 overflow-y-auto p-4">
-          {loading ? (
+          {loadError ? (
+            <div className="text-center py-16">
+              <p className="text-sm text-red-600">{loadError}</p>
+              <p className="text-xs text-gray-400 mt-1">Thử tải lại trang hoặc đăng nhập lại.</p>
+            </div>
+          ) : loading ? (
             <div className="text-center py-16 text-gray-400">Đang tải...</div>
           ) : filtered.length === 0 ? (
             <div className="text-center py-16 text-gray-400 text-sm">

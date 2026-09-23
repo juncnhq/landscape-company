@@ -86,7 +86,7 @@ export default function ImageInput({ value, onChange, label = 'Ảnh đại di�
           )}
           {error && <p className="text-xs text-red-500 mt-1">{error}</p>}
           <input type="text" placeholder="Hoặc dán URL ảnh..." value={value} onChange={e => onChange(e.target.value)}
-            className="mt-2 w-full px-3 py-1.5 rounded-lg border border-gray-200 text-xs text-gray-500 bg-white focus:outline-none focus:ring-2 focus:ring-[#328442]/30 focus:border-[#328442]" />
+            className="mt-2 w-full px-3 py-1.5 rounded-md border border-gray-200 text-xs text-gray-500 bg-white focus:outline-none focus:ring-2 focus:ring-[#328442]/30 focus:border-[#328442]" />
           <input ref={inputRef} type="file" accept="image/*" onChange={e => { const f = e.target.files?.[0]; if (f) upload(f); e.target.value = '' }} className="hidden" />
         </>
       ) : (

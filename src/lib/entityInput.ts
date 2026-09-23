@@ -152,3 +152,18 @@ export function parseMedia(b: Record<string, unknown>) {
     folder: optStr(b.folder, 'Thư mục', 100, 'gallery'),
   }
 }
+
+export function parseJobPosition(b: Record<string, unknown>) {
+  return {
+    order: intRange(b.order, 0, 0, 9999, 'Order'),
+    titleVi: reqStr(b.titleVi, 'Tên vị trí (VI)'),
+    titleEn: reqStr(b.titleEn, 'Tên vị trí (EN)'),
+    typeVi: optStr(b.typeVi, 'Hình thức (VI)', 100, 'Toàn thời gian'),
+    typeEn: optStr(b.typeEn, 'Hình thức (EN)', 100, 'Full-time'),
+    locationVi: reqStr(b.locationVi, 'Địa điểm (VI)', 200),
+    locationEn: reqStr(b.locationEn, 'Địa điểm (EN)', 200),
+    descVi: optStr(b.descVi, 'Mô tả công việc (VI)', LONG),
+    descEn: optStr(b.descEn, 'Mô tả công việc (EN)', LONG),
+    published: bool(b.published, true),
+  }
+}

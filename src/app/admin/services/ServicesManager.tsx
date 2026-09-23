@@ -4,7 +4,8 @@ import { useState, useEffect, useCallback } from 'react'
 import ImageInput from '@/components/admin/ImageInput'
 import GalleryInput from '@/components/admin/GalleryInput'
 import SlugField from '@/components/admin/SlugField'
-import { apiErrorMessage } from '@/lib/apiClient'
+import { fetchJson, sendJson, errMessage } from '@/lib/apiClient'
+import Field, { AutoTextarea } from '@/components/admin/Field'
 
 type Service = {
   id: string
@@ -51,6 +52,11 @@ export default function ServicesManager() {
   const [saving, setSaving] = useState(false)
   const [deleteConfirm, setDeleteConfirm] = useState<string | null>(null)
   const [error, setError] = useState<string | null>(null)
+  // Lỗi tải danh sách — trước đây chỉ console.error, nên hết phiên hay DB lỗi
+  // đều hiện thành "danh sách rỗng" và admin tưởng dữ liệu bị xoá.
+  const [listError, setListError] = useState<string | null>(null)
+  const [deleteError, setDeleteError] = useState<string | null>(null)
+  const [deleting, setDeleting] = useState(false)
   const [bulletsViText, setBulletsViText] = useState('')
   const [bulletsEnText, setBulletsEnText] = useState('')
   const [serviceImages, setServiceImages] = useState<string[]>([])
@@ -58,11 +64,10 @@ export default function ServicesManager() {
   const fetchServices = useCallback(async () => {
     setLoading(true)
     try {
-      const res = await fetch('/api/services')
-      if (!res.ok) throw new Error(`HTTP ${res.status}`)
-      setServices(await res.json())
-    } catch (err) {
-      console.error('Failed to load services:', err)
+      setServices(await fetchJson<Service[]>('/api/services', 'Không tải được danh sách dịch vụ.'))
+      setListError(null)
+    } catch (e) {
+      setListError(errMessage(e, 'Không tải được danh sách dịch vụ.'))
     }
     setLoading(false)
   }, [])
@@ -100,23 +105,28 @@ export default function ServicesManager() {
       images: serviceImages,
     }
     try {
-      const res = isCreating
-        ? await fetch('/api/services', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) })
-        : await fetch(`/api/services/${editing.id}`, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) })
-      if (!res.ok) throw new Error(await apiErrorMessage(res))
+      if (isCreating) await sendJson('/api/services', { method: 'POST', body: payload })
+      else await sendJson(`/api/services/${editing.id}`, { method: 'PUT', body: payload })
       setEditing(null)
       fetchServices()
     } catch (e) {
-      setError(e instanceof Error ? e.message : 'Lưu thất bại. Vui lòng thử lại.')
+      setError(errMessage(e, 'Lưu thất bại. Vui lòng thử lại.'))
     }
     setSaving(false)
   }
 
   const handleDelete = async (id: string) => {
-    const res = await fetch(`/api/services/${id}`, { method: 'DELETE' })
-    if (!res.ok) { alert(await apiErrorMessage(res, 'Xóa thất bại.')); return }
-    setDeleteConfirm(null)
-    fetchServices()
+    setDeleting(true)
+    setDeleteError(null)
+    try {
+      await sendJson(`/api/services/${id}`, { method: 'DELETE' }, 'Xóa thất bại.')
+      setDeleteConfirm(null)
+      fetchServices()
+    } catch (e) {
+      setDeleteError(errMessage(e, 'Xóa thất bại.'))
+    } finally {
+      setDeleting(false)
+    }
   }
 
   return (
@@ -136,6 +146,15 @@ export default function ServicesManager() {
       </div>
 
       <div className="px-6 py-6">
+        {listError && (
+          <div className="mb-4 flex items-start gap-3 rounded-lg border border-red-200 bg-red-50 px-4 py-3">
+            <span className="text-red-600 text-sm leading-5">⚠</span>
+            <div className="flex-1">
+              <p className="text-sm text-red-700">{listError}</p>
+              <p className="text-xs text-red-500 mt-0.5">Danh sách bên dưới có thể chưa đầy đủ.</p>
+            </div>
+          </div>
+        )}
         {loading ? (
           <div className="space-y-3">
             {Array.from({ length: 4 }).map((_, i) => (
@@ -276,21 +295,11 @@ export default function ServicesManager() {
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">Bullets VI (mỗi dòng 1 mục)</label>
-                  <textarea
-                    value={bulletsViText}
-                    onChange={e => setBulletsViText(e.target.value)}
-                    rows={4}
-                    className="w-full px-3 py-2 rounded-lg border border-gray-200 text-sm text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-[#328442]/30 focus:border-[#328442] resize-none"
-                  />
+                  <AutoTextarea value={bulletsViText} onChange={setBulletsViText} rows={4} />
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">Bullets EN (mỗi dòng 1 mục)</label>
-                  <textarea
-                    value={bulletsEnText}
-                    onChange={e => setBulletsEnText(e.target.value)}
-                    rows={4}
-                    className="w-full px-3 py-2 rounded-lg border border-gray-200 text-sm text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-[#328442]/30 focus:border-[#328442] resize-none"
-                  />
+                  <AutoTextarea value={bulletsEnText} onChange={setBulletsEnText} rows={4} />
                 </div>
               </div>
               <ImageInput
@@ -330,30 +339,14 @@ export default function ServicesManager() {
           <div className="bg-white rounded-lg p-6 max-w-sm w-full shadow-2xl">
             <h3 className="text-base font-semibold text-gray-900 mb-2">Xác nhận xóa</h3>
             <p className="text-sm text-gray-500 mb-5">Bạn có chắc muốn xóa dịch vụ này?</p>
+            {deleteError && <p className="text-sm text-red-600 mb-3">{deleteError}</p>}
             <div className="flex justify-end gap-3">
-              <button onClick={() => setDeleteConfirm(null)} className="px-4 py-2 rounded-lg text-sm text-gray-600 hover:bg-gray-100 transition-colors">Hủy</button>
-              <button onClick={() => handleDelete(deleteConfirm)} className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors">Xóa</button>
+              <button onClick={() => setDeleteConfirm(null)} disabled={deleting} className="px-4 py-2 rounded-lg text-sm text-gray-600 hover:bg-gray-100 transition-colors disabled:opacity-50">Hủy</button>
+              <button onClick={() => handleDelete(deleteConfirm)} disabled={deleting} className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors disabled:opacity-50">{deleting ? 'Đang xóa...' : 'Xóa'}</button>
             </div>
           </div>
         </div>
       )}
-    </div>
-  )
-}
-
-function Field({
-  label, value, onChange, type = 'text', required = false,
-}: {
-  label: string; value: string; onChange: (v: string) => void; type?: 'text' | 'textarea'; required?: boolean
-}) {
-  const cls = "w-full px-3 py-2 rounded-lg border border-gray-200 text-sm text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-[#328442]/30 focus:border-[#328442]"
-  return (
-    <div>
-      <label className="block text-sm font-medium text-gray-700 mb-1">{label}{required && <span className="text-red-500"> *</span>}</label>
-      {type === 'textarea'
-        ? <textarea value={value} onChange={e => onChange(e.target.value)} rows={3} className={`${cls} resize-none`} />
-        : <input type="text" value={value} onChange={e => onChange(e.target.value)} className={cls} />
-      }
     </div>
   )
 }

@@ -249,14 +249,16 @@ CLOUDINARY_API_SECRET="..."
 ```
 
 Reusable upload components in `src/components/admin/`:
-- **`CloudinaryUpload.tsx`** — single image, drag-and-drop + URL fallback, props: `{ value: string, onChange: (url) => void, label? }`
-- **`CloudinaryGalleryUpload.tsx`** — multi-image, grid preview with remove, props: `{ value: string[], onChange: (urls) => void, label? }`
+- **`ImageInput.tsx`** — single image. Upload mới + tab "Chọn từ thư viện" (`ImagePickerModal`). Props: `{ value: string, onChange: (url) => void, label? }`
+- **`GalleryInput.tsx`** — multi-image, grid preview + chọn từ thư viện. Props: `{ value: string[], onChange: (urls) => void, label? }`
+- **`CloudinaryUpload.tsx`** — bản cũ chỉ upload, không có tab thư viện. Chỉ còn `/admin/hero-slides` dùng, vì trang đó đã tự dựng tab thư viện riêng nên dùng `ImageInput` sẽ thành tab lồng tab.
+- **`SlugField.tsx`** — ô nhập slug, tự sinh từ tiêu đề khi tạo mới và tự chuẩn hoá khi rời ô.
 
 Upload goes directly from browser to Cloudinary (unsigned). No backend API needed.
 
 > **Gotcha:** Upload preset must be **Unsigned** in Cloudinary dashboard (Settings → Upload → Upload presets). Signed presets will return "Unknown API key".
 
-All admin entity models have `images String[]` field. Use `CloudinaryGalleryUpload` for it.
+All admin entity models have `images String[]` field. Use `GalleryInput` for it.
 
 ---
 
@@ -288,8 +290,9 @@ Each admin manager page (`src/app/admin/<entity>/<Entity>Manager.tsx`) follows t
 
 - Wrap in `AdminShell` in `page.tsx` (provides sidebar layout)
 - Action buttons per row: **view** (blue, opens public page in new tab) → **edit** (green) → **delete** (red)
-- View button links: Projects → `/vi/projects/[slug]`, News → `/vi/news/[slug]`, Services → `/vi/services`, Partners → `/vi/partners`, Timeline/MemberCompanies → `/vi/about`
-- Image fields use `CloudinaryUpload` (single) or `CloudinaryGalleryUpload` (gallery)
+- View button links: Projects → `/vi/projects/[slug]`, News → `/vi/news/[slug]`, Services → `/vi/services`, Partners → `/vi/partners`, About/MemberCompanies → `/vi/about`, Careers → `/vi/careers`
+- Image fields use `ImageInput` (single) or `GalleryInput` (gallery)
+- Text fields use `Field` từ `src/components/admin/Field.tsx` — **không tự khai báo `Field` trong từng manager nữa**. Textarea trong đó tự giãn theo nội dung nên mô tả dài không bị cắt; bo góc `rounded-md` (feedback 22.09).
 
 > **Note:** `/vi/` is hardcoded as the default locale (`defaultLocale: 'vi'` in `src/i18n/routing.ts`, `localePrefix` defaults to `"always"`).
 
@@ -310,18 +313,26 @@ src/
 │   └── data.ts            # Legacy hardcoded data (projects, articles, partners, timeline)
 ├── components/
 │   └── admin/
-│       ├── CloudinaryUpload.tsx        # Single image upload
-│       └── CloudinaryGalleryUpload.tsx # Multi-image upload
+│       ├── ImageInput.tsx           # Single image + tab thư viện
+│       ├── GalleryInput.tsx         # Multi-image + tab thư viện
+│       ├── ImagePickerModal.tsx     # Modal chọn ảnh từ Media
+│       ├── RichTextEditor.tsx       # Soạn thảo nội dung bài viết
+│       ├── SlugField.tsx            # Ô slug tự chuẩn hoá
+│       ├── Field.tsx               # Ô nhập dùng chung (input/textarea tự giãn/select)
+│       └── CloudinaryUpload.tsx     # Bản cũ, chỉ hero-slides dùng
 ├── app/
 │   ├── admin/
 │   │   ├── AdminShell.tsx     # Sidebar layout wrapper
-│   │   ├── Sidebar.tsx        # Nav: Projects, Services, News, Partners, Timeline, Hệ sinh thái, Gallery
+│   │   ├── Sidebar.tsx        # Nav: Dự án, Dịch vụ, Tin tức, Đối tác, Về chúng tôi, Tuyển dụng,
+│   │   │                      #      Hệ sinh thái, Hero Slides, Ảnh trang, Yêu cầu tư vấn, Gallery
 │   │   ├── gallery/           # Media library
 │   │   ├── projects/
 │   │   ├── news/
 │   │   ├── services/
 │   │   ├── partners/
-│   │   ├── timeline/
+│   │   ├── about/             # Lịch sử phát triển (timeline) của trang /vi/about
+│   │   ├── careers/           # Vị trí tuyển dụng của trang /vi/careers
+│   │   ├── timeline/          # Chỉ redirect → /admin/about (giữ link cũ)
 │   │   └── member-companies/
 │   ├── api/
 │   │   ├── projects/
@@ -329,6 +340,7 @@ src/
 │   │   ├── services/
 │   │   ├── partners/
 │   │   ├── timeline/
+│   │   ├── job-positions/
 │   │   ├── member-companies/
 │   │   └── media/             # Media library API
 │   └── [locale]/              # Public site (i18n)
@@ -356,6 +368,10 @@ src/
 | `timelineItems` | 10 | Still hardcoded |
 | `memberCompanies` | — | Still hardcoded |
 
+> **Vị trí tuyển dụng** từng hardcode trong `src/components/CareersPageContent.tsx`, nay
+> nằm trong model `JobPosition` và sửa tại `/admin/careers`. Seed lần đầu:
+> `npx tsx prisma/seed-job-positions.ts` (tự bỏ qua nếu bảng đã có dữ liệu).
+
 ## DB Models & `images` fields
 
 | Model | image | images[] | Notes |
@@ -365,4 +381,5 @@ src/
 | Service | — | ✅ | Gallery |
 | Partner | — | ✅ | Gallery |
 | MemberCompany | — | ✅ | Gallery |
+| JobPosition | — | — | Vị trí tuyển dụng, VI/EN + `order` + `published` |
 | Media | — | — | `url` field, standalone uploads |

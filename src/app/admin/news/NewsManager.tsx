@@ -4,7 +4,8 @@ import { useState, useEffect, useCallback } from 'react'
 import ImageInput from '@/components/admin/ImageInput'
 import RichTextEditor from '@/components/admin/RichTextEditor'
 import SlugField from '@/components/admin/SlugField'
-import { apiErrorMessage } from '@/lib/apiClient'
+import { fetchJson, sendJson, errMessage } from '@/lib/apiClient'
+import Field, { adminInputClass } from '@/components/admin/Field'
 
 type NewsArticle = {
   id: string
@@ -66,15 +67,19 @@ export default function NewsManager() {
   const [saving, setSaving] = useState(false)
   const [deleteConfirm, setDeleteConfirm] = useState<string | null>(null)
   const [error, setError] = useState<string | null>(null)
+  // Lỗi tải danh sách — trước đây chỉ console.error, nên hết phiên hay DB lỗi
+  // đều hiện thành "danh sách rỗng" và admin tưởng dữ liệu bị xoá.
+  const [listError, setListError] = useState<string | null>(null)
+  const [deleteError, setDeleteError] = useState<string | null>(null)
+  const [deleting, setDeleting] = useState(false)
 
   const fetchArticles = useCallback(async () => {
     setLoading(true)
     try {
-      const res = await fetch('/api/news')
-      if (!res.ok) throw new Error(`HTTP ${res.status}`)
-      setArticles(await res.json())
-    } catch (err) {
-      console.error('Failed to load articles:', err)
+      setArticles(await fetchJson<NewsArticle[]>('/api/news', 'Không tải được danh sách bài viết.'))
+      setListError(null)
+    } catch (e) {
+      setListError(errMessage(e, 'Không tải được danh sách bài viết.'))
     }
     setLoading(false)
   }, [])
@@ -90,23 +95,28 @@ export default function NewsManager() {
     setSaving(true)
     setError(null)
     try {
-      const res = isCreating
-        ? await fetch('/api/news', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(editing) })
-        : await fetch(`/api/news/${editing.id}`, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(editing) })
-      if (!res.ok) throw new Error(await apiErrorMessage(res))
+      if (isCreating) await sendJson('/api/news', { method: 'POST', body: editing })
+      else await sendJson(`/api/news/${editing.id}`, { method: 'PUT', body: editing })
       setEditing(null)
       fetchArticles()
     } catch (e) {
-      setError(e instanceof Error ? e.message : 'Lưu thất bại. Vui lòng thử lại.')
+      setError(errMessage(e, 'Lưu thất bại. Vui lòng thử lại.'))
     }
     setSaving(false)
   }
 
   const handleDelete = async (id: string) => {
-    const res = await fetch(`/api/news/${id}`, { method: 'DELETE' })
-    if (!res.ok) { alert(await apiErrorMessage(res, 'Xóa thất bại.')); return }
-    setDeleteConfirm(null)
-    fetchArticles()
+    setDeleting(true)
+    setDeleteError(null)
+    try {
+      await sendJson(`/api/news/${id}`, { method: 'DELETE' }, 'Xóa thất bại.')
+      setDeleteConfirm(null)
+      fetchArticles()
+    } catch (e) {
+      setDeleteError(errMessage(e, 'Xóa thất bại.'))
+    } finally {
+      setDeleting(false)
+    }
   }
 
   return (
@@ -139,6 +149,15 @@ export default function NewsManager() {
           ))}
         </div>
 
+        {listError && (
+          <div className="mb-4 flex items-start gap-3 rounded-lg border border-red-200 bg-red-50 px-4 py-3">
+            <span className="text-red-600 text-sm leading-5">⚠</span>
+            <div className="flex-1">
+              <p className="text-sm text-red-700">{listError}</p>
+              <p className="text-xs text-red-500 mt-0.5">Danh sách bên dưới có thể chưa đầy đủ.</p>
+            </div>
+          </div>
+        )}
         {loading ? (
           <div className="space-y-3">{Array.from({ length: 4 }).map((_, i) => <div key={i} className="h-20 rounded-lg bg-white animate-pulse" />)}</div>
         ) : (
@@ -216,7 +235,7 @@ export default function NewsManager() {
                 <select
                   value={editing.newsType || 'general'}
                   onChange={e => setEditing({ ...editing, newsType: e.target.value })}
-                  className="w-full px-3 py-2 rounded-lg border border-gray-200 text-sm text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-[#328442]/30 focus:border-[#328442]"
+                  className={adminInputClass}
                 >
                   {NEWS_TYPES.filter(t => t.value !== 'all').map(t => (
                     <option key={t.value} value={t.value}>{t.label}</option>
@@ -268,25 +287,14 @@ export default function NewsManager() {
           <div className="bg-white rounded-lg p-6 max-w-sm w-full shadow-2xl">
             <h3 className="text-base font-semibold text-gray-900 mb-2">Xác nhận xóa</h3>
             <p className="text-sm text-gray-500 mb-5">Bạn có chắc muốn xóa bài viết này?</p>
+            {deleteError && <p className="text-sm text-red-600 mb-3">{deleteError}</p>}
             <div className="flex justify-end gap-3">
-              <button onClick={() => setDeleteConfirm(null)} className="px-4 py-2 rounded-lg text-sm text-gray-600 hover:bg-gray-100 transition-colors">Hủy</button>
-              <button onClick={() => handleDelete(deleteConfirm)} className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors">Xóa</button>
+              <button onClick={() => setDeleteConfirm(null)} disabled={deleting} className="px-4 py-2 rounded-lg text-sm text-gray-600 hover:bg-gray-100 transition-colors disabled:opacity-50">Hủy</button>
+              <button onClick={() => handleDelete(deleteConfirm)} disabled={deleting} className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors disabled:opacity-50">{deleting ? 'Đang xóa...' : 'Xóa'}</button>
             </div>
           </div>
         </div>
       )}
-    </div>
-  )
-}
-
-function Field({ label, value, onChange, type = 'text', required = false }: { label: string; value: string; onChange: (v: string) => void; type?: 'text' | 'textarea'; required?: boolean }) {
-  const cls = "w-full px-3 py-2 rounded-lg border border-gray-200 text-sm text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-[#328442]/30 focus:border-[#328442]"
-  return (
-    <div>
-      <label className="block text-sm font-medium text-gray-700 mb-1">{label}{required && <span className="text-red-500"> *</span>}</label>
-      {type === 'textarea'
-        ? <textarea value={value} onChange={e => onChange(e.target.value)} rows={3} className={`${cls} resize-none`} />
-        : <input type="text" value={value} onChange={e => onChange(e.target.value)} className={cls} />}
     </div>
   )
 }

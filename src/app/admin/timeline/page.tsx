@@ -1,15 +1,10 @@
 import { redirect } from 'next/navigation'
-import { verifySession } from '@/lib/auth'
-import AdminShell from '../AdminShell'
-import TimelineManager from './TimelineManager'
 
-export default async function TimelinePage() {
-  const ok = await verifySession()
-  if (!ok) redirect('/admin/login')
-
-  return (
-    <AdminShell>
-      <TimelineManager />
-    </AdminShell>
-  )
+/**
+ * Tab "Lịch sử" đã được gộp vào "Về chúng tôi" (feedback 22.09): dòng thời
+ * gian chỉ hiển thị trong trang /vi/about chứ không có trang riêng.
+ * Giữ route cũ để link/bookmark đã chia sẻ không bị 404.
+ */
+export default function TimelineRedirect() {
+  redirect('/admin/about')
 }

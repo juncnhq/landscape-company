@@ -41,11 +41,22 @@ const nav = [
     ),
   },
   {
-    label: 'Lịch sử',
-    href: '/admin/timeline',
+    // Gộp tab "Lịch sử" cũ vào đây: dòng thời gian chỉ xuất hiện trong trang
+    // /vi/about chứ không có trang riêng (feedback 22.09).
+    label: 'Về chúng tôi',
+    href: '/admin/about',
     icon: (
       <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+        <path strokeLinecap="round" strokeLinejoin="round" d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z" />
+      </svg>
+    ),
+  },
+  {
+    label: 'Tuyển dụng',
+    href: '/admin/careers',
+    icon: (
+      <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M20.25 14.15v4.075c0 1.313-.937 2.437-2.237 2.628-1.916.285-3.866.432-5.85.432-1.984 0-3.934-.147-5.85-.432-1.3-.19-2.237-1.315-2.237-2.628V14.15M18 18.75h.008v.008H18v-.008zM20.25 10.5V6.375c0-1.036-.84-1.875-1.875-1.875H5.625c-1.036 0-1.875.84-1.875 1.875V10.5m16.5 0a48.667 48.667 0 00-16.5 0m16.5 0v2.086a2.25 2.25 0 01-1.591 2.153l-5.25 1.575a2.25 2.25 0 01-1.318 0l-5.25-1.575A2.25 2.25 0 013.75 12.586V10.5m5.25-6h6v-.75a1.5 1.5 0 00-1.5-1.5h-3a1.5 1.5 0 00-1.5 1.5v.75z" />
       </svg>
     ),
   },
@@ -100,8 +111,14 @@ export default function Sidebar() {
   const pathname = usePathname()
 
   const handleLogout = async () => {
-    await fetch('/api/auth/logout', { method: 'POST' })
-    window.location.href = '/admin/login'
+    try {
+      await fetch('/api/auth/logout', { method: 'POST' })
+    } catch {
+      // Mất mạng thì `fetch` ném lỗi và dòng chuyển trang bên dưới không chạy —
+      // bấm Đăng xuất mà không thấy gì xảy ra. Vẫn rời trang trong mọi trường hợp.
+    } finally {
+      window.location.href = '/admin/login'
+    }
   }
 
   return (

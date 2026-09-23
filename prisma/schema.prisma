@@ -192,3 +192,22 @@ model ContactRequest {
   @@index([status])
   @@index([createdAt])
 }
+
+model JobPosition {
+  id         String   @id @default(cuid())
+  order      Int      @default(0)
+  titleVi    String
+  titleEn    String
+  typeVi     String   @default("Toàn thời gian")
+  typeEn     String   @default("Full-time")
+  locationVi String
+  locationEn String
+  descVi     String   @db.Text
+  descEn     String   @db.Text
+  published  Boolean  @default(true)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@map("job_position")
+  @@index([published])
+}

@@ -1,7 +1,8 @@
 'use client'
 
 import { useState, useEffect, useCallback, useRef } from 'react'
-import { apiErrorMessage } from '@/lib/apiClient'
+import { fetchJson, sendJson, errMessage } from '@/lib/apiClient'
+import Field from '@/components/admin/Field'
 
 type TimelineItem = {
   id: string
@@ -17,7 +18,7 @@ const emptyItem: Omit<TimelineItem, 'id'> = {
   order: 0, year: '', titleVi: '', titleEn: '', descVi: '', descEn: '',
 }
 
-export default function TimelineManager() {
+export default function AboutManager() {
   const [items, setItems] = useState<TimelineItem[]>([])
   const [loading, setLoading] = useState(true)
   const [editing, setEditing] = useState<Partial<TimelineItem> | null>(null)
@@ -25,6 +26,11 @@ export default function TimelineManager() {
   const [saving, setSaving] = useState(false)
   const [savingOrder, setSavingOrder] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  // Lỗi tải danh sách — trước đây chỉ console.error, nên hết phiên hay DB lỗi
+  // đều hiện thành "danh sách rỗng" và admin tưởng dữ liệu bị xoá.
+  const [listError, setListError] = useState<string | null>(null)
+  const [deleteError, setDeleteError] = useState<string | null>(null)
+  const [deleting, setDeleting] = useState(false)
   const [orderDirty, setOrderDirty] = useState(false)
   const [deleteConfirm, setDeleteConfirm] = useState<string | null>(null)
 
@@ -34,12 +40,11 @@ export default function TimelineManager() {
   const fetchItems = useCallback(async () => {
     setLoading(true)
     try {
-      const res = await fetch('/api/timeline')
-      if (!res.ok) throw new Error(`HTTP ${res.status}`)
-      setItems(await res.json())
+      setItems(await fetchJson<TimelineItem[]>('/api/timeline', 'Không tải được dòng thời gian.'))
       setOrderDirty(false)
-    } catch (err) {
-      console.error('Failed to load timeline:', err)
+      setListError(null)
+    } catch (e) {
+      setListError(errMessage(e, 'Không tải được dòng thời gian.'))
     }
     setLoading(false)
   }, [])
@@ -71,18 +76,20 @@ export default function TimelineManager() {
 
   const saveOrder = async () => {
     setSavingOrder(true)
+    setListError(null)
     try {
-      const res = await fetch('/api/timeline', {
+      await sendJson('/api/timeline', {
         method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(items.map((item, i) => ({ id: item.id, order: i }))),
-      })
-      if (!res.ok) throw new Error(`HTTP ${res.status}`)
+        body: items.map((item, i) => ({ id: item.id, order: i })),
+      }, 'Lưu thứ tự thất bại.')
       setOrderDirty(false)
-    } catch (err) {
-      console.error('Failed to save order:', err)
+    } catch (e) {
+      // Trước đây lỗi chỉ vào console: giao diện hiện thứ tự mới, DB không
+      // lưu, F5 là về như cũ mà không ai biết vì sao.
+      setListError(errMessage(e, 'Lưu thứ tự thất bại.'))
+    } finally {
+      setSavingOrder(false)
     }
-    setSavingOrder(false)
   }
 
   const openEdit = (item: TimelineItem) => { setEditing(item); setIsCreating(false); setError(null) }
@@ -94,31 +101,36 @@ export default function TimelineManager() {
     setSaving(true)
     setError(null)
     try {
-      const res = isCreating
-        ? await fetch('/api/timeline', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(editing) })
-        : await fetch(`/api/timeline/${editing.id}`, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(editing) })
-      if (!res.ok) throw new Error(await apiErrorMessage(res))
+      if (isCreating) await sendJson('/api/timeline', { method: 'POST', body: editing })
+      else await sendJson(`/api/timeline/${editing.id}`, { method: 'PUT', body: editing })
       setEditing(null)
       fetchItems()
     } catch (e) {
-      setError(e instanceof Error ? e.message : 'Lưu thất bại. Vui lòng thử lại.')
+      setError(errMessage(e, 'Lưu thất bại. Vui lòng thử lại.'))
     }
     setSaving(false)
   }
 
   const handleDelete = async (id: string) => {
-    const res = await fetch(`/api/timeline/${id}`, { method: 'DELETE' })
-    if (!res.ok) { alert(await apiErrorMessage(res, 'Xóa thất bại.')); return }
-    setDeleteConfirm(null)
-    fetchItems()
+    setDeleting(true)
+    setDeleteError(null)
+    try {
+      await sendJson(`/api/timeline/${id}`, { method: 'DELETE' }, 'Xóa thất bại.')
+      setDeleteConfirm(null)
+      fetchItems()
+    } catch (e) {
+      setDeleteError(errMessage(e, 'Xóa thất bại.'))
+    } finally {
+      setDeleting(false)
+    }
   }
 
   return (
     <div className="min-h-screen">
       <div className="sticky top-0 z-30 bg-[#f0f4f1]/90 backdrop-blur border-b border-gray-200/60 px-6 py-4 flex items-center justify-between">
         <div>
-          <h1 className="text-base font-semibold text-gray-900">Lịch sử phát triển</h1>
-          <p className="text-xs text-gray-400 mt-0.5">{items.length} mốc thời gian</p>
+          <h1 className="text-base font-semibold text-gray-900">Về chúng tôi</h1>
+          <p className="text-xs text-gray-400 mt-0.5">Lịch sử phát triển — {items.length} mốc thời gian trên trang /vi/about</p>
         </div>
         <div className="flex items-center gap-2">
           {orderDirty && (
@@ -137,6 +149,15 @@ export default function TimelineManager() {
       </div>
 
       <div className="px-6 py-6">
+        {listError && (
+          <div className="mb-4 flex items-start gap-3 rounded-lg border border-red-200 bg-red-50 px-4 py-3">
+            <span className="text-red-600 text-sm leading-5">⚠</span>
+            <div className="flex-1">
+              <p className="text-sm text-red-700">{listError}</p>
+              <p className="text-xs text-red-500 mt-0.5">Danh sách bên dưới có thể chưa đầy đủ.</p>
+            </div>
+          </div>
+        )}
         {loading ? (
           <div className="space-y-3">{Array.from({ length: 4 }).map((_, i) => <div key={i} className="h-16 rounded-xl bg-white animate-pulse" />)}</div>
         ) : (
@@ -230,25 +251,14 @@ export default function TimelineManager() {
           <div className="bg-white rounded-lg p-6 max-w-sm w-full shadow-2xl">
             <h3 className="text-base font-semibold text-gray-900 mb-2">Xác nhận xóa</h3>
             <p className="text-sm text-gray-500 mb-5">Bạn có chắc muốn xóa mốc thời gian này?</p>
+            {deleteError && <p className="text-sm text-red-600 mb-3">{deleteError}</p>}
             <div className="flex justify-end gap-3">
-              <button onClick={() => setDeleteConfirm(null)} className="px-4 py-2 rounded-lg text-sm text-gray-600 hover:bg-gray-100 transition-colors">Hủy</button>
-              <button onClick={() => handleDelete(deleteConfirm)} className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors">Xóa</button>
+              <button onClick={() => setDeleteConfirm(null)} disabled={deleting} className="px-4 py-2 rounded-lg text-sm text-gray-600 hover:bg-gray-100 transition-colors disabled:opacity-50">Hủy</button>
+              <button onClick={() => handleDelete(deleteConfirm)} disabled={deleting} className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors disabled:opacity-50">{deleting ? 'Đang xóa...' : 'Xóa'}</button>
             </div>
           </div>
         </div>
       )}
-    </div>
-  )
-}
-
-function Field({ label, value, onChange, type = 'text', required = false }: { label: string; value: string; onChange: (v: string) => void; type?: 'text' | 'textarea'; required?: boolean }) {
-  const cls = "w-full px-3 py-2 rounded-lg border border-gray-200 text-sm text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-[#328442]/30 focus:border-[#328442]"
-  return (
-    <div>
-      <label className="block text-sm font-medium text-gray-700 mb-1">{label}{required && <span className="text-red-500"> *</span>}</label>
-      {type === 'textarea'
-        ? <textarea value={value} onChange={e => onChange(e.target.value)} rows={3} className={`${cls} resize-none`} />
-        : <input type="text" value={value} onChange={e => onChange(e.target.value)} className={cls} />}
     </div>
   )
 }

@@ -2,9 +2,7 @@
 
 import { useEffect, useRef } from 'react'
 import { slugify } from '@/lib/slugify'
-
-const cls =
-  'w-full px-3 py-2 rounded-lg border border-gray-200 text-sm text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-[#328442]/30 focus:border-[#328442]'
+import { adminInputClass } from './Field'
 
 interface Props {
   value: string
@@ -63,7 +61,7 @@ export default function SlugField({
           const s = slugify(e.target.value)
           if (s !== e.target.value) onChange(s)
         }}
-        className={cls}
+        className={adminInputClass}
       />
       <p className="mt-1 text-xs text-gray-400">
         Nằm trong link công khai — chỉ chữ thường không dấu, số và gạch ngang. Tự chuẩn hoá khi rời ô.

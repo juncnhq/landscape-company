@@ -3,7 +3,8 @@
 import { useState, useEffect, useCallback } from 'react'
 import GalleryInput from '@/components/admin/GalleryInput'
 import ImageInput from '@/components/admin/ImageInput'
-import { apiErrorMessage } from '@/lib/apiClient'
+import { fetchJson, sendJson, errMessage } from '@/lib/apiClient'
+import Field, { AutoTextarea } from '@/components/admin/Field'
 
 type Partner = {
   id: string
@@ -41,6 +42,11 @@ export default function PartnersManager() {
   const [saving, setSaving] = useState(false)
   const [deleteConfirm, setDeleteConfirm] = useState<string | null>(null)
   const [error, setError] = useState<string | null>(null)
+  // Lỗi tải danh sách — trước đây chỉ console.error, nên hết phiên hay DB lỗi
+  // đều hiện thành "danh sách rỗng" và admin tưởng dữ liệu bị xoá.
+  const [listError, setListError] = useState<string | null>(null)
+  const [deleteError, setDeleteError] = useState<string | null>(null)
+  const [deleting, setDeleting] = useState(false)
   const [projectsViText, setProjectsViText] = useState('')
   const [projectsEnText, setProjectsEnText] = useState('')
   const [partnerImages, setPartnerImages] = useState<string[]>([])
@@ -48,11 +54,10 @@ export default function PartnersManager() {
   const fetchPartners = useCallback(async () => {
     setLoading(true)
     try {
-      const res = await fetch('/api/partners')
-      if (!res.ok) throw new Error(`HTTP ${res.status}`)
-      setPartners(await res.json())
-    } catch (err) {
-      console.error('Failed to load partners:', err)
+      setPartners(await fetchJson<Partner[]>('/api/partners', 'Không tải được danh sách đối tác.'))
+      setListError(null)
+    } catch (e) {
+      setListError(errMessage(e, 'Không tải được danh sách đối tác.'))
     }
     setLoading(false)
   }, [])
@@ -90,23 +95,28 @@ export default function PartnersManager() {
       images: partnerImages,
     }
     try {
-      const res = isCreating
-        ? await fetch('/api/partners', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) })
-        : await fetch(`/api/partners/${editing.id}`, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) })
-      if (!res.ok) throw new Error(await apiErrorMessage(res))
+      if (isCreating) await sendJson('/api/partners', { method: 'POST', body: payload })
+      else await sendJson(`/api/partners/${editing.id}`, { method: 'PUT', body: payload })
       setEditing(null)
       fetchPartners()
     } catch (e) {
-      setError(e instanceof Error ? e.message : 'Lưu thất bại. Vui lòng thử lại.')
+      setError(errMessage(e, 'Lưu thất bại. Vui lòng thử lại.'))
     }
     setSaving(false)
   }
 
   const handleDelete = async (id: string) => {
-    const res = await fetch(`/api/partners/${id}`, { method: 'DELETE' })
-    if (!res.ok) { alert(await apiErrorMessage(res, 'Xóa thất bại.')); return }
-    setDeleteConfirm(null)
-    fetchPartners()
+    setDeleting(true)
+    setDeleteError(null)
+    try {
+      await sendJson(`/api/partners/${id}`, { method: 'DELETE' }, 'Xóa thất bại.')
+      setDeleteConfirm(null)
+      fetchPartners()
+    } catch (e) {
+      setDeleteError(errMessage(e, 'Xóa thất bại.'))
+    } finally {
+      setDeleting(false)
+    }
   }
 
   return (
@@ -122,6 +132,15 @@ export default function PartnersManager() {
       </div>
 
       <div className="px-6 py-6">
+        {listError && (
+          <div className="mb-4 flex items-start gap-3 rounded-lg border border-red-200 bg-red-50 px-4 py-3">
+            <span className="text-red-600 text-sm leading-5">⚠</span>
+            <div className="flex-1">
+              <p className="text-sm text-red-700">{listError}</p>
+              <p className="text-xs text-red-500 mt-0.5">Danh sách bên dưới có thể chưa đầy đủ.</p>
+            </div>
+          </div>
+        )}
         {loading ? (
           <div className="space-y-3">{Array.from({ length: 4 }).map((_, i) => <div key={i} className="h-16 rounded-lg bg-white animate-pulse" />)}</div>
         ) : (
@@ -201,11 +220,11 @@ export default function PartnersManager() {
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">Dự án (VI) — mỗi dòng 1 mục</label>
-                  <textarea value={projectsViText} onChange={e => setProjectsViText(e.target.value)} rows={4} className="w-full px-3 py-2 rounded-lg border border-gray-200 text-sm text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-[#328442]/30 focus:border-[#328442] resize-none" />
+                  <AutoTextarea value={projectsViText} onChange={setProjectsViText} rows={4} />
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">Dự án (EN) — mỗi dòng 1 mục</label>
-                  <textarea value={projectsEnText} onChange={e => setProjectsEnText(e.target.value)} rows={4} className="w-full px-3 py-2 rounded-lg border border-gray-200 text-sm text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-[#328442]/30 focus:border-[#328442] resize-none" />
+                  <AutoTextarea value={projectsEnText} onChange={setProjectsEnText} rows={4} />
                 </div>
               </div>
               <Field label="Điểm nổi bật (VI)" value={editing.highlightVi || ''} onChange={v => setEditing({ ...editing, highlightVi: v })} type="textarea" />
@@ -243,25 +262,14 @@ export default function PartnersManager() {
           <div className="bg-white rounded-lg p-6 max-w-sm w-full shadow-2xl">
             <h3 className="text-base font-semibold text-gray-900 mb-2">Xác nhận xóa</h3>
             <p className="text-sm text-gray-500 mb-5">Bạn có chắc muốn xóa đối tác này?</p>
+            {deleteError && <p className="text-sm text-red-600 mb-3">{deleteError}</p>}
             <div className="flex justify-end gap-3">
-              <button onClick={() => setDeleteConfirm(null)} className="px-4 py-2 rounded-lg text-sm text-gray-600 hover:bg-gray-100 transition-colors">Hủy</button>
-              <button onClick={() => handleDelete(deleteConfirm)} className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors">Xóa</button>
+              <button onClick={() => setDeleteConfirm(null)} disabled={deleting} className="px-4 py-2 rounded-lg text-sm text-gray-600 hover:bg-gray-100 transition-colors disabled:opacity-50">Hủy</button>
+              <button onClick={() => handleDelete(deleteConfirm)} disabled={deleting} className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors disabled:opacity-50">{deleting ? 'Đang xóa...' : 'Xóa'}</button>
             </div>
           </div>
         </div>
       )}
-    </div>
-  )
-}
-
-function Field({ label, value, onChange, type = 'text', required = false }: { label: string; value: string; onChange: (v: string) => void; type?: 'text' | 'textarea'; required?: boolean }) {
-  const cls = "w-full px-3 py-2 rounded-lg border border-gray-200 text-sm text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-[#328442]/30 focus:border-[#328442]"
-  return (
-    <div>
-      <label className="block text-sm font-medium text-gray-700 mb-1">{label}{required && <span className="text-red-500"> *</span>}</label>
-      {type === 'textarea'
-        ? <textarea value={value} onChange={e => onChange(e.target.value)} rows={3} className={`${cls} resize-none`} />
-        : <input type="text" value={value} onChange={e => onChange(e.target.value)} className={cls} />}
     </div>
   )
 }

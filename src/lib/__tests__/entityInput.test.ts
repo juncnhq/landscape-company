@@ -9,6 +9,7 @@ import {
   parseMemberCompany,
   parseHeroSlide,
   parseMedia,
+  parseJobPosition,
 } from '@/lib/entityInput'
 
 /**
@@ -254,5 +255,32 @@ describe('parseMedia', () => {
 
   it('từ chối url không phải đường dẫn', () => {
     expect(rejects(() => parseMedia({ url: 'abc' }))).toMatch(/Đường dẫn ảnh/)
+  })
+})
+
+describe('parseJobPosition', () => {
+  const valid = {
+    titleVi: 'Kiến trúc sư cảnh quan',
+    titleEn: 'Landscape Architect',
+    locationVi: 'Đà Nẵng',
+    locationEn: 'Da Nang',
+  }
+
+  it('chấp nhận payload hợp lệ', () => {
+    expect(parseJobPosition({ ...valid }).titleEn).toBe('Landscape Architect')
+  })
+
+  it('điền sẵn hình thức làm việc khi bỏ trống', () => {
+    const p = parseJobPosition({ ...valid })
+    expect(p.typeVi).toBe('Toàn thời gian')
+    expect(p.typeEn).toBe('Full-time')
+  })
+
+  it.each(['titleVi', 'titleEn', 'locationVi', 'locationEn'])('từ chối %s rỗng', (field) => {
+    expect(() => parseJobPosition({ ...valid, [field]: '' })).toThrow(ValidationError)
+  })
+
+  it('ẩn vị trí được thì published phải nhận đúng false', () => {
+    expect(parseJobPosition({ ...valid, published: 'false' }).published).toBe(false)
   })
 })
