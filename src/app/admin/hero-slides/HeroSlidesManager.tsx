@@ -1,7 +1,7 @@
 'use client'
 import { useEffect, useState, useCallback } from 'react'
 import CloudinaryUpload from '@/components/admin/CloudinaryUpload'
-import { apiErrorMessage } from '@/lib/apiClient'
+import { fetchJson, sendJson, errMessage } from '@/lib/apiClient'
 
 interface HeroSlide {
   id: string
@@ -37,12 +37,15 @@ function ImagePickerModal({
   const [media, setMedia] = useState<MediaItem[]>([])
   const [loading, setLoading] = useState(true)
   const [search, setSearch] = useState('')
+  const [loadError, setLoadError] = useState('')
 
   useEffect(() => {
-    fetch('/api/media')
-      .then(r => r.json())
-      .then(data => { setMedia(data); setLoading(false) })
-      .catch(() => setLoading(false))
+    // Không kiểm tra r.ok thì 401 trả về object {error}, rồi media.filter(...)
+    // bên dưới ném TypeError và sập cả trang.
+    fetchJson<MediaItem[]>('/api/media', 'Không tải được thư viện ảnh.')
+      .then(data => setMedia(Array.isArray(data) ? data : []))
+      .catch(e => setLoadError(errMessage(e, 'Không tải được thư viện ảnh.')))
+      .finally(() => setLoading(false))
   }, [])
 
   const filtered = media.filter(m =>
@@ -70,7 +73,12 @@ function ImagePickerModal({
 
         {/* Grid */}
         <div className="flex-1 overflow-y-auto p-4">
-          {loading ? (
+          {loadError ? (
+            <div className="text-center py-16">
+              <p className="text-sm text-red-600">{loadError}</p>
+              <p className="text-xs text-gray-400 mt-1">Thử tải lại trang hoặc đăng nhập lại.</p>
+            </div>
+          ) : loading ? (
             <div className="text-center py-16 text-gray-400">Đang tải...</div>
           ) : filtered.length === 0 ? (
             <div className="text-center py-16 text-gray-400">
@@ -111,16 +119,20 @@ export default function HeroSlidesManager() {
   const [deleteConfirm, setDeleteConfirm] = useState<string | null>(null)
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [listError, setListError] = useState<string | null>(null)
+  const [deleteError, setDeleteError] = useState<string | null>(null)
+  const [deleting, setDeleting] = useState(false)
   const [showPicker, setShowPicker] = useState(false)
   const [imageTab, setImageTab] = useState<'upload' | 'library'>('library')
 
   const fetchSlides = useCallback(async () => {
     setLoading(true)
     try {
-      const res = await fetch('/api/hero-slides/admin')
-      setSlides(res.ok ? await res.json() : [])
-    } catch {
-      setSlides([])
+      setSlides(await fetchJson<HeroSlide[]>('/api/hero-slides/admin', 'Không tải được danh sách slide.'))
+      setListError(null)
+    } catch (e) {
+      // Trước đây `res.ok ? json : []` biến mọi lỗi thành danh sách rỗng.
+      setListError(errMessage(e, 'Không tải được danh sách slide.'))
     } finally {
       setLoading(false)
     }
@@ -154,50 +166,57 @@ export default function HeroSlidesManager() {
     setSaving(true)
     setError(null)
     try {
-      const res = isCreating
-        ? await fetch('/api/hero-slides', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(form),
-          })
-        : editingSlide
-          ? await fetch(`/api/hero-slides/${editingSlide.id}`, {
-              method: 'PUT',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify(form),
-            })
-          : null
-      if (res && !res.ok) throw new Error(await apiErrorMessage(res))
+      if (isCreating) await sendJson('/api/hero-slides', { method: 'POST', body: form })
+      else if (editingSlide) await sendJson(`/api/hero-slides/${editingSlide.id}`, { method: 'PUT', body: form })
       await fetchSlides()
       closeModal()
     } catch (e) {
-      setError(e instanceof Error ? e.message : 'Lưu thất bại. Vui lòng thử lại.')
+      setError(errMessage(e, 'Lưu thất bại. Vui lòng thử lại.'))
     } finally {
       setSaving(false)
     }
   }
 
   const handleDelete = async (id: string) => {
-    const res = await fetch(`/api/hero-slides/${id}`, { method: 'DELETE' })
-    if (!res.ok) { alert(await apiErrorMessage(res, 'Xoá thất bại.')); return }
-    await fetchSlides()
-    setDeleteConfirm(null)
+    setDeleting(true)
+    setDeleteError(null)
+    try {
+      await sendJson(`/api/hero-slides/${id}`, { method: 'DELETE' }, 'Xoá thất bại.')
+      await fetchSlides()
+      setDeleteConfirm(null)
+    } catch (e) {
+      setDeleteError(errMessage(e, 'Xoá thất bại.'))
+    } finally {
+      setDeleting(false)
+    }
   }
 
   const togglePublished = async (slide: HeroSlide) => {
-    const res = await fetch(`/api/hero-slides/${slide.id}`, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ ...slide, published: !slide.published }),
-    })
-    if (!res.ok) { alert(await apiErrorMessage(res, 'Cập nhật trạng thái thất bại.')); return }
-    await fetchSlides()
+    setListError(null)
+    try {
+      await sendJson(`/api/hero-slides/${slide.id}`, {
+        method: 'PUT',
+        body: { ...slide, published: !slide.published },
+      }, 'Cập nhật trạng thái thất bại.')
+      await fetchSlides()
+    } catch (e) {
+      setListError(errMessage(e, 'Cập nhật trạng thái thất bại.'))
+    }
   }
 
   const showModal = isCreating || !!editingSlide
 
   return (
     <div className="p-6">
+      {listError && (
+        <div className="mb-4 flex items-start gap-3 rounded-lg border border-red-200 bg-red-50 px-4 py-3">
+          <span className="text-red-600 text-sm leading-5">⚠</span>
+          <div className="flex-1">
+            <p className="text-sm text-red-700">{listError}</p>
+            <p className="text-xs text-red-500 mt-0.5">Danh sách bên dưới có thể chưa đầy đủ.</p>
+          </div>
+        </div>
+      )}
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <div>

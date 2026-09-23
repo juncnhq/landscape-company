@@ -1,7 +1,7 @@
 'use client'
 
 import { useCallback, useEffect, useState } from 'react'
-import { apiErrorMessage } from '@/lib/apiClient'
+import { fetchJson, sendJson, errMessage } from '@/lib/apiClient'
 
 type ContactRequest = {
   id: string
@@ -45,19 +45,18 @@ export default function ContactsManager() {
   const [viewing, setViewing] = useState<ContactRequest | null>(null)
   const [deleteConfirm, setDeleteConfirm] = useState<string | null>(null)
   const [error, setError] = useState<string | null>(null)
+  const [deleteError, setDeleteError] = useState<string | null>(null)
+  const [deleting, setDeleting] = useState(false)
   const [savingNote, setSavingNote] = useState(false)
   const [noteDraft, setNoteDraft] = useState('')
 
   const fetchItems = useCallback(async () => {
     setLoading(true)
     try {
-      const res = await fetch(`/api/contacts?status=${filter}`)
-      if (!res.ok) throw new Error(await apiErrorMessage(res, 'Không tải được danh sách.'))
-      setItems(await res.json())
+      setItems(await fetchJson<ContactRequest[]>(`/api/contacts?status=${filter}`, 'Không tải được danh sách.'))
       setError(null)
     } catch (e) {
-      setError(e instanceof Error ? e.message : 'Không tải được danh sách.')
-      setItems([])
+      setError(errMessage(e, 'Không tải được danh sách.'))
     } finally {
       setLoading(false)
     }
@@ -66,16 +65,13 @@ export default function ContactsManager() {
   useEffect(() => { fetchItems() }, [fetchItems])
 
   const updateItem = async (id: string, payload: { status?: string; note?: string }) => {
-    const res = await fetch(`/api/contacts/${id}`, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload),
-    })
-    if (!res.ok) {
-      alert(await apiErrorMessage(res, 'Cập nhật thất bại.'))
+    setError(null)
+    try {
+      return await sendJson<ContactRequest>(`/api/contacts/${id}`, { method: 'PUT', body: payload }, 'Cập nhật thất bại.')
+    } catch (e) {
+      setError(errMessage(e, 'Cập nhật thất bại.'))
       return null
     }
-    return (await res.json()) as ContactRequest
   }
 
   const changeStatus = async (item: ContactRequest, status: string) => {
@@ -97,11 +93,18 @@ export default function ContactsManager() {
   }
 
   const handleDelete = async (id: string) => {
-    const res = await fetch(`/api/contacts/${id}`, { method: 'DELETE' })
-    if (!res.ok) { alert(await apiErrorMessage(res, 'Xoá thất bại.')); return }
-    setItems(prev => prev.filter(i => i.id !== id))
-    setDeleteConfirm(null)
-    setViewing(null)
+    setDeleting(true)
+    setDeleteError(null)
+    try {
+      await sendJson(`/api/contacts/${id}`, { method: 'DELETE' }, 'Xoá thất bại.')
+      setItems(prev => prev.filter(i => i.id !== id))
+      setDeleteConfirm(null)
+      setViewing(null)
+    } catch (e) {
+      setDeleteError(errMessage(e, 'Xoá thất bại.'))
+    } finally {
+      setDeleting(false)
+    }
   }
 
   const openView = (item: ContactRequest) => {
@@ -329,11 +332,12 @@ export default function ContactsManager() {
           <div className="bg-white rounded-lg shadow-xl w-full max-w-sm p-6">
             <h3 className="text-lg font-bold text-gray-800 mb-2">Xoá yêu cầu này?</h3>
             <p className="text-sm text-gray-500 mb-6">Hành động này không thể hoàn tác.</p>
+            {deleteError && <p className="text-sm text-red-600 mb-3">{deleteError}</p>}
             <div className="flex justify-end gap-3">
               <button onClick={() => setDeleteConfirm(null)} className="px-4 py-2 text-sm text-gray-600 border border-gray-200 rounded-lg hover:bg-gray-100">
                 Huỷ
               </button>
-              <button onClick={() => handleDelete(deleteConfirm)} className="px-4 py-2 text-sm font-semibold text-white bg-red-600 hover:bg-red-700 rounded-lg">
+              <button onClick={() => handleDelete(deleteConfirm)} disabled={deleting} className="px-4 py-2 text-sm font-semibold text-white bg-red-600 hover:bg-red-700 rounded-lg disabled:opacity-50">
                 Xoá
               </button>
             </div>

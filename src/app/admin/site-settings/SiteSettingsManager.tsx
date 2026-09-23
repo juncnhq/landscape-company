@@ -1,7 +1,7 @@
 'use client'
 import { useCallback, useEffect, useState } from 'react'
 import ImageInput from '@/components/admin/ImageInput'
-import { apiErrorMessage } from '@/lib/apiClient'
+import { fetchJson, sendJson, errMessage } from '@/lib/apiClient'
 
 const DEFAULT_BG = 'https://res.cloudinary.com/dg9khx2s7/image/upload/v1780671218/wymbkpzgdmlov1gnysd3.jpg'
 
@@ -20,11 +20,16 @@ export default function SiteSettingsManager() {
   const [saved, setSaved] = useState<Record<string, boolean>>({})
   const [errors, setErrors] = useState<Record<string, string | null>>({})
   const [loading, setLoading] = useState(true)
+  const [listError, setListError] = useState<string | null>(null)
 
   const fetchSettings = useCallback(async () => {
     try {
-      const res = await fetch('/api/site-settings')
-      if (res.ok) setSettings(await res.json())
+      setSettings(await fetchJson<Record<string, string>>('/api/site-settings', 'Không tải được cấu hình.'))
+      setListError(null)
+    } catch (e) {
+      // `if (res.ok)` cũ bỏ qua mọi lỗi, trang hiện toàn ảnh mặc định như thể
+      // chưa ai cấu hình gì.
+      setListError(errMessage(e, 'Không tải được cấu hình.'))
     } finally {
       setLoading(false)
     }
@@ -37,36 +42,26 @@ export default function SiteSettingsManager() {
     setSaved(prev => ({ ...prev, [key]: false }))
     setErrors(prev => ({ ...prev, [key]: null }))
     try {
-      const res = await fetch(`/api/site-settings/${key}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ value }),
-      })
+      await sendJson(`/api/site-settings/${key}`, { method: 'PUT', body: { value } })
       // Không báo "Đã lưu" khi request thất bại — trước đây session hết hạn
       // vẫn hiện dấu tick dù không có gì được ghi.
-      if (!res.ok) {
-        const msg = await apiErrorMessage(res)
-        setErrors(prev => ({ ...prev, [key]: msg }))
-        return
-      }
       setSaved(prev => ({ ...prev, [key]: true }))
       setTimeout(() => setSaved(prev => ({ ...prev, [key]: false })), 2000)
-    } catch {
-      setErrors(prev => ({ ...prev, [key]: 'Lưu thất bại. Vui lòng thử lại.' }))
+    } catch (e) {
+      setErrors(prev => ({ ...prev, [key]: errMessage(e, 'Lưu thất bại. Vui lòng thử lại.') }))
     } finally {
       setSaving(prev => ({ ...prev, [key]: false }))
     }
   }
 
   const handleReset = async (key: string) => {
-    const res = await fetch(`/api/site-settings/${key}`, { method: 'DELETE' })
-    if (!res.ok) {
-      const msg = await apiErrorMessage(res, 'Reset thất bại.')
-      setErrors(prev => ({ ...prev, [key]: msg }))
-      return
-    }
     setErrors(prev => ({ ...prev, [key]: null }))
-    setSettings(prev => { const n = { ...prev }; delete n[key]; return n })
+    try {
+      await sendJson(`/api/site-settings/${key}`, { method: 'DELETE' }, 'Reset thất bại.')
+      setSettings(prev => { const n = { ...prev }; delete n[key]; return n })
+    } catch (e) {
+      setErrors(prev => ({ ...prev, [key]: errMessage(e, 'Reset thất bại.') }))
+    }
   }
 
   if (loading) return (
@@ -79,6 +74,15 @@ export default function SiteSettingsManager() {
 
   return (
     <div className="p-6 max-w-5xl mx-auto">
+      {listError && (
+        <div className="mb-4 flex items-start gap-3 rounded-lg border border-red-200 bg-red-50 px-4 py-3">
+          <span className="text-red-600 text-sm leading-5">⚠</span>
+          <div className="flex-1">
+            <p className="text-sm text-red-700">{listError}</p>
+            <p className="text-xs text-red-500 mt-0.5">Có thể đang hiển thị ảnh mặc định thay vì cấu hình đã lưu.</p>
+          </div>
+        </div>
+      )}
       {/* Header */}
       <div className="mb-6">
         <h1 className="text-2xl font-bold text-gray-900">Ảnh Hero Các Trang</h1>

@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
-import { apiErrorMessage } from '@/lib/apiClient'
+import { fetchJson, sendJson, errMessage } from '@/lib/apiClient'
 
 const CLOUD_NAME = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME
 const UPLOAD_PRESET = process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET
@@ -29,6 +29,17 @@ const SOURCE_LABELS: Record<string, string> = {
   'member-companies': 'Hệ sinh thái',
 }
 
+/** Các entity đều có ảnh nhưng tên field khác nhau — gom lại một shape lỏng. */
+type ImageRow = {
+  url?: string
+  filename?: string
+  image?: string
+  images?: string[]
+  title?: string
+  titleVi?: string
+  name?: string
+}
+
 const SOURCE_COLORS: Record<string, string> = {
   media: 'bg-[#328442]/10 text-[#328442]',
   projects: 'bg-green-100 text-green-700',
@@ -42,6 +53,10 @@ export default function GalleryManager() {
   const [mediaItems, setMediaItems] = useState<MediaItem[]>([])
   const [allImages, setAllImages] = useState<GalleryImage[]>([])
   const [loading, setLoading] = useState(true)
+  const [listError, setListError] = useState<string | null>(null)
+  const [uploadErrors, setUploadErrors] = useState<string[]>([])
+  const [deleteError, setDeleteError] = useState<string | null>(null)
+  const [deleting, setDeleting] = useState(false)
   const [uploading, setUploading] = useState(false)
   const [uploadProgress, setUploadProgress] = useState(0)
   const [filter, setFilter] = useState('all')
@@ -56,35 +71,47 @@ export default function GalleryManager() {
       setLoading(true)
       const collected: GalleryImage[] = []
 
-      const fetchJson = (url: string) =>
-        fetch(url).then(r => { if (!r.ok) throw new Error(`HTTP ${r.status}`); return r.json() })
 
-      const [mediaRes, projects, news, services, partners, companies] = await Promise.all([
-        fetchJson('/api/media'),
-        fetchJson('/api/projects'),
-        fetchJson('/api/news'),
-        fetchJson('/api/services'),
-        fetchJson('/api/partners'),
-        fetchJson('/api/member-companies'),
-      ]).catch(err => { console.error('Failed to load gallery:', err); return [[], [], [], [], [], []] })
+      const sources = [
+        ['media', '/api/media'],
+        ['dự án', '/api/projects'],
+        ['tin tức', '/api/news'],
+        ['dịch vụ', '/api/services'],
+        ['đối tác', '/api/partners'],
+        ['công ty thành viên', '/api/member-companies'],
+      ] as const
 
-      setMediaItems(mediaRes)
-      for (const m of mediaRes) collected.push({ url: m.url, source: 'media', label: m.filename || 'Gallery' })
+      // allSettled thay vì all: trước đây một API lỗi là `.catch` trả về 6 mảng
+      // rỗng, cả thư viện ảnh biến mất dù 5 nguồn kia vẫn tốt.
+      const settled = await Promise.allSettled(
+        sources.map(([, url]) => fetchJson<ImageRow[]>(url))
+      )
+      const failed: string[] = settled.flatMap((r, i) => (r.status === 'rejected' ? [sources[i][0]] : []))
+      setListError(failed.length ? `Không tải được ảnh từ: ${failed.join(', ')}.` : null)
+
+      const [mediaRes, projects, news, services, partners, companies] = settled.map(
+        r => (r.status === 'fulfilled' ? r.value : [])
+      )
+
+      setMediaItems(mediaRes as MediaItem[])
+      for (const m of mediaRes) {
+        if (m.url) collected.push({ url: m.url, source: 'media', label: m.filename || 'Gallery' })
+      }
       for (const p of projects) {
-        if (p.image) collected.push({ url: p.image, source: 'projects', label: p.title })
-        for (const img of p.images ?? []) collected.push({ url: img, source: 'projects', label: p.title })
+        if (p.image) collected.push({ url: p.image, source: 'projects', label: p.title ?? '' })
+        for (const img of p.images ?? []) collected.push({ url: img, source: 'projects', label: p.title ?? '' })
       }
       for (const a of news) {
-        if (a.image) collected.push({ url: a.image, source: 'news', label: a.titleVi })
+        if (a.image) collected.push({ url: a.image, source: 'news', label: a.titleVi ?? '' })
       }
       for (const s of services) {
-        for (const img of s.images ?? []) collected.push({ url: img, source: 'services', label: s.titleVi })
+        for (const img of s.images ?? []) collected.push({ url: img, source: 'services', label: s.titleVi ?? '' })
       }
       for (const p of partners) {
-        for (const img of p.images ?? []) collected.push({ url: img, source: 'partners', label: p.name })
+        for (const img of p.images ?? []) collected.push({ url: img, source: 'partners', label: p.name ?? '' })
       }
       for (const c of companies) {
-        for (const img of c.images ?? []) collected.push({ url: img, source: 'member-companies', label: c.name })
+        for (const img of c.images ?? []) collected.push({ url: img, source: 'member-companies', label: c.name ?? '' })
       }
 
       setAllImages(collected)
@@ -101,6 +128,8 @@ export default function GalleryManager() {
 
     let done = 0
     const results: MediaItem[] = []
+    const failedUploads: string[] = []
+    setUploadErrors([])
 
     for (const file of files) {
       try {
@@ -123,12 +152,16 @@ export default function GalleryManager() {
         if (!saved.ok) throw new Error(`Save error ${saved.status}`)
         results.push(await saved.json())
       } catch (err) {
-        console.error(`Failed to upload ${file.name}:`, err)
+        // Trước đây chỉ console.error: thanh tiến trình vẫn chạy tới 100% nên
+        // người dùng tưởng đã tải lên xong, thực ra file rớt.
+        failedUploads.push(`${file.name}: ${errMessage(err, 'tải lên thất bại')}`)
       }
 
       done++
       setUploadProgress(Math.round((done / files.length) * 100))
     }
+
+    setUploadErrors(failedUploads)
 
     // Update state
     setMediaItems(prev => [...results, ...prev])
@@ -154,15 +187,19 @@ export default function GalleryManager() {
   }
 
   const handleDelete = async (id: string) => {
-    const res = await fetch(`/api/media/${id}`, { method: 'DELETE' })
-    if (!res.ok) { alert(await apiErrorMessage(res, 'Xoá thất bại.')); return }
-    setMediaItems(prev => prev.filter(m => m.id !== id))
-    setAllImages(prev => {
+    setDeleting(true)
+    setDeleteError(null)
+    try {
+      await sendJson(`/api/media/${id}`, { method: 'DELETE' }, 'Xoá thất bại.')
       const item = mediaItems.find(m => m.id === id)
-      if (!item) return prev
-      return prev.filter(img => img.url !== item.url)
-    })
-    setDeleteConfirm(null)
+      setMediaItems(prev => prev.filter(m => m.id !== id))
+      if (item) setAllImages(prev => prev.filter(img => img.url !== item.url))
+      setDeleteConfirm(null)
+    } catch (e) {
+      setDeleteError(errMessage(e, 'Xoá thất bại.'))
+    } finally {
+      setDeleting(false)
+    }
   }
 
   const copyUrl = (url: string) => {
@@ -192,6 +229,28 @@ export default function GalleryManager() {
       <div className="sticky top-0 z-30 bg-[#f0f4f1]/90 backdrop-blur border-b border-gray-200/60 px-6 py-4">
         <h1 className="text-base font-semibold text-gray-900">Gallery</h1>
         <p className="text-xs text-gray-400 mt-0.5">{allImages.length} ảnh · {mediaItems.length} trong thư viện</p>
+      </div>
+
+      <div className="px-6 pt-4">
+        {listError && (
+          <div className="mb-4 flex items-start gap-3 rounded-lg border border-red-200 bg-red-50 px-4 py-3">
+            <span className="text-red-600 text-sm leading-5">⚠</span>
+            <div className="flex-1">
+              <p className="text-sm text-red-700">{listError}</p>
+              <p className="text-xs text-red-500 mt-0.5">Các nguồn còn lại vẫn hiển thị bình thường.</p>
+            </div>
+          </div>
+        )}
+        {uploadErrors.length > 0 && (
+          <div className="mb-4 rounded-lg border border-amber-200 bg-amber-50 px-4 py-3">
+            <p className="text-sm text-amber-800 font-medium">Một số ảnh tải lên không thành công:</p>
+            <ul className="mt-1 space-y-0.5">
+              {uploadErrors.map(msg => (
+                <li key={msg} className="text-xs text-amber-700">• {msg}</li>
+              ))}
+            </ul>
+          </div>
+        )}
       </div>
 
       <div className="px-6 py-6 space-y-6">
