@@ -151,7 +151,7 @@ CRUD đầy đủ cho: Projects, Services, News, Partners, Timeline, Member Comp
 
 ## Deploy lên Railway
 
-Railway tự build & deploy mỗi khi push lên nhánh GitHub được kết nối.
+⚠️ Service **chưa nối GitHub** nên `git push` KHÔNG tự deploy — phải chạy `railway up`.
 
 **Chỉ đổi code:**
 
@@ -159,6 +159,7 @@ Railway tự build & deploy mỗi khi push lên nhánh GitHub được kết n�
 git add -A
 git commit -m "..."
 git push origin main
+railway up
 ```
 
 **Có đổi `schema.prisma`:** phải `npm run db:push` **trước** rồi mới push code — dự án này

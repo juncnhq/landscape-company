@@ -20,30 +20,57 @@ trước khi động vào `prisma/schema.prisma` — dự án này **không** d�
 | Ảnh | Cloudinary (`dg9khx2s7`), upload thẳng từ trình duyệt |
 | Git remote | `origin` → `github.com/juncnhq/landscape-company` (nhánh `main`) |
 
-Railway **tự build & deploy mỗi khi push lên nhánh GitHub đã kết nối**. Không cần chạy
-`railway up` thủ công.
+### ⚠️ Deploy KHÔNG tự động — phải chạy `railway up`
+
+Service `landscape-company` **không** được nối với GitHub, nên `git push` **không** kích
+hoạt deploy. Bằng chứng kiểm tra ngày 23/09/2026:
+
+- Push lên `origin/main` lúc 09:13 → sau 10 phút vẫn không có deployment mới nào
+- `railway deployment list` — bản gần nhất vẫn là 21/09, trùng với commit trước đó
+- `railway variables` không có `RAILWAY_GIT_COMMIT_SHA` / `RAILWAY_GIT_BRANCH` —
+  Railway chỉ bơm các biến này khi service nối GitHub
+
+Vậy nên quy trình là: **commit + push để lưu code, rồi `railway up` để deploy.**
+
+```bash
+railway up
+```
+
+Lệnh này upload thư mục hiện tại (tôn trọng `.gitignore`, nên `.env` không bị gửi lên) rồi
+build trên Railway. Chạy khi cây làm việc đã sạch để bản deploy khớp đúng commit.
+
+> Muốn bật auto-deploy: Railway → service → Settings → Source → Connect Repo, chọn
+> `juncnhq/landscape-company` nhánh `main`. Sau đó `git push` là đủ, khỏi `railway up`.
+
+Lưu ý remote `deploy` (`github.com/junecg/landscape-company`) đang đứng ở commit cũ
+`01f3c8d` — không dùng tới, đừng nhầm với `origin`.
 
 ### Cách Railway build
 
-Builder là Nixpacks, cấu hình tại [`nixpacks.toml`](nixpacks.toml):
+Builder thực tế là **Railpack** (`ghcr.io/railwayapp/railpack-frontend`), **dùng yarn**:
 
-```toml
-[phases.install]
-cmds = ["npm install --legacy-peer-deps"]
-
-[phases.build]
-cmds = ["npm run build"]
+```
+yarn install --frozen-lockfile     # postinstall → prisma generate
+yarn run build                     # next build
+yarn run start                     # next start, PORT=8080
 ```
 
-Ba điểm cần nhớ:
+> ⚠️ **`nixpacks.toml` trong repo KHÔNG được dùng.** Railway đã chuyển sang Railpack và
+> bỏ qua file đó — dòng `npm install --legacy-peer-deps` trong nó là cấu hình chết.
+> Xác nhận từ log deploy ngày 23/09/2026.
 
-1. **`npm run build` chỉ là `next build`** — cố ý như vậy. Không thêm `prisma migrate deploy`
+Bốn điểm cần nhớ:
+
+1. **Build chạy bằng `yarn`, không phải `npm`.** `yarn.lock` được commit, repo không có
+   `package-lock.json`. `--frozen-lockfile` nghĩa là **yarn.lock lệch với package.json là
+   build fail ngay**. Thêm/gỡ package phải dùng `yarn add` / `yarn remove` rồi commit
+   `yarn.lock` — cài bằng `npm install` sẽ không cập nhật lockfile mà Railway dùng.
+2. **`npm run build` chỉ là `next build`** — cố ý như vậy. Không thêm `prisma migrate deploy`
    vào đó (xem [Vì sao không dùng migrate](#vì-sao-không-dùng-prisma-migrate-deploy)).
-2. **Prisma client sinh ra ở bước install**, qua `postinstall: prisma generate`.
+3. **Prisma client sinh ra ở bước install**, qua `postinstall: prisma generate`.
    `src/generated/` nằm trong `.gitignore` nên không có sẵn trong repo — nếu `postinstall`
    hỏng thì build chết ngay ở bước compile.
-3. **Start command** không được pin trong repo; Nixpacks tự nhận Next.js và chạy `npm run start`.
-   Nếu có ai đó set tay trong Railway → Settings → Deploy, giá trị đó thắng.
+4. **Container lắng nghe cổng 8080**, Railway tự bơm `PORT`. Không hardcode 3000.
 
 ---
 
@@ -84,7 +111,11 @@ npm run build && npm test
 git add -A && git commit -m "mô tả thay đổi" && git push origin main
 ```
 
-Railway bắt sự kiện push, build rồi đổi sang bản mới. Theo dõi log:
+```bash
+railway up
+```
+
+Theo dõi log:
 
 ```bash
 railway logs --service landscape-company
@@ -145,6 +176,10 @@ npm run build && npm test
 git add -A && git commit -m "mô tả thay đổi" && git push origin main
 ```
 
+```bash
+railway up
+```
+
 ### Vì sao không dùng `prisma migrate deploy`
 
 `prisma/migrations/` đã bị gitignore và chỉ còn `migration_lock.toml` — các thư mục migration
@@ -177,6 +212,15 @@ Thêm trang quản trị Tuyển dụng, đúng 5 bước ở trên:
 
 Dev server local đang chạy từ trước phải **restart** sau bước 4 — nó giữ Prisma client cũ
 nên `/api/job-positions` trả 500 cho tới khi khởi động lại.
+
+Bài học khi deploy bản này: sau `git push origin main`, chờ 15 phút production vẫn 404 vì
+service **không** nối GitHub. Phải chạy `railway up` mới lên. Kết quả sau khi chạy:
+
+```
+/vi                 200      /api/job-positions  200   (5 vị trí)
+/vi/careers         200      /api/timeline       200
+/vi/about           200      /admin/timeline     307 → /admin/about
+```
 
 ---
 
@@ -225,7 +269,8 @@ git revert <commit-hash> && git push origin main
 | Upload ảnh báo *"Unknown API key"* | Upload preset Cloudinary đang ở chế độ Signed | Cloudinary → Settings → Upload → Upload presets → đổi `fam_images` sang **Unsigned** |
 | Đổi `NEXT_PUBLIC_*` mà site không nhận | Biến `NEXT_PUBLIC_*` nhúng lúc build | Redeploy, không phải restart |
 | Trang public hiện dữ liệu cũ | Trang thiếu `export const dynamic = 'force-dynamic'` | Thêm vào page đọc DB phía server |
-| `npm install` fail vì peer deps | Thiếu cờ `--legacy-peer-deps` | Đã set sẵn trong `nixpacks.toml`, kiểm tra file còn nguyên |
+| Build fail ở `yarn install --frozen-lockfile` | `yarn.lock` lệch với `package.json` (thường do cài bằng `npm install`) | Chạy `yarn install` ở local để đồng bộ lockfile rồi commit `yarn.lock` |
+| Sửa `nixpacks.toml` mà build không đổi | Railway dùng Railpack, file đó bị bỏ qua | Đổi build/start command trong Railway → Settings, không sửa `nixpacks.toml` |
 
 Xem log & thao tác service:
 
