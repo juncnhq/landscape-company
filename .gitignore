@@ -45,3 +45,6 @@ src/generated/
 prisma/migrations/
 railway-env.json
 
+
+# Claude Code — cấu hình dev server cục bộ
+.claude/launch.json

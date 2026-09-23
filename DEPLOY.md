@@ -1,4 +1,8 @@
-# FAM Landscape — Project Summary & Deploy Guide
+# FAM Landscape — Project Summary & Self-Host Guide
+
+> ⚠️ **Production hiện chạy trên Railway, không phải VPS.** Quy trình deploy đang dùng nằm ở
+> **[`DEPLOY_RAILWAY.md`](DEPLOY_RAILWAY.md)**. Tài liệu này giữ lại cho phương án tự host
+> (Nginx + PM2) nếu sau này chuyển khỏi Railway.
 
 ## Tech Stack
 
@@ -63,15 +67,20 @@ Browser
 
 | Route | Manages |
 |---|---|
-| `/admin` | Dashboard |
 | `/admin/login` | Auth login |
 | `/admin/projects` | Projects CRUD |
-| `/admin/news` | News articles CRUD |
 | `/admin/services` | Services CRUD |
+| `/admin/news` | News articles CRUD |
 | `/admin/partners` | Partners CRUD |
-| `/admin/timeline` | Timeline items CRUD |
+| `/admin/about` | Về chúng tôi — timeline của trang `/vi/about` |
+| `/admin/careers` | Tuyển dụng — vị trí của trang `/vi/careers` |
 | `/admin/member-companies` | Member companies CRUD |
+| `/admin/hero-slides` | Hero slides trang chủ |
+| `/admin/site-settings` | Ảnh hero từng trang |
+| `/admin/contacts` | Yêu cầu tư vấn (lead) |
 | `/admin/gallery` | Media library (upload + browse all images) |
+
+> `/admin/timeline` chỉ còn redirect sang `/admin/about`.
 
 ---
 
@@ -85,6 +94,10 @@ Browser
 | `Partner` | `partner` | name, images[], sector, highlight |
 | `TimelineItem` | `timeline_item` | year, titleVi/En, descVi/En |
 | `MemberCompany` | `member_company` | abbr, name, images[] |
+| `HeroSlide` | `hero_slide` | image, labelVi/En, order |
+| `JobPosition` | `job_position` | titleVi/En, typeVi/En, locationVi/En, descVi/En, order, published |
+| `SiteSetting` | `site_setting` | key, value |
+| `ContactRequest` | `contact_request` | firstName, lastName, email, phone, status, note |
 | `Media` | `media` | url, filename, folder |
 
 ---
@@ -101,6 +114,11 @@ Browser
 
 ```env
 DATABASE_URL=postgresql://landscape:landscape123@localhost:5433/landscape_admin
+
+# Admin auth — thiếu AUTH_SECRET là app crash ngay khi khởi động
+AUTH_SECRET=...                                   # openssl rand -base64 32
+ADMIN_EMAIL=...
+ADMIN_PASSWORD_HASH=...                           # npx tsx scripts/hash-password.ts "MatKhau"
 
 NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME=dg9khx2s7
 NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET=fam_images   # must be Unsigned preset
@@ -120,8 +138,10 @@ npm install
 # 2. Generate Prisma client
 npx prisma generate
 
-# 3. Apply DB migrations (use deploy, NOT migrate dev, in production)
-npx prisma migrate deploy
+# 3. Đồng bộ schema lên DB
+#    KHÔNG dùng `prisma migrate deploy` — lịch sử migration của repo chưa baseline
+#    nên lệnh đó fail vì history drift. Xem DEPLOY_RAILWAY.md.
+npx prisma db push
 
 # 4. (Optional) Seed initial data
 npx tsx prisma/seed.ts
@@ -203,7 +223,7 @@ Start with: `pm2 start ecosystem.config.js && pm2 save`
 - [ ] PostgreSQL running and `landscape_admin` database created
 - [ ] `.env` file populated with all required variables
 - [ ] Cloudinary upload preset set to **Unsigned**
-- [ ] `npx prisma migrate deploy` run successfully
+- [ ] `npx prisma db push` run successfully (NOT `migrate deploy`)
 - [ ] `npm run build` completes without errors
 - [ ] Nginx/reverse proxy configured with SSL
 - [ ] PM2 or systemd service configured for auto-restart

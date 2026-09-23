@@ -112,7 +112,7 @@ npx prisma db push     # ✅ dùng lệnh này để đồng bộ thay đổi sc
 | Lệnh | Tác dụng |
 |---|---|
 | `npm run dev` | Chạy dev server |
-| `npm run build` | `prisma migrate deploy && next build` |
+| `npm run build` | `next build` (KHÔNG kèm `migrate deploy` — xem `DEPLOY_RAILWAY.md`) |
 | `npm run start` | Chạy production server |
 | `npm run lint` | ESLint |
 | `npm run seed:excel` | Seed dự án từ file Excel |
@@ -153,9 +153,7 @@ CRUD đầy đủ cho: Projects, Services, News, Partners, Timeline, Member Comp
 
 Railway tự build & deploy mỗi khi push lên nhánh GitHub được kết nối.
 
-1. Đặt các biến môi trường trên Railway (`DATABASE_URL` trỏ Postgres của Railway + các biến Cloudinary).
-2. Build command mặc định: `npm run build` (`prisma migrate deploy && next build`), start: `npm run start`.
-3. Deploy bằng cách push code:
+**Chỉ đổi code:**
 
 ```bash
 git add -A
@@ -163,12 +161,17 @@ git commit -m "..."
 git push origin main
 ```
 
-> Lưu ý: do lịch sử migration chưa baseline, nếu `prisma migrate deploy` trong bước build gặp vấn đề, chạy `npx prisma db push` trực tiếp với `DATABASE_URL` của Railway để đồng bộ schema (ví dụ khi thiếu cột `service.image`), rồi seed lại dữ liệu services.
+**Có đổi `schema.prisma`:** phải `npm run db:push` **trước** rồi mới push code — dự án này
+không dùng `prisma migrate deploy` (lịch sử migration chưa baseline nên lệnh đó làm chết build).
+
+> 📘 Quy trình đầy đủ, danh sách biến môi trường, checklist và xử lý sự cố:
+> **[`DEPLOY_RAILWAY.md`](DEPLOY_RAILWAY.md)**
 
 ---
 
 ## Tài liệu thêm
 
 - `CLAUDE.md` — hướng dẫn kiến trúc & quy ước code chi tiết
-- `DEPLOY.md` — chi tiết deploy
+- `DEPLOY_RAILWAY.md` — runbook deploy Railway (quy trình đang dùng)
+- `DEPLOY.md` — phương án tự host VPS (Nginx + PM2), hiện không dùng
 - `DESIGN_SYSTEM.md` — hệ màu, font, token thiết kế (Leafix style)

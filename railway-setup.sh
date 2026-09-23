@@ -59,7 +59,9 @@ echo "   ✅ .env đã cập nhật"
 # ── BƯỚC 6: Chạy Prisma migrate ─────────────────────────────
 echo ""
 echo "▶ BƯỚC 6: Apply schema lên Railway PostgreSQL..."
-npx prisma migrate deploy
+# KHÔNG dùng `prisma migrate deploy`: prisma/migrations/ đã bị gitignore và mất thư mục,
+# trong khi DB vẫn ghi 5 migration đã apply → lệnh đó fail vì history drift.
+npx prisma db push
 echo "   ✅ Schema đã được tạo"
 
 # ── BƯỚC 7: Seed data ────────────────────────────────────────
@@ -80,17 +82,27 @@ echo "▶ BƯỚC 9: Cần set các biến môi trường sau trong Railway dash
 echo "   → Vào Railway → project của bạn → Variables → Add"
 echo ""
 echo "   Các biến cần thêm:"
-echo "   ┌─────────────────────────────────────────────────────┐"
-echo "   │ DATABASE_URL        = (đã tự động từ Railway DB)   │"
-echo "   │ NEXTAUTH_SECRET     = (random string dài ≥ 32 ký tự)│"
-echo "   │ NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME = dg9khx2s7      │"
-echo "   │ NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET = fam_images  │"
-echo "   │ CLOUDINARY_API_KEY  = (lấy từ Cloudinary dashboard)│"
-echo "   │ CLOUDINARY_API_SECRET = (lấy từ Cloudinary)        │"
-echo "   └─────────────────────────────────────────────────────┘"
+echo "   ┌──────────────────────────────────────────────────────────┐"
+echo "   │ DATABASE_URL         = \${{Postgres.DATABASE_URL}}         │"
+echo "   │ AUTH_SECRET          = (random ≥ 32 ký tự — BẮT BUỘC)    │"
+echo "   │ ADMIN_EMAIL          = (email đăng nhập /admin)          │"
+echo "   │ ADMIN_PASSWORD_HASH  = (scrypt hash, xem lệnh bên dưới)  │"
+echo "   │ NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME    = dg9khx2s7         │"
+echo "   │ NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET = fam_images        │"
+echo "   │ CLOUDINARY_API_KEY   = (lấy từ Cloudinary dashboard)     │"
+echo "   │ CLOUDINARY_API_SECRET = (lấy từ Cloudinary)              │"
+echo "   └──────────────────────────────────────────────────────────┘"
 echo ""
-echo "   💡 Để tạo NEXTAUTH_SECRET:"
+echo "   ⚠️  Tên biến là AUTH_SECRET (KHÔNG phải NEXTAUTH_SECRET)."
+echo "      Thiếu nó thì app crash ngay khi khởi động."
+echo ""
+echo "   💡 Tạo AUTH_SECRET:"
 echo "      openssl rand -base64 32"
+echo ""
+echo "   💡 Tạo ADMIN_PASSWORD_HASH:"
+echo "      npx tsx scripts/hash-password.ts \"MatKhauCuaBan\""
+echo ""
+echo "   📘 Quy trình deploy hằng ngày: xem DEPLOY_RAILWAY.md"
 echo ""
 
 # ── XONG ─────────────────────────────────────────────────────
